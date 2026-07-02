@@ -325,20 +325,31 @@ export function handleJoinedTransformAttributes(
 
 /**
  * Converts a standard JSX attribute (e.g., `stroke`, `fill`, `opacity`) to a string literal
- * if it holds a valid value.
+ * if it holds a statically resolvable value.
  *
  * @param t - Babel types helper.
  * @param attr - JSX attribute node.
+ * @returns `true` if the attribute should be removed from the element — i.e. its value is a
+ *   JSX expression that could not be statically resolved and would produce invalid SVG XML
+ *   (e.g. `fill={color}` where `color` is a prop or variable). `false` if the attribute was
+ *   successfully converted or required no change.
  */
 export function handleRegularAttributes(
     t: typeof Babel.types,
     attr: Babel.types.JSXAttribute
-) {
+): boolean {
     const result = getJSXAttributeData(t, attr);
 
-    if (result.value) {
+    // Use !== null rather than truthiness: 0, '', and false are all valid resolved
+    // values (e.g. opacity={0}) and must not be treated as unresolved.
+    if (result.value !== null) {
         attr.value = t.stringLiteral(result.value.toString());
+        return false;
     }
+
+    // Unresolved JSX expression containers (e.g. fill={color}) would otherwise serialize
+    // into invalid SVG XML and make svgo throw — remove them instead.
+    return t.isJSXExpressionContainer(attr.value);
 }
 
 /**

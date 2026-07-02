@@ -735,21 +735,69 @@ describe('React Native SVG Processing - RNSvgHandler', () => {
     });
 
     describe('Error Handling', () => {
-        it('should warn for unsupported element names but still include them in output', () => {
+        it('should warn for unsupported element names and remove them from output', () => {
             const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
             const input = '<Svg><UnsupportedElement x="10" y="10" /></Svg>';
             const output = transformSvg(input);
 
-            // Unsupported elements are converted to lowercase and included
+            // Unsupported elements are now removed entirely rather than left in place.
             expect(output).toMatchInlineSnapshot(
-                `"<svg xmlns="http://www.w3.org/2000/svg"><unsupportedElement x="10" y="10" /></svg>"`
+                `"<svg xmlns="http://www.w3.org/2000/svg"></svg>"`
             );
             expect(warnSpy).toHaveBeenCalledWith(
-                expect.stringContaining('Skipping unsupported element')
+                expect.stringContaining('Removing unsupported element')
             );
 
             warnSpy.mockRestore();
+        });
+
+        it('should remove an unsupported element but keep its supported siblings', () => {
+            const input =
+                '<Svg><Circle cx="50" cy="50" r="40" fill="#27ae60" /><UnsupportedElement x="10" y="10" /></Svg>';
+            const output = transformSvg(input);
+
+            expect(output).toContain(
+                '<circle cx="50" cy="50" r="40" fill="#27ae60" />'
+            );
+            expect(output).not.toContain('unsupportedElement');
+        });
+
+        it('should remove an unsupported element with dynamic/unresolvable attributes without throwing', () => {
+            // Mirrors the customer repro: a custom component (e.g. AnimatedPath from
+            // Animated.createAnimatedComponent) with JSX expression container attributes
+            // that cannot be statically resolved (fill={color}, style={{opacity}}).
+            const input = `
+                function Icon({ color, opacity }) {
+                    return (
+                        <Svg width="64" height="64" viewBox="0 0 64 64">
+                            <Circle cx="32" cy="32" r="28" fill="#27ae60" />
+                            <AnimatedPath
+                                d="M18 32 L28 42 L46 20"
+                                fill={color}
+                                style={{ opacity }}
+                            />
+                        </Svg>
+                    );
+                }
+            `;
+
+            expect(() => transformSvg(input)).not.toThrow();
+
+            const output = transformSvg(input);
+            expect(output).toContain(
+                '<circle cx="32" cy="32" r="28" fill="#27ae60" />'
+            );
+            expect(output).not.toContain('animatedPath');
+            expect(output).not.toContain('fill={color}');
+        });
+
+        it('should preserve resolvable falsy values (0) instead of treating them as unresolved', () => {
+            const input =
+                '<Svg><Circle cx="50" cy="50" r="40" opacity={0} /></Svg>';
+            const output = transformSvg(input);
+
+            expect(output).toContain('opacity="0"');
         });
 
         it('should handle malformed transform array gracefully', () => {
@@ -825,5 +873,65 @@ describe('SessionReplayView.Privacy SVG Wrapper', () => {
 
         expect(output).not.toContain('flexShrink');
         expect(output).not.toContain('style');
+    });
+
+    it('should capture an SVG whose child element has a non-resolvable prop, dropping only that attr from the asset', () => {
+        const assetDir = path.join(os.tmpdir(), 'dd-svg-test-assets');
+        const input = `
+            function Icon({ color }) {
+                return (
+                    <Svg width="80" height="80" viewBox="0 0 100 100">
+                        <Circle cx={50} cy={50} r={40} fill={color} />
+                    </Svg>
+                );
+            }
+        `;
+        const output = transformWithSvgTracking(input);
+
+        // The wrapper must be present — the element was NOT silently dropped
+        expect(output).toContain('SessionReplayView.Privacy');
+        // The wrapper carries a hash attribute — the SVG passed through svgo without error
+        expect(output).toContain('hash:');
+
+        // The written SVG asset must not contain the unresolvable expression.
+        // (Reading the file proves svgo successfully processed the content.)
+        const match = output!.match(/hash:\s*["']([0-9a-f]{32})["']/i);
+        expect(match?.[1]).toBeTruthy();
+        const svgContent = fs.readFileSync(
+            path.join(assetDir, `${match![1]}.svg`),
+            'utf8'
+        );
+        expect(svgContent).not.toContain('fill={color}');
+        // Numeric literals on child elements are resolved and kept
+        expect(svgContent).toContain('cx="50"');
+        expect(svgContent).toContain('cy="50"');
+        expect(svgContent).toContain('r="40"');
+    });
+
+    it('should capture an SVG where all child props are non-resolvable, producing a shape-only SVG', () => {
+        const assetDir = path.join(os.tmpdir(), 'dd-svg-test-assets');
+        const input = `
+            function Icon({ d, fill, strokeWidth }) {
+                return (
+                    <Svg width="24" height="24" viewBox="0 0 24 24">
+                        <Path d={d} fill={fill} strokeWidth={strokeWidth} />
+                    </Svg>
+                );
+            }
+        `;
+        const output = transformWithSvgTracking(input);
+
+        // Still wrapped — the SVG container is captured even if all child attrs are dynamic
+        expect(output).toContain('SessionReplayView.Privacy');
+
+        const match = output!.match(/hash:\s*["']([0-9a-f]{32})["']/i);
+        expect(match?.[1]).toBeTruthy();
+        const svgContent = fs.readFileSync(
+            path.join(assetDir, `${match![1]}.svg`),
+            'utf8'
+        );
+        expect(svgContent).not.toContain('fill={fill}');
+        expect(svgContent).not.toContain('d={d}');
+        expect(svgContent).not.toContain('strokeWidth={strokeWidth}');
     });
 });

@@ -92,13 +92,17 @@ export class RNSvgHandler implements SvgHandler {
      * @param t - Babel types helper.
      * @param el - JSXElement node to transform.
      * @param dimensions - Optional object to collect extracted width/height info.
+     * @returns `true` if the element is supported and was transformed in place. `false` if
+     *   the element is not a recognized SVG tag (e.g. a custom wrapper component like
+     *   `Animated.createAnimatedComponent(Path)`) and must be removed by the caller — see
+     *   `handleRegularAttributes` for why leaving it in place isn't an option.
      */
     private transformElement(
         t: typeof Babel.types,
         rootElementPath: Babel.NodePath<Babel.types.JSXElement> | null,
         el: Babel.types.JSXElement,
         dimensions: Record<string, string>
-    ) {
+    ): boolean {
         const openingNode = el.openingElement.name;
         const isJSXIdentifierOpen = t.isJSXIdentifier(openingNode);
 
@@ -107,9 +111,9 @@ export class RNSvgHandler implements SvgHandler {
             openingNode.name = convertAttributeCasing(openingNode.name);
             if (!svgElements.has(openingNode.name)) {
                 console.warn(
-                    `RNSvgHandler[transformElement]: Skipping unsupported element: "${openingNode.name}"`
+                    `RNSvgHandler[transformElement]: Removing unsupported element: "${openingNode.name}"`
                 );
-                return; // Skip unsupported elements instead of crashing
+                return false; // Signal the caller to remove this element from the tree
             }
         }
 
@@ -128,11 +132,12 @@ export class RNSvgHandler implements SvgHandler {
         }
 
         this.processAttributes(t, rootElementPath, el, dimensions);
+        return true;
     }
 
     /**
      * Recursively traverses the children of a JSXElement and applies `transformElement`
-     * to each child that is itself a JSXElement.
+     * to each child that is itself a JSXElement, splicing out any child reported unsupported.
      *
      * @param t - Babel types helper.
      * @param rootElementPath - The path of the root JSX element containing the SVG.
@@ -147,9 +152,21 @@ export class RNSvgHandler implements SvgHandler {
         jsxElement: Babel.types.JSXElement,
         dimensions: Record<string, string> = {}
     ) {
-        for (const child of jsxElement.children) {
+        const children = jsxElement.children;
+
+        // Iterate in reverse so splicing doesn't shift the indices of unvisited entries.
+        for (let i = children.length - 1; i >= 0; i--) {
+            const child = children[i];
             if (t.isJSXElement(child)) {
-                this.transformElement(t, rootElementPath, child, dimensions);
+                const isSupported = this.transformElement(
+                    t,
+                    rootElementPath,
+                    child,
+                    dimensions
+                );
+                if (!isSupported) {
+                    children.splice(i, 1);
+                }
             }
         }
     }
@@ -281,7 +298,9 @@ export class RNSvgHandler implements SvgHandler {
                     continue;
                 }
 
-                handleRegularAttributes(t, attr);
+                if (handleRegularAttributes(t, attr)) {
+                    el.attributes.splice(index, 1);
+                }
             } catch (error) {
                 console.error('ReactNativeSVG[processAttributes]: ', error);
             }
