@@ -310,6 +310,16 @@ class DdRumImplementation(private val datadog: DatadogWrapper = DatadogSDKWrappe
     }
 
     /**
+     * This method can be used to mark the moment in time when the UI of the app is considered fully displayed.
+     * The duration between the application launch and this moment of time will be shown as TTFD (time to full display)
+     * in the RUM session explorer. Only the first call to this method will have any effect for a given RUM session.
+     */
+    fun reportAppFullyDisplayed(promise: Promise) {
+        datadog.getRumMonitor().reportAppFullyDisplayed()
+        promise.resolve(null)
+    }
+
+    /**
      * Stops the current RUM Session.
      */
     fun stopSession(promise: Promise) {
