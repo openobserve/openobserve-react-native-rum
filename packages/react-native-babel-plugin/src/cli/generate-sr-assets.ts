@@ -6,6 +6,7 @@
  */
 
 import { transformSync } from '@babel/core';
+import * as babelTypes from '@babel/types';
 import glob from 'fast-glob';
 import fs from 'fs';
 import path from 'path';
@@ -370,6 +371,12 @@ function generateSessionReplayAssets() {
     const errors: Array<{ file: string; error: string }> = [];
 
     const reactNativeSVG = new ReactNativeSVG(rootDir, assetsPath, true);
+
+    // pre() skips its own setApiTypes/buildSvgMap call when __internal_reactNativeSVG
+    // is injected, so do it here up front instead — buildSvgMap() is a no-op until
+    // setApiTypes() has run.
+    reactNativeSVG.setApiTypes(babelTypes);
+    reactNativeSVG.buildSvgMap();
 
     for (const file of files) {
         try {

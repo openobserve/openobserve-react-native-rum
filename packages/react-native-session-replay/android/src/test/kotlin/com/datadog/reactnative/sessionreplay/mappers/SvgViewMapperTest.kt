@@ -148,7 +148,9 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return empty list W map() { DdPrivacyView with hash but no entry data }`() {
+    fun `M return ShapeWireframe W map() { DdPrivacyView with hash but no entry data }`() {
+        // A missing assets.bin or unpacked hash should still render the view's
+        // bounding box rather than making the element invisible in the replay.
         // Given
         val hash = "missing-entry-hash"
         whenever(mockDdPrivacyView.attributes).thenReturn(mapOf("hash" to hash))
@@ -163,11 +165,14 @@ internal class SvgViewMapperTest {
         )
 
         // Then
-        assertThat(result).isEmpty()
+        assertThat(result).hasSize(1)
+        assertThat(result[0]).isInstanceOf(MobileSegment.Wireframe.ShapeWireframe::class.java)
     }
 
     @Test
-    fun `M return empty list W map() { DdPrivacyView with hash but no child view }`() {
+    fun `M return ShapeWireframe W map() { DdPrivacyView with hash but no child view }`() {
+        // Same fallback: if the Babel-generated child view is missing (e.g. collapsed
+        // by the Fabric renderer), we still show the container outline.
         // Given
         val hash = "no-child-hash"
         val svgBytes = "<svg></svg>".toByteArray(Charsets.UTF_8)
@@ -184,6 +189,7 @@ internal class SvgViewMapperTest {
         )
 
         // Then
-        assertThat(result).isEmpty()
+        assertThat(result).hasSize(1)
+        assertThat(result[0]).isInstanceOf(MobileSegment.Wireframe.ShapeWireframe::class.java)
     }
 }

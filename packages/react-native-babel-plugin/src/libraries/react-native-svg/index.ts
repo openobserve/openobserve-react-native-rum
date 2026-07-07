@@ -169,9 +169,15 @@ export class ReactNativeSVG {
                         );
                         for (const spec of path.node.specifiers) {
                             if (spec.type === 'ExportSpecifier') {
+                                // spec.local.name is 'default' for `export { default as Logo }`;
+                                // spec.exported is the name consumers actually import ('Logo').
+                                // It can be an Identifier or a string literal, so handle both.
+                                const exported = spec.exported;
                                 const name = getNodeName(
                                     this.t,
-                                    spec.local.name
+                                    this.t.isStringLiteral(exported)
+                                        ? exported.value
+                                        : exported.name
                                 );
                                 if (name) {
                                     this.localSvgMap[name] = {

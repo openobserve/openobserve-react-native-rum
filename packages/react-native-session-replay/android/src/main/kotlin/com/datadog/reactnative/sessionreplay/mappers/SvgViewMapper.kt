@@ -60,19 +60,24 @@ internal open class SvgViewMapper<T: ViewGroup>(
         val wireframes = mutableListOf<MobileSegment.Wireframe>()
 
         if (view is DdPrivacyView) {
-            val hash = view.attributes?.get("hash") ?: return listOf(
-                MobileSegment.Wireframe.ShapeWireframe(
-                    resolveViewId(view),
-                    viewGlobalBounds.x,
-                    viewGlobalBounds.y,
-                    viewGlobalBounds.width,
-                    viewGlobalBounds.height,
-                    shapeStyle = shapeStyle,
-                    border = border
-                )
+            // Built once and added up front (before the data guards below) so the view
+            // still renders as an outlined placeholder if SVG data is unavailable,
+            // instead of being completely invisible in the replay.
+            val containerWireframe = MobileSegment.Wireframe.ShapeWireframe(
+                resolveViewId(view),
+                viewGlobalBounds.x,
+                viewGlobalBounds.y,
+                viewGlobalBounds.width,
+                viewGlobalBounds.height,
+                shapeStyle = shapeStyle,
+                border = border
             )
+
+            val hash = view.attributes?.get("hash") ?: return listOf(containerWireframe)
             val width = view.attributes?.get("width")
             val height = view.attributes?.get("height")
+
+            wireframes.add(containerWireframe)
 
             var entryData = internalCallback.getEntryData(hash)
                 ?: return wireframes
@@ -95,16 +100,6 @@ internal open class SvgViewMapper<T: ViewGroup>(
                 // The goal is to save some time, as it won't matter since the hash is used as an identifier
                 entryData = entryStr.toByteArray(Charsets.UTF_8);
             }
-
-            wireframes.add(MobileSegment.Wireframe.ShapeWireframe(
-                    resolveViewId(view),
-                    viewGlobalBounds.x,
-                    viewGlobalBounds.y,
-                    viewGlobalBounds.width,
-                    viewGlobalBounds.height,
-                    shapeStyle = shapeStyle,
-                    border = border
-                ))
 
             val imageWireframeId = viewIdentifierResolver.resolveChildUniqueIdentifier(view, "svg") ?: return wireframes
             val imgWireframe = MobileSegment.Wireframe.ImageWireframe(

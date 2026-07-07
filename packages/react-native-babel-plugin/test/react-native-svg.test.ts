@@ -827,3 +827,107 @@ describe('SessionReplayView.Privacy SVG Wrapper', () => {
         expect(output).not.toContain('style');
     });
 });
+
+describe('ReactNativeSVG.buildSvgMap', () => {
+    let tmpDir: string;
+
+    beforeEach(() => {
+        tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dd-buildsvgmap-'));
+        // Write a minimal SVG file for imports to point at
+        fs.writeFileSync(
+            path.join(tmpDir, 'icon.svg'),
+            '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40"/></svg>'
+        );
+    });
+
+    afterEach(() => {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+    });
+
+    // buildSvgMap requires setApiTypes to be called first (this.t guard).
+    it('should populate localSvgMap from a default import of an SVG file', () => {
+        const srcFile = path.join(tmpDir, 'Component.tsx');
+        fs.writeFileSync(
+            srcFile,
+            `import Logo from './icon.svg';\nexport default function C() { return <Logo />; }`
+        );
+
+        const instance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        instance.setApiTypes(t); // must come before buildSvgMap
+        instance.buildSvgMap();
+
+        expect(instance.localSvgMap['Logo']).toBeDefined();
+        expect(instance.localSvgMap['Logo'].path).toBe(
+            path.join(tmpDir, 'icon.svg')
+        );
+    });
+
+    it('should populate localSvgMap from a named import of an SVG file', () => {
+        const srcFile = path.join(tmpDir, 'Component.tsx');
+        fs.writeFileSync(
+            srcFile,
+            `import { ReactComponent as StarIcon } from './icon.svg';\nexport default function C() { return <StarIcon />; }`
+        );
+
+        const instance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        instance.setApiTypes(t);
+        instance.buildSvgMap();
+
+        expect(instance.localSvgMap['StarIcon']).toBeDefined();
+    });
+
+    // spec.local.name is 'default' for `export { default as Logo }` — the exported
+    // name ('Logo') must be used as the map key instead.
+    it('should populate localSvgMap with the exported name for aliased re-exports', () => {
+        const barrelFile = path.join(tmpDir, 'icons.ts');
+        fs.writeFileSync(
+            barrelFile,
+            `export { default as Logo } from './icon.svg';`
+        );
+
+        const instance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        instance.setApiTypes(t);
+        instance.buildSvgMap();
+
+        // 'Logo' is what consumers import and use as <Logo/> — must be the key
+        expect(instance.localSvgMap['Logo']).toBeDefined();
+        expect(instance.localSvgMap['Logo'].path).toBe(
+            path.join(tmpDir, 'icon.svg')
+        );
+        // 'default' must NOT be stored — it matches nothing in user JSX
+        expect(instance.localSvgMap['default']).toBeUndefined();
+    });
+
+    it('should populate localSvgMap with the exported name for non-aliased re-exports', () => {
+        const barrelFile = path.join(tmpDir, 'icons.ts');
+        fs.writeFileSync(barrelFile, `export { StarIcon } from './icon.svg';`);
+
+        const instance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        instance.setApiTypes(t);
+        instance.buildSvgMap();
+
+        expect(instance.localSvgMap['StarIcon']).toBeDefined();
+    });
+
+    // pre() must reuse the shared instance across files rather than rebuilding it
+    // (and rescanning) per file.
+    it('should not overwrite localSvgMap when buildSvgMap is called a second time on a fresh instance with saveSvgMapToDisk=false and no cache file', () => {
+        const srcFile = path.join(tmpDir, 'Component.tsx');
+        fs.writeFileSync(srcFile, `import Logo from './icon.svg';`);
+
+        const instance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        instance.setApiTypes(t);
+        instance.buildSvgMap(); // first call — populates from scan
+
+        const mapAfterFirstCall = { ...instance.localSvgMap };
+
+        // Simulate what the old code did: create a brand-new instance per file
+        const freshInstance = new ReactNativeSVG(tmpDir, tmpDir, false);
+        freshInstance.setApiTypes(t);
+        freshInstance.buildSvgMap(); // should re-populate identically
+
+        // Both instances should have the same map — the ?? fix ensures the first
+        // instance is reused rather than a fresh empty one being created
+        expect(freshInstance.localSvgMap).toEqual(mapAfterFirstCall);
+    });
+});

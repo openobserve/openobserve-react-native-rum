@@ -53,13 +53,19 @@ export default declare(
                     assetsPath = getAssetsPath();
                 }
 
-                reactNativeSVG = options.__internal_reactNativeSVG;
+                // Reuse the instance across files in the same worker instead of
+                // rebuilding it (and rescanning) per file.
+                reactNativeSVG =
+                    options.__internal_reactNativeSVG ?? reactNativeSVG;
+
                 if (!reactNativeSVG && assetsPath) {
                     reactNativeSVG = new ReactNativeSVG(
                         process.cwd(),
                         assetsPath,
                         options.__internal_saveSvgMapToDisk || false
                     );
+                    // buildSvgMap() is a no-op until setApiTypes() has run.
+                    reactNativeSVG.setApiTypes(api.types);
                     reactNativeSVG.buildSvgMap();
                 }
                 reactNativeSVG?.setApiTypes(api.types);
