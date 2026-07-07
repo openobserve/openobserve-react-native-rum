@@ -23,7 +23,7 @@ import type { JsonValue, EvaluationContext, FlagDetails } from './types';
  * to the active evaluation context. `'none'` means no offline configuration is engaged
  * (the online/fetch path is in effect).
  */
-type ConfigurationStatus = 'none' | 'ready' | 'mismatch' | 'invalid';
+export type ConfigurationStatus = 'none' | 'ready' | 'mismatch' | 'invalid';
 
 export class FlagsClient {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
@@ -124,7 +124,7 @@ export class FlagsClient {
      */
     setEvaluationContextWithoutFetching = (
         context: EvaluationContext
-    ): void => {
+    ): ConfigurationStatus => {
         this.evaluationContext = processEvaluationContext(context);
 
         // Re-evaluate a loaded offline configuration against the new context. Readiness
@@ -132,6 +132,8 @@ export class FlagsClient {
         if (this.loadedConfiguration) {
             this.applyConfiguration();
         }
+
+        return this.configurationStatus;
     };
 
     /**
@@ -154,9 +156,13 @@ export class FlagsClient {
      * const value = flagsClient.getBooleanValue('new-feature', false);
      * ```
      */
-    setConfiguration = (configuration: ParsedFlagsConfiguration): void => {
+    setConfiguration = (
+        configuration: ParsedFlagsConfiguration
+    ): ConfigurationStatus => {
         this.loadedConfiguration = configuration;
         this.applyConfiguration();
+
+        return this.configurationStatus;
     };
 
     /**
