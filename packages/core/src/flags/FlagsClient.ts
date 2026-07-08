@@ -22,6 +22,10 @@ import type { JsonValue, EvaluationContext, FlagDetails } from './types';
  * Tracks how a configuration supplied via {@link FlagsClient.setConfiguration} relates
  * to the active evaluation context. `'none'` means no offline configuration is engaged
  * (the online/fetch path is in effect).
+ *
+ * @internal Not part of the package's public API — consumers observe OpenFeature provider
+ * events, not this status. When the rules/`server` branch lands this will likely widen to a
+ * result object (e.g. `{ kind, reason }`), so callers should not depend on the bare string.
  */
 export type ConfigurationStatus = 'none' | 'ready' | 'mismatch' | 'invalid';
 
