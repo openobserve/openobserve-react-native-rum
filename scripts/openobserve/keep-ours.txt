@@ -16,12 +16,9 @@ README.md
 .github
 SYNC.md
 
-# Sync + rebrand tooling itself
+# Sync + rebrand tooling itself (includes scripts/openobserve/patches, the
+# functional patch series re-applied onto the rebranded tree by sync-upstream.sh).
 scripts/openobserve
-
-# Functional patch series (native endpoint injection, HTTPS guard, auth) —
-# re-applied onto the rebranded tree, not restored as files.
-patches
 
 # OpenObserve example app (points at a dev OpenObserve intake).
 # NOTE: enable once the fork's own example app is committed; until then the

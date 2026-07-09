@@ -189,7 +189,9 @@ public class DdSdkNativeInitialization: NSObject {
 
         var customRUMEndpointURL: URL? = nil
         if let customEndpoint = rumConfig.customEndpoint, !customEndpoint.isEmpty {
-            customRUMEndpointURL = URL(string: "\(customEndpoint)/api/v2/rum")
+            // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
+            // (Upstream Datadog used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
+            customRUMEndpointURL = URL(string: "\(customEndpoint)/rum")
         }
 
         var networkSettledResourcePredicate: TimeBasedTNSResourcePredicate? = nil
@@ -248,7 +250,8 @@ public class DdSdkNativeInitialization: NSObject {
         var customLogsEndpointURL: URL? = nil
         if let customLogsEndpoint = logsConfig.customEndpoint as? NSString {
             if customLogsEndpoint != "" {
-                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/api/v2/logs" as String)
+                // OpenObserve intake path: {base}/logs (upstream Datadog used "/api/v2/logs").
+                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/logs" as String)
             }
         }
 

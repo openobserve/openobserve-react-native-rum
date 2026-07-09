@@ -87,9 +87,11 @@ done
 node "$TOOLING/rebrand.mjs"
 
 # ---- Re-apply functional patch series ----------------------------------------
-if compgen -G "patches/*.patch" > /dev/null; then
+# Patches live under scripts/openobserve/patches (restored by the keep-ours overlay
+# before this step, so they survive the upstream checkout).
+if compgen -G "scripts/openobserve/patches/*.patch" > /dev/null; then
   echo "Re-applying patch series:"
-  for p in patches/*.patch; do
+  for p in scripts/openobserve/patches/*.patch; do
     echo "  - $p"
     if ! git apply --3way "$p"; then
       echo "error: patch '$p' did not apply cleanly onto upstream $SHORT." >&2
@@ -98,7 +100,7 @@ if compgen -G "patches/*.patch" > /dev/null; then
     fi
   done
 else
-  echo "No patches/*.patch to apply (native endpoint injection not yet committed)."
+  echo "No scripts/openobserve/patches/*.patch to apply yet."
 fi
 
 # ---- Install (optional) ------------------------------------------------------

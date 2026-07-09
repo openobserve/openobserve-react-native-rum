@@ -242,7 +242,10 @@ class DdSdkNativeInitialization internal constructor(
         )
 
         configuration.rumConfiguration?.customEndpoint?.let {
-            configBuilder.useCustomEndpoint(it)
+            // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
+            // Android's useCustomEndpoint takes the full URL verbatim (no path append by the
+            // SDK), so the "/rum" suffix is added here in the bridge.
+            configBuilder.useCustomEndpoint("$it/rum")
         }
 
         configuration.rumConfiguration?.trackNonFatalAnrs?.let {
@@ -262,7 +265,8 @@ class DdSdkNativeInitialization internal constructor(
     private fun buildLogsConfiguration(configuration: DdSdkConfiguration): LogsConfiguration {
         val configBuilder = LogsConfiguration.Builder()
         configuration.logsConfiguration?.customEndpoint?.let {
-            configBuilder.useCustomEndpoint(it)
+            // OpenObserve intake path: {base}/logs (Android takes the full URL verbatim).
+            configBuilder.useCustomEndpoint("$it/logs")
         }
 
         return configBuilder.build()
