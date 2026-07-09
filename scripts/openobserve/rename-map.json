@@ -1,0 +1,53 @@
+{
+  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' — see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
+  "rules": [
+    {
+      "literal": "DataDog/dd-sdk-reactnative",
+      "to": "openobserve/openobserve-react-native-rum",
+      "why": "repository URLs in package.json / docs"
+    },
+    {
+      "literal": "expo-datadog",
+      "to": "expo-openobserve",
+      "why": "expo config plugin package name (must precede the generic 'datadog' rules)"
+    },
+    {
+      "literal": "@datadog/",
+      "to": "@openobserve/",
+      "why": "npm scope for every workspace package (@datadog/mobile-react-native, -react-navigation, -react-native-session-replay, etc.) in one uniform rule"
+    },
+    {
+      "regex": "\\bDd([A-Z][A-Za-z0-9]*)",
+      "to": "Oo$1",
+      "why": "all camelCase Dd-prefixed identifiers -> Oo: classes, native module names, view manager names (DdRum->OoRum, DdSdkReactNative->OoSdkReactNative, DdPrivacyView->OoPrivacyView). Word-boundary guarded so it never matches mid-identifier (e.g. myDdRum). Applied to JS + native together to keep the bridge consistent."
+    },
+    {
+      "regex": "\\b_dd\\b",
+      "to": "_oo",
+      "why": "RUM/telemetry event internal namespace field renamed _dd -> _oo (matches the rum-events-format schema fork)."
+    }
+  ],
+  "deferredRules": {
+    "comment": "DO NOT MOVE INTO 'rules' UNTIL the OpenObserve iOS + Android native forks (Workstream B/C, tracker A5) are published to CocoaPods/Maven. rebrand.mjs ignores this key. Applying these renames the native artifact COORDINATES the fork depends on; until the forks exist on the registries, `pod install` and Gradle dependency resolution would fail. During Phase 0 the build resolves the ORIGINAL upstream coordinates (local-only, never shipped). Switch these on in task A5.",
+    "rules": [
+      {
+        "literal": "com.datadoghq:dd-sdk-android",
+        "to": "io.openobserve:oo-sdk-android",
+        "why": "Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay)"
+      },
+      {
+        "regex": "\\bDatadog(Core|Internal|RUM|Logs|CrashReporting|SessionReplay|WebViewTracking)\\b",
+        "to": "OpenObserve$1",
+        "why": "iOS native core CocoaPods/SPM product names"
+      }
+    ]
+  },
+  "intentionallyNotRebranded": {
+    "comment": "Left alone on purpose.",
+    "items": [
+      "ddsource / ddtags query params and tags — wire protocol to the intake; handled by the backend (doc 02), not renamed client-side to avoid breaking ingest.",
+      "DD-API-KEY header — auth rename to oo-api-key is coupled to the doc 02 header-auth backend change (design §6); the native core emits it, so it is a native-fork concern, not a JS rename.",
+      "Cosmetic 'Datadog' mentions in prose/comments/links to docs.datadoghq.com — not identity-critical; handled in a later docs pass."
+    ]
+  }
+}

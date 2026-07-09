@@ -1,0 +1,29 @@
+# Paths always taken from the `openobserve` branch during an upstream sync,
+# restored with `git checkout openobserve -- <path>` after the tree has been
+# replaced with the upstream commit. One path per line; directories apply
+# recursively. Lines starting with '#' are comments.
+#
+# Rule of thumb: OpenObserve-authored files and fork-identity files live here.
+# Everything else comes from upstream (rebranded by rebrand.mjs, then the
+# functional patch series in patches/ is re-applied by sync-upstream.sh).
+
+# Fork identity / legal
+LICENSE
+NOTICE
+README.md
+
+# CI + docs are fork-owned (workflows point at OpenObserve repos/registries).
+.github
+SYNC.md
+
+# Sync + rebrand tooling itself
+scripts/openobserve
+
+# Functional patch series (native endpoint injection, HTTPS guard, auth) —
+# re-applied onto the rebranded tree, not restored as files.
+patches
+
+# OpenObserve example app (points at a dev OpenObserve intake).
+# NOTE: enable once the fork's own example app is committed; until then the
+# upstream example is rebranded in place. Uncomment when ready:
+# example
