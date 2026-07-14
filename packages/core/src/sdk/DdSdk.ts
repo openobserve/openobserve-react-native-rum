@@ -5,11 +5,11 @@
  */
 import { getGlobalInstance } from '../utils/singletonUtils';
 
-import { DdSdkWrapper } from './DdSdkInternal';
-import type { DdSdkType } from './DdSdkInternal';
+import { OoSdkWrapper } from './OoSdkInternal';
+import type { OoSdkType } from './OoSdkInternal';
 
 const CORE_MODULE = 'com.datadog.reactnative.core';
-export const DdSdk = getGlobalInstance(
+export const OoSdk = getGlobalInstance(
     CORE_MODULE,
-    () => new DdSdkWrapper()
-) as DdSdkType;
+    () => new OoSdkWrapper()
+) as OoSdkType;

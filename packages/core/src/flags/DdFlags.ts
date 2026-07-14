@@ -6,20 +6,20 @@
 
 import { InternalLog } from '../InternalLog';
 import { SdkVerbosity } from '../config/types/SdkVerbosity';
-import type { DdNativeFlagsType } from '../nativeModulesTypes';
+import type { OoNativeFlagsType } from '../nativeModulesTypes';
 import { getGlobalInstance } from '../utils/singletonUtils';
 
 import { FlagsClient } from './FlagsClient';
-import type { DdFlagsType, FlagsConfiguration } from './types';
+import type { OoFlagsType, FlagsConfiguration } from './types';
 
 const FLAGS_MODULE = 'com.datadog.reactnative.flags';
 
 /**
- * Implementation class for {@link DdFlagsType}. Please see the interface for documentation.
+ * Implementation class for {@link OoFlagsType}. Please see the interface for documentation.
  */
-class DdFlagsWrapper implements DdFlagsType {
+class OoFlagsWrapper implements OoFlagsType {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    private nativeFlags: DdNativeFlagsType = require('../specs/NativeDdFlags')
+    private nativeFlags: OoNativeFlagsType = require('../specs/NativeDdFlags')
         .default;
 
     private isFeatureEnabled = false;
@@ -40,7 +40,7 @@ class DdFlagsWrapper implements DdFlagsType {
     getClient = (clientName: string = 'default'): FlagsClient => {
         if (!this.isFeatureEnabled) {
             InternalLog.log(
-                '`DdFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
+                '`OoFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
                 SdkVerbosity.ERROR
             );
         }
@@ -53,7 +53,7 @@ class DdFlagsWrapper implements DdFlagsType {
     };
 }
 
-export const DdFlags: DdFlagsType = getGlobalInstance(
+export const OoFlags: OoFlagsType = getGlobalInstance(
     FLAGS_MODULE,
-    () => new DdFlagsWrapper()
+    () => new OoFlagsWrapper()
 );

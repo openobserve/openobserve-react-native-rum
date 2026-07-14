@@ -1,20 +1,20 @@
 import {
     DatadogProviderConfiguration,
-    DdLogs,
-    DdSdkReactNative,
+    OoLogs,
+    OoSdkReactNative,
     CoreConfiguration,
     SdkVerbosity,
     TrackingConsent,
     BatchSize,
     UploadFrequency,
-    DdFlags,
+    OoFlags,
     PropagatorType,
-} from '@datadog/mobile-react-native';
-import { DatadogOpenFeatureProvider } from '@datadog/mobile-react-native-openfeature';
+} from '@openobserve/mobile-react-native';
+import { DatadogOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature } from '@openfeature/react-sdk';
 
 import {APPLICATION_ID, CLIENT_TOKEN, ENVIRONMENT} from './ddCredentials';
-import { BatchProcessingLevel } from '@datadog/mobile-react-native/src/config/types';
+import { BatchProcessingLevel } from '@openobserve/mobile-react-native/src/config/types';
 
 // New SDK Setup - not available for react-native-navigation
 export function getDatadogConfig(trackingConsent: TrackingConsent) {
@@ -58,9 +58,9 @@ export function getDatadogConfig(trackingConsent: TrackingConsent) {
 }
 
  export function onDatadogInitialization() {
-    DdLogs.info('The RN Sdk was properly initialized')
-    DdSdkReactNative.setUserInfo({id: "1337", name: "Xavier", email: "xg@example.com", extraInfo: { type: "premium" } })
-    DdSdkReactNative.addAttributes({campaign: "ad-network"})
+    OoLogs.info('The RN Sdk was properly initialized')
+    OoSdkReactNative.setUserInfo({id: "1337", name: "Xavier", email: "xg@example.com", extraInfo: { type: "premium" } })
+    OoSdkReactNative.addAttributes({campaign: "ad-network"})
 }
 
 // Legacy SDK Setup
@@ -89,14 +89,14 @@ export function initializeDatadog(trackingConsent: TrackingConsent) {
     config.verbosity = SdkVerbosity.DEBUG;
     config.service = "com.datadoghq.reactnative.sample"
 
-    DdSdkReactNative.initialize(config).then(() => {
-        DdLogs.info('The RN Sdk was properly initialized')
-        DdSdkReactNative.setUserInfo({id: "1337", name: "Xavier", email: "xg@example.com", extraInfo: { type: "premium" } })
-        DdSdkReactNative.addAttributes({campaign: "ad-network"})
+    OoSdkReactNative.initialize(config).then(() => {
+        OoLogs.info('The RN Sdk was properly initialized')
+        OoSdkReactNative.setUserInfo({id: "1337", name: "Xavier", email: "xg@example.com", extraInfo: { type: "premium" } })
+        OoSdkReactNative.addAttributes({campaign: "ad-network"})
     });
 
     // Enable the Flags feature.
-    DdFlags.enable().then(() => {
+    OoFlags.enable().then(() => {
         // Set the provider with OpenFeature.
         const provider = new DatadogOpenFeatureProvider();
         OpenFeature.setProvider(provider);

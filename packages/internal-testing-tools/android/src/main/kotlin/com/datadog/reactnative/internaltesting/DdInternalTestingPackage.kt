@@ -15,10 +15,10 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 /**
  * Package of internal testing native modules.
  */
-class DdInternalTestingPackage : TurboReactPackage() {
+class OoInternalTestingPackage : TurboReactPackage() {
     override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
         return when (name) {
-            DdInternalTestingImplementation.NAME -> DdInternalTesting(reactContext)
+            OoInternalTestingImplementation.NAME -> OoInternalTesting(reactContext)
             else -> null
         }
     }
@@ -27,7 +27,7 @@ class DdInternalTestingPackage : TurboReactPackage() {
         return ReactModuleInfoProvider {
             val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
             val moduleInfos = listOf(
-                DdInternalTestingImplementation.NAME
+                OoInternalTestingImplementation.NAME
             ).associateWith {
                 ReactModuleInfo(
                     it,

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 /**
  * The entry point to use Datadog's Trace feature.
  */
-class DdTraceImplementation(
+class OoTraceImplementation(
     private val tracerProvider: () -> DatadogTracer = {
         val tracer = DatadogTracing.newTracerBuilder(Datadog.getInstance()).build()
         GlobalDatadogTracer.registerIfAbsent(tracer)
@@ -95,6 +95,6 @@ class DdTraceImplementation(
     }
 
     internal companion object {
-        internal const val NAME = "DdTrace"
+        internal const val NAME = "OoTrace"
     }
 }

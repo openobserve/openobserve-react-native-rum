@@ -7,9 +7,9 @@
 import { fireEvent } from '@testing-library/react-native';
 import { InteractionManager, NativeModules } from 'react-native';
 
-import { DdSdkReactNative } from '../../../DdSdkReactNative';
+import { OoSdkReactNative } from '../../../OoSdkReactNative';
 import { InitializationMode } from '../../../config/types';
-import { DdRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/DdRumUserInteractionTracking';
+import { OoRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
 import { XMLHttpRequestMock } from '../../../rum/instrumentation/resourceTracking/__tests__/__utils__/XMLHttpRequestMock';
 import { PropagatorType } from '../../../rum/types';
 import { DefaultTimeProvider } from '../../../utils/time-provider/DefaultTimeProvider';
@@ -44,10 +44,10 @@ describe('DatadogProvider', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         GlobalState.isInitialized = false;
-        DdSdkReactNative['wasAutoInstrumented'] = false;
+        OoSdkReactNative['wasAutoInstrumented'] = false;
         __internalResetIsInitializedForTesting();
         BufferSingleton.reset();
-        DdRumUserInteractionTracking.stopTracking();
+        OoRumUserInteractionTracking.stopTracking();
         (nowMock as any).mockReturnValue('timestamp_not_specified');
         global.XMLHttpRequest = XMLHttpRequestMock as any;
     });
@@ -57,7 +57,7 @@ describe('DatadogProvider', () => {
             const { getByText } = renderWithProvider();
             await flushPromises();
 
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
 
             const button = getByText('test button');
             fireEvent(button, 'press', {
@@ -68,7 +68,7 @@ describe('DatadogProvider', () => {
                 }
             });
 
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
         });
         it('initializes the SDK without waiting for idle callback', async () => {
             const idle = mockIdleCallback();
@@ -79,12 +79,12 @@ describe('DatadogProvider', () => {
 
                 await flushPromises();
 
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -100,12 +100,12 @@ describe('DatadogProvider', () => {
 
                 const { getByText } = renderWithProvider({ configuration });
                 await flushPromises();
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
                 const button = getByText('test button');
                 fireEvent(button, 'press', {
                     _targetInst: {
@@ -114,7 +114,7 @@ describe('DatadogProvider', () => {
                         }
                     }
                 });
-                expect(NativeModules.DdRum.addAction).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -128,12 +128,12 @@ describe('DatadogProvider', () => {
 
                 renderWithProviderAndAnimation({ configuration });
                 await flushPromises();
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -153,12 +153,12 @@ describe('DatadogProvider', () => {
                 const handle = InteractionManager.createInteractionHandle();
                 renderWithProvider({ configuration });
                 await flushPromises();
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
 
                 InteractionManager.clearInteractionHandle(handle);
                 await flushPromises();
 
-                expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 (globalThis as Record<
                     string,
@@ -202,8 +202,8 @@ describe('DatadogProvider', () => {
                 }
             });
 
-            expect(NativeModules.DdSdk.initialize).not.toHaveBeenCalled();
-            expect(NativeModules.DdRum.addAction).not.toHaveBeenCalled();
+            expect(NativeModules.OoSdk.initialize).not.toHaveBeenCalled();
+            expect(NativeModules.OoRum.addAction).not.toHaveBeenCalled();
 
             await DatadogProvider.initialize({
                 clientToken: 'fake-client-token',
@@ -214,9 +214,9 @@ describe('DatadogProvider', () => {
             });
             await flushPromises();
 
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
             expect(
-                NativeModules.DdSdk.initialize.mock.calls[0][0].rumConfiguration
+                NativeModules.OoSdk.initialize.mock.calls[0][0].rumConfiguration
                     .firstPartyHosts
             ).toEqual([
                 {
@@ -224,7 +224,7 @@ describe('DatadogProvider', () => {
                     propagatorTypes: ['datadog', 'tracecontext']
                 }
             ]);
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
         });
     });
 });

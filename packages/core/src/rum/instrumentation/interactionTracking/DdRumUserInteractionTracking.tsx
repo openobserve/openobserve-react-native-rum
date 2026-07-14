@@ -9,12 +9,12 @@ import React from 'react';
 import { InternalLog } from '../../../InternalLog';
 import { SdkVerbosity } from '../../../config/types/SdkVerbosity';
 import { getErrorMessage } from '../../../sdk/AttributesEncoding/errorUtils';
-import { NativeDdSdk } from '../../../sdk/DdSdkInternal';
+import { NativeDdSdk } from '../../../sdk/OoSdkInternal';
 import { BABEL_PLUGIN_TELEMETRY } from '../../constants';
 
-import { DdBabelInteractionTracking } from './DdBabelInteractionTracking';
-import type { DdEventsInterceptorOptions } from './DdEventsInterceptor';
-import { DdEventsInterceptor } from './DdEventsInterceptor';
+import { OoBabelInteractionTracking } from './OoBabelInteractionTracking';
+import type { OoEventsInterceptorOptions } from './OoEventsInterceptor';
+import { OoEventsInterceptor } from './OoEventsInterceptor';
 import type { EventsInterceptor } from './EventsInterceptor';
 import { NoOpEventsInterceptor } from './NoOpEventsInterceptor';
 import { areObjectShallowEqual } from './ShallowObjectEqualityChecker';
@@ -24,9 +24,9 @@ import { getJsxRuntimes } from './getJsxRuntime';
  * Provides RUM auto-instrumentation feature to track user interaction as RUM events.
  * For now we are only covering the "onPress" events.
  *
- * @deprecated since 3.0.0 – Use `@datadog/mobile-react-native-babel-plugin` instead.
+ * @deprecated since 3.0.0 – Use `@openobserve/mobile-react-native-babel-plugin` instead.
  */
-export class DdRumUserInteractionTracking {
+export class OoRumUserInteractionTracking {
     private static isTracking = false;
     private static eventsInterceptor: EventsInterceptor = new NoOpEventsInterceptor();
     private static originalCreateElement = React.createElement;
@@ -45,7 +45,7 @@ export class DdRumUserInteractionTracking {
             const originalOnPress = (props as Record<string, unknown>) // eslint-disable-next-line @typescript-eslint/ban-types
                 .onPress as Function;
             (props as Record<string, unknown>).onPress = (...args: any[]) => {
-                DdRumUserInteractionTracking.eventsInterceptor.interceptOnPress(
+                OoRumUserInteractionTracking.eventsInterceptor.interceptOnPress(
                     ...args
                 );
                 return originalOnPress(...args);
@@ -66,15 +66,15 @@ export class DdRumUserInteractionTracking {
      *
      * @deprecated since version 3.0.0
      */
-    static startTracking(options: DdEventsInterceptorOptions): void {
+    static startTracking(options: OoEventsInterceptorOptions): void {
         InternalLog.log(
             '[DEPRECATED] Interaction tracking via the core React Native SDK has been deprecated since v3.0.0. ' +
-                'Please migrate to @datadog/mobile-react-native-babel-plugin: https://www.npmjs.com/package/@datadog/mobile-react-native-babel-plugin.',
+                'Please migrate to @openobserve/mobile-react-native-babel-plugin: https://www.npmjs.com/package/@openobserve/mobile-react-native-babel-plugin.',
             SdkVerbosity.WARN
         );
 
         // extra safety to avoid wrapping more than 1 time this function
-        if (DdRumUserInteractionTracking.isTracking) {
+        if (OoRumUserInteractionTracking.isTracking) {
             InternalLog.log(
                 'Datadog SDK is already tracking interactions',
                 SdkVerbosity.WARN
@@ -84,11 +84,11 @@ export class DdRumUserInteractionTracking {
 
         NativeDdSdk?.sendTelemetryLog(
             BABEL_PLUGIN_TELEMETRY,
-            DdBabelInteractionTracking.getTelemetryConfig(),
+            OoBabelInteractionTracking.getTelemetryConfig(),
             { onlyOnce: true }
         );
 
-        DdRumUserInteractionTracking.eventsInterceptor = new DdEventsInterceptor(
+        OoRumUserInteractionTracking.eventsInterceptor = new OoEventsInterceptor(
             options
         );
 
@@ -161,7 +161,7 @@ export class DdRumUserInteractionTracking {
             });
         };
 
-        DdRumUserInteractionTracking.isTracking = true;
+        OoRumUserInteractionTracking.isTracking = true;
         InternalLog.log(
             'Datadog SDK is tracking interactions',
             SdkVerbosity.INFO
@@ -174,7 +174,7 @@ export class DdRumUserInteractionTracking {
     static stopTracking() {
         React.createElement = this.originalCreateElement;
         React.memo = this.originalMemo;
-        DdRumUserInteractionTracking.isTracking = false;
+        OoRumUserInteractionTracking.isTracking = false;
         if (this.originalJsx || this.originalDevJsx) {
             const [jsxRuntime, jsxDevRuntime] = getJsxRuntimes();
 

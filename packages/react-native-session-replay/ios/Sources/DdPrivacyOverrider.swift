@@ -2,7 +2,7 @@ import ObjectiveC
 import UIKit
 @_spi(objc) import DatadogSessionReplay
 
-@objc public class DdPrivacyOverrider: NSObject {
+@objc public class OoPrivacyOverrider: NSObject {
     @objc public static func setOverrides(
         for view: UIView,
         textPrivacy: NSString?,

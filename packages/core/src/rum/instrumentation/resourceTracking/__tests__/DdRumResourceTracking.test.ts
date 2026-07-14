@@ -8,19 +8,19 @@ import { NativeModules } from 'react-native';
 
 import { BufferSingleton } from '../../../../sdk/DatadogProvider/Buffer/BufferSingleton';
 import { PropagatorType } from '../../../types';
-import { DdRumResourceTracking } from '../DdRumResourceTracking';
+import { OoRumResourceTracking } from '../OoRumResourceTracking';
 import { SAMPLING_PRIORITY_HEADER_KEY } from '../distributedTracing/headers';
 
 import { XMLHttpRequestMock } from './__utils__/XMLHttpRequestMock';
 
-const DdRum = NativeModules.DdRum;
+const OoRum = NativeModules.OoRum;
 
 const flushPromises = () =>
     new Promise(jest.requireActual('timers').setImmediate);
 
 beforeEach(() => {
-    DdRum.startResource.mockClear();
-    DdRum.stopResource.mockClear();
+    OoRum.startResource.mockClear();
+    OoRum.stopResource.mockClear();
     BufferSingleton.onInitialization();
     global.XMLHttpRequest = XMLHttpRequestMock;
 });
@@ -37,11 +37,11 @@ const executeRequest = (url: string = 'https://api.example.com/v2/user') => {
     xhr.complete(200, 'ok');
 };
 
-describe('DdRumResourceTracking', () => {
+describe('OoRumResourceTracking', () => {
     it('removes all side effects when tracking is stopped', async () => {
         // GIVEN
         global.XMLHttpRequest = XMLHttpRequestMock;
-        DdRumResourceTracking.startTracking({
+        OoRumResourceTracking.startTracking({
             resourceTraceSampleRate: 100,
             firstPartyHosts: [
                 {
@@ -56,24 +56,24 @@ describe('DdRumResourceTracking', () => {
         await flushPromises();
 
         // THEN
-        expect(DdRum.startResource).toHaveBeenCalledTimes(1);
-        expect(DdRum.stopResource).toHaveBeenCalledTimes(1);
+        expect(OoRum.startResource).toHaveBeenCalledTimes(1);
+        expect(OoRum.stopResource).toHaveBeenCalledTimes(1);
 
         // WHEN
-        DdRum.startResource.mockClear();
-        DdRum.stopResource.mockClear();
-        DdRumResourceTracking.stopTracking();
+        OoRum.startResource.mockClear();
+        OoRum.stopResource.mockClear();
+        OoRumResourceTracking.stopTracking();
         executeRequest();
 
         // THEN
-        expect(DdRum.startResource).toHaveBeenCalledTimes(0);
-        expect(DdRum.stopResource).toHaveBeenCalledTimes(0);
+        expect(OoRum.startResource).toHaveBeenCalledTimes(0);
+        expect(OoRum.stopResource).toHaveBeenCalledTimes(0);
     });
 
     it('does not report the resource when it is an internal resource', async () => {
         // GIVEN
         global.XMLHttpRequest = XMLHttpRequestMock;
-        DdRumResourceTracking.startTracking({
+        OoRumResourceTracking.startTracking({
             resourceTraceSampleRate: 100,
             firstPartyHosts: [
                 {
@@ -88,24 +88,24 @@ describe('DdRumResourceTracking', () => {
         await flushPromises();
 
         // THEN
-        expect(DdRum.startResource).not.toHaveBeenCalled();
-        expect(DdRum.stopResource).not.toHaveBeenCalled();
+        expect(OoRum.startResource).not.toHaveBeenCalled();
+        expect(OoRum.stopResource).not.toHaveBeenCalled();
     });
 
     describe('updateTrackingContext', () => {
         beforeEach(() => {
-            DdRumResourceTracking.stopTracking();
+            OoRumResourceTracking.stopTracking();
         });
 
         afterEach(() => {
-            DdRumResourceTracking.stopTracking();
+            OoRumResourceTracking.stopTracking();
         });
 
         it('is a no-op when called before startTracking', async () => {
             // GIVEN tracking was never started
 
             // WHEN
-            DdRumResourceTracking.updateTrackingContext({
+            OoRumResourceTracking.updateTrackingContext({
                 resourceTraceSampleRate: 100
             });
 
@@ -113,13 +113,13 @@ describe('DdRumResourceTracking', () => {
             await flushPromises();
 
             // THEN: no XHR proxy was installed; no resource events captured
-            expect(DdRum.startResource).not.toHaveBeenCalled();
-            expect(DdRum.stopResource).not.toHaveBeenCalled();
+            expect(OoRum.startResource).not.toHaveBeenCalled();
+            expect(OoRum.stopResource).not.toHaveBeenCalled();
         });
 
         it('applies the updated sampling rate to subsequent requests', () => {
             // GIVEN tracking installed with rate=0
-            DdRumResourceTracking.startTracking({
+            OoRumResourceTracking.startTracking({
                 resourceTraceSampleRate: 0,
                 firstPartyHosts: [
                     {
@@ -138,7 +138,7 @@ describe('DdRumResourceTracking', () => {
             ).toBe('0');
 
             // WHEN
-            DdRumResourceTracking.updateTrackingContext({
+            OoRumResourceTracking.updateTrackingContext({
                 resourceTraceSampleRate: 100
             });
 
@@ -153,7 +153,7 @@ describe('DdRumResourceTracking', () => {
 
         it('is a no-op after tracking has been stopped', async () => {
             // GIVEN
-            DdRumResourceTracking.startTracking({
+            OoRumResourceTracking.startTracking({
                 resourceTraceSampleRate: 100,
                 firstPartyHosts: [
                     {
@@ -162,10 +162,10 @@ describe('DdRumResourceTracking', () => {
                     }
                 ]
             });
-            DdRumResourceTracking.stopTracking();
+            OoRumResourceTracking.stopTracking();
 
             // WHEN
-            DdRumResourceTracking.updateTrackingContext({
+            OoRumResourceTracking.updateTrackingContext({
                 resourceTraceSampleRate: 100
             });
 
@@ -173,8 +173,8 @@ describe('DdRumResourceTracking', () => {
             await flushPromises();
 
             // THEN: tracking remains stopped, nothing captured
-            expect(DdRum.startResource).not.toHaveBeenCalled();
-            expect(DdRum.stopResource).not.toHaveBeenCalled();
+            expect(OoRum.startResource).not.toHaveBeenCalled();
+            expect(OoRum.stopResource).not.toHaveBeenCalled();
         });
     });
 });

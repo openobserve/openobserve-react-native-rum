@@ -10,7 +10,7 @@ import { NativeModules } from 'react-native';
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types';
 import { BufferSingleton } from '../../sdk/DatadogProvider/Buffer/BufferSingleton';
-import { DdTrace } from '../DdTrace';
+import { OoTrace } from '../OoTrace';
 
 jest.mock('../../utils/time-provider/DefaultTimeProvider', () => {
     return {
@@ -29,22 +29,22 @@ jest.mock('../../InternalLog', () => {
     };
 });
 
-describe('DdTrace', () => {
+describe('OoTrace', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         BufferSingleton.onInitialization();
     });
 
     describe('Context validation', () => {
-        describe('DdTrace.startSpan', () => {
+        describe('OoTrace.startSpan', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdTrace.startSpan('operation', context);
+                await OoTrace.startSpan('operation', context);
 
-                expect(NativeModules.DdTrace.startSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.startSpan).toHaveBeenCalledWith(
                     'operation',
                     context,
                     expect.anything()
@@ -53,7 +53,7 @@ describe('DdTrace', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdTrace.startSpan('operation', context);
+                await OoTrace.startSpan('operation', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -61,7 +61,7 @@ describe('DdTrace', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdTrace.startSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.startSpan).toHaveBeenCalledWith(
                     'operation',
                     {},
                     expect.anything()
@@ -70,7 +70,7 @@ describe('DdTrace', () => {
 
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
-                await DdTrace.startSpan('operation', context);
+                await OoTrace.startSpan('operation', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     1,
@@ -78,7 +78,7 @@ describe('DdTrace', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdTrace.startSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.startSpan).toHaveBeenCalledWith(
                     'operation',
                     { context },
                     expect.anything()
@@ -86,17 +86,17 @@ describe('DdTrace', () => {
             });
         });
 
-        describe('DdTrace.finishSpan', () => {
+        describe('OoTrace.finishSpan', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
 
-                const spanId = await DdTrace.startSpan('operation', {});
-                await DdTrace.finishSpan(spanId, context);
+                const spanId = await OoTrace.startSpan('operation', {});
+                await OoTrace.finishSpan(spanId, context);
 
-                expect(NativeModules.DdTrace.finishSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.finishSpan).toHaveBeenCalledWith(
                     spanId,
                     context,
                     expect.anything()
@@ -105,17 +105,17 @@ describe('DdTrace', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdTrace.startSpan('operation', context);
+                await OoTrace.startSpan('operation', context);
 
-                const spanId = await DdTrace.startSpan('operation', {});
-                await DdTrace.finishSpan(spanId, context);
+                const spanId = await OoTrace.startSpan('operation', {});
+                await OoTrace.finishSpan(spanId, context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
                     expect.anything(),
                     SdkVerbosity.WARN
                 );
-                expect(NativeModules.DdTrace.finishSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.finishSpan).toHaveBeenCalledWith(
                     spanId,
                     {},
                     expect.anything()
@@ -125,8 +125,8 @@ describe('DdTrace', () => {
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
 
-                const spanId = await DdTrace.startSpan('operation', {});
-                await DdTrace.finishSpan(spanId, context);
+                const spanId = await OoTrace.startSpan('operation', {});
+                await OoTrace.finishSpan(spanId, context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -134,7 +134,7 @@ describe('DdTrace', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdTrace.finishSpan).toHaveBeenCalledWith(
+                expect(NativeModules.OoTrace.finishSpan).toHaveBeenCalledWith(
                     spanId,
                     { context },
                     expect.anything()

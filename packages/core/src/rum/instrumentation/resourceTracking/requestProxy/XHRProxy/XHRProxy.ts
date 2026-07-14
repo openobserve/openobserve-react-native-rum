@@ -12,7 +12,7 @@ import {
     getCachedSessionId,
     getCachedUserId
 } from '../../../../helper';
-import type { DdRumResourceTracingAttributes } from '../../distributedTracing/distributedTracingAttributes';
+import type { OoRumResourceTracingAttributes } from '../../distributedTracing/distributedTracingAttributes';
 import { getTracingHeadersFromAttributes } from '../../distributedTracing/distributedTracingHeaders';
 import { getTracingAttributes } from '../../distributedTracing/distributedTracing';
 import {
@@ -31,7 +31,7 @@ import { extractGraphQLErrors } from '../../graphql/graphqlUtils';
 import { DATADOG_BAGGAGE_HEADER, isDatadogCustomHeader } from '../../headers';
 import type { RequestProxyOptions } from '../interfaces/RequestProxy';
 import { RequestProxy } from '../interfaces/RequestProxy';
-import type { DdRumResourceGraphqlAttributes } from '../interfaces/RumResource';
+import type { OoRumResourceGraphqlAttributes } from '../interfaces/RumResource';
 
 import { ResourceReporter } from './DatadogRumResource/ResourceReporter';
 import { filterDevResource } from './DatadogRumResource/internalDevResourceBlocklist';
@@ -42,19 +42,19 @@ import { getErrorData, readXhrJsonBody } from './xhrUtils';
 
 const RESPONSE_START_LABEL = 'response_start';
 
-interface DdRumXhr extends XMLHttpRequest {
-    _datadog_xhr: DdRumXhrContext;
+interface OoRumXhr extends XMLHttpRequest {
+    _datadog_xhr: OoRumXhrContext;
 }
 
-interface DdRumXhrContext {
-    graphql: DdRumResourceGraphqlAttributes & {
+interface OoRumXhrContext {
+    graphql: OoRumResourceGraphqlAttributes & {
         trackErrors?: boolean;
     };
     method: string;
     url: string;
     reported: boolean;
     timer: Timer;
-    tracingAttributes: DdRumResourceTracingAttributes;
+    tracingAttributes: OoRumResourceTracingAttributes;
     baggageHeaderEntries: Set<string>;
 }
 
@@ -125,7 +125,7 @@ const proxyOpen = (
     const originalXhrOpen = xhrType.prototype.open;
 
     xhrType.prototype.open = function open(
-        this: DdRumXhr,
+        this: OoRumXhr,
         method: string,
         url: string
     ) {
@@ -157,7 +157,7 @@ const proxySend = (providers: XHRProxyProviders): void => {
     const xhrType = providers.xhrType;
     const originalXhrSend = xhrType.prototype.send;
 
-    xhrType.prototype.send = function send(this: DdRumXhr) {
+    xhrType.prototype.send = function send(this: OoRumXhr) {
         if (this._datadog_xhr) {
             // keep track of start time
             this._datadog_xhr.timer.start();
@@ -193,7 +193,7 @@ const proxySend = (providers: XHRProxyProviders): void => {
 };
 
 const proxyOnReadyStateChange = (
-    xhrProxy: DdRumXhr,
+    xhrProxy: OoRumXhr,
     providers: XHRProxyProviders
 ): void => {
     const xhrType = providers.xhrType;
@@ -225,7 +225,7 @@ const proxyOnReadyStateChange = (
 };
 
 const reportXhr = async (
-    xhrProxy: DdRumXhr,
+    xhrProxy: OoRumXhr,
     resourceReporter: ResourceReporter
 ): Promise<void> => {
     const responseSize = calculateResponseSize(xhrProxy);
@@ -286,7 +286,7 @@ const proxySetRequestHeader = (providers: XHRProxyProviders): void => {
     const originalXhrSetRequestHeader = xhrType.prototype.setRequestHeader;
 
     xhrType.prototype.setRequestHeader = function sendRequestHeader(
-        this: DdRumXhr,
+        this: OoRumXhr,
         header: string,
         value: string
     ) {

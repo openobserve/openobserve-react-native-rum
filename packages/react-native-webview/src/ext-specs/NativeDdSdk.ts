@@ -17,5 +17,5 @@ export interface PartialNativeDdSdkSpec extends TurboModule {
 }
 
 export const NativeDdSdk = TurboModuleRegistry.get<PartialNativeDdSdkSpec>(
-    'DdSdk'
+    'OoSdk'
 );

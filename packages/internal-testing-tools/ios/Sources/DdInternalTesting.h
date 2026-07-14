@@ -5,21 +5,21 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdInternalTestingImplementation;
+@class OoInternalTestingImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdInternalTesting/DdInternalTesting.h>
-@interface DdInternalTesting: NSObject <NativeDdInternalTestingSpec>
+#import <OoInternalTesting/OoInternalTesting.h>
+@interface OoInternalTesting: NSObject <NativeDdInternalTestingSpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdInternalTesting : NSObject <RCTBridgeModule>
+@interface OoInternalTesting : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdInternalTestingImplementation* ddInternalTestingImplementation;
+@property (nonatomic, strong) OoInternalTestingImplementation* ddInternalTestingImplementation;
 
 + (void)enableFromNative;
 

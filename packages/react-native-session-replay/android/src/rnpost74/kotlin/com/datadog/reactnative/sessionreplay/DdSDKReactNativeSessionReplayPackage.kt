@@ -6,7 +6,7 @@
 
 package com.datadog.reactnative.sessionreplay
 
-import com.datadog.reactnative.sessionreplay.views.DdPrivacyViewManager
+import com.datadog.reactnative.sessionreplay.views.OoPrivacyViewManager
 import com.facebook.react.BaseReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
@@ -17,16 +17,16 @@ import com.facebook.react.uimanager.ViewManager
 /**
  * Package of native dd-sdk-reactnative native modules.
  */
-class DdSDKReactNativeSessionReplayPackage : BaseReactPackage() {
+class OoSDKReactNativeSessionReplayPackage : BaseReactPackage() {
     override fun createViewManagers(
         reactContext: ReactApplicationContext
     ): List<ViewManager<*, *>> {
-        return listOf(DdPrivacyViewManager(reactContext))
+        return listOf(OoPrivacyViewManager(reactContext))
     }
 
     override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
         return when (name) {
-            DdSessionReplayImplementation.NAME -> DdSessionReplay(reactContext)
+            OoSessionReplayImplementation.NAME -> OoSessionReplay(reactContext)
             else -> null
         }
     }
@@ -35,7 +35,7 @@ class DdSDKReactNativeSessionReplayPackage : BaseReactPackage() {
         return ReactModuleInfoProvider {
             val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
             val moduleInfos = listOf(
-                DdSessionReplayImplementation.NAME
+                OoSessionReplayImplementation.NAME
             ).associateWith {
                 ReactModuleInfo(
                     it,

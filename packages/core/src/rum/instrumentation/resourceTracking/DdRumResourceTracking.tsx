@@ -111,7 +111,7 @@ class RumResourceTracking {
     }
 }
 
-export const DdRumResourceTracking = getGlobalInstance(
+export const OoRumResourceTracking = getGlobalInstance(
     RUM_RESOURCE_TRACKING_MODULE,
     () => new RumResourceTracking()
 );

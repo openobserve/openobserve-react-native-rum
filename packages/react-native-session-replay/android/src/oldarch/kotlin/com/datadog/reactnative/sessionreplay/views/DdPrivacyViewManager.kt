@@ -11,44 +11,44 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 
-class DdPrivacyViewManager(context: ReactApplicationContext) : ViewGroupManager<DdPrivacyView>() {
+class OoPrivacyViewManager(context: ReactApplicationContext) : ViewGroupManager<OoPrivacyView>() {
     companion object {
-        const val REACT_CLASS = "DdPrivacyView"
+        const val REACT_CLASS = "OoPrivacyView"
     }
 
     override fun getName(): String = REACT_CLASS
 
-    override fun createViewInstance(context: ThemedReactContext): DdPrivacyView {
-        return DdPrivacyView(context)
+    override fun createViewInstance(context: ThemedReactContext): OoPrivacyView {
+        return OoPrivacyView(context)
     }
 
     @ReactProp(name = "hide")
-    fun setHide(view: DdPrivacyView?, value: Boolean) {
+    fun setHide(view: OoPrivacyView?, value: Boolean) {
         view?.let { view.hide = value }
     }
 
     @ReactProp(name = "textAndInputPrivacy")
-    fun setTextAndInputPrivacy(view: DdPrivacyView?, value: String?) {
+    fun setTextAndInputPrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.textAndInputPrivacy = value }
     }
 
     @ReactProp(name = "imagePrivacy")
-    fun setImagePrivacy(view: DdPrivacyView?, value: String?) {
+    fun setImagePrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.imagePrivacy = value }
     }
 
     @ReactProp(name = "touchPrivacy")
-    fun setTouchPrivacy(view: DdPrivacyView?, value: String?) {
+    fun setTouchPrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.touchPrivacy = value }
     }
 
     @ReactProp(name = "nativeID")
-    fun setNativeID(view: DdPrivacyView?, value: String?) {
+    fun setNativeID(view: OoPrivacyView?, value: String?) {
         view?.nativeID = value
     }
 
     @ReactProp(name = "attributes")
-    fun setAttributes(view: DdPrivacyView?, map: ReadableMap?) {
+    fun setAttributes(view: OoPrivacyView?, map: ReadableMap?) {
         view?.attributes = map?.toHashMap()?.mapValues {
             it.value.toString() ?: ""
         }

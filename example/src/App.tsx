@@ -7,9 +7,9 @@ import AboutScreen from './screens/AboutScreen';
 import TraceScreen from './screens/TraceScreen';
 import style from './screens/styles';
 import { navigationRef } from './NavigationRoot';
-import { DdRumReactNavigationTracking, NavigationTrackingOptions, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@datadog/mobile-react-navigation';
-import { DatadogProvider, TrackingConsent, DdFlags } from '@datadog/mobile-react-native'
-import { DatadogOpenFeatureProvider } from '@datadog/mobile-react-native-openfeature';
+import { OoRumReactNavigationTracking, NavigationTrackingOptions, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
+import { DatadogProvider, TrackingConsent, OoFlags } from '@openobserve/mobile-react-native'
+import { DatadogOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature, OpenFeatureProvider } from '@openfeature/react-sdk';
 import { Route } from "@react-navigation/native";
 import { NestedNavigator } from './screens/NestedNavigator/NestedNavigator';
@@ -72,7 +72,7 @@ const handleDatadogInitialization = async () => {
   onDatadogInitialization();
 
   // Enable Datadog Flags feature.
-  await DdFlags.enable();
+  await OoFlags.enable();
 
   // Set the provider with OpenFeature.
   const provider = new DatadogOpenFeatureProvider();
@@ -84,7 +84,7 @@ export default function App() {
     <DatadogProvider configuration={configuration} onInitialization={handleDatadogInitialization}>
       <OpenFeatureProvider>
         <NavigationContainer ref={navigationRef} onReady={() => {
-          DdRumReactNavigationTracking.startTrackingViews(
+          OoRumReactNavigationTracking.startTrackingViews(
             navigationRef.current,
             navigationTrackingOptions)
         }}>

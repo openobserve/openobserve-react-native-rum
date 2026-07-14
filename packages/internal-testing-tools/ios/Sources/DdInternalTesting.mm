@@ -9,10 +9,10 @@
 #else
 #import <DatadogInternalTesting/DatadogInternalTesting-Swift.h>
 #endif
-#import "DdInternalTesting.h"
+#import "OoInternalTesting.h"
 
 
-@implementation DdInternalTesting
+@implementation OoInternalTesting
 
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -45,10 +45,10 @@ RCT_REMAP_METHOD(enable, withResolve:(RCTPromiseResolveBlock)resolve
 }
 #endif
 
-- (DdInternalTestingImplementation*)ddInternalTestingImplementation
+- (OoInternalTestingImplementation*)ddInternalTestingImplementation
 {
     if (_ddInternalTestingImplementation == nil) {
-        _ddInternalTestingImplementation = [[DdInternalTestingImplementation alloc] init];
+        _ddInternalTestingImplementation = [[OoInternalTestingImplementation alloc] init];
     }
     return _ddInternalTestingImplementation;
 }
@@ -58,7 +58,7 @@ RCT_REMAP_METHOD(enable, withResolve:(RCTPromiseResolveBlock)resolve
 }
 
 + (void)enableFromNative {
-    DdInternalTestingNativeInitialization *internalTesting = [[DdInternalTestingNativeInitialization alloc] init];
+    OoInternalTestingNativeInitialization *internalTesting = [[OoInternalTestingNativeInitialization alloc] init];
     [internalTesting enableFromNative];
 }
 

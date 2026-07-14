@@ -6,10 +6,10 @@
 
 import { requireNativeComponent } from 'react-native';
 
-import type { DdPrivacyViewProps } from '../types/DdPrivacyView';
+import type { OoPrivacyViewProps } from '../types/OoPrivacyView';
 
-const DdPrivacyView = requireNativeComponent<DdPrivacyViewProps>(
-    'DdPrivacyView'
+const OoPrivacyView = requireNativeComponent<OoPrivacyViewProps>(
+    'OoPrivacyView'
 );
 
-export default DdPrivacyView;
+export default OoPrivacyView;

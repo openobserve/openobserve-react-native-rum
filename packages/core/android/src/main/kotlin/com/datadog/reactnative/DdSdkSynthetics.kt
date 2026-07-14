@@ -6,7 +6,7 @@
 
 package com.datadog.reactnative
 
-internal object DdSdkSynthetics {
+internal object OoSdkSynthetics {
     var testId: String? = null
     var resultId: String? = null
 }

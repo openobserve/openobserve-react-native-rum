@@ -8,7 +8,7 @@ import type { GestureResponderEvent } from 'react-native';
 
 import { InternalLog } from '../../../InternalLog';
 import { SdkVerbosity } from '../../../config/types/SdkVerbosity';
-import { DdRum } from '../../DdRum';
+import { OoRum } from '../../OoRum';
 import { RumActionType } from '../../types';
 
 import type { EventsInterceptor } from './EventsInterceptor';
@@ -18,7 +18,7 @@ const DEBOUNCE_EVENT_THRESHOLD_IN_MS = 10;
 const HANDLE_EVENT_APP_EXECUTION_TIME_IN_MS = 1;
 const DD_ACTION_NAME_PROP = 'dd-action-name';
 
-export type DdEventsInterceptorOptions = {
+export type OoEventsInterceptorOptions = {
     /**
      * Specifies a custom prop to name RUM actions on elements having an `onPress` prop
      * */
@@ -29,7 +29,7 @@ export type DdEventsInterceptorOptions = {
     useAccessibilityLabel?: boolean;
 };
 
-export class DdEventsInterceptor implements EventsInterceptor {
+export class OoEventsInterceptor implements EventsInterceptor {
     static ACTION_EVENT_DROPPED_DEBUG_MESSAGE =
         'An action event was dropped because either the `onPress` method arguments' +
         ' were undefined or they were missing the target information.' +
@@ -42,7 +42,7 @@ export class DdEventsInterceptor implements EventsInterceptor {
     private actionNameAttribute?: string;
     private useAccessibilityLabel: boolean;
 
-    constructor(options: DdEventsInterceptorOptions = {}) {
+    constructor(options: OoEventsInterceptorOptions = {}) {
         this.actionNameAttribute = options.actionNameAttribute;
         this.useAccessibilityLabel = options.useAccessibilityLabel ?? true;
     }
@@ -63,7 +63,7 @@ export class DdEventsInterceptor implements EventsInterceptor {
             }
         } else {
             InternalLog.log(
-                DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE,
+                OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE,
                 SdkVerbosity.DEBUG
             );
         }
@@ -93,7 +93,7 @@ export class DdEventsInterceptor implements EventsInterceptor {
     private handleTargetEvent(targetNode: any, event: unknown) {
         if (targetNode) {
             const resolvedTargetName = this.resolveTargetName(targetNode);
-            DdRum.addAction(
+            OoRum.addAction(
                 RumActionType.TAP,
                 resolvedTargetName,
                 {},

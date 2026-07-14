@@ -18,7 +18,7 @@ import com.facebook.react.bridge.ReactContext
 /**
  * The entry point to use Datadog's Session Replay feature.
  */
-class DdSessionReplayImplementation(
+class OoSessionReplayImplementation(
     private val reactContext: ReactContext,
     private val sessionReplayProvider: () -> SessionReplayWrapper = {
         SessionReplaySDKWrapper()
@@ -88,6 +88,6 @@ class DdSessionReplayImplementation(
     }
 
     internal companion object {
-        internal const val NAME = "DdSessionReplay"
+        internal const val NAME = "OoSessionReplay"
     }
 }

@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-export const DATADOG_CUSTOM_HEADER_PREFIX = '_dd-custom-header';
+export const DATADOG_CUSTOM_HEADER_PREFIX = '_oo-custom-header';
 export const DATADOG_BAGGAGE_HEADER = `${DATADOG_CUSTOM_HEADER_PREFIX}-baggage`;
 
 export const isDatadogCustomHeader = (header: string) => {

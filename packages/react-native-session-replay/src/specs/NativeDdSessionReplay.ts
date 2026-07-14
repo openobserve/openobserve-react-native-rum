@@ -47,4 +47,4 @@ export interface Spec extends TurboModule {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default TurboModuleRegistry.get<Spec>('DdSessionReplay');
+export default TurboModuleRegistry.get<Spec>('OoSessionReplay');

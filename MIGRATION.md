@@ -44,7 +44,7 @@ const config = new CoreConfiguration(
 
 ...
 
-await DdSdkReactNative.initialize(config);
+await OoSdkReactNative.initialize(config);
 ```
 
 Or if using the DatadogProvider wrapper:
@@ -137,7 +137,7 @@ const config = {
 In v3, `firstPartyHosts` has been moved to `rumConfiguration` and now requires an array of objects specifying the host and propagator types:
 
 ```typescript
-import { PropagatorType } from '@datadog/mobile-react-native';
+import { PropagatorType } from '@openobserve/mobile-react-native';
 
 const config = new CoreConfiguration(
     CLIENT_TOKEN,

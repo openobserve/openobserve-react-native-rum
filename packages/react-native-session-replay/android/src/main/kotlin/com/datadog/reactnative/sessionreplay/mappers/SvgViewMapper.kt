@@ -21,7 +21,7 @@ import com.datadog.android.sessionreplay.utils.DefaultViewIdentifierResolver
 import com.datadog.android.sessionreplay.utils.DrawableToColorMapper
 import com.datadog.reactnative.sessionreplay.ReactNativeInternalCallback
 import com.datadog.reactnative.sessionreplay.utils.DrawableUtils
-import com.datadog.reactnative.sessionreplay.views.DdPrivacyView
+import com.datadog.reactnative.sessionreplay.views.OoPrivacyView
 import java.util.Collections
 
 internal open class SvgViewMapper<T: ViewGroup>(
@@ -59,7 +59,7 @@ internal open class SvgViewMapper<T: ViewGroup>(
 
         val wireframes = mutableListOf<MobileSegment.Wireframe>()
 
-        if (view is DdPrivacyView) {
+        if (view is OoPrivacyView) {
             val hash = view.attributes?.get("hash") ?: return listOf(
                 MobileSegment.Wireframe.ShapeWireframe(
                     resolveViewId(view),

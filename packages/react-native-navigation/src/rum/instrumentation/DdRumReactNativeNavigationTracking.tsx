@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdRum, InternalLog, SdkVerbosity } from '@datadog/mobile-react-native';
+import { OoRum, InternalLog, SdkVerbosity } from '@openobserve/mobile-react-native';
 import type { ComponentDidAppearEvent } from 'react-native-navigation';
 import { Navigation } from 'react-native-navigation';
 import type {
@@ -57,7 +57,7 @@ declare type AppStateListener = (appStateStatus: AppStateStatus) => void | null;
 /**
  * Provides RUM integration for the [React Native Navigation](https://wix.github.io/react-native-navigation) API.
  */
-export class DdRumReactNativeNavigationTracking {
+export class OoRumReactNativeNavigationTracking {
     private static isTracking = false;
     private static eventSubscription:
         | EmitterSubscription
@@ -79,7 +79,7 @@ export class DdRumReactNativeNavigationTracking {
      */
     static startTracking(trackingOptions?: NavigationTrackingOptions): void {
         // extra safety to avoid wrapping more than 1 time this function
-        if (DdRumReactNativeNavigationTracking.isTracking) {
+        if (OoRumReactNativeNavigationTracking.isTracking) {
             return;
         }
 
@@ -89,28 +89,28 @@ export class DdRumReactNativeNavigationTracking {
             paramsTrackingPredicate = defaultParamsPredicate
         } = trackingOptions ?? {};
 
-        DdRumReactNativeNavigationTracking.eventSubscription = Navigation.events().registerComponentDidAppearListener(
+        OoRumReactNativeNavigationTracking.eventSubscription = Navigation.events().registerComponentDidAppearListener(
             (event: ComponentDidAppearEvent) => {
                 const predicate =
-                    DdRumReactNativeNavigationTracking.viewNamePredicate;
+                    OoRumReactNativeNavigationTracking.viewNamePredicate;
                 const screenName = predicate(event, event.componentName);
-                const shouldTrack = DdRumReactNativeNavigationTracking.viewTrackingPredicate(
+                const shouldTrack = OoRumReactNativeNavigationTracking.viewTrackingPredicate(
                     event
                 );
                 if (screenName !== null && shouldTrack) {
-                    const passProps = DdRumReactNativeNavigationTracking.paramsTrackingPredicate(
+                    const passProps = OoRumReactNativeNavigationTracking.paramsTrackingPredicate(
                         event
                     );
 
                     if (passProps) {
-                        DdRum.startView(event.componentId, screenName, {
+                        OoRum.startView(event.componentId, screenName, {
                             passProps
                         });
                     } else {
-                        DdRum.startView(event.componentId, screenName);
+                        OoRum.startView(event.componentId, screenName);
                     }
 
-                    DdRumReactNativeNavigationTracking.lastView = {
+                    OoRumReactNativeNavigationTracking.lastView = {
                         key: event.componentId,
                         name: screenName
                     };
@@ -118,13 +118,13 @@ export class DdRumReactNativeNavigationTracking {
             }
         );
 
-        DdRumReactNativeNavigationTracking.isTracking = true;
-        DdRumReactNativeNavigationTracking.viewNamePredicate = viewNamePredicate;
-        DdRumReactNativeNavigationTracking.viewTrackingPredicate = viewTrackingPredicate;
-        DdRumReactNativeNavigationTracking.paramsTrackingPredicate = paramsTrackingPredicate;
+        OoRumReactNativeNavigationTracking.isTracking = true;
+        OoRumReactNativeNavigationTracking.viewNamePredicate = viewNamePredicate;
+        OoRumReactNativeNavigationTracking.viewTrackingPredicate = viewTrackingPredicate;
+        OoRumReactNativeNavigationTracking.paramsTrackingPredicate = paramsTrackingPredicate;
         this.appStateSubscription = AppState.addEventListener(
             'change',
-            DdRumReactNativeNavigationTracking.appStateListener
+            OoRumReactNativeNavigationTracking.appStateListener
         );
     }
 
@@ -132,11 +132,11 @@ export class DdRumReactNativeNavigationTracking {
      * Stops tracking Navigation.
      */
     static stopTracking(): void {
-        if (!DdRumReactNativeNavigationTracking.isTracking) {
+        if (!OoRumReactNativeNavigationTracking.isTracking) {
             return;
         }
-        if (DdRumReactNativeNavigationTracking.eventSubscription) {
-            DdRumReactNativeNavigationTracking.eventSubscription.remove();
+        if (OoRumReactNativeNavigationTracking.eventSubscription) {
+            OoRumReactNativeNavigationTracking.eventSubscription.remove();
         }
         // For versions of React Native below 0.65, addEventListener does not return a subscription.
         // We have to call AppState.removeEventListener instead.
@@ -147,18 +147,18 @@ export class DdRumReactNativeNavigationTracking {
             // @ts-ignore
             AppState.removeEventListener(
                 'change',
-                DdRumReactNativeNavigationTracking.appStateListener
+                OoRumReactNativeNavigationTracking.appStateListener
             );
         }
 
-        DdRumReactNativeNavigationTracking.lastView = undefined;
-        DdRumReactNativeNavigationTracking.isTracking = false;
-        DdRumReactNativeNavigationTracking.viewNamePredicate = defaultViewNamePredicate;
-        DdRumReactNativeNavigationTracking.viewTrackingPredicate = defaultViewTrackingPredicate;
-        DdRumReactNativeNavigationTracking.paramsTrackingPredicate = defaultParamsPredicate;
+        OoRumReactNativeNavigationTracking.lastView = undefined;
+        OoRumReactNativeNavigationTracking.isTracking = false;
+        OoRumReactNativeNavigationTracking.viewNamePredicate = defaultViewNamePredicate;
+        OoRumReactNativeNavigationTracking.viewTrackingPredicate = defaultViewTrackingPredicate;
+        OoRumReactNativeNavigationTracking.paramsTrackingPredicate = defaultParamsPredicate;
 
         // eslint-disable-next-line func-names
-        DdRumReactNativeNavigationTracking.viewNamePredicate = function (
+        OoRumReactNativeNavigationTracking.viewNamePredicate = function (
             _event: ComponentDidAppearEvent,
             trackedName: string
         ) {
@@ -169,7 +169,7 @@ export class DdRumReactNativeNavigationTracking {
     private static appStateListener: AppStateListener = (
         appStateStatus: AppStateStatus
     ) => {
-        const lastView = DdRumReactNativeNavigationTracking.lastView;
+        const lastView = OoRumReactNativeNavigationTracking.lastView;
         if (lastView === undefined) {
             InternalLog.log(
                 `We could not determine the route when changing the application state to: ${appStateStatus}. No RUM View event will be sent in this case.`,
@@ -184,14 +184,14 @@ export class DdRumReactNativeNavigationTracking {
         }
 
         if (appStateStatus === 'background') {
-            DdRum.stopView(lastView.key);
+            OoRum.stopView(lastView.key);
         } else if (
             appStateStatus === 'active' ||
             appStateStatus === undefined
         ) {
             // case when app goes into foreground,
             // in that case navigation listener won't be called
-            DdRum.startView(lastView.key, lastView.name);
+            OoRum.startView(lastView.key, lastView.name);
         }
     };
 }

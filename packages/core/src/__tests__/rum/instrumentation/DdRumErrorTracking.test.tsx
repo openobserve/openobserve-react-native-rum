@@ -6,13 +6,13 @@
 
 import { NativeModules } from 'react-native';
 
-import type { DdNativeRumType } from '../../../nativeModulesTypes';
-import { DdRumErrorTracking } from '../../../rum/instrumentation/DdRumErrorTracking';
+import type { OoNativeRumType } from '../../../nativeModulesTypes';
+import { OoRumErrorTracking } from '../../../rum/instrumentation/OoRumErrorTracking';
 import { BufferSingleton } from '../../../sdk/DatadogProvider/Buffer/BufferSingleton';
 
 jest.mock('../../../utils/jsUtils');
 
-const DdRum = NativeModules.DdRum as DdNativeRumType;
+const OoRum = NativeModules.OoRum as OoNativeRumType;
 
 let baseErrorHandlerCalled = false;
 const baseErrorHandler = (error: any, isFatal?: boolean) => {
@@ -41,38 +41,38 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    DdRumErrorTracking['isTracking'] = false;
+    OoRumErrorTracking['isTracking'] = false;
     ErrorUtils.setGlobalHandler(originalErrorHandler);
     console.error = originalConsoleError;
 });
 
 it('M intercept and send a RUM event W onGlobalError() {no message}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         stack: ['doSomething() at ./path/to/file.js:67:3']
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Unknown Error',
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: 'Error',
                 message: 'Unknown Error',
                 cause: undefined,
                 stack: 'doSomething() at ./path/to/file.js:67:3'
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -82,31 +82,31 @@ it('M intercept and send a RUM event W onGlobalError() {no message}', async () =
 
 it('M intercept and send a RUM event W onGlobalError() {empty stack trace}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         message: 'Something bad happened'
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         '',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 cause: undefined,
                 stack: ''
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -116,35 +116,35 @@ it('M intercept and send a RUM event W onGlobalError() {empty stack trace}', asy
 
 it('M intercept and send a RUM event W onGlobalError() {Error object}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = new Error('Something bad happened');
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
     );
-    expect((DdRum.addError as any).mock.calls[0][2]).toContain(
-        '/packages/core/src/__tests__/rum/instrumentation/DdRumErrorTracking.test.tsx'
+    expect((OoRum.addError as any).mock.calls[0][2]).toContain(
+        '/packages/core/src/__tests__/rum/instrumentation/OoRumErrorTracking.test.tsx'
     );
     expect(baseErrorHandlerCalled).toStrictEqual(true);
 });
@@ -155,42 +155,42 @@ it('M intercept and send a RUM event W onGlobalError() {CustomError object}', as
         name = 'CustomError';
     }
 
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = new CustomError('Something bad happened');
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
     );
-    expect((DdRum.addError as any).mock.calls[0][2]).toContain(
-        '/packages/core/src/__tests__/rum/instrumentation/DdRumErrorTracking.test.tsx'
+    expect((OoRum.addError as any).mock.calls[0][2]).toContain(
+        '/packages/core/src/__tests__/rum/instrumentation/OoRumErrorTracking.test.tsx'
     );
     expect(baseErrorHandlerCalled).toStrictEqual(true);
 });
 
 it('M intercept and send a RUM event W onGlobalError() {with source file info}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         sourceURL: './path/to/file.js',
@@ -200,19 +200,19 @@ it('M intercept and send a RUM event W onGlobalError() {with source file info}',
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'at ./path/to/file.js:1038:57',
         {
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native',
-            '_dd.error.raw': {
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native',
+            '_oo.error.raw': {
                 sourceURL: './path/to/file.js',
                 line: 1038,
                 column: 57,
@@ -230,7 +230,7 @@ it('M intercept and send a RUM event W onGlobalError() {with source file info}',
 
 it('M intercept and send a RUM event W onGlobalError() {with component stack}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         componentStack: [
@@ -242,17 +242,17 @@ it('M intercept and send a RUM event W onGlobalError() {with component stack}', 
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 message: 'Something bad happened',
                 name: 'Error',
                 stack: [
@@ -262,8 +262,8 @@ it('M intercept and send a RUM event W onGlobalError() {with component stack}', 
                 ].join(','),
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -273,7 +273,7 @@ it('M intercept and send a RUM event W onGlobalError() {with component stack}', 
 
 it('M intercept and send a RUM event W onGlobalError() {with stack and component stack}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         stack: [
@@ -289,17 +289,17 @@ it('M intercept and send a RUM event W onGlobalError() {with stack and component
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'example() at ./path/to/file.js:77:2,test() at ./path/to/index.js:22:3',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 message: 'Something bad happened',
                 name: 'Error',
                 stack: [
@@ -313,8 +313,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stack and component
                 ],
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -324,7 +324,7 @@ it('M intercept and send a RUM event W onGlobalError() {with stack and component
 
 it('M intercept and send a RUM event W onGlobalError() {with stack}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         stack: [
@@ -336,17 +336,17 @@ it('M intercept and send a RUM event W onGlobalError() {with stack}', async () =
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 cause: undefined,
@@ -356,8 +356,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stack}', async () =
                     'root() at ./path/to/index.js:10:1'
                 ].join(',')
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -367,7 +367,7 @@ it('M intercept and send a RUM event W onGlobalError() {with stack}', async () =
 
 it('M intercept and send a RUM event W onGlobalError() {with stacktrace}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         stacktrace: [
@@ -379,17 +379,17 @@ it('M intercept and send a RUM event W onGlobalError() {with stacktrace}', async
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 stack: [
@@ -399,8 +399,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stacktrace}', async
                 ].join(','),
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -416,7 +416,7 @@ it('M not report error in console handler W onGlobalError() {with console report
         baseErrorHandler(error, isFatal);
     });
     ErrorUtils.setGlobalHandler(consoleReportingErrorHandler);
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = {
         componentStack: [
@@ -428,17 +428,17 @@ it('M not report error in console handler W onGlobalError() {with console report
     };
 
     // WHEN
-    DdRumErrorTracking.onGlobalError(error, is_fatal);
+    OoRumErrorTracking.onGlobalError(error, is_fatal);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: 'Error',
                 cause: undefined,
                 message: 'Something bad happened',
@@ -448,8 +448,8 @@ it('M not report error in console handler W onGlobalError() {with console report
                     'root() at ./path/to/index.js:10:1'
                 ].join(',')
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -461,7 +461,7 @@ it('M not report error in console handler W onGlobalError() {with console report
 
 it('M intercept and send a RUM event W onConsole() {Error with source file info}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const message = 'Oops I did it again!';
     const error = {
         sourceURL: './path/to/file.js',
@@ -471,17 +471,17 @@ it('M intercept and send a RUM event W onConsole() {Error with source file info}
     };
 
     // WHEN
-    DdRumErrorTracking.onConsoleError(message, error);
+    OoRumErrorTracking.onConsoleError(message, error);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Oops I did it again! Something bad happened',
         'CONSOLE',
         'at ./path/to/file.js:1038:57',
         {
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -491,7 +491,7 @@ it('M intercept and send a RUM event W onConsole() {Error with source file info}
 
 it('M intercept and send a RUM event W onConsole() {Error with component stack}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const message = 'Oops I did it again!';
     const error = {
         componentStack: [
@@ -503,17 +503,17 @@ it('M intercept and send a RUM event W onConsole() {Error with component stack}'
     };
 
     // WHEN
-    DdRumErrorTracking.onConsoleError(message, error);
+    OoRumErrorTracking.onConsoleError(message, error);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Oops I did it again! Something bad happened',
         'CONSOLE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -523,21 +523,21 @@ it('M intercept and send a RUM event W onConsole() {Error with component stack}'
 
 it('M intercept and send a RUM event W onConsole() {message only}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const message = 'Something bad happened';
 
     // WHEN
-    DdRumErrorTracking.onConsoleError(message);
+    OoRumErrorTracking.onConsoleError(message);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         message,
         'CONSOLE',
         '',
         {
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -547,7 +547,7 @@ it('M intercept and send a RUM event W onConsole() {message only}', async () => 
 
 it('M intercept and send a RUM event W onConsole() {Error with source file and name}', async () => {
     // GIVEN
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const message = 'Oops I did it again!';
     const error = {
         sourceURL: './path/to/file.js',
@@ -558,17 +558,17 @@ it('M intercept and send a RUM event W onConsole() {Error with source file and n
     };
 
     // WHEN
-    DdRumErrorTracking.onConsoleError(message, error);
+    OoRumErrorTracking.onConsoleError(message, error);
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Oops I did it again! Something bad happened',
         'CONSOLE',
         'at ./path/to/file.js:1038:57',
         {
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -588,10 +588,10 @@ describe.each([
 ])('console calls with different message types', message => {
     it(`M intercept and send a RUM event W onConsole() { message has ${typeof message} type }`, async () => {
         // GIVEN
-        DdRumErrorTracking.startTracking();
+        OoRumErrorTracking.startTracking();
 
         // WHEN
-        DdRumErrorTracking.onConsoleError(message);
+        OoRumErrorTracking.onConsoleError(message);
         await flushPromises();
 
         // THEN
@@ -602,13 +602,13 @@ describe.each([
                   message.toString !== Object.prototype.toString
                 ? String(message)
                 : 'Unknown Error';
-        expect(DdRum.addError).toHaveBeenCalledTimes(1);
-        expect(DdRum.addError).toHaveBeenCalledWith(
+        expect(OoRum.addError).toHaveBeenCalledTimes(1);
+        expect(OoRum.addError).toHaveBeenCalledWith(
             errorMessage,
             'CONSOLE',
             '',
             {
-                '_dd.error.source_type': 'react-native'
+                '_oo.error.source_type': 'react-native'
             },
             expect.any(Number),
             ''
@@ -620,7 +620,7 @@ describe.each([
 it('M intercept and send a RUM event W on error() {called from RNErrorHandler}', async () => {
     // GIVEN
     const errorHandlerMock = new RNErrorHandlerMock();
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const is_fatal = Math.random() < 0.5;
     const error = new Error('Something bad happened');
 
@@ -629,26 +629,26 @@ it('M intercept and send a RUM event W on error() {called from RNErrorHandler}',
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Something bad happened',
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_dd.error.raw': {
+            '_oo.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_dd.error.is_crash': is_fatal,
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.is_crash': is_fatal,
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
     );
-    expect((DdRum.addError as any).mock.calls[0][2]).toContain(
-        '/packages/core/src/__tests__/rum/instrumentation/DdRumErrorTracking.test.tsx'
+    expect((OoRum.addError as any).mock.calls[0][2]).toContain(
+        '/packages/core/src/__tests__/rum/instrumentation/OoRumErrorTracking.test.tsx'
     );
     expect(baseErrorHandlerCalled).toStrictEqual(true);
 });
@@ -656,7 +656,7 @@ it('M intercept and send a RUM event W on error() {called from RNErrorHandler}',
 it('M intercept and send a RUM event W onConsole() {called from RNErrorHandler}', async () => {
     // GIVEN
     const errorHandlerMock = new RNErrorHandlerMock();
-    DdRumErrorTracking.startTracking();
+    OoRumErrorTracking.startTracking();
     const message = 'Oops I did it again!';
 
     // WHEN
@@ -664,13 +664,13 @@ it('M intercept and send a RUM event W onConsole() {called from RNErrorHandler}'
     await flushPromises();
 
     // THEN
-    expect(DdRum.addError).toHaveBeenCalledTimes(1);
-    expect(DdRum.addError).toHaveBeenCalledWith(
+    expect(OoRum.addError).toHaveBeenCalledTimes(1);
+    expect(OoRum.addError).toHaveBeenCalledWith(
         'Oops I did it again!',
         'CONSOLE',
         '',
         {
-            '_dd.error.source_type': 'react-native'
+            '_oo.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''

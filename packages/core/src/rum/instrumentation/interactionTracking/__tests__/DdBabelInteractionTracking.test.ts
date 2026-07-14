@@ -5,7 +5,7 @@
  */
 
 import { RumActionType } from '../../../types';
-import { DdBabelInteractionTracking } from '../DdBabelInteractionTracking';
+import { OoBabelInteractionTracking } from '../OoBabelInteractionTracking';
 
 jest.mock('../../../../specs/NativeDdSdk', () => ({
     __esModule: true,
@@ -30,9 +30,9 @@ const mockTargetObject = {
     accessibilityLabel: []
 };
 
-describe('DdBabelInteractionTracking.wrapRumAction', () => {
+describe('OoBabelInteractionTracking.wrapRumAction', () => {
     it('should not crash when func is undefined', () => {
-        const wrapped = DdBabelInteractionTracking.wrapRumAction(
+        const wrapped = OoBabelInteractionTracking.wrapRumAction(
             undefined as any,
             RumActionType.TAP,
             mockTargetObject
@@ -43,7 +43,7 @@ describe('DdBabelInteractionTracking.wrapRumAction', () => {
     });
 
     it('should not crash when func is null', () => {
-        const wrapped = DdBabelInteractionTracking.wrapRumAction(
+        const wrapped = OoBabelInteractionTracking.wrapRumAction(
             null as any,
             RumActionType.TAP,
             mockTargetObject
@@ -55,7 +55,7 @@ describe('DdBabelInteractionTracking.wrapRumAction', () => {
 
     it('should call func when it is defined', () => {
         const func = jest.fn().mockReturnValue('result');
-        const wrapped = DdBabelInteractionTracking.wrapRumAction(
+        const wrapped = OoBabelInteractionTracking.wrapRumAction(
             func,
             RumActionType.TAP,
             mockTargetObject
@@ -67,15 +67,15 @@ describe('DdBabelInteractionTracking.wrapRumAction', () => {
         expect(result).toBe('result');
     });
 
-    it('should forward the first handler argument as actionContext to DdRum.addAction', () => {
+    it('should forward the first handler argument as actionContext to OoRum.addAction', () => {
         const mockAddAction = jest.fn().mockResolvedValue(undefined);
-        DdBabelInteractionTracking.config = { trackInteractions: true };
-        DdBabelInteractionTracking.attachRumInstance({
+        OoBabelInteractionTracking.config = { trackInteractions: true };
+        OoBabelInteractionTracking.attachRumInstance({
             addAction: mockAddAction
         } as any);
 
         const func = jest.fn();
-        const wrapped = DdBabelInteractionTracking.wrapRumAction(
+        const wrapped = OoBabelInteractionTracking.wrapRumAction(
             func,
             RumActionType.TAP,
             mockTargetObject

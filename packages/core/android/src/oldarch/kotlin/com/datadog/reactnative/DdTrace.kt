@@ -15,13 +15,13 @@ import com.facebook.react.bridge.ReadableMap
 /**
  * The entry point to use Datadog's Trace feature.
  */
-class DdTrace(
+class OoTrace(
     reactContext: ReactApplicationContext
 ) : ReactContextBaseJavaModule(reactContext) {
 
-    private val implementation = DdTraceImplementation()
+    private val implementation = OoTraceImplementation()
 
-    override fun getName(): String = DdTraceImplementation.NAME
+    override fun getName(): String = OoTraceImplementation.NAME
 
     /**
      * Start a span, and returns a unique identifier for the span.

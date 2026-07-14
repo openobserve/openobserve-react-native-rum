@@ -2,10 +2,10 @@
 
 ## Change the configuration class
 
-Change your configuration from a `DdSdkReactNativeConfiguration` to a `DatadogProviderConfiguration` instance:
+Change your configuration from a `OoSdkReactNativeConfiguration` to a `DatadogProviderConfiguration` instance:
 
 ```git
-- const config = new DdSdkReactNativeConfiguration(
+- const config = new OoSdkReactNativeConfiguration(
 + const config = new DatadogProviderConfiguration(
 ```
 
@@ -28,9 +28,9 @@ export default function App() {
 }
 ```
 
-## Remove call to DdSdkReactNative.initialize
+## Remove call to OoSdkReactNative.initialize
 
-Remove the call to `DdSdkReactNative.initialize` in your code.
+Remove the call to `OoSdkReactNative.initialize` in your code.
 
 ## Special cases
 
@@ -55,4 +55,4 @@ export default function App() {
 
 See the [documentation on asynchronous initialization][1].
 
-[1]: https://github.com/DataDog/dd-sdk-reactnative/blob/develop/docs/advanced_configuration.md#delaying-the-initialization
+[1]: https://github.com/openobserve/openobserve-react-native-rum/blob/develop/docs/advanced_configuration.md#delaying-the-initialization

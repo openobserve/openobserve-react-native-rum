@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/react-native-internal-testing-tools",
+    "name": "@openobserve/react-native-internal-testing-tools",
     "version": "3.5.3",
     "description": "Internal tools for testing the Datadog React Native SDK.",
     "keywords": [
@@ -9,10 +9,10 @@
         "android"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative#readme",
-    "repository": "https://github.com/DataDog/dd-sdk-reactnative",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
+    "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -55,7 +55,7 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"
@@ -86,7 +86,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "DdInternalTesting",
+        "name": "OoInternalTesting",
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {

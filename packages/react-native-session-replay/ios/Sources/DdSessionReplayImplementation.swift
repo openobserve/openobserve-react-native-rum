@@ -17,7 +17,7 @@ internal struct SVGData: Codable {
 }
 
 @objc
-public class DdSessionReplayImplementation: NSObject {
+public class OoSessionReplayImplementation: NSObject {
     private lazy var sessionReplay: SessionReplayProtocol = sessionReplayProvider()
     private let sessionReplayProvider: () -> SessionReplayProtocol
     private let uiManager: RCTUIManager

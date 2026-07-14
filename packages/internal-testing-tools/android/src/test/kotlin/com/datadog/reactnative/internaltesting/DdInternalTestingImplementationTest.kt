@@ -39,9 +39,9 @@ import org.mockito.quality.Strictness
     ExtendWith(ForgeExtension::class)
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
-internal class DdInternalTestingImplementationTest {
+internal class OoInternalTestingImplementationTest {
 
-    lateinit var testedInternalTesting: DdInternalTestingImplementation
+    lateinit var testedInternalTesting: OoInternalTestingImplementation
 
     @Mock
     lateinit var mockPromise: Promise
@@ -55,7 +55,7 @@ internal class DdInternalTestingImplementationTest {
     @BeforeEach
     fun `set up`() {
         testedInternalTesting =
-            DdInternalTestingImplementation()
+            OoInternalTestingImplementation()
     }
 
     @Test
@@ -77,7 +77,7 @@ internal class DdInternalTestingImplementationTest {
 
             // When
             testedInternalTesting.enable(mockPromise)
-            // Simulating DdSdkImplementation initialization
+            // Simulating OoSdkImplementation initialization
             DatadogSDKWrapperStorage.notifyOnInitializedListeners(mockCore)
 
             val wrappedCore = testedInternalTesting.getWrappedCore()

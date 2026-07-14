@@ -7,11 +7,11 @@
 import queryString from 'query-string';
 import {
     DatadogProviderConfiguration,
-    DdSdkReactNative,
+    OoSdkReactNative,
     CoreConfiguration,
     SdkVerbosity,
     TrackingConsent
-} from '@datadog/mobile-react-native';
+} from '@openobserve/mobile-react-native';
 import Config from 'react-native-config';
 import BenchmarkVitals from '../specs/NativeBenchmarkVitals';
 import { Command, RunType, Scenario } from './types/testConfig';
@@ -88,7 +88,7 @@ export const initializeDatadog = (clientToken?: string, environment?: string, ap
     config.service = `com.rn.${platform}.benchmark`
     config.verbosity = SdkVerbosity.DEBUG;
 
-    return DdSdkReactNative.initialize(config);
+    return OoSdkReactNative.initialize(config);
 };
 
 

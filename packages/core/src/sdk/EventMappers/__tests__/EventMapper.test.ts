@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { NativeDdSdk } from '../../DdSdkInternal';
+import { NativeDdSdk } from '../../OoSdkInternal';
 import { EventMapper } from '../EventMapper';
 
 describe('EventMapper', () => {

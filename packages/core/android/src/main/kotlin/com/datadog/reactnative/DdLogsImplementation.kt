@@ -15,14 +15,14 @@ import com.facebook.react.bridge.ReadableMap
 /**
  * The entry point to use Datadog's Logs feature.
  */
-class DdLogsImplementation(
+class OoLogsImplementation(
     private val datadog: DatadogWrapper = DatadogSDKWrapper(),
     private val logger: () -> Logger = {
         Logger.Builder(Datadog.getInstance())
             .setLogcatLogsEnabled(true)
             .setBundleWithRumEnabled(datadog.bundleLogsWithRum)
             .setBundleWithTraceEnabled(datadog.bundleLogsWithTraces)
-            .setName("DdLogs")
+            .setName("OoLogs")
             .build()
     }
 ) {
@@ -206,6 +206,6 @@ class DdLogsImplementation(
     }
 
     internal companion object {
-        internal const val NAME = "DdLogs"
+        internal const val NAME = "OoLogs"
     }
 }

@@ -9,13 +9,13 @@ Datadog *Real User Monitoring (RUM)* enables you to visualize and analyze the re
 To install with NPM, run:
 
 ```sh
-npm install @datadog/mobile-react-navigation
+npm install @openobserve/mobile-react-navigation
 ```
 
 To install with Yarn, run:
 
 ```sh
-yarn add @datadog/mobile-react-navigation
+yarn add @openobserve/mobile-react-navigation
 ```
 
 ### Track view navigation
@@ -24,7 +24,7 @@ To track changes in navigation as RUM Views, set the `onReady` callback of your 
 
 ```js
 import * as React from 'react';
-import { DdRumReactNavigationTracking, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@datadog/mobile-react-navigation';
+import { OoRumReactNavigationTracking, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
 import { Route } from "@react-navigation/native";
 
 // Sets a custom name for a tracked view
@@ -66,7 +66,7 @@ function App() {
   return (
     <View>
       <NavigationContainer ref={navigationRef} onReady={() => {
-        DdRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions)
+        OoRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions)
       }}>
         // …
       </NavigationContainer>
@@ -81,8 +81,8 @@ These predicates are optional, and when not set the default behavior will be use
 - ViewTrackingPredicate - tracks all views on RUM.
 - ParamsTrackingPredicate - does not forward any parameters to RUM.
 
-**Note**: Only one `NavigationContainer` can be tracked at the time. If you need to track another container, stop tracking the previous one first, using `DdRumReactNavigationTracking.stopTrackingViews()`.
+**Note**: Only one `NavigationContainer` can be tracked at the time. If you need to track another container, stop tracking the previous one first, using `OoRumReactNavigationTracking.stopTrackingViews()`.
 
 
 [1]: https://github.com/react-navigation/react-navigation
-[2]: https://github.com/DataDog/dd-sdk-reactnative/tree/main/packages/core
+[2]: https://github.com/openobserve/openobserve-react-native-rum/tree/main/packages/core

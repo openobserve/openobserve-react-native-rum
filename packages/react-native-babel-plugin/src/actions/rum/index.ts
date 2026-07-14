@@ -37,7 +37,7 @@ import { handleTapAction } from './tap';
  * Inserts RUM Action Tracking import at the top of the Program.
  *
  * Adds a single import declaration for:
- *   - the action tracking class (e.g., `DdBabelInteractionTracking`)
+ *   - the action tracking class (e.g., `OoBabelInteractionTracking`)
  *   - the text extraction helper (`__ddExtractText`)
  *
  * @param t      Babel types helper.

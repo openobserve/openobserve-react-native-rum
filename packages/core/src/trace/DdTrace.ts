@@ -6,13 +6,13 @@
 
 import { InternalLog } from '../InternalLog';
 import { SdkVerbosity } from '../config/types/SdkVerbosity';
-import type { DdNativeTraceType } from '../nativeModulesTypes';
+import type { OoNativeTraceType } from '../nativeModulesTypes';
 import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
 import {
     bufferNativeCallReturningId,
     bufferNativeCallWithId
 } from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
-import type { DdTraceType } from '../types';
+import type { OoTraceType } from '../types';
 import { getGlobalInstance } from '../utils/singletonUtils';
 import { DefaultTimeProvider } from '../utils/time-provider/DefaultTimeProvider';
 
@@ -20,9 +20,9 @@ const TRACE_MODULE = 'com.datadog.reactnative.trace';
 
 const timeProvider = new DefaultTimeProvider();
 
-class DdTraceWrapper implements DdTraceType {
+class OoTraceWrapper implements OoTraceType {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    private nativeTrace: DdNativeTraceType = require('../specs/NativeDdTrace')
+    private nativeTrace: OoNativeTraceType = require('../specs/NativeDdTrace')
         .default;
 
     startSpan = (
@@ -59,7 +59,7 @@ class DdTraceWrapper implements DdTraceType {
     };
 }
 
-export const DdTrace: DdTraceType = getGlobalInstance(
+export const OoTrace: OoTraceType = getGlobalInstance(
     TRACE_MODULE,
-    () => new DdTraceWrapper()
+    () => new OoTraceWrapper()
 );

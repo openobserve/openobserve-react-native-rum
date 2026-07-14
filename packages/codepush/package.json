@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/mobile-react-native-code-push",
+    "name": "@openobserve/mobile-react-native-code-push",
     "version": "3.5.3",
     "description": "A client-side React Native module to interact with Appcenter Codepush and Datadog",
     "keywords": [
@@ -11,13 +11,13 @@
         "appcenter"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative#readme",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative",
+        "url": "https://github.com/openobserve/openobserve-react-native-rum",
         "directory": "packages/codepush"
     },
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -38,13 +38,13 @@
         "prepare": "rm -rf lib && yarn bob build"
     },
     "devDependencies": {
-        "@datadog/mobile-react-native": "workspace:3.5.3",
+        "@openobserve/mobile-react-native": "workspace:3.5.3",
         "@testing-library/react-native": "7.0.2",
         "react-native-builder-bob": "0.26.0",
         "react-native-code-push": "7.1.0"
     },
     "peerDependencies": {
-        "@datadog/mobile-react-native": "^3.0.0",
+        "@openobserve/mobile-react-native": "^3.0.0",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0",
         "react-native-code-push": ">=2.0.0"
@@ -52,7 +52,7 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"

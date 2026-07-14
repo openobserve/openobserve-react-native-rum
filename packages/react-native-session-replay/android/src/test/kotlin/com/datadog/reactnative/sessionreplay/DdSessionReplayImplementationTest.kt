@@ -43,9 +43,9 @@ import org.mockito.quality.Strictness
     ExtendWith(ForgeExtension::class)
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
-internal class DdSessionReplayImplementationTest {
+internal class OoSessionReplayImplementationTest {
 
-    lateinit var testedSessionReplay: DdSessionReplayImplementation
+    lateinit var testedSessionReplay: OoSessionReplayImplementation
 
     @Mock
     lateinit var mockPromise: Promise
@@ -87,7 +87,7 @@ internal class DdSessionReplayImplementationTest {
         whenever(mockAssetManager.open(any())).doThrow(IOException("No assets in test"))
 
         testedSessionReplay =
-            DdSessionReplayImplementation(mockReactContext) { mockSessionReplay }
+            OoSessionReplayImplementation(mockReactContext) { mockSessionReplay }
     }
 
     @AfterEach

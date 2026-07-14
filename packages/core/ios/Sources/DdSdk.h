@@ -10,21 +10,21 @@
 #import <React/RCTReloadCommand.h>
 #import <React/RCTUtils.h>
 
-@class DdSdkImplementation;
+@class OoSdkImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSdkReactNative/DdSdkReactNative.h>
-@interface DdSdk : RCTEventEmitter <NativeDdSdkSpec, RCTBridgeModule, RCTReloadListener>
+#import <OoSdkReactNative/OoSdkReactNative.h>
+@interface OoSdk : RCTEventEmitter <NativeDdSdkSpec, RCTBridgeModule, RCTReloadListener>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdSdk : RCTEventEmitter <RCTBridgeModule, RCTReloadListener>
+@interface OoSdk : RCTEventEmitter <RCTBridgeModule, RCTReloadListener>
 
 #endif
 
-@property(nonatomic, strong) DdSdkImplementation * _Nonnull ddSdkImplementation;
+@property(nonatomic, strong) OoSdkImplementation * _Nonnull ddSdkImplementation;
 
 + (void)initFromNative;
 

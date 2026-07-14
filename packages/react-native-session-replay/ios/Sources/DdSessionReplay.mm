@@ -9,10 +9,10 @@
 #else
 #import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
 #endif
-#import "DdSessionReplay.h"
+#import "OoSessionReplay.h"
 
 
-@implementation DdSessionReplay
+@implementation OoSessionReplay
 
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -57,10 +57,10 @@ RCT_EXPORT_METHOD(stopRecording:(RCTPromiseResolveBlock)resolve withRejecter:(RC
 }
 #endif
 
-- (DdSessionReplayImplementation*)ddSessionReplayImplementation
+- (OoSessionReplayImplementation*)ddSessionReplayImplementation
 {
     if (_ddSessionReplayImplementation == nil) {
-        _ddSessionReplayImplementation = [[DdSessionReplayImplementation alloc] initWithBridge:_bridge];
+        _ddSessionReplayImplementation = [[OoSessionReplayImplementation alloc] initWithBridge:_bridge];
     }
     return _ddSessionReplayImplementation;
 }

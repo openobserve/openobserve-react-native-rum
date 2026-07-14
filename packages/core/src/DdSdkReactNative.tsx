@@ -17,7 +17,7 @@ import type {
 import { addDefaultValuesToAutoInstrumentationConfiguration } from './config/async/AutoInstrumentationConfiguration';
 import type { PartialInitializationConfiguration } from './config/async/PartialInitializationConfiguration';
 import { buildConfigurationFromPartialConfiguration } from './config/async/asyncInitializationHelper';
-import { DdSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
+import { OoSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
 import { CoreConfiguration } from './config/features/CoreConfiguration';
 import type { LogsNativeConfiguration } from './config/features/LogsConfigurationNative';
 import type { RumNativeConfiguration } from './config/features/RumConfigurationNative';
@@ -27,18 +27,18 @@ import type { InitializationModeForTelemetry } from './config/types/Initializati
 import { SdkVerbosity } from './config/types/SdkVerbosity';
 import type { TrackingConsent } from './config/types/TrackingConsent';
 import { InitializationMode } from './config/types';
-import { DdLogs } from './logs/DdLogs';
-import { DdRum } from './rum/DdRum';
-import { DdRumErrorTracking } from './rum/instrumentation/DdRumErrorTracking';
-import { DdBabelInteractionTracking } from './rum/instrumentation/interactionTracking/DdBabelInteractionTracking';
-import { DdRumUserInteractionTracking } from './rum/instrumentation/interactionTracking/DdRumUserInteractionTracking';
-import { DdRumResourceTracking } from './rum/instrumentation/resourceTracking/DdRumResourceTracking';
+import { OoLogs } from './logs/OoLogs';
+import { OoRum } from './rum/OoRum';
+import { OoRumErrorTracking } from './rum/instrumentation/OoRumErrorTracking';
+import { OoBabelInteractionTracking } from './rum/instrumentation/interactionTracking/OoBabelInteractionTracking';
+import { OoRumUserInteractionTracking } from './rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
+import { OoRumResourceTracking } from './rum/instrumentation/resourceTracking/OoRumResourceTracking';
 import { AccountInfoSingleton } from './sdk/AccountInfoSingleton/AccountInfoSingleton';
 import { AttributesSingleton } from './sdk/AttributesSingleton/AttributesSingleton';
 import type { Attributes } from './sdk/AttributesSingleton/types';
-import { registerNativeBridge } from './sdk/DatadogInternalBridge/DdSdkInternalNativeBridge';
+import { registerNativeBridge } from './sdk/DatadogInternalBridge/OoSdkInternalNativeBridge';
 import { BufferSingleton } from './sdk/DatadogProvider/Buffer/BufferSingleton';
-import { NativeDdSdk } from './sdk/DdSdkInternal';
+import { NativeDdSdk } from './sdk/OoSdkInternal';
 import { GlobalState } from './sdk/GlobalState/GlobalState';
 import { UserInfoSingleton } from './sdk/UserInfoSingleton/UserInfoSingleton';
 import type { UserInfo } from './sdk/UserInfoSingleton/types';
@@ -48,13 +48,13 @@ import { version as sdkVersion } from './version';
 /**
  * This class initializes the Datadog SDK, and sets up communication with the server.
  */
-export class DdSdkReactNative {
-    private static readonly DD_SOURCE_KEY = '_dd.source';
-    private static readonly DD_SDK_VERSION = '_dd.sdk_version';
-    private static readonly DD_VERSION = '_dd.version';
-    private static readonly DD_VERSION_SUFFIX = '_dd.version_suffix';
+export class OoSdkReactNative {
+    private static readonly DD_SOURCE_KEY = '_oo.source';
+    private static readonly DD_SDK_VERSION = '_oo.sdk_version';
+    private static readonly DD_VERSION = '_oo.version';
+    private static readonly DD_VERSION_SUFFIX = '_oo.version_suffix';
     private static readonly DD_REACT_NATIVE_VERSION =
-        '_dd.react_native_version';
+        '_oo.react_native_version';
 
     private static wasAutoInstrumented = false;
     private static features?: AutoInstrumentationConfiguration;
@@ -67,11 +67,11 @@ export class DdSdkReactNative {
     static initialize = async (
         configuration: CoreConfiguration
     ): Promise<void> => {
-        await DdSdkReactNative.initializeNativeSDK(configuration, {
+        await OoSdkReactNative.initializeNativeSDK(configuration, {
             initializationModeForTelemetry: 'LEGACY'
         });
 
-        DdSdkReactNative.enableFeatures(configuration);
+        OoSdkReactNative.enableFeatures(configuration);
     };
 
     private static initializeNativeSDK = async (
@@ -98,7 +98,7 @@ export class DdSdkReactNative {
         registerNativeBridge();
 
         await NativeDdSdk.initialize(
-            DdSdkReactNative.buildConfiguration(configuration, params)
+            OoSdkReactNative.buildConfiguration(configuration, params)
         );
 
         InternalLog.log('Datadog SDK was initialized', SdkVerbosity.INFO);
@@ -112,20 +112,20 @@ export class DdSdkReactNative {
     static _initializeFromDatadogProvider = async (
         configuration: DatadogProviderConfiguration
     ): Promise<void> => {
-        DdSdkReactNative.enableFeatures(configuration);
+        OoSdkReactNative.enableFeatures(configuration);
         if (configuration instanceof FileBasedConfiguration) {
-            return DdSdkReactNative.initializeNativeSDK(configuration, {
+            return OoSdkReactNative.initializeNativeSDK(configuration, {
                 initializationModeForTelemetry: 'FILE'
             });
         }
         if (configuration.initializationMode === InitializationMode.SYNC) {
-            return DdSdkReactNative.initializeNativeSDK(configuration, {
+            return OoSdkReactNative.initializeNativeSDK(configuration, {
                 initializationModeForTelemetry: 'SYNC'
             });
         }
         if (configuration.initializationMode === InitializationMode.ASYNC) {
             const initNative = () =>
-                DdSdkReactNative.initializeNativeSDK(configuration, {
+                OoSdkReactNative.initializeNativeSDK(configuration, {
                     initializationModeForTelemetry: 'ASYNC'
                 });
 
@@ -146,9 +146,9 @@ export class DdSdkReactNative {
                 return initNative();
             });
         }
-        // TODO: Remove when DdSdkReactNativeConfiguration is deprecated
+        // TODO: Remove when OoSdkReactNativeConfiguration is deprecated
         if (configuration instanceof CoreConfiguration) {
-            return DdSdkReactNative.initializeNativeSDK(configuration, {
+            return OoSdkReactNative.initializeNativeSDK(configuration, {
                 initializationModeForTelemetry: 'SYNC'
             });
         }
@@ -160,14 +160,14 @@ export class DdSdkReactNative {
     static _enableFeaturesFromDatadogProvider = (
         features: AutoInstrumentationConfiguration
     ): void => {
-        DdSdkReactNative._enableFeaturesFromDatadogProviderAsync(features);
+        OoSdkReactNative._enableFeaturesFromDatadogProviderAsync(features);
     };
 
     static _enableFeaturesFromDatadogProviderAsync = async (
         features: AutoInstrumentationConfiguration
     ): Promise<void> => {
-        DdSdkReactNative.features = features;
-        DdSdkReactNative.enableFeatures(
+        OoSdkReactNative.features = features;
+        OoSdkReactNative.enableFeatures(
             addDefaultValuesToAutoInstrumentationConfiguration(features)
         );
     };
@@ -177,7 +177,7 @@ export class DdSdkReactNative {
     static _initializeFromDatadogProviderWithConfigurationAsync = async (
         configuration: PartialInitializationConfiguration
     ): Promise<void> => {
-        if (!DdSdkReactNative.features) {
+        if (!OoSdkReactNative.features) {
             InternalLog.log(
                 "Can't initialize Datadog, make sure the DatadogProvider component is mounted before calling this function",
                 SdkVerbosity.WARN
@@ -186,7 +186,7 @@ export class DdSdkReactNative {
         }
 
         const builtConfiguration = buildConfigurationFromPartialConfiguration(
-            DdSdkReactNative.features,
+            OoSdkReactNative.features,
             configuration
         );
 
@@ -194,13 +194,13 @@ export class DdSdkReactNative {
         // default resourceTraceSampleRate; re-apply the resolved value so a
         // resourceTraceSampleRate supplied via DatadogProvider.initialize
         // takes effect on subsequent fetch/XHR calls.
-        DdRumResourceTracking.updateTrackingContext({
+        OoRumResourceTracking.updateTrackingContext({
             resourceTraceSampleRate:
                 builtConfiguration.rumConfiguration?.resourceTraceSampleRate ??
                 RUM_DEFAULTS.resourceTraceSampleRate
         });
 
-        return DdSdkReactNative.initializeNativeSDK(builtConfiguration, {
+        return OoSdkReactNative.initializeNativeSDK(builtConfiguration, {
             initializationModeForTelemetry: 'PARTIAL'
         });
     };
@@ -405,19 +405,19 @@ export class DdSdkReactNative {
         params: {
             initializationModeForTelemetry: InitializationModeForTelemetry;
         }
-    ): DdSdkNativeConfiguration => {
+    ): OoSdkNativeConfiguration => {
         if (configuration.additionalConfiguration === undefined) {
             configuration.additionalConfiguration = {};
         }
-        configuration.additionalConfiguration[DdSdkReactNative.DD_SOURCE_KEY] =
+        configuration.additionalConfiguration[OoSdkReactNative.DD_SOURCE_KEY] =
             'react-native';
         configuration.additionalConfiguration[
-            DdSdkReactNative.DD_SDK_VERSION
+            OoSdkReactNative.DD_SDK_VERSION
         ] = sdkVersion;
 
         if (configuration.version) {
             configuration.additionalConfiguration[
-                DdSdkReactNative.DD_VERSION
+                OoSdkReactNative.DD_VERSION
             ] = `${configuration.version}${
                 configuration.versionSuffix
                     ? `-${configuration.versionSuffix}`
@@ -428,13 +428,13 @@ export class DdSdkReactNative {
         // To avoid adding it in again the native part, we only set it if the version isn't set.
         if (configuration.versionSuffix && !configuration.version) {
             configuration.additionalConfiguration[
-                DdSdkReactNative.DD_VERSION_SUFFIX
+                OoSdkReactNative.DD_VERSION_SUFFIX
             ] = `-${configuration.versionSuffix}`;
         }
 
         if (reactNativeVersion) {
             configuration.additionalConfiguration[
-                DdSdkReactNative.DD_REACT_NATIVE_VERSION
+                OoSdkReactNative.DD_REACT_NATIVE_VERSION
             ] = `${reactNativeVersion}`;
         }
 
@@ -465,7 +465,7 @@ export class DdSdkReactNative {
             configuration.rumConfiguration?.trackErrors ||
             RUM_DEFAULTS.trackErrors;
 
-        return new DdSdkNativeConfiguration(
+        return new OoSdkNativeConfiguration(
             configuration.additionalConfiguration,
             configuration.clientToken,
             configuration.env,
@@ -524,17 +524,17 @@ export class DdSdkReactNative {
             configuration.rumConfiguration?.actionEventMapper;
 
         if (globalThis.__DD_RN_BABEL_PLUGIN_ENABLED__) {
-            DdBabelInteractionTracking.config = {
+            OoBabelInteractionTracking.config = {
                 trackInteractions,
                 useAccessibilityLabel:
                     configuration.rumConfiguration?.useAccessibilityLabel ||
                     RUM_DEFAULTS.useAccessibilityLabel
             };
 
-            DdBabelInteractionTracking.attachRumInstance(DdRum);
+            OoBabelInteractionTracking.attachRumInstance(OoRum);
         }
 
-        if (DdSdkReactNative.wasAutoInstrumented) {
+        if (OoSdkReactNative.wasAutoInstrumented) {
             InternalLog.log(
                 "Can't auto instrument Datadog, SDK was already instrumented",
                 SdkVerbosity.WARN
@@ -543,7 +543,7 @@ export class DdSdkReactNative {
         }
 
         if (trackInteractions && !globalThis.__DD_RN_BABEL_PLUGIN_ENABLED__) {
-            DdRumUserInteractionTracking.startTracking({
+            OoRumUserInteractionTracking.startTracking({
                 actionNameAttribute,
                 useAccessibilityLabel:
                     configuration.rumConfiguration?.useAccessibilityLabel
@@ -551,32 +551,32 @@ export class DdSdkReactNative {
         }
 
         if (trackResources) {
-            DdRumResourceTracking.startTracking({
+            OoRumResourceTracking.startTracking({
                 resourceTraceSampleRate,
                 firstPartyHosts
             });
         }
 
         if (trackErrors) {
-            DdRumErrorTracking.startTracking();
+            OoRumErrorTracking.startTracking();
         }
 
         if (logEventMapper) {
-            DdLogs.registerLogEventMapper(logEventMapper);
+            OoLogs.registerLogEventMapper(logEventMapper);
         }
 
         if (errorEventMapper) {
-            DdRum.registerErrorEventMapper(errorEventMapper);
+            OoRum.registerErrorEventMapper(errorEventMapper);
         }
 
         if (resourceEventMapper) {
-            DdRum.registerResourceEventMapper(resourceEventMapper);
+            OoRum.registerResourceEventMapper(resourceEventMapper);
         }
 
         if (actionEventMapper) {
-            DdRum.registerActionEventMapper(actionEventMapper);
+            OoRum.registerActionEventMapper(actionEventMapper);
         }
 
-        DdSdkReactNative.wasAutoInstrumented = true;
+        OoSdkReactNative.wasAutoInstrumented = true;
     }
 }

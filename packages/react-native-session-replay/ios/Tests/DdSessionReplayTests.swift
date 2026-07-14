@@ -11,7 +11,7 @@ import DatadogSDKReactNative
 import DatadogInternal
 import React
 
-internal class DdSessionReplayTests: XCTestCase {
+internal class OoSessionReplayTests: XCTestCase {
     private let imagePrivacyMap: [String: ImagePrivacyLevel] = [
         "MASK_ALL": .maskAll,
         "MASK_NON_BUNDLED_ONLY": .maskNonBundledOnly,
@@ -59,7 +59,7 @@ internal class DdSessionReplayTests: XCTestCase {
             return
         }
         
-        DdSessionReplayImplementation(
+        OoSessionReplayImplementation(
             sessionReplayProvider:{ sessionReplayMock },
             uiManager: uiManagerMock,
             fabricWrapper: fabricWrapperMock
@@ -90,7 +90,7 @@ internal class DdSessionReplayTests: XCTestCase {
         let uiManagerMock = MockUIManager()
         let fabricWrapperMock = MockFabricWrapper()
     
-        DdSessionReplayImplementation(
+        OoSessionReplayImplementation(
             sessionReplayProvider:{ sessionReplayMock },
             uiManager: uiManagerMock,
             fabricWrapper: fabricWrapperMock
@@ -133,7 +133,7 @@ internal class DdSessionReplayTests: XCTestCase {
             return
         }
         
-        DdSessionReplayImplementation(
+        OoSessionReplayImplementation(
             sessionReplayProvider:{ sessionReplayMock },
             uiManager: uiManagerMock,
             fabricWrapper: fabricWrapperMock

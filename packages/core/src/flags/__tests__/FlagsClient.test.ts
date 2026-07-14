@@ -8,9 +8,9 @@ import { NativeModules } from 'react-native';
 
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types/SdkVerbosity';
-import { DdFlags } from '../DdFlags';
+import { OoFlags } from '../OoFlags';
 
-jest.spyOn(NativeModules.DdFlags, 'setEvaluationContext').mockResolvedValue({
+jest.spyOn(NativeModules.OoFlags, 'setEvaluationContext').mockResolvedValue({
     'test-boolean-flag': {
         key: 'test-boolean-flag',
         value: true,
@@ -72,36 +72,36 @@ describe('FlagsClient', () => {
     beforeEach(async () => {
         jest.clearAllMocks();
 
-        // Reset state of the global DdFlags instance.
-        Object.assign(DdFlags, {
+        // Reset state of the global OoFlags instance.
+        Object.assign(OoFlags, {
             isFeatureEnabled: false,
             clients: {}
         });
 
-        await DdFlags.enable();
+        await OoFlags.enable();
     });
 
     describe('setEvaluationContext', () => {
         it('should set the evaluation context', async () => {
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }
             });
 
             expect(
-                NativeModules.DdFlags.setEvaluationContext
+                NativeModules.OoFlags.setEvaluationContext
             ).toHaveBeenCalledWith('default', 'test-user-1', { country: 'US' });
         });
 
         it('should throw an error if there is an error setting the evaluation context', async () => {
-            NativeModules.DdFlags.setEvaluationContext.mockRejectedValueOnce(
+            NativeModules.OoFlags.setEvaluationContext.mockRejectedValueOnce(
                 new Error(
                     "A network error occurred while fetching feature flags for client 'default'."
                 )
             );
 
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
 
             await expect(
                 flagsClient.setEvaluationContext({
@@ -122,7 +122,7 @@ describe('FlagsClient', () => {
     describe('getDetails', () => {
         it('should succesfully return flag details for flags', async () => {
             // Flag values are mocked in the __mocks__/react-native.ts file.
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }
@@ -168,7 +168,7 @@ describe('FlagsClient', () => {
         });
 
         it('should return PROVIDER_NOT_READY if evaluation context is not set', () => {
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             // Skip `setEvaluationContext` call here.
 
             const details = flagsClient.getBooleanDetails(
@@ -187,7 +187,7 @@ describe('FlagsClient', () => {
         });
 
         it('should return FLAG_NOT_FOUND if flag is missing from context', async () => {
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }
@@ -208,7 +208,7 @@ describe('FlagsClient', () => {
 
         it('should return TYPE_MISMATCH when using wrong typed accessor method', async () => {
             // Flag values are mocked in the __mocks__/react-native.ts file.
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }
@@ -257,7 +257,7 @@ describe('FlagsClient', () => {
     describe('getValue', () => {
         it('should succesfully return flag values', async () => {
             // Flag values are mocked in the __mocks__/react-native.ts file.
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }
@@ -289,7 +289,7 @@ describe('FlagsClient', () => {
 
         it('should return the default value when using wrong typed accessor method', async () => {
             // Flag values are mocked in the __mocks__/react-native.ts file.
-            const flagsClient = DdFlags.getClient();
+            const flagsClient = OoFlags.getClient();
             await flagsClient.setEvaluationContext({
                 targetingKey: 'test-user-1',
                 attributes: { country: 'US' }

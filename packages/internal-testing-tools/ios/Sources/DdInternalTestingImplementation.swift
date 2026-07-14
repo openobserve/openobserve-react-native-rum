@@ -11,7 +11,7 @@ import DatadogSDKReactNative
 import DatadogInternal
 
 @objc
-public class DdInternalTestingImplementation: NSObject {
+public class OoInternalTestingImplementation: NSObject {
     @objc
     public func clearData(resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
         let coreProxy = CoreRegistry.default as! DatadogCoreProxy
@@ -49,7 +49,7 @@ public class DdInternalTestingImplementation: NSObject {
 }
 
 // This is to be used for native initialization
-public class DdInternalTestingNativeInitialization: NSObject {
+public class OoInternalTestingNativeInitialization: NSObject {
     @objc
     public func enableFromNative() -> Void {
         DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in

@@ -10,9 +10,9 @@ import XCTest
 @testable import DatadogTrace
 
 
-internal class DdTraceTests: XCTestCase {
+internal class OoTraceTests: XCTestCase {
     private let mockNativeTracer = MockTracer()
-    private var tracer: DdTraceImplementation! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var tracer: OoTraceImplementation! // swiftlint:disable:this implicitly_unwrapped_optional
     private var lastResolveValue: Any?
     
     private func mockResolve(args: Any?) { lastResolveValue = args }
@@ -20,7 +20,7 @@ internal class DdTraceTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        tracer = DdTraceImplementation { self.mockNativeTracer }
+        tracer = OoTraceImplementation { self.mockNativeTracer }
         GlobalState.addAttribute(forKey: "global-string", value: "foo")
         GlobalState.addAttribute(forKey: "global-int", value: 42)
     }
@@ -42,7 +42,7 @@ internal class DdTraceTests: XCTestCase {
         // Given
         let expectation = self.expectation(description: "Initialize Tracer once")
 
-        let tracer = DdTraceImplementation { [unowned self] in
+        let tracer = OoTraceImplementation { [unowned self] in
             expectation.fulfill()
             return self.mockNativeTracer
         }

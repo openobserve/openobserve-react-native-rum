@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SessionReplayView.Privacy SVG Wrapper should wrap an SVG without explicit dimensions 1`] = `
-"import { SessionReplayView } from "@datadog/mobile-react-native-session-replay";
+"import { SessionReplayView } from "@openobserve/mobile-react-native-session-replay";
 /*#__PURE__*/React.createElement(SessionReplayView.Privacy, {
   nativeID: "00000000-0000-0000-0000-000000000000",
   collapsable: false,
@@ -21,7 +21,7 @@ exports[`SessionReplayView.Privacy SVG Wrapper should wrap an SVG without explic
 `;
 
 exports[`SessionReplayView.Privacy SVG Wrapper should wrap an inline SVG with the correct props 1`] = `
-"import { SessionReplayView } from "@datadog/mobile-react-native-session-replay";
+"import { SessionReplayView } from "@openobserve/mobile-react-native-session-replay";
 globalThis.__DD_RN_BABEL_PLUGIN_ENABLED__ = true;
 /*#__PURE__*/React.createElement(SessionReplayView.Privacy, {
   nativeID: "00000000-0000-0000-0000-000000000000",

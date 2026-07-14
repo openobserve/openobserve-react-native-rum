@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/mobile-react-native-webview",
+    "name": "@openobserve/mobile-react-native-webview",
     "version": "3.5.3",
     "description": "A client-side React Native module to interact with react-native-webview and Datadog",
     "keywords": [
@@ -11,13 +11,13 @@
         "webview"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative/packages/react-native-webview#readme",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum/packages/react-native-webview#readme",
     "repository": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative",
+        "url": "https://github.com/openobserve/openobserve-react-native-rum",
         "directory": "packages/react-native-webview"
     },
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -52,7 +52,7 @@
         "react-native-webview": "^13.12.2"
     },
     "peerDependencies": {
-        "@datadog/mobile-react-native": "^3.0.0",
+        "@openobserve/mobile-react-native": "^3.0.0",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0",
         "react-native-webview": ">=11.0.0"
@@ -60,7 +60,7 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"
@@ -87,7 +87,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "DdSdkReactNativeWebView",
+        "name": "OoSdkReactNativeWebView",
         "type": "all",
         "jsSrcsDir": "./src/specs",
         "android": {

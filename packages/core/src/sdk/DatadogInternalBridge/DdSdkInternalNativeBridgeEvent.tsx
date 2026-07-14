@@ -6,7 +6,7 @@
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types/SdkVerbosity';
 
-export class DdSdkInternalNativeBridgeEvent<DataType> {
+export class OoSdkInternalNativeBridgeEvent<DataType> {
     public readonly eventName: string;
     public readonly callback: (data: DataType) => void;
 

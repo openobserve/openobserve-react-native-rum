@@ -26,7 +26,7 @@ import org.mockito.kotlin.verify
 @Extensions(
     ExtendWith(MockitoExtension::class)
 )
-internal class DdFlagsImplementationTest {
+internal class OoFlagsImplementationTest {
 
     @Mock
     lateinit var mockPromise: Promise
@@ -38,7 +38,7 @@ internal class DdFlagsImplementationTest {
 
         try {
             // When
-            DdFlagsImplementation()
+            OoFlagsImplementation()
 
             // Then
             datadogMock.verifyNoInteractions()
@@ -60,7 +60,7 @@ internal class DdFlagsImplementationTest {
         try {
             datadogMock.`when`<SdkCore> { Datadog.getInstance() }.thenAnswer { currentCore }
             flagsMock.`when`<Unit> { Flags.enable(any<FlagsConfiguration>(), any()) }.then { }
-            val testedImplementation = DdFlagsImplementation()
+            val testedImplementation = OoFlagsImplementation()
             currentCore = initializedCore
 
             // When

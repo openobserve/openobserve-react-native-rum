@@ -9,7 +9,7 @@ import type { NativeSessionReplayType } from '../src/nativeModulesTypes';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const actualRN = require('react-native');
 
-actualRN.NativeModules.DdSessionReplay = {
+actualRN.NativeModules.OoSessionReplay = {
     enable: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
     ) as jest.MockedFunction<NativeSessionReplayType['enable']>

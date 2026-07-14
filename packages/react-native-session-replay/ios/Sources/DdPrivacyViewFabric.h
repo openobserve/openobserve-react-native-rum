@@ -4,14 +4,14 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-// DdPrivacyViewFabric.h
+// OoPrivacyViewFabric.h
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/RCTViewComponentView.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/ComponentDescriptors.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/EventEmitters.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/Props.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/RCTComponentViewHelpers.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/ComponentDescriptors.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/EventEmitters.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/Props.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/RCTComponentViewHelpers.h>
 #import <React/RCTFabricComponentsPlugins.h>
 
 
@@ -21,7 +21,7 @@
 #import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
 #endif
 
-@interface DdPrivacyViewFabric : RCTViewComponentView
+@interface OoPrivacyViewFabric : RCTViewComponentView
 @property (nonatomic, copy) NSString *nativeID;
 @property (nonatomic, copy) NSDictionary<NSString *, NSString *> *attributes;
 @end

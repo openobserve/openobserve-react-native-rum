@@ -31,10 +31,10 @@ import org.mockito.quality.Strictness
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ForgeConfiguration(BaseConfigurator::class)
-internal class DdSdkConfigurationTest {
+internal class OoSdkConfigurationTest {
     @Test
     fun `𝕄 not build proxy config 𝕎 no proxy config specified`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val proxyConfig = mapOf<Any, Any>().toReadableMap()
@@ -48,7 +48,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 not build proxy config 𝕎 buildProxyConfiguration() { type is missing }`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -66,7 +66,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 not build proxy config 𝕎 buildProxyConfiguration() { wrong type is used } `(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -88,7 +88,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 not build proxy config 𝕎 buildProxyConfiguration() { address is missing }`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -106,7 +106,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 not build proxy config 𝕎 buildProxyConfiguration() { port is missing }`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -124,7 +124,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 build proxy configuration 𝕎 buildProxyConfiguration() { no credentials }`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -153,7 +153,7 @@ internal class DdSdkConfigurationTest {
 
     @Test
     fun `𝕄 build proxy configuration+authenticator 𝕎 buildProxyConfiguration() { +credentials }`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given

@@ -16,7 +16,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { DdLogs, DdTrace } from '@datadog/mobile-react-native';
+import { OoLogs, OoTrace } from '@openobserve/mobile-react-native';
 import type { TracesScenarioProps } from './types';
 import { RunType } from '../../testSetup/types/testConfig';
 import { instrument, sleep } from '../../testSetup/testUtils';
@@ -48,8 +48,8 @@ function TracesScenario(props: TracesScenarioProps): React.JSX.Element {
     useEffect(() => {
         if (props.testConfig?.runType !== RunType.BASELINE) {
             instrument().then (() => {
-                tracer.current = DdTrace;
-                logger.current = DdLogs;
+                tracer.current = OoTrace;
+                logger.current = OoLogs;
             });
         }
     }, []);

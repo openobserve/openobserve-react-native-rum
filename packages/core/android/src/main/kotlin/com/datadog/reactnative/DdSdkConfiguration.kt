@@ -28,7 +28,7 @@ import java.net.Proxy
  * @param traceConfiguration Configuration for the Traces (APM) feature module.
  * @param configurationForTelemetry Additional configuration data for Datadog telemetry.
  */
-data class DdSdkConfiguration(
+data class OoSdkConfiguration(
     val additionalConfiguration: Map<String, Any?>? = null,
     val clientToken: String,
     val env: String,

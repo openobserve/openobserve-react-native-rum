@@ -26,7 +26,7 @@ func getDefaultAppVersion() -> String {
 }
 
 @objc
-public class DdSdkImplementation: NSObject {
+public class OoSdkImplementation: NSObject {
     let jsDispatchQueue: DispatchQueueType
     let jsRefreshRateMonitor: RefreshRateMonitor
     let mainDispatchQueue: DispatchQueueType
@@ -70,7 +70,7 @@ public class DdSdkImplementation: NSObject {
         reject: RCTPromiseRejectBlock
     ) {
         let sdkConfiguration = configuration.asDdSdkConfiguration()
-        let nativeInitialization = DdSdkNativeInitialization()
+        let nativeInitialization = OoSdkNativeInitialization()
 
         nativeInitialization.initialize(sdkConfiguration: sdkConfiguration)
 
@@ -234,7 +234,7 @@ public class DdSdkImplementation: NSObject {
     ) {
         let castedAttributes = castAttributesToSwift(attributes)
         let castedConfig = castAttributesToSwift(config)
-        DdTelemetry.sendTelemetryLog(
+        OoTelemetry.sendTelemetryLog(
             message: message as String, attributes: castedAttributes, config: castedConfig)
         resolve(nil)
     }
@@ -244,7 +244,7 @@ public class DdSdkImplementation: NSObject {
     public func telemetryDebug(
         message: NSString, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock
     ) {
-        DdTelemetry.telemetryDebug(
+        OoTelemetry.telemetryDebug(
             id: "datadog_react_native:\(message)", message: message as String)
         resolve(nil)
     }
@@ -254,7 +254,7 @@ public class DdSdkImplementation: NSObject {
         message: NSString, stack: NSString, kind: NSString, resolve: RCTPromiseResolveBlock,
         reject: RCTPromiseRejectBlock
     ) {
-        DdTelemetry.telemetryError(
+        OoTelemetry.telemetryError(
             id: "datadog_react_native:\(String(describing: kind)):\(message)",
             message: message as String, kind: kind as String, stack: stack as String)
         resolve(nil)
@@ -268,7 +268,7 @@ public class DdSdkImplementation: NSObject {
             do {
                 try DatadogSDKWrapper.shared.sendWebviewMessage(body: message)
             } catch {
-                DdTelemetry.telemetryError(
+                OoTelemetry.telemetryError(
                     id: "datadog_react_native:\(error.localizedDescription)",
                     message: "The message being sent was:\(message)" as String,
                     kind: "WebViewEventBridgeError" as String,
@@ -286,8 +286,8 @@ public class DdSdkImplementation: NSObject {
         resolve(nil)
     }
 
-    func overrideReactNativeTelemetry(rnConfiguration: DdSdkConfiguration) {
-        DdTelemetry.overrideTelemetryConfiguration(
+    func overrideReactNativeTelemetry(rnConfiguration: OoSdkConfiguration) {
+        OoTelemetry.overrideTelemetryConfiguration(
             initializationType: rnConfiguration.configurationForTelemetry?.initializationType
                 as? String,
             reactNativeVersion: rnConfiguration.configurationForTelemetry?.reactNativeVersion
@@ -303,7 +303,7 @@ public class DdSdkImplementation: NSObject {
         )
     }
 
-    func startJSRefreshRateMonitoring(sdkConfiguration: DdSdkConfiguration) {
+    func startJSRefreshRateMonitoring(sdkConfiguration: OoSdkConfiguration) {
         if let frameTimeCallback = buildFrameTimeCallback(sdkConfiguration: sdkConfiguration) {
             // Falling back to mainDispatchQueue if bridge is nil is only useful for tests
             self.jsRefreshRateMonitor.startMonitoring(
@@ -311,7 +311,7 @@ public class DdSdkImplementation: NSObject {
         }
     }
 
-    func buildFrameTimeCallback(sdkConfiguration: DdSdkConfiguration) -> ((Double) -> Void)? {
+    func buildFrameTimeCallback(sdkConfiguration: OoSdkConfiguration) -> ((Double) -> Void)? {
         let jsRefreshRateMonitoringEnabled =
             sdkConfiguration.rumConfiguration != nil
             && sdkConfiguration.rumConfiguration?.vitalsUpdateFrequency != nil
@@ -340,7 +340,7 @@ public class DdSdkImplementation: NSObject {
             sharedQueue.async {
                 if shouldRecordFrameTime {
                     let normalizedFrameTimeSeconds =
-                        DdSdkImplementation.normalizeFrameTimeForDeviceRefreshRate(frameTime)
+                        OoSdkImplementation.normalizeFrameTimeForDeviceRefreshRate(frameTime)
                     rumMonitorInternal.updatePerformanceMetric(
                         at: now, metric: .jsFrameTimeSeconds, value: normalizedFrameTimeSeconds,
                         attributes: [:])

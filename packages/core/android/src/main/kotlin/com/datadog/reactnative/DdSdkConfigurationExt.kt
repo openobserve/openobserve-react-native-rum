@@ -18,7 +18,7 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.Locale
 
-internal fun ReadableMap.asDdSdkConfiguration(): DdSdkConfiguration {
+internal fun ReadableMap.asDdSdkConfiguration(): OoSdkConfiguration {
     val additionalConfiguration = getMap("additionalConfiguration")?.toHashMap()
 
     val rumMap = getMap("rumConfiguration")
@@ -66,7 +66,7 @@ internal fun ReadableMap.asDdSdkConfiguration(): DdSdkConfiguration {
     val configurationForTelemetry: ConfigurationForTelemetry? =
         telemetryMap?.asConfigurationForTelemetry()
 
-    return DdSdkConfiguration(
+    return OoSdkConfiguration(
         additionalConfiguration = additionalConfiguration?.mapValues { it.value },
         clientToken = getString("clientToken").orEmpty(),
         env = getString("env").orEmpty(),
@@ -168,7 +168,7 @@ internal object DefaultConfiguration {
 }
 
 @Suppress("CyclomaticComplexMethod")
-internal fun JSONDdSdkConfiguration.asDdSdkConfiguration(): DdSdkConfiguration {
+internal fun JSONDdSdkConfiguration.asDdSdkConfiguration(): OoSdkConfiguration {
     val rumConfiguration: RumConfiguration? = this.rumConfiguration?.let { rum ->
         RumConfiguration(
             applicationId = rum.applicationId ?: "",
@@ -206,10 +206,10 @@ internal fun JSONDdSdkConfiguration.asDdSdkConfiguration(): DdSdkConfiguration {
     }
 
     val baseAdditionalConfig = this.additionalConfiguration?.toMutableMap() ?: mutableMapOf()
-    baseAdditionalConfig["_dd.source"] = "react-native"
-    baseAdditionalConfig["_dd.sdk_version"] = SDK_VERSION
+    baseAdditionalConfig["_oo.source"] = "react-native"
+    baseAdditionalConfig["_oo.sdk_version"] = SDK_VERSION
 
-    return DdSdkConfiguration(
+    return OoSdkConfiguration(
         additionalConfiguration = baseAdditionalConfig,
         clientToken = this.clientToken,
         env = this.env,
@@ -270,7 +270,7 @@ internal fun List<String>.asTracingHeaderTypes(): Set<TracingHeaderType> {
 }
 
 @Suppress("LongMethod", "CyclomaticComplexMethod", "NestedBlockDepth")
-internal fun DdSdkConfiguration.toReadableMap(): ReadableMap {
+internal fun OoSdkConfiguration.toReadableMap(): ReadableMap {
     val map = WritableNativeMap()
 
     map.putString("clientToken", clientToken)
@@ -384,7 +384,7 @@ private fun buildProxyConfig(
         "socks" -> Proxy.Type.SOCKS
         else -> {
             Log.w(
-                DdSdk::class.java.canonicalName,
+                OoSdk::class.java.canonicalName,
                 "Unknown proxy type given: $type, skipping proxy configuration."
             )
             null

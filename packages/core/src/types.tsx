@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { DdSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
+import type { OoSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
 
 declare global {
     // eslint-disable-next-line no-var, vars-on-top
@@ -14,12 +14,12 @@ declare global {
 /**
  * The entry point to initialize Datadog's features.
  */
-export type DdSdkType = {
+export type OoSdkType = {
     /**
      * Initializes Datadog's features.
      * @param configuration: The configuration to use.
      */
-    initialize(configuration: DdSdkNativeConfiguration): Promise<void>;
+    initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
 
     /**
      * Sets a specific attribute in the global context attached with all future Logs, Spans and RUM
@@ -96,7 +96,7 @@ export type DdSdkType = {
 /**
  * The entry point to use Datadog's Trace feature.
  */
-export type DdTraceType = {
+export type OoTraceType = {
     /**
      * Start a span, and returns a unique identifier for the span.
      * @param operation: The operation name of the span.
@@ -139,7 +139,7 @@ export type AccountInfo = {
     extraInfo?: object;
 };
 
-// DdLogs
+// OoLogs
 
 export type LogStatus = 'debug' | 'info' | 'warn' | 'error';
 
@@ -159,7 +159,7 @@ export type LogEvent = {
 
 export type LogEventMapper = (logEvent: LogEvent) => LogEvent | null;
 
-// DdRum
+// OoRum
 export enum ErrorSource {
     NETWORK = 'NETWORK',
     SOURCE = 'SOURCE',

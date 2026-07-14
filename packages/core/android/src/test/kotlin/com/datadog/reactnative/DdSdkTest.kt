@@ -113,8 +113,8 @@ fun mockChoreographerInstance(mock: Choreographer = mock()) {
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ForgeConfiguration(value = BaseConfigurator::class)
-internal class DdSdkTest {
-    lateinit var testedBridgeSdk: DdSdkImplementation
+internal class OoSdkTest {
+    lateinit var testedBridgeSdk: OoSdkImplementation
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     lateinit var mockReactContext: ReactApplicationContext
@@ -132,10 +132,10 @@ internal class DdSdkTest {
     lateinit var mockDatadog: DatadogWrapper
 
     @Mock
-    lateinit var mockDdTelemetry: DdTelemetry
+    lateinit var mockDdTelemetry: OoTelemetry
 
     @Forgery
-    lateinit var fakeConfiguration: DdSdkConfiguration
+    lateinit var fakeConfiguration: OoSdkConfiguration
 
     @Mock
     lateinit var mockPromise: Promise
@@ -167,7 +167,7 @@ internal class DdSdkTest {
                 0
             )
         ) doReturn mockPackageInfo
-        testedBridgeSdk = DdSdkImplementation(
+        testedBridgeSdk = OoSdkImplementation(
             mockReactContext,
             mockDatadog,
             mockDdTelemetry,
@@ -588,7 +588,7 @@ internal class DdSdkTest {
         // Given
         val additionalConfig = (
             fakeConfiguration.additionalConfiguration?.toMutableMap() ?: mutableMapOf()
-            ).also { it[DdSdkImplementation.DD_NEEDS_CLEAR_TEXT_HTTP] = true }
+            ).also { it[OoSdkImplementation.DD_NEEDS_CLEAR_TEXT_HTTP] = true }
         val bridgeConfiguration = fakeConfiguration.copy(additionalConfiguration = additionalConfig)
         val sdkConfigCaptor = argumentCaptor<Configuration>()
         val rumConfigCaptor = argumentCaptor<RumConfiguration>()
@@ -1349,7 +1349,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {no view tracking}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(nativeViewTracking = false)
@@ -1397,7 +1397,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {with view tracking}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(nativeViewTracking = true)
@@ -1445,7 +1445,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {no user action tracking}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -1495,7 +1495,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {frustration tracking enabled}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(trackFrustrations = true)
@@ -1543,7 +1543,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {frustration tracking disabled}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(trackFrustrations = false)
@@ -1592,7 +1592,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {with user action tracking}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -1643,7 +1643,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {sdk verbosity}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         @IntForgery(Log.DEBUG, Log.ASSERT) verbosity: Int
     ) {
         // Given
@@ -1667,7 +1667,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {invalid sdk verbosity}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         @StringForgery(StringForgeryType.HEXADECIMAL) verbosity: String
     ) {
         // Given
@@ -1684,7 +1684,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {custom service name}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         @StringForgery service: String
     ) {
         // Given
@@ -1746,7 +1746,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set long task threshold 𝕎 initialize() {custom long task threshold}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         val threshold = forge.aDouble(min = 100.0, max = 65536.0)
@@ -1805,7 +1805,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 not set long task threshold 𝕎 initialize() {long task threshold is 0}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -1854,7 +1854,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set first party hosts 𝕎 initialize() {first party hosts}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         val tracingHosts = forge.aMap {
@@ -1933,7 +1933,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set first party hosts 𝕎 initialize() {wrong first party hosts}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         val tracingHosts = forge.aMap {
@@ -2007,7 +2007,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set first party hosts 𝕎 initialize() {duplicated first party hosts}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         val host = forge.aStringMatching("[a-z]+\\.[a-z]{3}")
@@ -2091,7 +2091,7 @@ internal class DdSdkTest {
     fun `𝕄 initialize native SDK 𝕎 initialize() {upload frequency}`(
         input: String,
         expectedUploadFrequency: UploadFrequency,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val bridgeConfiguration = configuration.copy(
@@ -2144,7 +2144,7 @@ internal class DdSdkTest {
     fun `𝕄 initialize native SDK 𝕎 initialize() {batch size}`(
         input: String,
         expectedBatchSize: BatchSize,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val bridgeConfiguration = configuration.copy(
@@ -2197,7 +2197,7 @@ internal class DdSdkTest {
     fun `𝕄 initialize native SDK 𝕎 initialize() {batch processing level}`(
         input: String,
         expectedBatchSize: BatchProcessingLevel,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val bridgeConfiguration = configuration.copy(
@@ -2247,7 +2247,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {trackBackgroundEvents}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         forge: Forge
     ) {
         // Given
@@ -2299,7 +2299,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {rare vitals frequency update}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(vitalsUpdateFrequency = "RARE")
@@ -2352,7 +2352,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize native SDK 𝕎 initialize() {never vitals frequency update}`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         doThrow(IllegalStateException()).whenever(mockChoreographer).postFrameCallback(any())
@@ -2407,7 +2407,7 @@ internal class DdSdkTest {
         @LongForgery(min = 0L) timestampNs: Long,
         @LongForgery(min = ONE_HUNDRED_MILLISSECOND_NS, max = 5 * ONE_SECOND_NS) threshold: Long,
         @LongForgery(min = 1, max = ONE_SECOND_NS) frameDurationOverThreshold: Long,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -2481,7 +2481,7 @@ internal class DdSdkTest {
         @LongForgery(min = 0L) timestampNs: Long,
         @LongForgery(min = ONE_HUNDRED_MILLISSECOND_NS, max = 5 * ONE_SECOND_NS) threshold: Long,
         @LongForgery(min = 1, max = ONE_SECOND_NS) frameDurationOverThreshold: Long,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -2521,7 +2521,7 @@ internal class DdSdkTest {
         @LongForgery(min = 0L) timestampNs: Long,
         @LongForgery(min = ONE_HUNDRED_MILLISSECOND_NS, max = 5 * ONE_SECOND_NS) threshold: Long,
         @LongForgery(min = 1, max = ONE_SECOND_NS) frameDurationOverThreshold: Long,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -2562,7 +2562,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 initialize W initialize() { initialResourceThreshold is null }`(
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -2613,7 +2613,7 @@ internal class DdSdkTest {
     @Test
     fun `𝕄 initialize W initialize() { initialResourceThreshold is not null}`(
         @DoubleForgery(min = 0.1, max = 5.0) thresholdInSeconds: Double,
-        @Forgery configuration: DdSdkConfiguration
+        @Forgery configuration: OoSdkConfiguration
     ) {
         // Given
         val rumConfiguration = configuration.rumConfiguration?.copy(
@@ -2669,13 +2669,13 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set version 𝕎 initialize() {versionSuffix}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         @StringForgery versionSuffix: String
     ) {
         // Given
         val bridgeConfiguration = configuration.copy(
             additionalConfiguration = mapOf(
-                DdSdkImplementation.DD_VERSION_SUFFIX to versionSuffix
+                OoSdkImplementation.DD_VERSION_SUFFIX to versionSuffix
             )
         )
         val sdkConfigCaptor = argumentCaptor<Configuration>()
@@ -2708,8 +2708,8 @@ internal class DdSdkTest {
                 .hasFieldEqualTo(
                     "additionalConfig",
                     mapOf(
-                        DdSdkImplementation.DD_VERSION_SUFFIX to versionSuffix,
-                        DdSdkImplementation.DD_VERSION to (
+                        OoSdkImplementation.DD_VERSION_SUFFIX to versionSuffix,
+                        OoSdkImplementation.DD_VERSION to (
                             mockPackageInfo.versionName + versionSuffix
                             )
                     )
@@ -2727,7 +2727,7 @@ internal class DdSdkTest {
 
     @Test
     fun `𝕄 set telemetry configuration mapper 𝕎 initialize() {}`(
-        @Forgery configuration: DdSdkConfiguration,
+        @Forgery configuration: OoSdkConfiguration,
         @Forgery telemetryConfigurationEvent: TelemetryConfigurationEvent,
         @BoolForgery trackNativeViews: Boolean,
         @BoolForgery trackNativeErrors: Boolean,
@@ -2873,7 +2873,7 @@ internal class DdSdkTest {
         val rumConfigCaptor = argumentCaptor<RumConfiguration>()
         val logsConfigCaptor = argumentCaptor<LogsConfiguration>()
         val traceConfigCaptor = argumentCaptor<TraceConfiguration>()
-        resourceEvent.context?.additionalProperties?.put("_dd.resource.drop_resource", true)
+        resourceEvent.context?.additionalProperties?.put("_oo.resource.drop_resource", true)
 
         val rumMock = org.mockito.Mockito.mockStatic(Rum::class.java)
         val traceMock = org.mockito.Mockito.mockStatic(Trace::class.java)
@@ -2968,7 +2968,7 @@ internal class DdSdkTest {
         val rumConfigCaptor = argumentCaptor<RumConfiguration>()
         val logsConfigCaptor = argumentCaptor<LogsConfiguration>()
         val traceConfigCaptor = argumentCaptor<TraceConfiguration>()
-        actionEvent.context?.additionalProperties?.put("_dd.action.drop_action", true)
+        actionEvent.context?.additionalProperties?.put("_oo.action.drop_action", true)
 
         val rumMock = org.mockito.Mockito.mockStatic(Rum::class.java)
         val traceMock = org.mockito.Mockito.mockStatic(Trace::class.java)
@@ -3422,8 +3422,8 @@ internal class DdSdkTest {
             nativeCrashReportEnabled = false
         )
         fakeConfiguration = fakeConfiguration.copy(site = null, rumConfiguration = rumConfiguration)
-        DdSdkSynthetics.testId = "unit-test-test-id"
-        DdSdkSynthetics.resultId = "unit-test-result-id"
+        OoSdkSynthetics.testId = "unit-test-test-id"
+        OoSdkSynthetics.resultId = "unit-test-result-id"
 
         // When
         testedBridgeSdk.initialize(fakeConfiguration.toReadableJavaOnlyMap(), mockPromise)

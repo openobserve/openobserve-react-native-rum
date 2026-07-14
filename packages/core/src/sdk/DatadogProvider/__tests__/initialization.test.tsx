@@ -8,10 +8,10 @@ import { version as reactNativeVersion } from 'react-native/package.json';
 import { NativeModules } from 'react-native';
 
 import { InitializationMode } from '../../../config/types';
-import { DdLogs } from '../../../logs/DdLogs';
-import { DdRum } from '../../../rum/DdRum';
+import { OoLogs } from '../../../logs/OoLogs';
+import { OoRum } from '../../../rum/OoRum';
 import { PropagatorType, RumActionType } from '../../../rum/types';
-import { DdTrace } from '../../../trace/DdTrace';
+import { OoTrace } from '../../../trace/OoTrace';
 import { DefaultTimeProvider } from '../../../utils/time-provider/DefaultTimeProvider';
 import { GlobalState } from '../../GlobalState/GlobalState';
 import { BufferSingleton } from '../Buffer/BufferSingleton';
@@ -55,19 +55,19 @@ describe('DatadogProvider', () => {
                 rerenderWithRandomConfig
             } = renderWithProvider();
             getByText('I am a test application');
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
 
             // We remove the sdk version from the configuration as it would require to update this snapshot
             const receivedConfiguration =
-                NativeModules.DdSdk.initialize.mock.calls[0][0];
+                NativeModules.OoSdk.initialize.mock.calls[0][0];
             delete receivedConfiguration.additionalConfiguration[
-                '_dd.sdk_version'
+                '_oo.sdk_version'
             ];
             expect(receivedConfiguration).toMatchInlineSnapshot(`
-                DdSdkNativeConfiguration {
+                OoSdkNativeConfiguration {
                   "additionalConfiguration": {
-                    "_dd.react_native_version": "${reactNativeVersion}",
-                    "_dd.source": "react-native",
+                    "_oo.react_native_version": "${reactNativeVersion}",
+                    "_oo.source": "react-native",
                   },
                   "attributeEncoders": [],
                   "batchProcessingLevel": "MEDIUM",
@@ -124,52 +124,52 @@ describe('DatadogProvider', () => {
 
             // Re-render
             rerenderWithRandomConfig();
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
         });
 
         it('keeps events in the buffer then executes the buffer once initialization is done', async () => {
             // Given
-            await DdLogs.info('fake_info_log');
-            await DdLogs.debug('fake_debug_log');
-            await DdLogs.warn('fake_wanr_log');
-            await DdLogs.error('fake_error_log');
-            NativeModules.DdTrace.startSpan.mockReturnValueOnce('good_span_id');
+            await OoLogs.info('fake_info_log');
+            await OoLogs.debug('fake_debug_log');
+            await OoLogs.warn('fake_wanr_log');
+            await OoLogs.error('fake_error_log');
+            NativeModules.OoTrace.startSpan.mockReturnValueOnce('good_span_id');
             (nowMock as any).mockReturnValue('good_timestamp');
-            await DdRum.addAction(RumActionType.TAP, 'fakeAction');
+            await OoRum.addAction(RumActionType.TAP, 'fakeAction');
 
             // When
-            const spanId = await DdTrace.startSpan('fakeOperation');
-            await DdTrace.finishSpan(spanId);
+            const spanId = await OoTrace.startSpan('fakeOperation');
+            await OoTrace.finishSpan(spanId);
             (nowMock as any).mockReturnValue('bad_timestamp');
 
             // Then
-            expect(NativeModules.DdLogs.info).not.toHaveBeenCalled();
-            expect(NativeModules.DdLogs.debug).not.toHaveBeenCalled();
-            expect(NativeModules.DdLogs.warn).not.toHaveBeenCalled();
-            expect(NativeModules.DdLogs.error).not.toHaveBeenCalled();
-            expect(NativeModules.DdRum.addAction).not.toHaveBeenCalled();
-            expect(NativeModules.DdTrace.startSpan).not.toHaveBeenCalled();
-            expect(NativeModules.DdTrace.finishSpan).not.toHaveBeenCalled();
+            expect(NativeModules.OoLogs.info).not.toHaveBeenCalled();
+            expect(NativeModules.OoLogs.debug).not.toHaveBeenCalled();
+            expect(NativeModules.OoLogs.warn).not.toHaveBeenCalled();
+            expect(NativeModules.OoLogs.error).not.toHaveBeenCalled();
+            expect(NativeModules.OoRum.addAction).not.toHaveBeenCalled();
+            expect(NativeModules.OoTrace.startSpan).not.toHaveBeenCalled();
+            expect(NativeModules.OoTrace.finishSpan).not.toHaveBeenCalled();
 
             // When initialization
             renderWithProvider();
             await flushPromises();
 
             // Then
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdLogs.info).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdLogs.debug).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdLogs.warn).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdLogs.error).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdTrace.startSpan).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdTrace.startSpan).toHaveBeenLastCalledWith(
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoLogs.info).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoLogs.debug).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoLogs.warn).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoLogs.error).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoTrace.startSpan).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoTrace.startSpan).toHaveBeenLastCalledWith(
                 'fakeOperation',
                 {},
                 'good_timestamp'
             );
-            expect(NativeModules.DdTrace.finishSpan).toHaveBeenCalledTimes(1);
-            expect(NativeModules.DdTrace.finishSpan).toHaveBeenLastCalledWith(
+            expect(NativeModules.OoTrace.finishSpan).toHaveBeenCalledTimes(1);
+            expect(NativeModules.OoTrace.finishSpan).toHaveBeenLastCalledWith(
                 'good_span_id',
                 {},
                 'good_timestamp'

@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/mobile-react-native-apollo-client",
+    "name": "@openobserve/mobile-react-native-apollo-client",
     "version": "3.5.3",
     "description": "A client-side React Native module to interact with Apollo Client and Datadog",
     "keywords": [
@@ -11,13 +11,13 @@
         "graphql"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative/packages/react-native-apollo-client#readme",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum/packages/react-native-apollo-client#readme",
     "repository": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative",
+        "url": "https://github.com/openobserve/openobserve-react-native-rum",
         "directory": "packages/react-native-apollo-client"
     },
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -45,7 +45,7 @@
     },
     "peerDependencies": {
         "@apollo/client": ">=3.13.9",
-        "@datadog/mobile-react-native": "^3.0.0",
+        "@openobserve/mobile-react-native": "^3.0.0",
         "graphql": ">=16.13.2",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0"
@@ -53,7 +53,7 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"

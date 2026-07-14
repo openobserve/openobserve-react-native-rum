@@ -14,13 +14,13 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 import org.jetbrains.annotations.TestOnly
 
 
-internal class DdSdkSessionStartedListener private constructor() : RumSessionListener {
+internal class OoSdkSessionStartedListener private constructor() : RumSessionListener {
     companion object {
         // JS-side callable module registered via BatchedBridge.registerCallableModule.
         private const val BRIDGE_MODULE_NAME = "DatadogInternalReactBridge"
         private const val BRIDGE_MODULE_METHOD = "__datadogOnMessageReceived"
 
-        private var instance: DdSdkSessionStartedListener? = null
+        private var instance: OoSdkSessionStartedListener? = null
 
         // Process-level state — tracks whether JS initialize() has ever run since the
         // app process started. Kept outside the instance on purpose: the listener
@@ -35,9 +35,9 @@ internal class DdSdkSessionStartedListener private constructor() : RumSessionLis
         private var uiThreadExecutor: UiThreadExecutor = ReactUiThreadExecutor()
 
         // Returns the shared listener instance, creating it on first call.
-        fun getInstance(): DdSdkSessionStartedListener {
+        fun getInstance(): OoSdkSessionStartedListener {
             if (instance == null) {
-                instance = DdSdkSessionStartedListener()
+                instance = OoSdkSessionStartedListener()
             }
             return instance!!
         }
@@ -78,8 +78,8 @@ internal class DdSdkSessionStartedListener private constructor() : RumSessionLis
 
     // Stores the React context and schedules a catch-up delivery for any cached session
     // ID on the UI thread. Called from:
-    //   - DdSdk#onHostResume (both architectures) via the lifecycle listener
-    //   - DdSdkImplementation#initialize (new-arch race fix — the TurboModule is lazy-
+    //   - OoSdk#onHostResume (both architectures) via the lifecycle listener
+    //   - OoSdkImplementation#initialize (new-arch race fix — the TurboModule is lazy-
     //     instantiated, so the first onHostResume may have fired before its lifecycle
     //     listener was registered; setting the context here guarantees a non-null
     //     target for onRnSdkInitialized's replay)

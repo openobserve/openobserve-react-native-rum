@@ -15,16 +15,16 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 /**
  * Package of native dd-sdk-reactnative native modules.
  */
-class DdSdkReactNativePackage : TurboReactPackage() {
+class OoSdkReactNativePackage : TurboReactPackage() {
     private val sdkWrapper = DatadogSDKWrapper()
-    private val ddTelemetry = DdTelemetry()
+    private val ddTelemetry = OoTelemetry()
     override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
         return when (name) {
-            DdSdkImplementation.NAME -> DdSdk(reactContext, sdkWrapper, ddTelemetry)
-            DdRumImplementation.NAME -> DdRum(reactContext, sdkWrapper)
-            DdTraceImplementation.NAME -> DdTrace(reactContext)
-            DdLogsImplementation.NAME -> DdLogs(reactContext, sdkWrapper)
-            DdFlagsImplementation.NAME -> DdFlags(reactContext)
+            OoSdkImplementation.NAME -> OoSdk(reactContext, sdkWrapper, ddTelemetry)
+            OoRumImplementation.NAME -> OoRum(reactContext, sdkWrapper)
+            OoTraceImplementation.NAME -> OoTrace(reactContext)
+            OoLogsImplementation.NAME -> OoLogs(reactContext, sdkWrapper)
+            OoFlagsImplementation.NAME -> OoFlags(reactContext)
             else -> null
         }
     }
@@ -33,11 +33,11 @@ class DdSdkReactNativePackage : TurboReactPackage() {
         return ReactModuleInfoProvider {
             val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
             val moduleInfos = listOf(
-                DdSdkImplementation.NAME,
-                DdRumImplementation.NAME,
-                DdTraceImplementation.NAME,
-                DdLogsImplementation.NAME,
-                DdFlagsImplementation.NAME
+                OoSdkImplementation.NAME,
+                OoRumImplementation.NAME,
+                OoTraceImplementation.NAME,
+                OoLogsImplementation.NAME,
+                OoFlagsImplementation.NAME
             ).associateWith {
                 ReactModuleInfo(
                     it,

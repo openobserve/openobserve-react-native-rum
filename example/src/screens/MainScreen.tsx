@@ -9,7 +9,7 @@ import {
   View, Text, Button, TouchableOpacity,
   TouchableWithoutFeedback, TouchableNativeFeedback, ActivityIndicator
 } from 'react-native';
-import { DdLogs, DdSdkReactNative, TrackingConsent, DdFlags } from '@datadog/mobile-react-native';
+import { OoLogs, OoSdkReactNative, TrackingConsent, OoFlags } from '@openobserve/mobile-react-native';
 import { FeatureFlag } from '@openfeature/react-sdk';
 import styles from './styles';
 import { APPLICATION_KEY, API_KEY } from '../../src/ddCredentials';
@@ -94,7 +94,7 @@ export default class MainScreen extends Component<any, MainScreenState> {
 
   componentDidMount() {
     this.updateTrackingConsent()
-    DdLogs.debug("[DATADOG SDK] Test React Native Debug Log");
+    OoLogs.debug("[DATADOG SDK] Test React Native Debug Log");
   }
 
   updateTrackingConsent() {
@@ -132,7 +132,7 @@ export default class MainScreen extends Component<any, MainScreenState> {
           onClose={
             (consent) => {
               saveTrackingConsent(consent)
-              DdSdkReactNative.setTrackingConsent(consent)
+              OoSdkReactNative.setTrackingConsent(consent)
               this.setState({ trackingConsent: consent })
               this.setTrackingConsentModalVisible(false)
             }

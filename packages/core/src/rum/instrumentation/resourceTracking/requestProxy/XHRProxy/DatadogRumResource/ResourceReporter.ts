@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdRum } from '../../../../../DdRum';
+import { OoRum } from '../../../../../OoRum';
 import { TracingIdFormat } from '../../../distributedTracing/TracingIdentifier';
 import type { RUMResource } from '../../interfaces/RumResource';
 
@@ -38,13 +38,13 @@ const formatResourceStartContext = (
 ): Record<string, string | number> => {
     const attributes: Record<string, string | number> = {};
     if (tracingAttributes.samplingPriorityHeader !== '0') {
-        attributes['_dd.span_id'] = tracingAttributes.spanId.toString(
+        attributes['_oo.span_id'] = tracingAttributes.spanId.toString(
             TracingIdFormat.decimal
         );
-        attributes['_dd.trace_id'] = tracingAttributes.traceId.toString(
+        attributes['_oo.trace_id'] = tracingAttributes.traceId.toString(
             TracingIdFormat.paddedHex
         );
-        attributes['_dd.rule_psr'] = tracingAttributes.rulePsr;
+        attributes['_oo.rule_psr'] = tracingAttributes.rulePsr;
     }
 
     return attributes;
@@ -57,7 +57,7 @@ const formatResourceStopContext = (
     const attributes: Record<string, unknown> = {};
 
     if (timings.responseStartTime !== undefined) {
-        attributes['_dd.resource_timings'] = createTimings(
+        attributes['_oo.resource_timings'] = createTimings(
             timings.startTime,
             timings.responseStartTime,
             timings.stopTime
@@ -65,22 +65,22 @@ const formatResourceStopContext = (
     }
 
     if (graphqlAttributes?.operationType) {
-        attributes['_dd.graphql.operation_type'] =
+        attributes['_oo.graphql.operation_type'] =
             graphqlAttributes.operationType;
         if (graphqlAttributes.operationName) {
-            attributes['_dd.graphql.operation_name'] =
+            attributes['_oo.graphql.operation_name'] =
                 graphqlAttributes.operationName;
         }
         if (graphqlAttributes.variables) {
-            attributes['_dd.graphql.variables'] = graphqlAttributes.variables;
+            attributes['_oo.graphql.variables'] = graphqlAttributes.variables;
         }
 
         if (graphqlAttributes.payload) {
-            attributes['_dd.graphql.payload'] = graphqlAttributes.payload;
+            attributes['_oo.graphql.payload'] = graphqlAttributes.payload;
         }
 
         if (graphqlAttributes.errors) {
-            attributes['_dd.graphql.errors'] = JSON.stringify(
+            attributes['_oo.graphql.errors'] = JSON.stringify(
                 graphqlAttributes.errors
             );
         }
@@ -90,7 +90,7 @@ const formatResourceStopContext = (
 };
 
 const reportResource = async (resource: RUMResource) => {
-    await DdRum.startResource(
+    await OoRum.startResource(
         resource.key,
         resource.request.method,
         resource.request.url,
@@ -98,7 +98,7 @@ const reportResource = async (resource: RUMResource) => {
         resource.timings.startTime
     );
 
-    DdRum.stopResource(
+    OoRum.stopResource(
         resource.key,
         resource.response.statusCode,
         resource.request.kind,

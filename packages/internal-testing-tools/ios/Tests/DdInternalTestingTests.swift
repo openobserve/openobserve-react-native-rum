@@ -11,7 +11,7 @@ import DatadogCore
 import DatadogInternal
 import React
 
-internal class DdInternalTestingTests: XCTestCase {
+internal class OoInternalTestingTests: XCTestCase {
     private func mockResolve(args: Any?) {}
     private func mockReject(args: String?, arg: String?, err: Error?) {}
     
@@ -23,7 +23,7 @@ internal class DdInternalTestingTests: XCTestCase {
     
     func testItReturnsSavedEventsWhenEnabled() {
         // Enable internal testing tool
-        let internalTesting = DdInternalTestingImplementation()
+        let internalTesting = OoInternalTestingImplementation()
         internalTesting.enable(resolve: mockResolve, reject: mockReject)
 
         // Initialize SDK and send logger message

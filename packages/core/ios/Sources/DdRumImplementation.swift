@@ -75,10 +75,10 @@ internal extension RUMFeatureOperationFailureReason {
 }
 
 @objc
-public class DdRumImplementation: NSObject {
-    internal static let timestampKey = "_dd.timestamp"
-    internal static let fingerprintKey = "_dd.error.fingerprint"
-    internal static let resourceTimingsKey = "_dd.resource_timings"
+public class OoRumImplementation: NSObject {
+    internal static let timestampKey = "_oo.timestamp"
+    internal static let fingerprintKey = "_oo.error.fingerprint"
+    internal static let resourceTimingsKey = "_oo.resource_timings"
 
     internal static let fetchTimingKey = "fetch"
     internal static let redirectTimingKey = "redirect"

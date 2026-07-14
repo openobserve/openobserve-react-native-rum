@@ -1,6 +1,6 @@
 //
-//  DdSdkReactNativeExampleTests.swift
-//  DdSdkReactNativeExampleTests
+//  OoSdkReactNativeExampleTests.swift
+//  OoSdkReactNativeExampleTests
 //
 //  Created by Louis Zawadzki on 13/10/2022.
 //  Copyright © 2022 Facebook. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-final class DdSdkReactNativeExampleTests: XCTestCase {
+final class OoSdkReactNativeExampleTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

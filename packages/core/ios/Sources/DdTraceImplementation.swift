@@ -8,7 +8,7 @@ import DatadogTrace
 import Foundation
 
 @objc
-public class DdTraceImplementation: NSObject {
+public class OoTraceImplementation: NSObject {
     private lazy var tracer: OTTracer = tracerProvider()
     private let tracerProvider: () -> OTTracer
 

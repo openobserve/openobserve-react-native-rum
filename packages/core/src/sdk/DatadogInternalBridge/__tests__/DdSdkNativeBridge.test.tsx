@@ -35,10 +35,10 @@ const mockBatchedBridgeEventEmitter = {
     removeAllListeners: jest.fn()
 };
 
-describe('DdSdkNativeBridge', () => {
+describe('OoSdkNativeBridge', () => {
     beforeEach(() => {
-        jest.mock('../../DdSdk', () => ({
-            DdSdk: {
+        jest.mock('../../OoSdk', () => ({
+            OoSdk: {
                 initialize: jest.fn()
             }
         }));
@@ -81,7 +81,7 @@ describe('DdSdkNativeBridge', () => {
         });
 
         it('does not try to register the batched bridge when index is imported', () => {
-            const ddBridge = require('../DdSdkInternalNativeBridge');
+            const ddBridge = require('../OoSdkInternalNativeBridge');
             const defaultEventEmitter = require('../../DatadogEventEmitter/DatadogDefaultEventEmitter');
             mockNativeEventEmitter.initialize.mockReturnValueOnce(true);
             ddBridge.registerNativeBridge(
@@ -99,7 +99,7 @@ describe('DdSdkNativeBridge', () => {
         it('catches errors when native event emitter init fails', () => {
             jest.mock('../../../specs/NativeDdSdk', () => undefined);
 
-            const ddBridge = require('../DdSdkInternalNativeBridge');
+            const ddBridge = require('../OoSdkInternalNativeBridge');
             const defaultEventEmitter = require('../../DatadogEventEmitter/DatadogDefaultEventEmitter');
             mockNativeEventEmitter.initialize.mockReturnValueOnce(false);
 
@@ -122,7 +122,7 @@ describe('DdSdkNativeBridge', () => {
         });
 
         it('does not try to register the event listener when index is imported', () => {
-            const ddBridge = require('../DdSdkInternalNativeBridge');
+            const ddBridge = require('../OoSdkInternalNativeBridge');
             const defaultEventEmitter = require('../../DatadogEventEmitter/DatadogDefaultEventEmitter');
             mockBatchedBridgeEventEmitter.initialize.mockReturnValueOnce(true);
 
@@ -139,7 +139,7 @@ describe('DdSdkNativeBridge', () => {
         });
 
         it('hasBatchedBridge is false when batched bridge init fails', () => {
-            const ddBridge = require('../DdSdkInternalNativeBridge');
+            const ddBridge = require('../OoSdkInternalNativeBridge');
             const defaultEventEmitter = require('../../DatadogEventEmitter/DatadogDefaultEventEmitter');
             mockBatchedBridgeEventEmitter.initialize.mockReturnValueOnce(false);
 

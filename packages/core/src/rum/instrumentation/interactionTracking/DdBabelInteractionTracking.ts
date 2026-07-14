@@ -4,11 +4,11 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DdSdk from '../../../specs/NativeDdSdk';
+import OoSdk from '../../../specs/NativeDdSdk';
 import { getGlobalInstance } from '../../../utils/singletonUtils';
 import { DefaultTimeProvider } from '../../../utils/time-provider/DefaultTimeProvider';
 import type { TimeProvider } from '../../../utils/time-provider/TimeProvider';
-import type { DdRum } from '../../DdRum';
+import type { OoRum } from '../../OoRum';
 import { BABEL_PLUGIN_TELEMETRY } from '../../constants';
 import type { RumActionType } from '../../types';
 import { ActionSource } from '../../types';
@@ -41,15 +41,15 @@ class BabelInteractionTracking {
 
     private telemetrySent: boolean = false;
 
-    private ddRum: typeof DdRum | null = null;
+    private ddRum: typeof OoRum | null = null;
 
     isInitialized: boolean = false;
 
     getInstance() {
-        return DdBabelInteractionTracking;
+        return OoBabelInteractionTracking;
     }
 
-    attachRumInstance(ddRum: typeof DdRum) {
+    attachRumInstance(ddRum: typeof OoRum) {
         this.ddRum = ddRum;
         this.isInitialized = true;
     }
@@ -123,7 +123,7 @@ class BabelInteractionTracking {
     ): (...args: any[]) => any {
         return (...args: any[]) => {
             if (!this.telemetrySent) {
-                DdSdk?.sendTelemetryLog(
+                OoSdk?.sendTelemetryLog(
                     BABEL_PLUGIN_TELEMETRY,
                     this.getTelemetryConfig(),
                     { onlyOnce: true }
@@ -147,7 +147,7 @@ class BabelInteractionTracking {
                     )
                     .catch(e => {
                         if (e instanceof Error) {
-                            DdSdk?.telemetryError(
+                            OoSdk?.telemetryError(
                                 e.message,
                                 e.stack || '',
                                 'BabelActionTrack'
@@ -161,7 +161,7 @@ class BabelInteractionTracking {
     }
 }
 
-export const DdBabelInteractionTracking = getGlobalInstance(
+export const OoBabelInteractionTracking = getGlobalInstance(
     BABEL_INTERACTION_TRACKING_MODULE,
     () => new BabelInteractionTracking()
 );

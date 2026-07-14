@@ -4,31 +4,31 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { DdSdkNativeConfiguration } from '../config/features/CoreConfigurationNative';
-import type { DdNativeSdkType } from '../nativeModulesTypes';
+import type { OoSdkNativeConfiguration } from '../config/features/CoreConfigurationNative';
+import type { OoNativeSdkType } from '../nativeModulesTypes';
 
 import type { AttributeEncoder } from './AttributesEncoding/types';
 
 // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-const NativeDdSdk: DdNativeSdkType = require('../specs/NativeDdSdk').default;
+const NativeDdSdk: OoNativeSdkType = require('../specs/NativeDdSdk').default;
 
-export type DdSdkType = {
+export type OoSdkType = {
     readonly attributeEncoders: AttributeEncoder<any>[];
 
     /**
      * Initializes Datadog's features.
      * @param configuration: The configuration to use.
      */
-    initialize(configuration: DdSdkNativeConfiguration): Promise<void>;
+    initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
 };
 
-export class DdSdkWrapper implements DdNativeSdkType {
+export class OoSdkWrapper implements OoNativeSdkType {
     get attributeEncoders(): AttributeEncoder<any>[] {
         return this._attributeEncoders;
     }
     private _attributeEncoders: AttributeEncoder<any>[] = [];
 
-    initialize(configuration: DdSdkNativeConfiguration): Promise<void> {
+    initialize(configuration: OoSdkNativeConfiguration): Promise<void> {
         this._attributeEncoders = [...configuration.attributeEncoders];
         return NativeDdSdk.initialize(configuration);
     }

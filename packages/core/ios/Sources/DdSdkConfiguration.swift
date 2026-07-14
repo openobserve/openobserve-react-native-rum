@@ -27,8 +27,8 @@ import Foundation
 ///    - logsConfiguration: Configuration for the Logs feature module.
 ///    - traceConfiguration: Configuration for the Traces feature module.
 ///    - configurationForTelemetry: Additional configuration parameters used only for internal telemetry.
-@objc(DdSdkConfiguration)
-public class DdSdkConfiguration: NSObject {
+@objc(OoSdkConfiguration)
+public class OoSdkConfiguration: NSObject {
     public var additionalConfiguration: NSDictionary? = nil
     public var clientToken: String = ""
     public var env: String = ""

@@ -5,20 +5,20 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdTraceImplementation;
+@class OoTraceImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSdkReactNative/DdSdkReactNative.h>
-@interface DdTrace: NSObject <NativeDdTraceSpec>
+#import <OoSdkReactNative/OoSdkReactNative.h>
+@interface OoTrace: NSObject <NativeDdTraceSpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdTrace : NSObject <RCTBridgeModule>
+@interface OoTrace : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdTraceImplementation* ddTraceImplementation;
+@property (nonatomic, strong) OoTraceImplementation* ddTraceImplementation;
 
 @end

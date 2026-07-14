@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { DdSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
+import type { OoSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
 import type { Spec as NativeDdFlags } from './specs/NativeDdFlags';
 import type { Spec as NativeDdLogs } from './specs/NativeDdLogs';
 import type { Spec as NativeDdRum } from './specs/NativeDdRum';
@@ -19,27 +19,27 @@ import type { Spec as NativeDdTrace } from './specs/NativeDdTrace';
 /**
  * The entry point to use Datadog's Logs feature.
  */
-export type DdNativeLogsType = NativeDdLogs;
+export type OoNativeLogsType = NativeDdLogs;
 
 /**
  * The entry point to use Datadog's Trace feature.
  */
-export type DdNativeTraceType = NativeDdTrace;
+export type OoNativeTraceType = NativeDdTrace;
 
 /**
  * The entry point to use Datadog's Flags feature.
  */
-export type DdNativeFlagsType = NativeDdFlags;
+export type OoNativeFlagsType = NativeDdFlags;
 
 /**
  * The entry point to initialize Datadog's features.
  */
-export interface DdNativeSdkType extends NativeDdSdk {
+export interface OoNativeSdkType extends NativeDdSdk {
     /**
      * Initializes Datadog's features.
      * @param configuration: The configuration to use.
      */
-    initialize(configuration: DdSdkNativeConfiguration): Promise<void>;
+    initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
 }
 
 type ActionType = 'TAP' | 'SCROLL' | 'SWIPE' | 'BACK' | 'CUSTOM';
@@ -62,7 +62,7 @@ type ErrorSource = 'NETWORK' | 'SOURCE' | 'CONSOLE' | 'WEBVIEW' | 'CUSTOM';
 /**
  * The entry point to use Datadog's RUM feature.
  */
-export interface DdNativeRumType extends NativeDdRum {
+export interface OoNativeRumType extends NativeDdRum {
     /**
      * Start tracking a RUM Action.
      * @param type: The action type (tap, scroll, swipe, back, custom).

@@ -13,13 +13,13 @@ import com.facebook.react.bridge.ReactMethod
 /**
  * The entry point to use Datadog's internal testing feature.
  */
-class DdInternalTesting(
+class OoInternalTesting(
     reactContext: ReactApplicationContext
 ) : NativeDdInternalTestingSpec(reactContext) {
 
-    private val implementation = DdInternalTestingImplementation()
+    private val implementation = OoInternalTestingImplementation()
 
-    override fun getName(): String = DdInternalTestingImplementation.NAME
+    override fun getName(): String = OoInternalTestingImplementation.NAME
 
     /**
      * Clears all data for all features.

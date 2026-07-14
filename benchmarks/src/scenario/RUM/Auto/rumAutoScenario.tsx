@@ -7,10 +7,10 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { useNavigationContainerRef } from '@react-navigation/native';
-import { DatadogProvider } from "@datadog/mobile-react-native";
+import { DatadogProvider } from "@openobserve/mobile-react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { DdRumReactNavigationTracking, type NavigationTrackingOptions, type ViewNamePredicate } from '@datadog/mobile-react-navigation';
+import { OoRumReactNavigationTracking, type NavigationTrackingOptions, type ViewNamePredicate } from '@openobserve/mobile-react-navigation';
 import type { Route } from "@react-navigation/native";
 import { RunType } from '../../../testSetup/types/testConfig';
 import { getDatadogProviderConfig } from '../../../testSetup/testUtils';
@@ -65,7 +65,7 @@ function RUMAutoScenario(props: RUMAutoScenarioProps): React.JSX.Element {
         return (
             <NavigationContainer ref={navigationRef} onReady={() => {
                 if (instrumented) {
-                    DdRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions);
+                    OoRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions);
                 };
             }}>
                 <RootStack.Navigator>

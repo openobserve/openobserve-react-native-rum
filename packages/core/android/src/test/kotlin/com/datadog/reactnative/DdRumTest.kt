@@ -47,11 +47,11 @@ import org.mockito.quality.Strictness
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ForgeConfiguration(BaseConfigurator::class)
-internal class DdRumTest {
+internal class OoRumTest {
 
     // TODO: 14/12/2020 RUMM-925 Add the relevant unit tests after merging the feature/bridge branch
 
-    lateinit var testedDdRum: DdRumImplementation
+    lateinit var testedDdRum: OoRumImplementation
 
     @Mock
     lateinit var mockRumMonitor: RumMonitor
@@ -83,7 +83,7 @@ internal class DdRumTest {
             }
         }
 
-        testedDdRum = DdRumImplementation(mockDatadog)
+        testedDdRum = OoRumImplementation(mockDatadog)
     }
 
     @AfterEach
@@ -423,7 +423,7 @@ internal class DdRumTest {
         )
 
         // Then
-        updatedContext["_dd.error.fingerprint"] = "custom-error-fingerprint"
+        updatedContext["_oo.error.fingerprint"] = "custom-error-fingerprint"
         verify(mockRumMonitor).addErrorWithStacktrace(message, source, stackTrace, updatedContext)
     }
 

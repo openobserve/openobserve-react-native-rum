@@ -160,7 +160,7 @@ private def getDatadogCiExecPath(reactConfig) {
     def nodeExecutable = Os.isFamily(Os.FAMILY_WINDOWS) ? 'node.exe' : 'node'
     def nodeScript = '''
     const path = require('path');
-    const modulePath = require.resolve('@datadog/datadog-ci/package.json');
+    const modulePath = require.resolve('@openobserve/datadog-ci/package.json');
     const nodeModulesDir = path.resolve(path.dirname(modulePath), '../../');
     const datadogCiExec = path.join(nodeModulesDir, '.bin', 'datadog-ci');
     console.log(datadogCiExec);
@@ -196,7 +196,7 @@ private def getDatadogCiExecPath(reactConfig) {
  * If DATADOG_REACT_NATIVE_PATH env variable is defined, it will be returned (if valid).
  */
 private def getDatadogReactNativePath(File workingDirectory) {
-    def defaultPath = "${workingDirectory.absolutePath}/node_modules/@datadog/mobile-react-native"
+    def defaultPath = "${workingDirectory.absolutePath}/node_modules/@openobserve/mobile-react-native"
 
     // Try to retrieve the path from ENV variable
     def envPath = System.getenv('DATADOG_REACT_NATIVE_PATH')
@@ -204,14 +204,14 @@ private def getDatadogReactNativePath(File workingDirectory) {
         if (isValidDatadogPackagePath(envPath)) {
             return envPath
         } else {
-            println("WARNING: Ignoring DATADOG_REACT_NATIVE_PATH as it does not point to a valid @datadog/mobile-react-native package (${envPath})")
+            println("WARNING: Ignoring DATADOG_REACT_NATIVE_PATH as it does not point to a valid @openobserve/mobile-react-native package (${envPath})")
         }
     }
 
     def nodeExecutable = Os.isFamily(Os.FAMILY_WINDOWS) ? 'node.exe' : 'node'
     def nodeScript = '''
     const path = require('path');
-    const libModulePath = require.resolve('@datadog/mobile-react-native');
+    const libModulePath = require.resolve('@openobserve/mobile-react-native');
     const packagePath = path.resolve(path.dirname(libModulePath), '../..')
     console.log(packagePath);
     '''
@@ -235,14 +235,14 @@ private def getDatadogReactNativePath(File workingDirectory) {
     if (isValidDatadogPackagePath(resolvedPath)) {
         return resolvedPath
     } else {
-        println("WARNING: Could not resolve @datadog/mobile-react-native path, falling back to default: ${defaultPath}")
+        println("WARNING: Could not resolve @openobserve/mobile-react-native path, falling back to default: ${defaultPath}")
     }
 
     return defaultPath
 }
 
 /**
- * Function to validate @datadog/mobile-react-native path
+ * Function to validate @openobserve/mobile-react-native path
  */
  private def isValidDatadogPackagePath(String path) {
     def packageJsonFile = new File(path, "package.json")
@@ -252,9 +252,9 @@ private def getDatadogReactNativePath(File workingDirectory) {
         return false;
     }
 
-    // Check if it is @datadog/mobile-react-native
+    // Check if it is @openobserve/mobile-react-native
     def packageContent = packageJsonFile.text
-    if (!packageContent.contains('"name": "@datadog/mobile-react-native"')) {
+    if (!packageContent.contains('"name": "@openobserve/mobile-react-native"')) {
         return false;
     }
 

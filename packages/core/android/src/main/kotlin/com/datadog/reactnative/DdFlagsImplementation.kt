@@ -25,7 +25,7 @@ import java.util.Locale
 /**
  * The entry point to use Datadog's Flags feature.
  */
-class DdFlagsImplementation(
+class OoFlagsImplementation(
     private val sdkCoreOverride: SdkCore? = null,
 ) {
     private val clients: MutableMap<String, FlagsClient> = mutableMapOf()
@@ -131,7 +131,7 @@ class DdFlagsImplementation(
     }
 
     internal companion object {
-        internal const val NAME = "DdFlags"
+        internal const val NAME = "OoFlags"
     }
 }
 

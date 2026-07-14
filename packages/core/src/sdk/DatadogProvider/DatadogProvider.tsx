@@ -6,7 +6,7 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 
-import { DdSdkReactNative } from '../../DdSdkReactNative';
+import { OoSdkReactNative } from '../../OoSdkReactNative';
 import { InternalLog } from '../../InternalLog';
 import { DatadogProviderConfiguration } from '../../config/DatadogProviderConfiguration';
 import type { FileBasedConfiguration } from '../../config/FileBasedConfiguration';
@@ -62,7 +62,7 @@ const initializeDatadog = async (
     configuration: DatadogProviderConfiguration,
     onInitialization?: () => void
 ) => {
-    await DdSdkReactNative._initializeFromDatadogProvider(configuration);
+    await OoSdkReactNative._initializeFromDatadogProvider(configuration);
     if (onInitialization) {
         try {
             onInitialization();
@@ -89,7 +89,7 @@ export const DatadogProvider: React.FC<Props> & StaticProperties = ({
         // the elements rendered in this first render and what happens during
         // the first render.
         if (isConfigurationPartial(configuration)) {
-            DdSdkReactNative._enableFeaturesFromDatadogProvider(configuration);
+            OoSdkReactNative._enableFeaturesFromDatadogProvider(configuration);
             DatadogProvider.onInitialization = onInitialization;
         } else {
             initializeDatadog(configuration, onInitialization);
@@ -107,7 +107,7 @@ export const DatadogProvider: React.FC<Props> & StaticProperties = ({
 DatadogProvider.initialize = async (
     configuration: PartialInitializationConfiguration
 ) => {
-    await DdSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync(
+    await OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync(
         configuration
     );
     if (DatadogProvider.onInitialization) {

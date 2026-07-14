@@ -9,7 +9,7 @@ import type { PartialNativeDdSdkSpec } from '../src/NativeDdSdk';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const actualRN = require('react-native');
 
-actualRN.NativeModules.DdSdk = {
+actualRN.NativeModules.OoSdk = {
     telemetryError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
     ) as jest.MockedFunction<PartialNativeDdSdkSpec['telemetryError']>,

@@ -8,10 +8,10 @@
 import { UIManager } from 'react-native';
 
 const isNewArch =
-    UIManager.getViewManagerConfig?.('DdPrivacyView') === undefined;
+    UIManager.getViewManagerConfig?.('OoPrivacyView') === undefined;
 
 const NativeComponent = isNewArch
-    ? require('./DdPrivacyViewNativeComponent').default
-    : require('./DdPrivacyViewPaper').default;
+    ? require('./OoPrivacyViewNativeComponent').default
+    : require('./OoPrivacyViewPaper').default;
 
 export default NativeComponent;

@@ -47,9 +47,9 @@ import org.mockito.quality.Strictness
     ExtendWith(ForgeExtension::class)
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
-internal class DdTraceTest {
+internal class OoTraceTest {
 
-    lateinit var testedTrace: DdTraceImplementation
+    lateinit var testedTrace: OoTraceImplementation
 
     @Mock
     lateinit var mockTracer: DatadogTracer
@@ -111,7 +111,7 @@ internal class DdTraceTest {
         whenever(mockSpanContext.traceId) doReturn fakeTraceId
         whenever(mockTracer.activateSpan(mockSpan)) doReturn mockScope
 
-        testedTrace = DdTraceImplementation(tracerProvider = { mockTracer })
+        testedTrace = OoTraceImplementation(tracerProvider = { mockTracer })
     }
 
     @AfterEach

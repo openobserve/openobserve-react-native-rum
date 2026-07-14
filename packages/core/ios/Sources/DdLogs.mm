@@ -9,10 +9,10 @@
 #else
 #import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
 #endif
-#import "DdLogs.h"
+#import "OoLogs.h"
 
 
-@implementation DdLogs
+@implementation OoLogs
 
 RCT_EXPORT_MODULE()
 
@@ -101,10 +101,10 @@ RCT_REMAP_METHOD(errorWithError, withMessage:(NSString*)message
 }
 #endif
 
-- (DdLogsImplementation*)ddLogsImplementation
+- (OoLogsImplementation*)ddLogsImplementation
 {
     if (_ddLogsImplementation == nil) {
-        _ddLogsImplementation = [[DdLogsImplementation alloc] init];
+        _ddLogsImplementation = [[OoLogsImplementation alloc] init];
     }
     return _ddLogsImplementation;
 }

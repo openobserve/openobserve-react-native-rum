@@ -8,7 +8,7 @@ import { NativeModules } from 'react-native';
 
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types/SdkVerbosity';
-import { DdFlags } from '../DdFlags';
+import { OoFlags } from '../OoFlags';
 
 jest.mock('../../InternalLog', () => {
     return {
@@ -19,33 +19,33 @@ jest.mock('../../InternalLog', () => {
     };
 });
 
-describe('DdFlags', () => {
+describe('OoFlags', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // Reset state of DdFlags instance.
-        Object.assign(DdFlags, {
+        // Reset state of OoFlags instance.
+        Object.assign(OoFlags, {
             isFeatureEnabled: false,
             clients: {}
         });
     });
 
     it('should always call the native enable method with enabled set to true', async () => {
-        await DdFlags.enable();
+        await OoFlags.enable();
 
-        expect(NativeModules.DdFlags.enable).toHaveBeenCalledWith({
+        expect(NativeModules.OoFlags.enable).toHaveBeenCalledWith({
             enabled: true
         });
     });
 
     it('should call the native enable method with the correct configuration', async () => {
-        await DdFlags.enable({
+        await OoFlags.enable({
             customExposureEndpoint: 'https://example.com',
             customFlagsEndpoint: 'https://example.com',
             trackExposures: false,
             rumIntegrationEnabled: false
         });
 
-        expect(NativeModules.DdFlags.enable).toHaveBeenCalledWith({
+        expect(NativeModules.OoFlags.enable).toHaveBeenCalledWith({
             enabled: true,
             customExposureEndpoint: 'https://example.com',
             customFlagsEndpoint: 'https://example.com',
@@ -54,11 +54,11 @@ describe('DdFlags', () => {
         });
     });
 
-    it('should print an error when trying to retrieve a client before DdFlags.enable() has been called', async () => {
-        DdFlags.getClient();
+    it('should print an error when trying to retrieve a client before OoFlags.enable() has been called', async () => {
+        OoFlags.getClient();
 
         expect(InternalLog.log).toHaveBeenCalledWith(
-            '`DdFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
+            '`OoFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
             SdkVerbosity.ERROR
         );
     });

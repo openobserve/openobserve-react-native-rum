@@ -22,7 +22,7 @@ import java.util.Locale
  * The entry point to use Datadog's RUM feature.
  */
 @Suppress("TooManyFunctions")
-class DdRumImplementation(private val datadog: DatadogWrapper = DatadogSDKWrapper()) {
+class OoRumImplementation(private val datadog: DatadogWrapper = DatadogSDKWrapper()) {
     /**
      * Start tracking a RUM View.
      * @param key The view unique key identifier.
@@ -450,7 +450,7 @@ class DdRumImplementation(private val datadog: DatadogWrapper = DatadogSDKWrappe
             "connect" -> RumResourceMethod.CONNECT
             else -> {
                 Log.w(
-                    DdRum::class.java.canonicalName,
+                    OoRum::class.java.canonicalName,
                     "Unknown RUM resource method given: $this, " +
                             "using ${RumResourceMethod.GET} as default"
                 )
@@ -463,6 +463,6 @@ class DdRumImplementation(private val datadog: DatadogWrapper = DatadogSDKWrappe
     @Suppress("UndocumentedPublicClass")
     companion object {
         private const val MISSING_RESOURCE_SIZE = -1L
-        internal const val NAME = "DdRum"
+        internal const val NAME = "OoRum"
     }
 }

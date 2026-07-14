@@ -6,7 +6,7 @@
 
 package com.datadog.reactnative.sessionreplay
 
-import com.datadog.reactnative.sessionreplay.views.DdPrivacyViewManager
+import com.datadog.reactnative.sessionreplay.views.OoPrivacyViewManager
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
@@ -15,17 +15,17 @@ import com.facebook.react.uimanager.ViewManager
 /**
  * Package of native dd-sdk-reactnative native modules.
  */
-class DdSDKReactNativeSessionReplayPackage : ReactPackage {
+class OoSDKReactNativeSessionReplayPackage : ReactPackage {
 
     override fun createViewManagers(
         reactContext: ReactApplicationContext
     ): List<ViewManager<*, *>> {
-        return listOf(DdPrivacyViewManager(reactContext))
+        return listOf(OoPrivacyViewManager(reactContext))
     }
 
     override fun createNativeModules(
         reactContext: ReactApplicationContext
     ): List<NativeModule> {
-        return listOf(DdSessionReplay(reactContext))
+        return listOf(OoSessionReplay(reactContext))
     }
 }

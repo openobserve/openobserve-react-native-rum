@@ -6,19 +6,19 @@
 
 import type { FlagsClient } from './FlagsClient';
 
-export interface DdFlagsType {
+export interface OoFlagsType {
     /**
      * Enables the Datadog Flags feature in your application.
      *
      * Call this method after initializing the Datadog SDK to enable feature flag evaluation.
-     * This method must be called before creating any `FlagsClient` instances via `DdFlags.getClient()`.
+     * This method must be called before creating any `FlagsClient` instances via `OoFlags.getClient()`.
      *
      * @example
      * ```ts
-     * import { DdSdkReactNativeConfiguration, DdSdkReactNative, DdFlags } from '@datadog/mobile-react-native';
+     * import { OoSdkReactNativeConfiguration, OoSdkReactNative, OoFlags } from '@openobserve/mobile-react-native';
      *
      * // Initialize the Datadog SDK.
-     * await DdSdkReactNative.initialize(...);
+     * await OoSdkReactNative.initialize(...);
      *
      * // Optinal flags configuration object.
      * const flagsConfig = {
@@ -26,10 +26,10 @@ export interface DdFlagsType {
      * };
      *
      * // Enable the feature.
-     * await DdFlags.enable(flagsConfig);
+     * await OoFlags.enable(flagsConfig);
      *
      * // Retrieve the client and access feature flags.
-     * const flagsClient = DdFlags.getClient();
+     * const flagsClient = OoFlags.getClient();
      * const flagValue = await flagsClient.getBooleanValue('new-feature', false);
      * ```
      *
@@ -46,7 +46,7 @@ export interface DdFlagsType {
      *
      * @example
      * ```ts
-     * const flagsClient = DdFlags.getClient();
+     * const flagsClient = OoFlags.getClient();
      *
      * // Set the evaluation context.
      * await flagsClient.setEvaluationContext({

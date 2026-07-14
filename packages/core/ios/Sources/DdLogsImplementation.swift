@@ -10,7 +10,7 @@ import DatadogLogs
 import DatadogCore
 
 @objc
-public class DdLogsImplementation: NSObject {
+public class OoLogsImplementation: NSObject {
     private var loggerInstance: LoggerProtocol?
     private var logger: LoggerProtocol {
         if loggerInstance == nil {
@@ -96,7 +96,7 @@ internal extension DatadogLogs.Logger.Configuration {
     /// Creates a Logger configuration from bridged configuration dictionary.
     ///
     /// - Parameter sdkConfiguration: The configuration from the bridge.
-    init(_ sdkConfiguration: DdSdkConfiguration) {
+    init(_ sdkConfiguration: OoSdkConfiguration) {
         self.init(
             networkInfoEnabled: true,
             bundleWithRumEnabled: sdkConfiguration.logsConfiguration?.bundleLogsWithRum ?? true,

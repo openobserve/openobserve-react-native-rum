@@ -13,11 +13,11 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 
 /** The entry point to use Datadog's Flags feature. */
-class DdFlags(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class OoFlags(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    private val implementation = DdFlagsImplementation()
+    private val implementation = OoFlagsImplementation()
 
-    override fun getName(): String = DdFlagsImplementation.NAME
+    override fun getName(): String = OoFlagsImplementation.NAME
 
     /**
      * Enable the Flags feature with the provided configuration.

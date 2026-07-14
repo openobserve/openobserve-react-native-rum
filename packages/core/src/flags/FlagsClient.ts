@@ -6,7 +6,7 @@
 
 import { InternalLog } from '../InternalLog';
 import { SdkVerbosity } from '../config/types/SdkVerbosity';
-import type { DdNativeFlagsType } from '../nativeModulesTypes';
+import type { OoNativeFlagsType } from '../nativeModulesTypes';
 
 import { processEvaluationContext } from './internal';
 import type { FlagCacheEntry } from './internal';
@@ -14,7 +14,7 @@ import type { JsonValue, EvaluationContext, FlagDetails } from './types';
 
 export class FlagsClient {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    private nativeFlags: DdNativeFlagsType = require('../specs/NativeDdFlags')
+    private nativeFlags: OoNativeFlagsType = require('../specs/NativeDdFlags')
         .default;
 
     private clientName: string;
@@ -38,7 +38,7 @@ export class FlagsClient {
      *
      * @example
      * ```ts
-     * const flagsClient = DdFlags.getClient();
+     * const flagsClient = OoFlags.getClient();
      *
      * await flagsClient.setEvaluationContext({
      *     targetingKey: 'user-123',

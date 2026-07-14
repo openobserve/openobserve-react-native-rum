@@ -12,15 +12,15 @@ yarn prepare
 
 # prepare packages
 yarn
-yarn workspace @datadog/mobile-react-native pack
-yarn workspace @datadog/mobile-react-navigation pack
-yarn workspace @datadog/mobile-react-native-navigation pack
-yarn workspace @datadog/mobile-react-native-apollo-client pack
-yarn workspace @datadog/mobile-react-native-babel-plugin pack
-yarn workspace @datadog/mobile-react-native-session-replay pack
-yarn workspace @datadog/mobile-react-native-webview pack
-yarn workspace @datadog/mobile-react-native-openfeature pack
-yarn workspace @datadog/react-native-internal-testing-tools pack
+yarn workspace @openobserve/mobile-react-native pack
+yarn workspace @openobserve/mobile-react-navigation pack
+yarn workspace @openobserve/mobile-react-native-navigation pack
+yarn workspace @openobserve/mobile-react-native-apollo-client pack
+yarn workspace @openobserve/mobile-react-native-babel-plugin pack
+yarn workspace @openobserve/mobile-react-native-session-replay pack
+yarn workspace @openobserve/mobile-react-native-webview pack
+yarn workspace @openobserve/mobile-react-native-openfeature pack
+yarn workspace @openobserve/react-native-internal-testing-tools pack
 
 ./check-release-content.sh -p packages/core/package.tgz > packages/core/release-content.txt
 ./check-release-content.sh -p packages/react-navigation/package.tgz > packages/react-navigation/release-content.txt

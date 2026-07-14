@@ -17,7 +17,7 @@
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "ddSdkReactnativeExample.app"
                BlueprintName = "ddSdkReactnativeExample"
-               ReferencedContainer = "container:DdSdkReactNativeExample.xcodeproj">
+               ReferencedContainer = "container:OoSdkReactNativeExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ddSdkReactnativeExample.app"
             BlueprintName = "ddSdkReactnativeExample"
-            ReferencedContainer = "container:DdSdkReactNativeExample.xcodeproj">
+            ReferencedContainer = "container:OoSdkReactNativeExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -94,7 +94,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ddSdkReactnativeExample.app"
             BlueprintName = "ddSdkReactnativeExample"
-            ReferencedContainer = "container:DdSdkReactNativeExample.xcodeproj">
+            ReferencedContainer = "container:OoSdkReactNativeExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

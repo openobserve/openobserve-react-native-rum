@@ -17,7 +17,7 @@ class MainActivity : ReactActivity() {
      * rendering of the component.
      */
     override fun getMainComponentName(): String {
-        return "DdSdkReactNativeExample"
+        return "OoSdkReactNativeExample"
     }
 
     /**

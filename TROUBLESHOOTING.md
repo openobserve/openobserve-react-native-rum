@@ -6,7 +6,7 @@ See the [dedicated troubleshooting guide](./docs/troubleshooting_no_data.md).
 
 ### `Undefined symbols: Swift`
 
-Original issue: https://github.com/DataDog/dd-sdk-reactnative/issues/41
+Original issue: https://github.com/openobserve/openobserve-react-native-rum/issues/41
 
 If you have the following error message:
 
@@ -34,7 +34,7 @@ I had this issue when I run the project from Xcode. It might be related to this 
 We made the change below to fix it:
 
 ```
-// DdSdk.m
+// OoSdk.m
 // instead of
 #import <React/RCTBridgeModule.h>
 // maybe that:

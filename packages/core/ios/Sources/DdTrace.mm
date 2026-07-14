@@ -9,10 +9,10 @@
 #else
 #import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
 #endif
-#import "DdTrace.h"
+#import "OoTrace.h"
 
 
-@implementation DdTrace
+@implementation OoTrace
 
 RCT_EXPORT_MODULE()
 
@@ -51,10 +51,10 @@ RCT_REMAP_METHOD(finishSpan, withSpanId:(NSString*)spanId
     [self.ddTraceImplementation finishSpanWithSpanId:spanId context:context timestampMs:timestampMs resolve:resolve reject:reject];
 }
 
-- (DdTraceImplementation*)ddTraceImplementation
+- (OoTraceImplementation*)ddTraceImplementation
 {
     if (_ddTraceImplementation == nil) {
-        _ddTraceImplementation = [[DdTraceImplementation alloc] init];
+        _ddTraceImplementation = [[OoTraceImplementation alloc] init];
     }
     return _ddTraceImplementation;
 }

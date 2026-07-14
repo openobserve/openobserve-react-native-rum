@@ -11,10 +11,10 @@ import type { GestureResponderEvent } from 'react-native';
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types';
 import { BufferSingleton } from '../../sdk/DatadogProvider/Buffer/BufferSingleton';
-import { NativeDdSdk } from '../../sdk/DdSdkInternal';
+import { NativeDdSdk } from '../../sdk/OoSdkInternal';
 import { GlobalState } from '../../sdk/GlobalState/GlobalState';
 import { ErrorSource } from '../../types';
-import { DdRum } from '../DdRum';
+import { OoRum } from '../OoRum';
 import type { ActionEventMapper } from '../eventMappers/actionEventMapper';
 import type { ErrorEventMapper } from '../eventMappers/errorEventMapper';
 import type { ResourceEventMapper } from '../eventMappers/resourceEventMapper';
@@ -52,7 +52,7 @@ jest.mock('../../InternalLog', () => {
     };
 });
 
-describe('DdRum', () => {
+describe('OoRum', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         BufferSingleton.onInitialization();
@@ -62,15 +62,15 @@ describe('DdRum', () => {
     });
 
     describe('Context validation', () => {
-        describe('DdRum.startView', () => {
+        describe('OoRum.startView', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdRum.startView('key', 'name', context);
+                await OoRum.startView('key', 'name', context);
 
-                expect(NativeModules.DdRum.startView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startView).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     context,
@@ -80,7 +80,7 @@ describe('DdRum', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdRum.startView('key', 'name', context);
+                await OoRum.startView('key', 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -88,7 +88,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startView).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     {},
@@ -98,7 +98,7 @@ describe('DdRum', () => {
 
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
-                await DdRum.startView('key', 'name', context);
+                await OoRum.startView('key', 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -106,7 +106,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startView).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     { context },
@@ -115,16 +115,16 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.stopView', () => {
+        describe('OoRum.stopView', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdRum.startView('key', 'name');
-                await DdRum.stopView('key', context);
+                await OoRum.startView('key', 'name');
+                await OoRum.stopView('key', context);
 
-                expect(NativeModules.DdRum.stopView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopView).toHaveBeenCalledWith(
                     'key',
                     context,
                     expect.anything()
@@ -134,8 +134,8 @@ describe('DdRum', () => {
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
 
-                await DdRum.startView('key', 'name');
-                await DdRum.stopView('key', context);
+                await OoRum.startView('key', 'name');
+                await OoRum.stopView('key', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -143,7 +143,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.stopView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopView).toHaveBeenCalledWith(
                     'key',
                     {},
                     expect.anything()
@@ -153,8 +153,8 @@ describe('DdRum', () => {
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
 
-                await DdRum.startView('key', 'name');
-                await DdRum.stopView('key', context);
+                await OoRum.startView('key', 'name');
+                await OoRum.stopView('key', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -162,7 +162,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.stopView).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopView).toHaveBeenCalledWith(
                     'key',
                     { context },
                     expect.anything()
@@ -170,15 +170,15 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.startAction', () => {
+        describe('OoRum.startAction', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdRum.startAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.startAction(RumActionType.SCROLL, 'name', context);
 
-                expect(NativeModules.DdRum.startAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     context,
@@ -188,7 +188,7 @@ describe('DdRum', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdRum.startAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.startAction(RumActionType.SCROLL, 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -196,7 +196,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     {},
@@ -206,7 +206,7 @@ describe('DdRum', () => {
 
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
-                await DdRum.startAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.startAction(RumActionType.SCROLL, 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -214,7 +214,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     { context },
@@ -223,21 +223,21 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.stopAction', () => {
+        describe('OoRum.stopAction', () => {
             describe('New API', () => {
                 test('uses given context when context is valid', async () => {
                     const context = {
                         testA: 123,
                         testB: 'ok'
                     };
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(
                         RumActionType.SCROLL,
                         'name',
                         context
                     );
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         context,
@@ -248,8 +248,8 @@ describe('DdRum', () => {
                 test('uses empty context with error when context is invalid or null', async () => {
                     const context: any = Symbol('invalid-context');
 
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(
                         RumActionType.SCROLL,
                         'name',
                         context
@@ -261,7 +261,7 @@ describe('DdRum', () => {
                         SdkVerbosity.WARN
                     );
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         {},
@@ -272,8 +272,8 @@ describe('DdRum', () => {
                 test('nests given context in new object when context is array', async () => {
                     const context: any = [123, '456'];
 
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(
                         RumActionType.SCROLL,
                         'name',
                         context
@@ -285,7 +285,7 @@ describe('DdRum', () => {
                         SdkVerbosity.WARN
                     );
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         { context },
@@ -300,10 +300,10 @@ describe('DdRum', () => {
                         testA: 123,
                         testB: 'ok'
                     };
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(context);
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(context);
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         context,
@@ -312,10 +312,10 @@ describe('DdRum', () => {
                 });
 
                 test('uses empty context with error when context is invalid or null', async () => {
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(undefined);
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(undefined);
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         {},
@@ -326,8 +326,8 @@ describe('DdRum', () => {
                 test('nests given context in new object when context is array', async () => {
                     const context: any = [123, '456'];
 
-                    await DdRum.startAction(RumActionType.SCROLL, 'name');
-                    await DdRum.stopAction(context);
+                    await OoRum.startAction(RumActionType.SCROLL, 'name');
+                    await OoRum.stopAction(context);
 
                     expect(InternalLog.log).toHaveBeenNthCalledWith(
                         3,
@@ -335,7 +335,7 @@ describe('DdRum', () => {
                         SdkVerbosity.WARN
                     );
 
-                    expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+                    expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                         RumActionType.SCROLL,
                         'name',
                         { context },
@@ -345,15 +345,15 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.startResource', () => {
+        describe('OoRum.startResource', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdRum.startResource('key', 'method', 'url', context);
+                await OoRum.startResource('key', 'method', 'url', context);
 
-                expect(NativeModules.DdRum.startResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startResource).toHaveBeenCalledWith(
                     'key',
                     'method',
                     'url',
@@ -365,7 +365,7 @@ describe('DdRum', () => {
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
 
-                await DdRum.startResource('key', 'method', 'url', context);
+                await OoRum.startResource('key', 'method', 'url', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -373,7 +373,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startResource).toHaveBeenCalledWith(
                     'key',
                     'method',
                     'url',
@@ -385,7 +385,7 @@ describe('DdRum', () => {
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
 
-                await DdRum.startResource('key', 'method', 'url', context);
+                await OoRum.startResource('key', 'method', 'url', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -393,7 +393,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.startResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.startResource).toHaveBeenCalledWith(
                     'key',
                     'method',
                     'url',
@@ -403,17 +403,17 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.stopResource', () => {
+        describe('OoRum.stopResource', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
 
-                await DdRum.startResource('key', 'method', 'url', {});
-                await DdRum.stopResource('key', 200, 'other', -1, context);
+                await OoRum.startResource('key', 'method', 'url', {});
+                await OoRum.stopResource('key', 200, 'other', -1, context);
 
-                expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                     'key',
                     200,
                     'other',
@@ -426,8 +426,8 @@ describe('DdRum', () => {
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
 
-                await DdRum.startResource('key', 'method', 'url', {});
-                await DdRum.stopResource('key', 200, 'other', -1, context);
+                await OoRum.startResource('key', 'method', 'url', {});
+                await OoRum.stopResource('key', 200, 'other', -1, context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -435,7 +435,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                     'key',
                     200,
                     'other',
@@ -448,8 +448,8 @@ describe('DdRum', () => {
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
 
-                await DdRum.startResource('key', 'method', 'url', {});
-                await DdRum.stopResource('key', 200, 'other', -1, context);
+                await OoRum.startResource('key', 'method', 'url', {});
+                await OoRum.stopResource('key', 200, 'other', -1, context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     3,
@@ -457,7 +457,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                     'key',
                     200,
                     'other',
@@ -483,10 +483,10 @@ describe('DdRum', () => {
                 });
             });
 
-            describe('DdRum.generateTraceId', () => {
+            describe('OoRum.generateTraceId', () => {
                 it('generates 128-bit trace ID (100 iterations)', () => {
                     for (let i = 0; i < 100; i++) {
-                        const traceId = DdRum.generateTraceId();
+                        const traceId = OoRum.generateTraceId();
                         expect(traceId).toBeDefined();
                         expect(
                             TracingIdentifierUtils.isWithin128Bits(
@@ -497,10 +497,10 @@ describe('DdRum', () => {
                 });
             });
 
-            describe('DdRum.generateSpanId', () => {
+            describe('OoRum.generateSpanId', () => {
                 it('generates 64-bit span ID (100 iterations)', () => {
                     for (let i = 0; i < 100; i++) {
-                        const spanId = DdRum.generateSpanId();
+                        const spanId = OoRum.generateSpanId();
                         expect(spanId).toBeDefined();
                         expect(
                             TracingIdentifierUtils.isWithin64Bits(
@@ -511,7 +511,7 @@ describe('DdRum', () => {
                 });
             });
 
-            describe('DdRum.getTracingContext', () => {
+            describe('OoRum.getTracingContext', () => {
                 it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
                     for (let i = 0; i < 100; i++) {
                         const url = 'https://www.example.com';
@@ -524,7 +524,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -558,7 +558,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -593,7 +593,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -628,7 +628,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -668,7 +668,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -724,7 +724,7 @@ describe('DdRum', () => {
                             }
                         ];
 
-                        const tracingContext = DdRum.getTracingContext(
+                        const tracingContext = OoRum.getTracingContext(
                             url,
                             tracingSamplingRate,
                             firstPartyHosts
@@ -792,7 +792,7 @@ describe('DdRum', () => {
                         }
                     ];
 
-                    const tracingContext = DdRum.getTracingContext(
+                    const tracingContext = OoRum.getTracingContext(
                         url,
                         100,
                         firstPartyHosts
@@ -819,7 +819,7 @@ describe('DdRum', () => {
                         }
                     ];
 
-                    const tracingContext = DdRum.getTracingContext(
+                    const tracingContext = OoRum.getTracingContext(
                         url,
                         100,
                         firstPartyHosts
@@ -838,13 +838,13 @@ describe('DdRum', () => {
                 });
             });
 
-            describe('DdRum.getTracingContextForPropagators', () => {
+            describe('OoRum.getTracingContextForPropagators', () => {
                 it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
                     for (let i = 0; i < 100; i++) {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [PropagatorType.DATADOG],
                             tracingSamplingRate
                         );
@@ -870,7 +870,7 @@ describe('DdRum', () => {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [PropagatorType.TRACECONTEXT],
                             tracingSamplingRate
                         );
@@ -897,7 +897,7 @@ describe('DdRum', () => {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [PropagatorType.B3],
                             tracingSamplingRate
                         );
@@ -924,7 +924,7 @@ describe('DdRum', () => {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [PropagatorType.B3MULTI],
                             tracingSamplingRate
                         );
@@ -950,7 +950,7 @@ describe('DdRum', () => {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -998,7 +998,7 @@ describe('DdRum', () => {
                         const randomSessionId = `test-${Math.random()}`;
 
                         setCachedSessionId(randomSessionId);
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -1024,7 +1024,7 @@ describe('DdRum', () => {
                         const randomUserId = `test-${Math.random()}`;
 
                         setCachedUserId(randomUserId);
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -1050,7 +1050,7 @@ describe('DdRum', () => {
                         const randomAccountId = `test-${Math.random()}`;
 
                         setCachedAccountId(randomAccountId);
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -1080,7 +1080,7 @@ describe('DdRum', () => {
                         setCachedSessionId(randomSessionId);
                         setCachedUserId(randomUserId);
                         setCachedAccountId(randomAccountId);
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -1105,7 +1105,7 @@ describe('DdRum', () => {
                     for (let i = 0; i < 100; i++) {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
-                        const tracingContext = DdRum.getTracingContextForPropagators(
+                        const tracingContext = OoRum.getTracingContextForPropagators(
                             [
                                 PropagatorType.DATADOG,
                                 PropagatorType.TRACECONTEXT,
@@ -1164,7 +1164,7 @@ describe('DdRum', () => {
                 });
 
                 it('returns empty tracing context for empty propagators and sampling rate 100', () => {
-                    const tracingContext = DdRum.getTracingContextForPropagators(
+                    const tracingContext = OoRum.getTracingContextForPropagators(
                         [],
                         100
                     );
@@ -1183,23 +1183,23 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.addTiming', () => {
+        describe('OoRum.addTiming', () => {
             it('calls the native SDK when setting a timing', async () => {
                 // GIVEN
                 const timingName = 'testTiming';
 
                 // WHEN
-                await DdRum.addTiming(timingName);
+                await OoRum.addTiming(timingName);
 
                 // THEN
-                expect(NativeModules.DdRum.addTiming).toHaveBeenCalledTimes(1);
-                expect(NativeModules.DdRum.addTiming).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addTiming).toHaveBeenCalledTimes(1);
+                expect(NativeModules.OoRum.addTiming).toHaveBeenCalledWith(
                     timingName
                 );
             });
         });
 
-        describe('DdRum.addViewAttribute', () => {
+        describe('OoRum.addViewAttribute', () => {
             it('calls the native SDK when setting a view attribute', async () => {
                 // GIVEN
                 const key = 'testAttribute';
@@ -1207,37 +1207,37 @@ describe('DdRum', () => {
 
                 // WHEN
 
-                await DdRum.addViewAttribute(key, value);
+                await OoRum.addViewAttribute(key, value);
 
                 // THEN
                 expect(
-                    NativeModules.DdRum.addViewAttribute
+                    NativeModules.OoRum.addViewAttribute
                 ).toHaveBeenCalledTimes(1);
                 expect(
-                    NativeModules.DdRum.addViewAttribute
+                    NativeModules.OoRum.addViewAttribute
                 ).toHaveBeenCalledWith(key, { value });
             });
         });
 
-        describe('DdRum.removViewAttribute', () => {
+        describe('OoRum.removViewAttribute', () => {
             it('calls the native SDK when removing a view attribute', async () => {
                 // GIVEN
                 const key = 'testAttribute';
 
                 // WHEN
-                await DdRum.removeViewAttribute(key);
+                await OoRum.removeViewAttribute(key);
 
                 // THEN
                 expect(
-                    NativeModules.DdRum.removeViewAttribute
+                    NativeModules.OoRum.removeViewAttribute
                 ).toHaveBeenCalledTimes(1);
                 expect(
-                    NativeModules.DdRum.removeViewAttribute
+                    NativeModules.OoRum.removeViewAttribute
                 ).toHaveBeenCalledWith(key);
             });
         });
 
-        describe('DdRum.addViewAttributes', () => {
+        describe('OoRum.addViewAttributes', () => {
             it('calls the native SDK when setting view attributes', async () => {
                 // GIVEN
                 const attributes = {
@@ -1245,45 +1245,45 @@ describe('DdRum', () => {
                 };
 
                 // WHEN
-                await DdRum.addViewAttributes(attributes);
+                await OoRum.addViewAttributes(attributes);
 
                 // THEN
                 expect(
-                    NativeModules.DdRum.addViewAttributes
+                    NativeModules.OoRum.addViewAttributes
                 ).toHaveBeenCalledTimes(1);
                 expect(
-                    NativeModules.DdRum.addViewAttributes
+                    NativeModules.OoRum.addViewAttributes
                 ).toHaveBeenCalledWith(attributes);
             });
         });
 
-        describe('DdRum.removViewAttributes', () => {
+        describe('OoRum.removViewAttributes', () => {
             it('calls the native SDK when removing view attributes', async () => {
                 // GIVEN
                 const keysToDelete = ['test1', 'test2'];
 
                 // WHEN
-                await DdRum.removeViewAttributes(keysToDelete);
+                await OoRum.removeViewAttributes(keysToDelete);
 
                 // THEN
                 expect(
-                    NativeModules.DdRum.removeViewAttributes
+                    NativeModules.OoRum.removeViewAttributes
                 ).toHaveBeenCalledTimes(1);
                 expect(
-                    NativeModules.DdRum.removeViewAttributes
+                    NativeModules.OoRum.removeViewAttributes
                 ).toHaveBeenCalledWith(keysToDelete);
             });
         });
 
-        describe('DdRum.addAction', () => {
+        describe('OoRum.addAction', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
-                await DdRum.addAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.addAction(RumActionType.SCROLL, 'name', context);
 
-                expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     null,
@@ -1294,7 +1294,7 @@ describe('DdRum', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdRum.addAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.addAction(RumActionType.SCROLL, 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -1302,7 +1302,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     null,
@@ -1313,7 +1313,7 @@ describe('DdRum', () => {
 
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
-                await DdRum.addAction(RumActionType.SCROLL, 'name', context);
+                await OoRum.addAction(RumActionType.SCROLL, 'name', context);
 
                 expect(InternalLog.log).toHaveBeenNthCalledWith(
                     2,
@@ -1321,7 +1321,7 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                     expect.anything(),
                     expect.anything(),
                     null,
@@ -1331,27 +1331,27 @@ describe('DdRum', () => {
             });
         });
 
-        describe('DdRum.addError', () => {
+        describe('OoRum.addError', () => {
             test('uses given context when context is valid', async () => {
                 const context = {
                     testA: 123,
                     testB: 'ok'
                 };
 
-                await DdRum.addError(
+                await OoRum.addError(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
                     context
                 );
 
-                expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
                     {
                         ...context,
-                        '_dd.error.source_type': 'react-native'
+                        '_oo.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1360,7 +1360,7 @@ describe('DdRum', () => {
 
             test('uses empty context with error when context is invalid or null', async () => {
                 const context: any = Symbol('invalid-context');
-                await DdRum.addError(
+                await OoRum.addError(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
@@ -1373,12 +1373,12 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
                     {
-                        '_dd.error.source_type': 'react-native'
+                        '_oo.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1387,7 +1387,7 @@ describe('DdRum', () => {
 
             test('nests given context in new object when context is array', async () => {
                 const context: any = [123, '456'];
-                await DdRum.addError(
+                await OoRum.addError(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
@@ -1400,13 +1400,13 @@ describe('DdRum', () => {
                     SdkVerbosity.WARN
                 );
 
-                expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+                expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                     'error',
                     ErrorSource.CUSTOM,
                     'stacktrace',
                     {
                         context,
-                        '_dd.error.source_type': 'react-native'
+                        '_oo.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1415,15 +1415,15 @@ describe('DdRum', () => {
         });
     });
 
-    describe('DdRum.stopAction', () => {
+    describe('OoRum.stopAction', () => {
         test('calls the native SDK when called with new API', async () => {
-            await DdRum.stopAction(
+            await OoRum.stopAction(
                 RumActionType.SCROLL,
                 'page',
                 { user: 'me' },
                 123
             );
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 RumActionType.SCROLL,
                 'page',
                 { user: 'me' },
@@ -1432,8 +1432,8 @@ describe('DdRum', () => {
         });
 
         test('calls the native SDK when called with new API with default values', async () => {
-            await DdRum.stopAction(RumActionType.SCROLL, 'page');
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            await OoRum.stopAction(RumActionType.SCROLL, 'page');
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 RumActionType.SCROLL,
                 'page',
                 {},
@@ -1442,15 +1442,15 @@ describe('DdRum', () => {
         });
 
         test('does not call the native SDK when startAction has not been called before and using old API', async () => {
-            await DdRum.stopAction({ user: 'me' }, 789);
-            expect(NativeModules.DdRum.stopAction).not.toHaveBeenCalled();
+            await OoRum.stopAction({ user: 'me' }, 789);
+            expect(NativeModules.OoRum.stopAction).not.toHaveBeenCalled();
             expect(NativeDdSdk.telemetryDebug).not.toHaveBeenCalled();
         });
 
         test('calls the native SDK when called with old API', async () => {
-            await DdRum.startAction(RumActionType.SCROLL, 'page_old_api');
-            await DdRum.stopAction({ user: 'me' }, 789);
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            await OoRum.startAction(RumActionType.SCROLL, 'page_old_api');
+            await OoRum.stopAction({ user: 'me' }, 789);
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 RumActionType.SCROLL,
                 'page_old_api',
                 { user: 'me' },
@@ -1462,9 +1462,9 @@ describe('DdRum', () => {
         });
 
         test('calls the native SDK when called with old API with default values', async () => {
-            await DdRum.startAction(RumActionType.SCROLL, 'page_old_api');
-            await DdRum.stopAction();
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            await OoRum.startAction(RumActionType.SCROLL, 'page_old_api');
+            await OoRum.stopAction();
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 RumActionType.SCROLL,
                 'page_old_api',
                 {},
@@ -1476,14 +1476,14 @@ describe('DdRum', () => {
         });
 
         test('cleans the action data when stopAction is called', async () => {
-            await DdRum.startAction(RumActionType.SCROLL, 'page_old_api');
-            await DdRum.stopAction();
-            await DdRum.stopAction();
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledTimes(1);
+            await OoRum.startAction(RumActionType.SCROLL, 'page_old_api');
+            await OoRum.stopAction();
+            await OoRum.stopAction();
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledTimes(1);
         });
     });
 
-    describe('DdRumWrapper', () => {
+    describe('OoRumWrapper', () => {
         beforeEach(() => {
             jest.clearAllMocks();
             BufferSingleton.onInitialization();
@@ -1496,17 +1496,17 @@ describe('DdRum', () => {
             const stacktrace = 'doSomething() at ./path/to/file.js:67:3';
 
             // When
-            DdRum.addError(message, source, stacktrace);
+            OoRum.addError(message, source, stacktrace);
 
             // Then
-            expect(NativeModules.DdRum.addError.mock.calls.length).toBe(1);
-            expect(NativeModules.DdRum.addError.mock.calls[0][0]).toBe(message);
-            expect(NativeModules.DdRum.addError.mock.calls[0][1]).toBe(source);
-            expect(NativeModules.DdRum.addError.mock.calls[0][2]).toBe(
+            expect(NativeModules.OoRum.addError.mock.calls.length).toBe(1);
+            expect(NativeModules.OoRum.addError.mock.calls[0][0]).toBe(message);
+            expect(NativeModules.OoRum.addError.mock.calls[0][1]).toBe(source);
+            expect(NativeModules.OoRum.addError.mock.calls[0][2]).toBe(
                 stacktrace
             );
-            const context = NativeModules.DdRum.addError.mock.calls[0][3];
-            expect(context['_dd.error.source_type']).toStrictEqual(
+            const context = NativeModules.OoRum.addError.mock.calls[0][3];
+            expect(context['_oo.error.source_type']).toStrictEqual(
                 'react-native'
             );
         });
@@ -1518,7 +1518,7 @@ describe('DdRum', () => {
             const stacktrace = 'doSomething() at ./path/to/file.js:67:3';
 
             // When
-            DdRum.addError(
+            OoRum.addError(
                 message,
                 source,
                 stacktrace,
@@ -1528,17 +1528,17 @@ describe('DdRum', () => {
             );
 
             // Then
-            expect(NativeModules.DdRum.addError.mock.calls.length).toBe(1);
-            expect(NativeModules.DdRum.addError.mock.calls[0][0]).toBe(message);
-            expect(NativeModules.DdRum.addError.mock.calls[0][1]).toBe(source);
-            expect(NativeModules.DdRum.addError.mock.calls[0][2]).toBe(
+            expect(NativeModules.OoRum.addError.mock.calls.length).toBe(1);
+            expect(NativeModules.OoRum.addError.mock.calls[0][0]).toBe(message);
+            expect(NativeModules.OoRum.addError.mock.calls[0][1]).toBe(source);
+            expect(NativeModules.OoRum.addError.mock.calls[0][2]).toBe(
                 stacktrace
             );
-            const context = NativeModules.DdRum.addError.mock.calls[0][3];
-            expect(context['_dd.error.source_type']).toStrictEqual(
+            const context = NativeModules.OoRum.addError.mock.calls[0][3];
+            expect(context['_oo.error.source_type']).toStrictEqual(
                 'react-native'
             );
-            expect(NativeModules.DdRum.addError.mock.calls[0][5]).toBe(
+            expect(NativeModules.OoRum.addError.mock.calls[0][5]).toBe(
                 'custom-fingerprint'
             );
         });
@@ -1555,17 +1555,17 @@ describe('DdRum', () => {
             };
 
             // When
-            DdRum.addError(message, source, stacktrace, attributes);
+            OoRum.addError(message, source, stacktrace, attributes);
 
             // Then
-            expect(NativeModules.DdRum.addError.mock.calls.length).toBe(1);
-            expect(NativeModules.DdRum.addError.mock.calls[0][0]).toBe(message);
-            expect(NativeModules.DdRum.addError.mock.calls[0][1]).toBe(source);
-            expect(NativeModules.DdRum.addError.mock.calls[0][2]).toBe(
+            expect(NativeModules.OoRum.addError.mock.calls.length).toBe(1);
+            expect(NativeModules.OoRum.addError.mock.calls[0][0]).toBe(message);
+            expect(NativeModules.OoRum.addError.mock.calls[0][1]).toBe(source);
+            expect(NativeModules.OoRum.addError.mock.calls[0][2]).toBe(
                 stacktrace
             );
-            const context = NativeModules.DdRum.addError.mock.calls[0][3];
-            expect(context['_dd.error.source_type']).toStrictEqual(
+            const context = NativeModules.OoRum.addError.mock.calls[0][3];
+            expect(context['_oo.error.source_type']).toStrictEqual(
                 'react-native'
             );
             expect(context['foo']).toStrictEqual('bar');
@@ -1573,7 +1573,7 @@ describe('DdRum', () => {
         });
     });
 
-    describe('DdRum.addError', () => {
+    describe('OoRum.addError', () => {
         it('registers event mapper and maps error', async () => {
             const errorEventMapper: ErrorEventMapper = error => {
                 error.message = 'New message';
@@ -1582,17 +1582,17 @@ describe('DdRum', () => {
                 };
                 return error;
             };
-            DdRum.registerErrorEventMapper(errorEventMapper);
+            OoRum.registerErrorEventMapper(errorEventMapper);
 
-            await DdRum.addError('Old message', ErrorSource.CUSTOM, 'stack', {
+            await OoRum.addError('Old message', ErrorSource.CUSTOM, 'stack', {
                 isFatal: false
             });
-            expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                 'New message',
                 'CUSTOM',
                 'stack',
                 {
-                    '_dd.error.source_type': 'react-native',
+                    '_oo.error.source_type': 'react-native',
                     isFatal: true
                 },
                 456,
@@ -1605,12 +1605,12 @@ describe('DdRum', () => {
                 return null;
             };
 
-            DdRum.registerErrorEventMapper(errorEventMapper);
+            OoRum.registerErrorEventMapper(errorEventMapper);
 
-            await DdRum.addError('Old message', ErrorSource.CUSTOM, 'stack', {
+            await OoRum.addError('Old message', ErrorSource.CUSTOM, 'stack', {
                 isFatal: false
             });
-            expect(NativeModules.DdRum.addError).not.toHaveBeenCalled();
+            expect(NativeModules.OoRum.addError).not.toHaveBeenCalled();
         });
 
         it('can inject fingerprint from custom mapper', async () => {
@@ -1620,17 +1620,17 @@ describe('DdRum', () => {
                 return error;
             };
 
-            DdRum.registerErrorEventMapper(errorEventMapper);
+            OoRum.registerErrorEventMapper(errorEventMapper);
 
-            await DdRum.addError('ERROR MESSAGE', ErrorSource.CUSTOM, 'stack', {
+            await OoRum.addError('ERROR MESSAGE', ErrorSource.CUSTOM, 'stack', {
                 isFatal: true
             });
-            expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                 'ERROR MESSAGE',
                 'CUSTOM',
                 'stack',
                 {
-                    '_dd.error.source_type': 'react-native',
+                    '_oo.error.source_type': 'react-native',
                     isFatal: true
                 },
                 456,
@@ -1639,7 +1639,7 @@ describe('DdRum', () => {
         });
     });
 
-    describe('DdRum.stopResource', () => {
+    describe('OoRum.stopResource', () => {
         it('registers event mapper and maps resource', async () => {
             const resourceEventMapper: ResourceEventMapper = resource => {
                 resource.context = { retryAttempts: 3 };
@@ -1653,17 +1653,17 @@ describe('DdRum', () => {
                 resource.size = 2000;
                 return resource;
             };
-            DdRum.registerResourceEventMapper(resourceEventMapper);
+            OoRum.registerResourceEventMapper(resourceEventMapper);
 
-            await DdRum.startResource(
+            await OoRum.startResource(
                 'key',
                 'GET',
                 'https://my-api.com/',
                 { retry: false },
                 234
             );
-            await DdRum.stopResource('key', 200, 'xhr', 302, {}, 245);
-            expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+            await OoRum.stopResource('key', 200, 'xhr', 302, {}, 245);
+            expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                 'key',
                 200,
                 'xhr',
@@ -1678,16 +1678,16 @@ describe('DdRum', () => {
                 return null;
             };
 
-            DdRum.registerResourceEventMapper(resourceEventMapper);
+            OoRum.registerResourceEventMapper(resourceEventMapper);
 
-            await DdRum.startResource(
+            await OoRum.startResource(
                 'key',
                 'GET',
                 'https://my-api.com/',
                 { retry: false },
                 234
             );
-            await DdRum.stopResource(
+            await OoRum.stopResource(
                 'key',
                 200,
                 'xhr',
@@ -1696,18 +1696,18 @@ describe('DdRum', () => {
                 245
             );
 
-            expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                 'key',
                 200,
                 'xhr',
                 302,
-                { '_dd.resource.drop_resource': true },
+                { '_oo.resource.drop_resource': true },
                 245
             );
         });
     });
 
-    describe('DdRum.addAction', () => {
+    describe('OoRum.addAction', () => {
         it('passes touch data from GestureResponderEvent to native module', async () => {
             const event = ({
                 nativeEvent: {
@@ -1719,7 +1719,7 @@ describe('DdRum', () => {
                 }
             } as unknown) as GestureResponderEvent;
 
-            await DdRum.addAction(
+            await OoRum.addAction(
                 RumActionType.TAP,
                 'tap button',
                 {},
@@ -1727,7 +1727,7 @@ describe('DdRum', () => {
                 event
             );
 
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                 'TAP',
                 'tap button',
                 { reactTag: 42, x: 10, y: 20, pageX: 100, pageY: 200 },
@@ -1741,15 +1741,15 @@ describe('DdRum', () => {
                 action.context = { frustration: true };
                 return action;
             };
-            DdRum.registerActionEventMapper(actionEventMapper);
+            OoRum.registerActionEventMapper(actionEventMapper);
 
-            await DdRum.addAction(
+            await OoRum.addAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 {},
                 123
             );
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                 'CUSTOM',
                 'Click on button',
                 null,
@@ -1766,20 +1766,20 @@ describe('DdRum', () => {
                 return null;
             };
 
-            DdRum.registerActionEventMapper(actionEventMapper);
+            OoRum.registerActionEventMapper(actionEventMapper);
 
-            await DdRum.addAction(
+            await OoRum.addAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 {},
                 123
             );
 
-            expect(NativeModules.DdRum.addAction).not.toHaveBeenCalled();
+            expect(NativeModules.OoRum.addAction).not.toHaveBeenCalled();
         });
     });
 
-    describe('DdRum.stopAction', () => {
+    describe('OoRum.stopAction', () => {
         it('registers event mapper and maps action', async () => {
             const actionEventMapper: ActionEventMapper = action => {
                 action.context = { frustration: true };
@@ -1789,21 +1789,21 @@ describe('DdRum', () => {
                 action.name = 'bad name';
                 return action;
             };
-            DdRum.registerActionEventMapper(actionEventMapper);
+            OoRum.registerActionEventMapper(actionEventMapper);
 
-            await DdRum.startAction(
+            await OoRum.startAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 { frustration: false },
                 234
             );
-            await DdRum.stopAction(
+            await OoRum.stopAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 { frustration: false },
                 234
             );
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 'CUSTOM',
                 'Click on button',
                 { frustration: true },
@@ -1816,70 +1816,70 @@ describe('DdRum', () => {
                 return null;
             };
 
-            DdRum.registerActionEventMapper(actionEventMapper);
+            OoRum.registerActionEventMapper(actionEventMapper);
 
-            await DdRum.startAction(
+            await OoRum.startAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 { frustration: false },
                 234
             );
-            await DdRum.stopAction(
+            await OoRum.stopAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 { frustration: false },
                 234
             );
 
-            expect(NativeModules.DdRum.stopAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 'CUSTOM',
                 'Click on button',
-                { '_dd.action.drop_action': true },
+                { '_oo.action.drop_action': true },
                 234
             );
         });
     });
 
-    describe('DdRum.stopSession', () => {
+    describe('OoRum.stopSession', () => {
         it('calls the native API', async () => {
-            await DdRum.stopSession();
-            expect(NativeModules.DdRum.stopSession).toHaveBeenCalledWith();
+            await OoRum.stopSession();
+            expect(NativeModules.OoRum.stopSession).toHaveBeenCalledWith();
         });
     });
 
-    describe('DdRum.getCurrentSessionId', () => {
+    describe('OoRum.getCurrentSessionId', () => {
         it('calls the native API if SDK is initialized', async () => {
             GlobalState.isInitialized = true;
-            const sessionId = await DdRum.getCurrentSessionId();
-            expect(NativeModules.DdRum.getCurrentSessionId).toHaveBeenCalled();
+            const sessionId = await OoRum.getCurrentSessionId();
+            expect(NativeModules.OoRum.getCurrentSessionId).toHaveBeenCalled();
             expect(sessionId).toBe('test-session-id');
         });
     });
 
-    describe('DdRum.getCurrentSessionId', () => {
+    describe('OoRum.getCurrentSessionId', () => {
         it('returns undefined if SDK is not initialized', async () => {
             GlobalState.isInitialized = false;
-            const sessionId = await DdRum.getCurrentSessionId();
+            const sessionId = await OoRum.getCurrentSessionId();
             expect(
-                NativeModules.DdRum.getCurrentSessionId
+                NativeModules.OoRum.getCurrentSessionId
             ).toHaveBeenCalledTimes(0);
             expect(sessionId).toBe(undefined);
         });
     });
 
-    describe('DdRum.addViewLoadingTime', () => {
+    describe('OoRum.addViewLoadingTime', () => {
         it('calls the native API', async () => {
-            await DdRum.addViewLoadingTime(true);
-            await DdRum.addViewLoadingTime(false);
+            await OoRum.addViewLoadingTime(true);
+            await OoRum.addViewLoadingTime(false);
 
             expect(
-                NativeModules.DdRum.addViewLoadingTime
+                NativeModules.OoRum.addViewLoadingTime
             ).toHaveBeenNthCalledWith(1, true);
             expect(
-                NativeModules.DdRum.addViewLoadingTime
+                NativeModules.OoRum.addViewLoadingTime
             ).toHaveBeenNthCalledWith(2, false);
             expect(
-                NativeModules.DdRum.addViewLoadingTime
+                NativeModules.OoRum.addViewLoadingTime
             ).toHaveBeenCalledTimes(2);
         });
     });

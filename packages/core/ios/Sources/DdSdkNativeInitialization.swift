@@ -18,7 +18,7 @@ import React
 #endif
 
 @objc
-public class DdSdkNativeInitialization: NSObject {
+public class OoSdkNativeInitialization: NSObject {
     let jsonFileReader: ResourceFileReader
 
     @objc
@@ -32,11 +32,11 @@ public class DdSdkNativeInitialization: NSObject {
         self.jsonFileReader = jsonFileReader
     }
 
-    internal func initialize(sdkConfiguration: DdSdkConfiguration, isCalledFromJs: Bool = true) {
+    internal func initialize(sdkConfiguration: OoSdkConfiguration, isCalledFromJs: Bool = true) {
         if Datadog.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
             // Initializing the SDK twice results in Global.rum and Global.sharedTracer to be set to no-op instances
             consolePrint("Datadog SDK is already initialized, skipping initialization.", .debug)
-            DdTelemetry.telemetryDebug(
+            OoTelemetry.telemetryDebug(
                 id: "datadog_react_native: RN  SDK was already initialized in native",
                 message: "RN SDK was already initialized in native"
             )
@@ -54,20 +54,20 @@ public class DdSdkNativeInitialization: NSObject {
         }
 
         if isCalledFromJs {
-            DdSdkSessionStartedListener.instance.onRnSdkInitialized()
+            OoSdkSessionStartedListener.instance.onRnSdkInitialized()
             // Handles the case in which the SDK was already initialized via initFromNative.
             // Replay the current session ID so the listener can deliver it now that the
             // JS-side DatadogInternalReactBridge module is guaranteed to be registered.
             if Datadog.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
                 RUMMonitor.shared().currentSessionID { sessionId in
                     guard let id = sessionId else { return }
-                    DdSdkSessionStartedListener.instance.rumSessionListener?(id, false)
+                    OoSdkSessionStartedListener.instance.rumSessionListener?(id, false)
                 }
             }
         }
     }
 
-    internal func getConfigurationFromJSONFile() -> DdSdkConfiguration? {
+    internal func getConfigurationFromJSONFile() -> OoSdkConfiguration? {
         if let jsonResult = jsonFileReader.parseResourceFile(resourcePath: "datadog-configuration")
             as? [String: AnyObject]
         {
@@ -91,7 +91,7 @@ public class DdSdkNativeInitialization: NSObject {
         }
     }
 
-    func enableFeatures(sdkConfiguration: DdSdkConfiguration) {
+    func enableFeatures(sdkConfiguration: OoSdkConfiguration) {
         
         if (sdkConfiguration.rumConfiguration != nil) {
             let rumConfig = buildRumConfiguration(configuration: sdkConfiguration)
@@ -118,7 +118,7 @@ public class DdSdkNativeInitialization: NSObject {
     }
 
     func buildSDKConfiguration(
-        configuration: DdSdkConfiguration,
+        configuration: OoSdkConfiguration,
         defaultAppVersion: String = getDefaultAppVersion()
     ) -> Datadog.Configuration {
         var config = Datadog.Configuration(
@@ -148,7 +148,7 @@ public class DdSdkNativeInitialization: NSObject {
         return config
     }
 
-    func buildRumConfiguration(configuration: DdSdkConfiguration) -> RUM.Configuration {
+    func buildRumConfiguration(configuration: OoSdkConfiguration) -> RUM.Configuration {
         guard let rumConfig = configuration.rumConfiguration else {
             preconditionFailure("buildRumConfiguration called without rumConfiguration")
         }
@@ -233,7 +233,7 @@ public class DdSdkNativeInitialization: NSObject {
                 }
                 return actionEvent
             },
-            onSessionStart: DdSdkSessionStartedListener.instance.rumSessionListener,
+            onSessionStart: OoSdkSessionStartedListener.instance.rumSessionListener,
             customEndpoint: customRUMEndpointURL,
             trackMemoryWarnings: rumConfig.trackMemoryWarnings
                 ?? DefaultConfiguration.trackMemoryWarnings,
@@ -242,7 +242,7 @@ public class DdSdkNativeInitialization: NSObject {
         )
     }
 
-    func buildLogsConfiguration(configuration: DdSdkConfiguration) -> Logs.Configuration {
+    func buildLogsConfiguration(configuration: OoSdkConfiguration) -> Logs.Configuration {
         guard let logsConfig = configuration.logsConfiguration else {
             preconditionFailure("buildLogsConfiguration called without logsConfiguration")
         }
@@ -258,7 +258,7 @@ public class DdSdkNativeInitialization: NSObject {
         return Logs.Configuration(customEndpoint: customLogsEndpointURL)
     }
 
-    func buildTraceConfiguration(configuration: DdSdkConfiguration) -> Trace.Configuration {
+    func buildTraceConfiguration(configuration: OoSdkConfiguration) -> Trace.Configuration {
         guard let traceConfig = configuration.traceConfiguration else {
             preconditionFailure("buildTraceConfiguration called without traceConfiguration")
         }
@@ -274,7 +274,7 @@ public class DdSdkNativeInitialization: NSObject {
         return Trace.Configuration(customEndpoint: customTraceEndpointURL)
     }
 
-    func setVerbosityLevel(configuration: DdSdkConfiguration) {
+    func setVerbosityLevel(configuration: OoSdkConfiguration) {
         switch configuration.verbosity?.lowercased {
         case "debug":
             Datadog.verbosityLevel = .debug

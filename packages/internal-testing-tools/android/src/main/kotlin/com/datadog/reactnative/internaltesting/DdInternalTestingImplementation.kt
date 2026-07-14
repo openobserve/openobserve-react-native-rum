@@ -27,7 +27,7 @@ import java.util.concurrent.Executors
 /**
  * The entry point to use Datadog's internal testing feature.
  */
-class DdInternalTestingImplementation {
+class OoInternalTestingImplementation {
     private var wrappedCore: StubSDKCore? = null
     private val gson = Gson()
 
@@ -68,7 +68,7 @@ class DdInternalTestingImplementation {
     }
 
     internal companion object {
-        internal const val NAME = "DdInternalTesting"
+        internal const val NAME = "OoInternalTesting"
     }
 
     internal fun swapSdkCore(name: String?, newSdkCore: StubSDKCore?) {

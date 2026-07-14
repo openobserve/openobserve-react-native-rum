@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdRum, SdkVerbosity, InternalLog } from '@datadog/mobile-react-native';
+import { OoRum, SdkVerbosity, InternalLog } from '@openobserve/mobile-react-native';
 import type { AppStateStatus, NativeEventSubscription } from 'react-native';
 import { AppState, BackHandler } from 'react-native';
 
@@ -81,7 +81,7 @@ class RumReactNavigationTracking {
     readonly NULL_NAVIGATION_REF_ERROR_MESSAGE =
         'Cannot track views with a null navigationRef.';
     readonly NAVIGATION_REF_IN_USE_ERROR_MESSAGE =
-        'Cannot track new navigation container while another one is still tracked. Please call `DdRumReactNavigationTracking.stopTrackingViews` on the previous container reference.';
+        'Cannot track new navigation container while another one is still tracked. Please call `OoRumReactNavigationTracking.stopTrackingViews` on the previous container reference.';
 
     private _navigationTimeline?: NavigationTimeline;
     private get navigationTimeline(): NavigationTimeline | undefined {
@@ -244,7 +244,7 @@ class RumReactNavigationTracking {
             this.appStateSubscription.remove();
 
             // The next if check is important as users can call `stopTrackingViews` before `startTrackingViews`
-            // see https://github.com/DataDog/dd-sdk-reactnative/issues/422
+            // see https://github.com/openobserve/openobserve-react-native-rum/issues/422
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
         } else if (AppState.removeEventListener) {
@@ -307,9 +307,9 @@ class RumReactNavigationTracking {
                 if (this.viewTrackingPredicate(route)) {
                     const params = this.paramsTrackingPredicate(route);
                     if (params) {
-                        DdRum.startView(customKey, screenName, { params });
+                        OoRum.startView(customKey, screenName, { params });
                     } else {
-                        DdRum.startView(customKey, screenName);
+                        OoRum.startView(customKey, screenName);
                     }
                 }
             }
@@ -342,7 +342,7 @@ class RumReactNavigationTracking {
                         trackingState: this.trackingState
                     }
                 );
-                DdRum.stopView(customKey);
+                OoRum.stopView(customKey);
                 this.previousRoute = undefined;
             } else if (
                 appStateStatus === 'active' &&
@@ -422,7 +422,7 @@ class RumReactNavigationTracking {
     };
 }
 
-export const DdRumReactNavigationTracking = getGlobalInstance(
+export const OoRumReactNavigationTracking = getGlobalInstance(
     REACT_NAVIGATION_TRACKING_MODULE,
     () => new RumReactNavigationTracking()
 );

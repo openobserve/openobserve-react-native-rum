@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DefaultTimeProvider } from "@datadog/mobile-react-native";
+import { DefaultTimeProvider } from "@openobserve/mobile-react-native";
 
 const timeProvider = new DefaultTimeProvider();
 

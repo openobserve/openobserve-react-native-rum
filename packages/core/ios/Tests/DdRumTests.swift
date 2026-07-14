@@ -11,12 +11,12 @@ import XCTest
 @testable import DatadogInternal
 import React
 
-internal class DdRumTests: XCTestCase {
+internal class OoRumTests: XCTestCase {
     private let mockNativeRUM = MockRUMMonitor()
     private let mockUIManager = MockUIManager()
     private let mockRootView = MockRootView()
     private let mockHeatmapIdentifierRegistry = MockHeatmapIdentifierRegistry()
-    private var rum: DdRumImplementation! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var rum: OoRumImplementation! // swiftlint:disable:this implicitly_unwrapped_optional
 
     private func mockResolve(args: Any?) {}
     private func mockReject(args: String?, arg: String?, err: Error?) {}
@@ -25,7 +25,7 @@ internal class DdRumTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        rum = DdRumImplementation(
+        rum = OoRumImplementation(
             mainDispatchQueue: DispatchQueueMock(),
             uiManager: self.mockUIManager,
             rootViewProvider: { self.mockRootView },
@@ -39,7 +39,7 @@ internal class DdRumTests: XCTestCase {
         // Given
         let expectation = self.expectation(description: "Initialize RUM once")
 
-        let rum = DdRumImplementation(
+        let rum = OoRumImplementation(
             mainDispatchQueue: DispatchQueueMock(),
             uiManager: MockUIManager(),
             rootViewProvider: { nil },
@@ -59,10 +59,10 @@ internal class DdRumTests: XCTestCase {
     }
 
     func testInternalTimestampKeyValue() {
-        let key = "_dd.timestamp"
+        let key = "_oo.timestamp"
         
-        XCTAssertEqual(DdRumImplementation.timestampKey, DatadogInternal.CrossPlatformAttributes.timestampInMilliseconds)
-        XCTAssertEqual(DdRumImplementation.timestampKey, DatadogSDKReactNative.CrossPlatformAttributes.timestampInMilliseconds)
+        XCTAssertEqual(OoRumImplementation.timestampKey, DatadogInternal.CrossPlatformAttributes.timestampInMilliseconds)
+        XCTAssertEqual(OoRumImplementation.timestampKey, DatadogSDKReactNative.CrossPlatformAttributes.timestampInMilliseconds)
     }
 
     func testStartView() throws {
@@ -74,7 +74,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStopView() throws {
@@ -86,7 +86,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStartAction() throws {
@@ -98,7 +98,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStopActionWithoutStarting() {
@@ -117,7 +117,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testAddAction() throws {
@@ -129,7 +129,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testAddActionWithTouch() throws {
@@ -268,7 +268,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStopResource() throws {
@@ -280,7 +280,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStopResourceWithMissingSize() throws {
@@ -292,13 +292,13 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testStopResourceWithExternalTimings() throws {
         let context: NSDictionary = [
             "foo": 123,
-            "_dd.resource_timings": [
+            "_oo.resource_timings": [
                 "fetch": [
                     "startTime": 0,
                     "duration": 13
@@ -376,7 +376,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testAddError() throws {
@@ -388,7 +388,7 @@ internal class DdRumTests: XCTestCase {
         let lastAttributes = try XCTUnwrap(mockNativeRUM.receivedAttributes.last)
         XCTAssertEqual(lastAttributes.count, 2)
         XCTAssertEqual(lastAttributes["foo"] as? Int64, 123)
-        XCTAssertEqual(lastAttributes[DdRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
+        XCTAssertEqual(lastAttributes[OoRumImplementation.timestampKey] as? Int64, Int64(randomTimestamp))
     }
 
     func testAddTiming() throws {

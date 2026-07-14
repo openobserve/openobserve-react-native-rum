@@ -35,9 +35,9 @@ import org.mockito.quality.Strictness
     ExtendWith(ForgeExtension::class)
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
-internal class DdLogsTest {
+internal class OoLogsTest {
 
-    lateinit var testedLogs: DdLogsImplementation
+    lateinit var testedLogs: OoLogsImplementation
 
     @Mock
     lateinit var mockLogger: Logger
@@ -68,7 +68,7 @@ internal class DdLogsTest {
 
     @BeforeEach
     fun `set up`(forge: Forge) {
-        testedLogs = DdLogsImplementation(datadog = mockDatadog, logger = { mockLogger })
+        testedLogs = OoLogsImplementation(datadog = mockDatadog, logger = { mockLogger })
         fakeErrorKind = forge.aNullable { forge.aString() }
         fakeErrorMessage = forge.aNullable { forge.aString() }
         fakeStacktrace = forge.aNullable { forge.aString() }
@@ -272,7 +272,7 @@ internal class DdLogsTest {
         // Given
         val mockLoggerFactory = mock<() -> Logger>()
         whenever(mockLoggerFactory()).thenReturn(mockLogger)
-        val testedLogs = DdLogsImplementation(
+        val testedLogs = OoLogsImplementation(
             datadog = mockDatadog,
             logger = mockLoggerFactory
         )

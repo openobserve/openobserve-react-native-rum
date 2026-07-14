@@ -16,20 +16,20 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 
 /** The entry point to initialize Datadog's features. */
-class DdSdk(
+class OoSdk(
     reactContext: ReactApplicationContext,
     datadogWrapper: DatadogWrapper = DatadogSDKWrapper(),
-    ddTelemetry: DdTelemetry = DdTelemetry()
+    ddTelemetry: OoTelemetry = OoTelemetry()
 ) : ReactContextBaseJavaModule(reactContext) {
 
-    private val implementation = DdSdkImplementation(
+    private val implementation = OoSdkImplementation(
         reactContext,
         datadog = datadogWrapper,
         ddTelemetry
     )
     private var lifecycleEventListener: LifecycleEventListener? = null
 
-    override fun getName(): String = DdSdkImplementation.NAME
+    override fun getName(): String = OoSdkImplementation.NAME
 
     init {
         lifecycleEventListener?.let { reactContext.removeLifecycleEventListener(it) }
@@ -39,19 +39,19 @@ class DdSdk(
                 if (currentActivity != null) {
                     val intent = currentActivity.intent
                     val extras = intent.extras
-                    DdSdkSynthetics.testId = extras?.getString("_dd.synthetics.test_id")
-                    DdSdkSynthetics.resultId = extras?.getString("_dd.synthetics.result_id")
+                    OoSdkSynthetics.testId = extras?.getString("_oo.synthetics.test_id")
+                    OoSdkSynthetics.resultId = extras?.getString("_oo.synthetics.result_id")
                 }
 
-                DdSdkSessionStartedListener.getInstance().setReactContext(reactContext)
+                OoSdkSessionStartedListener.getInstance().setReactContext(reactContext)
             }
 
             override fun onHostPause() {
-                DdSdkSessionStartedListener.invalidate()
+                OoSdkSessionStartedListener.invalidate()
             }
 
             override fun onHostDestroy() {
-                DdSdkSessionStartedListener.invalidate()
+                OoSdkSessionStartedListener.invalidate()
             }
         }
         reactContext.addLifecycleEventListener(lifecycleEventListener)

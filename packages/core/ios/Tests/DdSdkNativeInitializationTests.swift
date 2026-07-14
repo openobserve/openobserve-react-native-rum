@@ -9,26 +9,26 @@ import XCTest
 @testable import DatadogSDKReactNative
 @testable import DatadogInternal
 
-class DdSdkNativeInitializationTests: XCTestCase {
+class OoSdkNativeInitializationTests: XCTestCase {
     var consoleMessage = ""
 
     override func setUp() {
         super.setUp()
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
     }
 
     override func tearDown() {
         DatadogSDKWrapper.shared.onSdkInitializedListeners = []
         Datadog.internalFlushAndDeinitialize()
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
         super.tearDown()
     }
 
     func testReturnsConfigurationWithAllData() {
         let mockJSONFileReader = MockJSONFileReader(mockResourceFilePath: "Fixtures/complete-configuration")
-        let nativeInitialization = DdSdkNativeInitialization(
+        let nativeInitialization = OoSdkNativeInitialization(
             jsonFileReader: mockJSONFileReader
         )
         
@@ -49,8 +49,8 @@ class DdSdkNativeInitializationTests: XCTestCase {
         XCTAssertEqual(configuration?.rumConfiguration?.customEndpoint, "https://rum.example.com")
         XCTAssertEqual(configuration?.logsConfiguration?.customEndpoint, "https://logs.example.com")
         XCTAssertEqual(configuration?.traceConfiguration?.customEndpoint, "https://trace.example.com")
-        XCTAssertEqual(configuration?.additionalConfiguration?["_dd.source"] as! String, "react-native")
-        XCTAssertEqual(configuration?.additionalConfiguration?["_dd.sdk_version"] as! String, SdkVersion)
+        XCTAssertEqual(configuration?.additionalConfiguration?["_oo.source"] as! String, "react-native")
+        XCTAssertEqual(configuration?.additionalConfiguration?["_oo.sdk_version"] as! String, SdkVersion)
         XCTAssertEqual(configuration?.configurationForTelemetry, nil)
         XCTAssertEqual(configuration?.rumConfiguration?.nativeCrashReportEnabled, true)
         XCTAssertEqual(configuration?.rumConfiguration?.nativeLongTaskThresholdMs, 333.0)
@@ -70,7 +70,7 @@ class DdSdkNativeInitializationTests: XCTestCase {
 
     func testReturnsConfigurationWithMinimalData() {
         let mockJSONFileReader = MockJSONFileReader(mockResourceFilePath: "Fixtures/minimal-configuration")
-        let nativeInitialization = DdSdkNativeInitialization(
+        let nativeInitialization = OoSdkNativeInitialization(
             jsonFileReader: mockJSONFileReader
         )
         
@@ -91,8 +91,8 @@ class DdSdkNativeInitializationTests: XCTestCase {
         XCTAssertEqual(configuration?.rumConfiguration?.customEndpoint, nil)
         XCTAssertEqual(configuration?.logsConfiguration?.customEndpoint, nil)
         XCTAssertEqual(configuration?.traceConfiguration?.customEndpoint, nil)
-        XCTAssertEqual(configuration?.additionalConfiguration?["_dd.source"] as! String, "react-native")
-        XCTAssertEqual(configuration?.additionalConfiguration?["_dd.sdk_version"] as! String, SdkVersion)
+        XCTAssertEqual(configuration?.additionalConfiguration?["_oo.source"] as! String, "react-native")
+        XCTAssertEqual(configuration?.additionalConfiguration?["_oo.sdk_version"] as! String, SdkVersion)
         XCTAssertEqual(configuration?.configurationForTelemetry, nil)
         XCTAssertEqual(configuration?.rumConfiguration?.nativeCrashReportEnabled, false)
         XCTAssertEqual(configuration?.rumConfiguration?.nativeLongTaskThresholdMs, 200.0)
@@ -118,7 +118,7 @@ class DdSdkNativeInitializationTests: XCTestCase {
         }
             
         let mockJSONFileReader = MockJSONFileReader(mockResourceFilePath: "Fixtures/malformed-configuration")
-        let nativeInitialization = DdSdkNativeInitialization(
+        let nativeInitialization = OoSdkNativeInitialization(
             jsonFileReader: mockJSONFileReader
         )
         
@@ -128,38 +128,38 @@ class DdSdkNativeInitializationTests: XCTestCase {
 
     func testInitializeWithIsCalledFromJsTrueMarksRnSdkInitialized() {
         // GIVEN
-        let nativeInitialization = DdSdkNativeInitialization()
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        let nativeInitialization = OoSdkNativeInitialization()
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN
         nativeInitialization.initialize(sdkConfiguration: .mockAny(), isCalledFromJs: true)
 
         // THEN
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 
     func testInitializeWithIsCalledFromJsFalseDoesNotMarkRnSdkInitialized() {
         // GIVEN
-        let nativeInitialization = DdSdkNativeInitialization()
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        let nativeInitialization = OoSdkNativeInitialization()
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN
         nativeInitialization.initialize(sdkConfiguration: .mockAny(), isCalledFromJs: false)
 
         // THEN
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 
     func testInitializeDefaultsToIsCalledFromJsTrue() {
         // GIVEN
-        let nativeInitialization = DdSdkNativeInitialization()
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        let nativeInitialization = OoSdkNativeInitialization()
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN — default value of isCalledFromJs is true (matches the JS-init path)
         nativeInitialization.initialize(sdkConfiguration: .mockAny())
 
         // THEN
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 }
 

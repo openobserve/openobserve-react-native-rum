@@ -72,7 +72,7 @@ internal extension RCTUIManager {
         if let view = view(forReactTag: reactTag) {
             return view
         }
-        DdTelemetry.telemetryDebug(
+        OoTelemetry.telemetryDebug(
             id: "datadog_react_native:heatmap_fallback",
             message: "Heatmap view resolution fell back to hit-test"
         )

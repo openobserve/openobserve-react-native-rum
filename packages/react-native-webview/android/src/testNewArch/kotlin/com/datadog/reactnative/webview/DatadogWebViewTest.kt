@@ -71,7 +71,7 @@ internal class DatadogWebViewTest {
 
     @Test
     fun `Datadog Core is set once initialized`() {
-        val manager = DdSdkReactNativeWebViewManager(themedReactContext)
+        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
         assertThat(manager.datadogCore).isNull()
 
         DatadogSDKWrapperStorage.notifyOnInitializedListeners(datadogCore)
@@ -85,7 +85,7 @@ internal class DatadogWebViewTest {
         // =========
         //   Given
         // =========
-        val manager = DdSdkReactNativeWebViewManager(themedReactContext)
+        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
 
         // When first initialized, the WebView manager core should be null
         assertThat(manager.datadogCore).isNull()

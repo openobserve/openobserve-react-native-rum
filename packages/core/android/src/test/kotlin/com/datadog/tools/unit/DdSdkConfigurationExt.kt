@@ -11,13 +11,13 @@ import com.datadog.android.core.configuration.BatchSize
 import com.datadog.android.core.configuration.UploadFrequency
 import com.datadog.android.rum.configuration.VitalsUpdateFrequency
 import com.datadog.reactnative.ConfigurationForTelemetry
-import com.datadog.reactnative.DdSdkConfiguration
+import com.datadog.reactnative.OoSdkConfiguration
 import com.datadog.reactnative.ProxyAuthenticator
 import com.facebook.react.bridge.ReadableMap
 import java.net.Proxy
 
 @Suppress("CyclomaticComplexMethod")
-fun DdSdkConfiguration.toReadableJavaOnlyMap(): ReadableMap {
+fun OoSdkConfiguration.toReadableJavaOnlyMap(): ReadableMap {
     val map = mutableMapOf<String, Any?>()
 
     map["clientToken"] = clientToken

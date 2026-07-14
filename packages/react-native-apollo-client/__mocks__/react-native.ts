@@ -5,121 +5,121 @@
  */
 
 import type {
-    DdNativeSdkType,
-    DdNativeLogsType
+    OoNativeSdkType,
+    OoNativeLogsType
 } from '../../core/src/nativeModulesTypes';
-import type { DdRumType } from '../../core/src/rum/types';
-import type { DdTraceType } from '../../core/src/types';
+import type { OoRumType } from '../../core/src/rum/types';
+import type { OoTraceType } from '../../core/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const actualRN = require('react-native');
 
-actualRN.NativeModules.DdSdk = {
+actualRN.NativeModules.OoSdk = {
     initialize: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['initialize']>,
+    ) as jest.MockedFunction<OoNativeSdkType['initialize']>,
     addAttributes: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['addAttributes']>,
+    ) as jest.MockedFunction<OoNativeSdkType['addAttributes']>,
     setTrackingConsent: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['setTrackingConsent']>,
+    ) as jest.MockedFunction<OoNativeSdkType['setTrackingConsent']>,
     telemetryDebug: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['telemetryDebug']>,
+    ) as jest.MockedFunction<OoNativeSdkType['telemetryDebug']>,
     telemetryError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['telemetryError']>,
+    ) as jest.MockedFunction<OoNativeSdkType['telemetryError']>,
     consumeWebviewEvent: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['consumeWebviewEvent']>,
+    ) as jest.MockedFunction<OoNativeSdkType['consumeWebviewEvent']>,
     clearAllData: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeSdkType['clearAllData']>
+    ) as jest.MockedFunction<OoNativeSdkType['clearAllData']>
 };
 
-actualRN.NativeModules.DdLogs = {
+actualRN.NativeModules.OoLogs = {
     debug: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['debug']>,
+    ) as jest.MockedFunction<OoNativeLogsType['debug']>,
     info: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['info']>,
+    ) as jest.MockedFunction<OoNativeLogsType['info']>,
     warn: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['warn']>,
+    ) as jest.MockedFunction<OoNativeLogsType['warn']>,
     error: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['error']>,
+    ) as jest.MockedFunction<OoNativeLogsType['error']>,
     debugWithError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['debugWithError']>,
+    ) as jest.MockedFunction<OoNativeLogsType['debugWithError']>,
     infoWithError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['infoWithError']>,
+    ) as jest.MockedFunction<OoNativeLogsType['infoWithError']>,
     warnWithError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['warnWithError']>,
+    ) as jest.MockedFunction<OoNativeLogsType['warnWithError']>,
     errorWithError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdNativeLogsType['errorWithError']>
+    ) as jest.MockedFunction<OoNativeLogsType['errorWithError']>
 };
 
-actualRN.NativeModules.DdTrace = {
+actualRN.NativeModules.OoTrace = {
     startSpan: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdTraceType['startSpan']>,
+    ) as jest.MockedFunction<OoTraceType['startSpan']>,
     finishSpan: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdTraceType['finishSpan']>
+    ) as jest.MockedFunction<OoTraceType['finishSpan']>
 };
 
-actualRN.NativeModules.DdRum = {
+actualRN.NativeModules.OoRum = {
     startView: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['startView']>,
+    ) as jest.MockedFunction<OoRumType['startView']>,
     stopView: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['stopView']>,
+    ) as jest.MockedFunction<OoRumType['stopView']>,
     startAction: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['startAction']>,
+    ) as jest.MockedFunction<OoRumType['startAction']>,
     stopAction: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['stopAction']>,
+    ) as jest.MockedFunction<OoRumType['stopAction']>,
     addAction: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['addAction']>,
+    ) as jest.MockedFunction<OoRumType['addAction']>,
     startResource: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['startResource']>,
+    ) as jest.MockedFunction<OoRumType['startResource']>,
     stopResource: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['stopResource']>,
+    ) as jest.MockedFunction<OoRumType['stopResource']>,
     addError: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['addError']>,
+    ) as jest.MockedFunction<OoRumType['addError']>,
     addTiming: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['addTiming']>,
+    ) as jest.MockedFunction<OoRumType['addTiming']>,
     stopSession: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['stopSession']>,
+    ) as jest.MockedFunction<OoRumType['stopSession']>,
     getCurrentSessionId: jest.fn().mockImplementation(
         () =>
             new Promise<string | undefined>(resolve =>
                 resolve('test-session-id')
             )
-    ) as jest.MockedFunction<DdRumType['getCurrentSessionId']>,
+    ) as jest.MockedFunction<OoRumType['getCurrentSessionId']>,
     startFeatureOperation: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['startFeatureOperation']>,
+    ) as jest.MockedFunction<OoRumType['startFeatureOperation']>,
     succeedFeatureOperation: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['startFeatureOperation']>,
+    ) as jest.MockedFunction<OoRumType['startFeatureOperation']>,
     failFeatureOperation: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
-    ) as jest.MockedFunction<DdRumType['failFeatureOperation']>
+    ) as jest.MockedFunction<OoRumType['failFeatureOperation']>
 };
 
 module.exports = actualRN;

@@ -17,8 +17,8 @@ export const verifyRumResourceContext = (
 ) => {
     const rumResourceContext =
         resourceContext ?? tracingContext.getRumResourceContext();
-    const traceId = rumResourceContext['_dd.trace_id'];
-    const spanId = rumResourceContext['_dd.span_id'];
+    const traceId = rumResourceContext['_oo.trace_id'];
+    const spanId = rumResourceContext['_oo.span_id'];
 
     expect(traceId).toBe(
         tracingContext.traceId?.toString(TracingIdFormat.paddedHex)
@@ -62,7 +62,7 @@ export const verifyDatadogHeaders = (
     // x-datadog-tags
     const tagsHeader = headers.get('x-datadog-tags') as string;
     expect(tagsHeader).toBeDefined();
-    expect(tagsHeader).toMatch(/^_dd\.p\.tid=[0-9a-fA-F]{16}$/);
+    expect(tagsHeader).toMatch(/^_oo\.p\.tid=[0-9a-fA-F]{16}$/);
     expect(
         TracingIdentifierUtils.isWithin64Bits(tagsHeader.split('=')[1])
     ).toBe(true);

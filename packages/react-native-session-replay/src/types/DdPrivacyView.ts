@@ -13,7 +13,7 @@ export type Attributes = {
     height?: string;
 };
 
-export interface DdPrivacyViewProps extends ViewProps {
+export interface OoPrivacyViewProps extends ViewProps {
     textAndInputPrivacy: string;
     imagePrivacy: string;
     touchPrivacy: string;

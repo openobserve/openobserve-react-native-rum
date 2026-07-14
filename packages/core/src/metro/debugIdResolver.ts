@@ -23,7 +23,7 @@ function loadDebugId() {
         if (!hasDebugId) {
             if (shouldWarn) {
                 console.warn(
-                    '[Datadog SDK] Debug ID not found. Are you using @datadog/mobile-react-native/metro config?'
+                    '[Datadog SDK] Debug ID not found. Are you using @openobserve/mobile-react-native/metro config?'
                 );
             }
             return;
@@ -33,7 +33,7 @@ function loadDebugId() {
     } catch (error) {
         if (shouldWarn) {
             console.warn(
-                '[Datadog SDK] Error while retrieving Debug ID. Are you using @datadog/mobile-react-native/metro config?'
+                '[Datadog SDK] Error while retrieving Debug ID. Are you using @openobserve/mobile-react-native/metro config?'
             );
         }
     }

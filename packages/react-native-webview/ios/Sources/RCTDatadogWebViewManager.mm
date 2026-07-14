@@ -22,7 +22,7 @@
 @implementation RCTDatadogWebViewManager { }
 
 // The module is exported to React Native with the name defined here.
-RCT_EXPORT_MODULE(DdReactNativeWebView)
+RCT_EXPORT_MODULE(OoReactNativeWebView)
 
 // Allowed Hosts (REQUIRED)
 RCT_CUSTOM_VIEW_PROPERTY(allowedHosts, NSArray, RCTDatadogWebView)

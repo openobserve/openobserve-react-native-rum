@@ -3,7 +3,7 @@
  * This product includes software developed at Datadog (https://www.datadoghq.com/).
  * Copyright 2016-Present Datadog, Inc.
  */
-import { DdSdkReactNative } from './DdSdkReactNative';
+import { OoSdkReactNative } from './OoSdkReactNative';
 import { InternalLog } from './InternalLog';
 import { DatadogProviderConfiguration } from './config/DatadogProviderConfiguration';
 import { FileBasedConfiguration } from './config/FileBasedConfiguration';
@@ -30,7 +30,7 @@ import {
     UploadFrequency,
     VitalsUpdateFrequency
 } from './config/types';
-import { DdFlags } from './flags/DdFlags';
+import { OoFlags } from './flags/OoFlags';
 import type { FlagsClient } from './flags/FlagsClient';
 import type {
     FlagsConfiguration,
@@ -38,9 +38,9 @@ import type {
     EvaluationContext,
     PrimitiveValue
 } from './flags/types';
-import { DdLogs } from './logs/DdLogs';
-import { DdRum } from './rum/DdRum';
-import { DdBabelInteractionTracking } from './rum/instrumentation/interactionTracking/DdBabelInteractionTracking';
+import { OoLogs } from './logs/OoLogs';
+import { OoRum } from './rum/OoRum';
+import { OoBabelInteractionTracking } from './rum/instrumentation/interactionTracking/OoBabelInteractionTracking';
 import { __ddExtractText } from './rum/instrumentation/interactionTracking/ddBabelUtils';
 import { DatadogTracingContext } from './rum/instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
 import { DatadogTracingIdentifier } from './rum/instrumentation/resourceTracking/distributedTracing/DatadogTracingIdentifier';
@@ -58,8 +58,8 @@ import {
 import type { FirstPartyHost } from './rum/types';
 import { PropagatorType, RumActionType } from './rum/types';
 import { DatadogProvider } from './sdk/DatadogProvider/DatadogProvider';
-import { DdSdk } from './sdk/DdSdk';
-import { DdTrace } from './trace/DdTrace';
+import { OoSdk } from './sdk/OoSdk';
+import { OoTrace } from './trace/OoTrace';
 import { ErrorSource, FeatureOperationFailure } from './types';
 import { DefaultTimeProvider } from './utils/time-provider/DefaultTimeProvider';
 import type { Timestamp } from './utils/time-provider/TimeProvider';
@@ -70,10 +70,10 @@ export {
     DatadogProviderConfiguration,
     FileBasedConfiguration,
     InitializationMode,
-    DdLogs,
-    DdFlags,
-    DdTrace,
-    DdRum,
+    OoLogs,
+    OoFlags,
+    OoTrace,
+    OoRum,
     RumActionType,
     ErrorSource,
     FeatureOperationFailure,
@@ -81,8 +81,8 @@ export {
     RumConfiguration,
     LogsConfiguration,
     TraceConfiguration,
-    DdSdkReactNative,
-    DdSdk,
+    OoSdkReactNative,
+    OoSdk,
     InternalLog,
     ProxyConfiguration,
     ProxyType,
@@ -104,7 +104,7 @@ export {
     TracingIdFormat,
     DatadogTracingIdentifier,
     DatadogTracingContext,
-    DdBabelInteractionTracking,
+    OoBabelInteractionTracking,
     __ddExtractText
 };
 export type {

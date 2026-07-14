@@ -6,19 +6,19 @@
 import {
     DatadogProvider,
     DatadogProviderConfiguration,
-    DdSdkReactNative
-} from '@datadog/mobile-react-native';
+    OoSdkReactNative
+} from '@openobserve/mobile-react-native';
 import type {
     AutoInstrumentationConfiguration,
     CoreConfiguration
-} from '@datadog/mobile-react-native';
+} from '@openobserve/mobile-react-native';
 import codePush from 'react-native-code-push';
 
 import { removeDiscardProperties } from './utils';
 import type { RequiredOrDiscard } from './utils';
 
 /**
- * Use this class instead of DdSdkReactNative to initialize the Datadog SDK when using AppCenter CodePush.
+ * Use this class instead of OoSdkReactNative to initialize the Datadog SDK when using AppCenter CodePush.
  */
 export const DatadogCodepush = {
     async initialize(configuration: CoreConfiguration): Promise<void> {
@@ -26,7 +26,7 @@ export const DatadogCodepush = {
         if (codePushUpdateMetadata) {
             configuration.versionSuffix = `codepush.${codePushUpdateMetadata.label}`;
         }
-        return DdSdkReactNative.initialize(configuration);
+        return OoSdkReactNative.initialize(configuration);
     }
 };
 

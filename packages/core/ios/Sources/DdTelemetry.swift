@@ -7,7 +7,7 @@
 import DatadogCore
 import DatadogInternal
 
-public class DdTelemetry {
+public class OoTelemetry {
     public static func sendTelemetryLog(message: String, attributes: [String: any Encodable], config: [String: any Encodable]) {
         let id = (config["onlyOnce"] as? Bool) == true ? message : UUID().uuidString
         CoreRegistry.default.telemetry.debug(id: id, message: message, attributes: attributes)

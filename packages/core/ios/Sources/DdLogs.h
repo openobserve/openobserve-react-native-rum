@@ -5,20 +5,20 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdLogsImplementation;
+@class OoLogsImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSdkReactNative/DdSdkReactNative.h>
-@interface DdLogs: NSObject <NativeDdLogsSpec>
+#import <OoSdkReactNative/OoSdkReactNative.h>
+@interface OoLogs: NSObject <NativeDdLogsSpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdLogs : NSObject <RCTBridgeModule>
+@interface OoLogs : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdLogsImplementation* ddLogsImplementation;
+@property (nonatomic, strong) OoLogsImplementation* ddLogsImplementation;
 
 @end

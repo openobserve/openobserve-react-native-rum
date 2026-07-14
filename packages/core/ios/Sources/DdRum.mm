@@ -9,10 +9,10 @@
 #else
 #import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
 #endif
-#import "DdRum.h"
+#import "OoRum.h"
 
 
-@implementation DdRum
+@implementation OoRum
 
 @synthesize bridge = _bridge;
 RCT_EXPORT_MODULE()
@@ -206,10 +206,10 @@ RCT_REMAP_METHOD(failFeatureOperation,
 }
 #endif
 
-- (DdRumImplementation*)ddRumImplementation
+- (OoRumImplementation*)ddRumImplementation
 {
     if (_ddRumImplementation == nil) {
-        _ddRumImplementation = [[DdRumImplementation alloc] initWithBridge:_bridge];
+        _ddRumImplementation = [[OoRumImplementation alloc] initWithBridge:_bridge];
     }
     return _ddRumImplementation;
 }

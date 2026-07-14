@@ -5,20 +5,20 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdSessionReplayImplementation;
+@class OoSessionReplayImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSDKReactNativeSessionReplay/DdSDKReactNativeSessionReplay.h>
-@interface DdSessionReplay: NSObject <NativeDdSessionReplaySpec>
+#import <OoSDKReactNativeSessionReplay/OoSDKReactNativeSessionReplay.h>
+@interface OoSessionReplay: NSObject <NativeDdSessionReplaySpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdSessionReplay : NSObject <RCTBridgeModule>
+@interface OoSessionReplay : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdSessionReplayImplementation* ddSessionReplayImplementation;
+@property (nonatomic, strong) OoSessionReplayImplementation* ddSessionReplayImplementation;
 
 @end

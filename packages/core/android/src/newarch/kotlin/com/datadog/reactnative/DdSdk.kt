@@ -17,15 +17,15 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 
 /** The entry point to initialize Datadog's features. */
-class DdSdk(
+class OoSdk(
     reactContext: ReactApplicationContext,
     datadogWrapper: DatadogWrapper = DatadogSDKWrapper(),
-    ddTelemetry: DdTelemetry = DdTelemetry()
+    ddTelemetry: OoTelemetry = OoTelemetry()
 ) : NativeDdSdkSpec(reactContext) {
 
-    private val implementation = DdSdkImplementation(reactContext, datadog = datadogWrapper, ddTelemetry)
+    private val implementation = OoSdkImplementation(reactContext, datadog = datadogWrapper, ddTelemetry)
 
-    override fun getName(): String = DdSdkImplementation.NAME
+    override fun getName(): String = OoSdkImplementation.NAME
 
     init {
         registerLifecycleEvents(reactContext)
@@ -205,18 +205,18 @@ class DdSdk(
                 if (currentActivity != null) {
                     val intent = currentActivity.intent
                     val extras = intent.extras
-                    DdSdkSynthetics.testId = extras?.getString("_dd.synthetics.test_id")
-                    DdSdkSynthetics.resultId = extras?.getString("_dd.synthetics.result_id")
+                    OoSdkSynthetics.testId = extras?.getString("_oo.synthetics.test_id")
+                    OoSdkSynthetics.resultId = extras?.getString("_oo.synthetics.result_id")
                 }
 
-                DdSdkSessionStartedListener.getInstance().setReactContext(reactContext)
+                OoSdkSessionStartedListener.getInstance().setReactContext(reactContext)
             }
 
             override fun onHostPause() {
-                DdSdkSessionStartedListener.invalidate()
+                OoSdkSessionStartedListener.invalidate()
             }
             override fun onHostDestroy() {
-                DdSdkSessionStartedListener.invalidate()
+                OoSdkSessionStartedListener.invalidate()
             }
         })
     }

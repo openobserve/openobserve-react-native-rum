@@ -13,7 +13,7 @@ import com.facebook.react.views.view.ReactViewGroup
 /**
  * Native React Native UI element that inherits from ReactViewGroup and exposes extra properties.
  */
-class DdPrivacyView(context: Context) : ReactViewGroup(context) {
+class OoPrivacyView(context: Context) : ReactViewGroup(context) {
     /**
      * Defines the way text and input should be masked.
      */

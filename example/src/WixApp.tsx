@@ -4,16 +4,16 @@ import MainScreen from './screens/MainScreen';
 import ErrorScreen from './screens/ErrorScreen';
 import AboutScreen from './screens/AboutScreen';
 import {
-    DdRumReactNativeNavigationTracking,
+    OoRumReactNativeNavigationTracking,
     ViewNamePredicate,
     ComponentDidAppearEvent,
     Navigation
-} from '@datadog/mobile-react-native-navigation';
+} from '@openobserve/mobile-react-native-navigation';
 
 import styles from './screens/styles';
-import { DdFlags } from '@datadog/mobile-react-native';
+import { OoFlags } from '@openobserve/mobile-react-native';
 import TraceScreen from './screens/TraceScreen';
-import { NavigationTrackingOptions, ParamsTrackingPredicate, ViewTrackingPredicate } from '@datadog/mobile-react-native-navigation/src/rum/instrumentation/DdRumReactNativeNavigationTracking';
+import { NavigationTrackingOptions, ParamsTrackingPredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-native-navigation/src/rum/instrumentation/OoRumReactNativeNavigationTracking';
 import { OpenFeatureProvider, useFlag } from '@openfeature/react-sdk';
 
 // === Navigation Tracking custom predicates
@@ -49,7 +49,7 @@ const navigationTrackingOptions: NavigationTrackingOptions = {
 }
 
 function startReactNativeNavigation() {
-    DdRumReactNativeNavigationTracking.startTracking(navigationTrackingOptions);
+    OoRumReactNativeNavigationTracking.startTracking(navigationTrackingOptions);
     registerScreens();
     Navigation.events().registerAppLaunchedListener(async () => {
         Navigation.setRoot({

@@ -8,27 +8,27 @@ import XCTest
 @testable import DatadogSDKReactNative
 @testable import React
 
-class DdSdkSessionStartedListenerTests: XCTestCase {
+class OoSdkSessionStartedListenerTests: XCTestCase {
     var consoleMessage = ""
 
     override func setUp() {
         super.setUp()
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
     }
 
     override func tearDown() {
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
         super.tearDown()
     }
 
     func testInstanceImplementsSingletonCorrectly() {
         // GIVEN
-        let instance1 = DdSdkSessionStartedListener.instance
+        let instance1 = OoSdkSessionStartedListener.instance
 
         // WHEN
-        let instance2 = DdSdkSessionStartedListener.instance
+        let instance2 = OoSdkSessionStartedListener.instance
 
         // THEN
         XCTAssertEqual(instance1, instance2)
@@ -36,7 +36,7 @@ class DdSdkSessionStartedListenerTests: XCTestCase {
 
     func testInvalidateMakesListenerNil() {
         // GIVEN
-        let instance = DdSdkSessionStartedListener.instance
+        let instance = OoSdkSessionStartedListener.instance
         let listener: ((String) -> Void) = {_ in }
         instance.setListenerCallback(listener)
 
@@ -49,7 +49,7 @@ class DdSdkSessionStartedListenerTests: XCTestCase {
 
     func testRumSessionListenerIsRegisteredOnInit() {
         // GIVEN
-        let instance = DdSdkSessionStartedListener.instance
+        let instance = OoSdkSessionStartedListener.instance
 
         // WHEN
         let rumSessionListener = instance.rumSessionListener
@@ -60,37 +60,37 @@ class DdSdkSessionStartedListenerTests: XCTestCase {
 
     func testIsRnSdkInitializedDefaultsToFalse() {
         // THEN
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 
     func testOnRnSdkInitializedFlipsFlag() {
         // GIVEN
-        let instance = DdSdkSessionStartedListener.instance
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        let instance = OoSdkSessionStartedListener.instance
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN
         instance.onRnSdkInitialized()
 
         // THEN
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 
     func testInvalidateDoesNotResetIsRnSdkInitialized() {
         // GIVEN
-        let instance = DdSdkSessionStartedListener.instance
+        let instance = OoSdkSessionStartedListener.instance
         instance.onRnSdkInitialized()
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN
-        DdSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.invalidate()
 
         // THEN
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 
     func testBridgelessListenerPathIsUnaffectedByIsRnSdkInitialized() {
         // GIVEN — bridgeless mode (rctBridge == nil), flag still false
-        let instance = DdSdkSessionStartedListener.instance
+        let instance = OoSdkSessionStartedListener.instance
         var deliveredSessionIds: [String] = []
         instance.setListenerCallback { sessionId in
             deliveredSessionIds.append(sessionId)
@@ -106,13 +106,13 @@ class DdSdkSessionStartedListenerTests: XCTestCase {
 
     func testResetIsRnSdkInitializedForTestsResetsFlag() {
         // GIVEN
-        DdSdkSessionStartedListener.instance.onRnSdkInitialized()
-        XCTAssertTrue(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        OoSdkSessionStartedListener.instance.onRnSdkInitialized()
+        XCTAssertTrue(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
 
         // WHEN
-        DdSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
+        OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
 
         // THEN
-        XCTAssertFalse(DdSdkSessionStartedListener.isRnSdkInitializedForTests())
+        XCTAssertFalse(OoSdkSessionStartedListener.isRnSdkInitializedForTests())
     }
 }

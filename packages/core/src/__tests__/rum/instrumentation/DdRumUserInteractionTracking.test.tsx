@@ -18,10 +18,10 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import type { DdNativeRumType } from '../../../nativeModulesTypes';
-import { DdRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/DdRumUserInteractionTracking';
+import type { OoNativeRumType } from '../../../nativeModulesTypes';
+import { OoRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
 import { BufferSingleton } from '../../../sdk/DatadogProvider/Buffer/BufferSingleton';
-import { NativeDdSdk } from '../../../sdk/DdSdkInternal';
+import { NativeDdSdk } from '../../../sdk/OoSdkInternal';
 
 const styles = StyleSheet.create({
     button: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const DdRum = NativeModules.DdRum as DdNativeRumType;
+const OoRum = NativeModules.OoRum as OoNativeRumType;
 
 // Silence the warning https://github.com/facebook/react-native/issues/11094#issuecomment-263240420
 // jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
@@ -44,7 +44,7 @@ beforeEach(() => {
 
 afterEach(() => {
     jest.restoreAllMocks();
-    DdRumUserInteractionTracking.stopTracking();
+    OoRumUserInteractionTracking.stopTracking();
 });
 
 // Because the way RN decouples the component we cannot assert how many times the `interceptOnPress` function was called.
@@ -52,7 +52,7 @@ afterEach(() => {
 
 it('M intercept and send a RUM event W onPress { Button component }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <Button title="Click me" onPress={event => {}} />
@@ -70,7 +70,7 @@ it('M intercept and send a RUM event W onPress { Button component }', async () =
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -81,7 +81,7 @@ it('M intercept and send a RUM event W onPress { Button component }', async () =
 
 it('M intercept and send a RUM event with elementType W onPress { Button component, useAccessibilityLabel = false }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({
+    OoRumUserInteractionTracking.startTracking({
         useAccessibilityLabel: false
     });
 
@@ -103,7 +103,7 @@ it('M intercept and send a RUM event with elementType W onPress { Button compone
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'test_element_type',
         null,
@@ -114,7 +114,7 @@ it('M intercept and send a RUM event with elementType W onPress { Button compone
 
 it('M intercept and send a RUM event W onPress { custom action name prop used }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({
+    OoRumUserInteractionTracking.startTracking({
         actionNameAttribute: 'testID'
     });
     const { getByText } = render(
@@ -135,7 +135,7 @@ it('M intercept and send a RUM event W onPress { custom action name prop used }'
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_test_ID',
         null,
@@ -146,9 +146,9 @@ it('M intercept and send a RUM event W onPress { custom action name prop used }'
 
 it('M intercept only once W startTracking { called multiple times }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
-    DdRumUserInteractionTracking.startTracking({});
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <Button title="Click me" onPress={event => {}} />
@@ -166,7 +166,7 @@ it('M intercept only once W startTracking { called multiple times }', async () =
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -177,7 +177,7 @@ it('M intercept only once W startTracking { called multiple times }', async () =
 
 it('M intercept and send a RUM event W onPress { TouchableOpacity component }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <TouchableOpacity style={styles.button} onPress={event => {}}>
@@ -197,7 +197,7 @@ it('M intercept and send a RUM event W onPress { TouchableOpacity component }', 
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -208,7 +208,7 @@ it('M intercept and send a RUM event W onPress { TouchableOpacity component }', 
 
 it('M intercept and send a RUM event W onPress { TouchableHighlight component }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <TouchableHighlight onPress={event => {}} underlayColor="white">
@@ -230,7 +230,7 @@ it('M intercept and send a RUM event W onPress { TouchableHighlight component }'
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -241,7 +241,7 @@ it('M intercept and send a RUM event W onPress { TouchableHighlight component }'
 
 it('M intercept and send a RUM event W onPress { TouchableNativeFeedback component }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <TouchableNativeFeedback onPress={event => {}}>
@@ -263,7 +263,7 @@ it('M intercept and send a RUM event W onPress { TouchableNativeFeedback compone
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -274,7 +274,7 @@ it('M intercept and send a RUM event W onPress { TouchableNativeFeedback compone
 
 it('M intercept and send a RUM event W onPress { TouchableWithoutFeedback component }', async () => {
     // GIVEN
-    DdRumUserInteractionTracking.startTracking({});
+    OoRumUserInteractionTracking.startTracking({});
     const { getByText } = render(
         <View>
             <TouchableWithoutFeedback onPress={event => {}}>
@@ -296,7 +296,7 @@ it('M intercept and send a RUM event W onPress { TouchableWithoutFeedback compon
     });
 
     // THEN
-    expect(DdRum.addAction).toBeCalledWith(
+    expect(OoRum.addAction).toBeCalledWith(
         'TAP',
         'click_me_button',
         null,
@@ -312,12 +312,12 @@ describe('startTracking memoization', () => {
     });
 
     afterEach(() => {
-        DdRumUserInteractionTracking.stopTracking();
+        OoRumUserInteractionTracking.stopTracking();
     });
 
     it('M keep memoization working for elements W an onPress prop is passed', async () => {
         // GIVEN
-        DdRumUserInteractionTracking.startTracking({});
+        OoRumUserInteractionTracking.startTracking({});
         let rendersCount = 0;
         const DummyComponent = (props: { onPress: () => void }) => {
             rendersCount++;
@@ -349,7 +349,7 @@ describe('startTracking memoization', () => {
 
     it('M keep memoization working for elements W no onPress prop is passed', async () => {
         // GIVEN
-        DdRumUserInteractionTracking.startTracking({});
+        OoRumUserInteractionTracking.startTracking({});
         let rendersCount = 0;
         const DummyComponent = (props: { title: string }) => {
             rendersCount++;
@@ -376,7 +376,7 @@ describe('startTracking memoization', () => {
 
     it('M keep memoization working for elements W an onPress prop is passed and custom arePropsEqual specified', async () => {
         // GIVEN
-        DdRumUserInteractionTracking.startTracking({});
+        OoRumUserInteractionTracking.startTracking({});
         let rendersCount = 0;
         const DummyComponent = (props: {
             onPress: () => void;
@@ -419,7 +419,7 @@ describe('startTracking memoization', () => {
 
     it('M keep memoization working for elements W an onPress prop is passed and custom arePropsEqual specified including onPress check', async () => {
         // GIVEN
-        DdRumUserInteractionTracking.startTracking({});
+        OoRumUserInteractionTracking.startTracking({});
         let rendersCount = 0;
         const DummyComponent = (props: { onPress: () => void }) => {
             rendersCount++;
@@ -463,20 +463,20 @@ describe('startTracking', () => {
     it('does not crash if jsx-runtime does not contain jsx', () => {
         jest.replaceProperty(global, '__DEV__' as any, false);
 
-        expect(DdRumUserInteractionTracking['isTracking']).toBe(false);
+        expect(OoRumUserInteractionTracking['isTracking']).toBe(false);
         jest.setMock('react/jsx-runtime', {});
-        DdRumUserInteractionTracking.startTracking({});
-        expect(DdRumUserInteractionTracking['isTracking']).toBe(true);
+        OoRumUserInteractionTracking.startTracking({});
+        expect(OoRumUserInteractionTracking['isTracking']).toBe(true);
         expect(NativeDdSdk.telemetryDebug).toBeCalledWith(
             'React jsx runtime does not export new jsx transform'
         );
     });
     it('does not crash if jsx-runtime is not exported from react', () => {
-        expect(DdRumUserInteractionTracking['isTracking']).toBe(false);
+        expect(OoRumUserInteractionTracking['isTracking']).toBe(false);
         jest.setMock('react/package.json', { version: '16.13.0' });
 
-        DdRumUserInteractionTracking.startTracking({});
-        expect(DdRumUserInteractionTracking['isTracking']).toBe(true);
+        OoRumUserInteractionTracking.startTracking({});
+        expect(OoRumUserInteractionTracking['isTracking']).toBe(true);
         expect(NativeDdSdk.telemetryDebug).toBeCalledWith(
             'React version does not support new jsx transform'
         );

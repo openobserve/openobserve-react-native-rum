@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/mobile-react-native-openfeature",
+    "name": "@openobserve/mobile-react-native-openfeature",
     "version": "3.5.3",
     "description": "A client-side React Native module to provide OpenFeature integration with Datadog Feature Flags",
     "keywords": [
@@ -11,13 +11,13 @@
         "feature-flags"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative#readme",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative",
+        "url": "https://github.com/openobserve/openobserve-react-native-rum",
         "directory": "packages/react-native-openfeature"
     },
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -38,7 +38,7 @@
         "prepare": "rm -rf lib && yarn bob build"
     },
     "devDependencies": {
-        "@datadog/mobile-react-native": "^3.5.3",
+        "@openobserve/mobile-react-native": "^3.5.3",
         "@openfeature/core": "^1.9.2",
         "@openfeature/web-sdk": "^1.7.3",
         "@testing-library/react-native": "7.0.2",
@@ -46,7 +46,7 @@
         "react-native-gesture-handler": "1.10.3"
     },
     "peerDependencies": {
-        "@datadog/mobile-react-native": "^3.1.0",
+        "@openobserve/mobile-react-native": "^3.1.0",
         "@openfeature/web-sdk": "^1.7.3",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0"
@@ -54,7 +54,7 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"

@@ -1,5 +1,5 @@
 {
-    "name": "@datadog/mobile-react-native",
+    "name": "@openobserve/mobile-react-native",
     "version": "3.5.3",
     "description": "A client-side React Native module to interact with Datadog",
     "keywords": [
@@ -9,10 +9,10 @@
         "android"
     ],
     "author": "Datadog (https://github.com/DataDog)",
-    "homepage": "https://github.com/DataDog/dd-sdk-reactnative#readme",
-    "repository": "https://github.com/DataDog/dd-sdk-reactnative",
+    "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
+    "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {
-        "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
+        "url": "https://github.com/openobserve/openobserve-react-native-rum/issues"
     },
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
@@ -25,9 +25,9 @@
         "android/gradle.properties",
         "android/src/**",
         "ios/Sources/**",
-        "ios/DdSdkReactNative.xcodeproj/project.xcworkspace/xcsharedata",
-        "ios/DdSdkReactNative.xcodeproj/project.xcworkspace/*.xcworkspacedata",
-        "ios/DdSdkReactNative.xcodeproj/*.pbxproj",
+        "ios/OoSdkReactNative.xcodeproj/project.xcworkspace/xcsharedata",
+        "ios/OoSdkReactNative.xcodeproj/project.xcworkspace/*.xcworkspacedata",
+        "ios/OoSdkReactNative.xcodeproj/*.pbxproj",
         "jest",
         "DatadogSDKReactNative.podspec",
         "datadog-sourcemaps.gradle",
@@ -62,7 +62,7 @@
         "test": "jest",
         "lint": "eslint .",
         "prepare": "rm -rf lib && yarn bob build",
-        "postinstall": "node scripts/replace-react-require.js # Use node to execute the script for Windows, see https://github.com/DataDog/dd-sdk-reactnative/issues/358"
+        "postinstall": "node scripts/replace-react-require.js # Use node to execute the script for Windows, see https://github.com/openobserve/openobserve-react-native-rum/issues/358"
     },
     "peerDependencies": {
         "react": ">=16.13.1",
@@ -75,8 +75,8 @@
     "jest": {
         "preset": "react-native",
         "moduleNameMapper": {
-            "@datadog/mobile-react-native": "<rootDir>../core/src",
-            "@datadog/mobile-react-native/metro": "<rootDir>../core/src/metro"
+            "@openobserve/mobile-react-native": "<rootDir>../core/src",
+            "@openobserve/mobile-react-native/metro": "<rootDir>../core/src/metro"
         },
         "modulePathIgnorePatterns": [
             "<rootDir>/lib/"
@@ -108,7 +108,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "DdSdkReactNative",
+        "name": "OoSdkReactNative",
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {

@@ -3,16 +3,16 @@ import {
   SdkVerbosity,
   UploadFrequency,
   BatchSize,
-  DdSdkReactNative,
-  DdRum,
+  OoSdkReactNative,
+  OoRum,
   RumActionType,
-  DdLogs,
-  DdTrace,
+  OoLogs,
+  OoTrace,
   TrackingConsent,
-  DdFlags,
+  OoFlags,
   PropagatorType,
-} from '@datadog/mobile-react-native';
-import {DatadogOpenFeatureProvider} from '@datadog/mobile-react-native-openfeature';
+} from '@openobserve/mobile-react-native';
+import {DatadogOpenFeatureProvider} from '@openobserve/mobile-react-native-openfeature';
 import {
   OpenFeature,
   OpenFeatureProvider,
@@ -70,26 +70,26 @@ import {APPLICATION_ID, CLIENT_TOKEN, ENVIRONMENT} from './ddCredentials';
   config.batchSize = BatchSize.SMALL;
 
   // Initialize the Datadog SDK.
-  await DdSdkReactNative.initialize(config);
+  await OoSdkReactNative.initialize(config);
 
   // Enable Datadog Flags feature.
-  await DdFlags.enable();
+  await OoFlags.enable();
 
   // Set the provider with OpenFeature.
   const provider = new DatadogOpenFeatureProvider();
   OpenFeature.setProvider(provider);
 
   // Datadog SDK usage examples.
-  await DdRum.startView('main', 'Main');
+  await OoRum.startView('main', 'Main');
   setTimeout(async () => {
-    await DdRum.addTiming('one_second');
+    await OoRum.addTiming('one_second');
   }, 1000);
-  await DdRum.addAction(RumActionType.CUSTOM, 'custom action');
+  await OoRum.addAction(RumActionType.CUSTOM, 'custom action');
 
-  await DdLogs.info('info log');
+  await OoLogs.info('info log');
 
-  const spanId = await DdTrace.startSpan('test span');
-  await DdTrace.finishSpan(spanId);
+  const spanId = await OoTrace.startSpan('test span');
+  await OoTrace.finishSpan(spanId);
 })();
 
 function AppWithProviders() {

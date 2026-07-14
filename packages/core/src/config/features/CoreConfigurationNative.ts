@@ -13,7 +13,7 @@ import type { TraceNativeConfiguration } from './TraceConfigurationNative';
 /**
  * A configuration object to initialize Datadog's features.
  */
-export class DdSdkNativeConfiguration {
+export class OoSdkNativeConfiguration {
     constructor(
         readonly additionalConfiguration: object,
         readonly clientToken: string,

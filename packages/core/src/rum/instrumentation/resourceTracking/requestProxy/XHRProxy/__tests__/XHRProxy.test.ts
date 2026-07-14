@@ -10,7 +10,7 @@ import { Platform, NativeModules } from 'react-native';
 import { InternalLog } from '../../../../../../InternalLog';
 import { SdkVerbosity } from '../../../../../../config/types';
 import { BufferSingleton } from '../../../../../../sdk/DatadogProvider/Buffer/BufferSingleton';
-import { DdRum } from '../../../../../DdRum';
+import { OoRum } from '../../../../../OoRum';
 import {
     setCachedSessionId,
     setCachedUserId,
@@ -57,7 +57,7 @@ const mockedInternalLog = (InternalLog as unknown) as {
 };
 jest.spyOn(global.Math, 'random');
 
-const DdNativeRum = NativeModules.DdRum;
+const OoNativeRum = NativeModules.OoRum;
 
 function randomInt(max: number): number {
     return Math.floor(Math.random() * max);
@@ -72,8 +72,8 @@ const hexToDecimal = (hex: string): string => {
 };
 
 beforeEach(() => {
-    DdNativeRum.startResource.mockClear();
-    DdNativeRum.stopResource.mockClear();
+    OoNativeRum.startResource.mockClear();
+    OoNativeRum.stopResource.mockClear();
     BufferSingleton.onInitialization();
 
     xhrProxy = new XHRProxy({
@@ -99,7 +99,7 @@ afterEach(() => {
     xhrProxy.onTrackingStop();
     (Date.now as jest.MockedFunction<typeof Date.now>).mockClear();
     jest.spyOn(global.Math, 'random').mockRestore();
-    DdRum.unregisterResourceEventMapper();
+    OoRum.unregisterResourceEventMapper();
 
     setCachedSessionId(undefined as any);
     setCachedUserId(undefined as any);
@@ -126,17 +126,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(DdNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(DdNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(DdNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.stopResource.mock.calls[0][0]).toBe(
-                DdNativeRum.startResource.mock.calls[0][0]
+            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
+                OoNativeRum.startResource.mock.calls[0][0]
             );
-            expect(DdNativeRum.stopResource.mock.calls[0][1]).toBe(200);
-            expect(DdNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(DdNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
+            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(200);
+            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
                 0
             );
 
@@ -163,17 +163,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(DdNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(DdNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(DdNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.stopResource.mock.calls[0][0]).toBe(
-                DdNativeRum.startResource.mock.calls[0][0]
+            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
+                OoNativeRum.startResource.mock.calls[0][0]
             );
-            expect(DdNativeRum.stopResource.mock.calls[0][1]).toBe(500);
-            expect(DdNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(DdNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
+            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(500);
+            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
                 0
             );
 
@@ -200,17 +200,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(DdNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(DdNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(DdNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(DdNativeRum.stopResource.mock.calls[0][0]).toBe(
-                DdNativeRum.startResource.mock.calls[0][0]
+            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
+                OoNativeRum.startResource.mock.calls[0][0]
             );
-            expect(DdNativeRum.stopResource.mock.calls[0][1]).toBe(0);
-            expect(DdNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(DdNativeRum.stopResource.mock.calls[0][3]).toBe(-1);
+            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(0);
+            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBe(-1);
 
             expect(xhr.originalOpenCalled).toBe(true);
             expect(xhr.originalSendCalled).toBe(true);
@@ -1102,7 +1102,7 @@ describe('XHRProxy', () => {
         });
     });
 
-    describe('DdRum.startResource calls', () => {
+    describe('OoRum.startResource calls', () => {
         it('adds the span id, trace id and rule_psr as resource attributes when startTracking() + XHR.open() + XHR.send()', async () => {
             // GIVEN
             const method = 'GET';
@@ -1127,17 +1127,17 @@ describe('XHRProxy', () => {
 
             // THEN
             const spanId =
-                DdNativeRum.startResource.mock.calls[0][3]['_dd.span_id'];
+                OoNativeRum.startResource.mock.calls[0][3]['_oo.span_id'];
             expect(spanId).toBeDefined();
             expect(spanId).toMatch(/[1-9].+/);
 
             const traceId =
-                DdNativeRum.startResource.mock.calls[0][3]['_dd.trace_id'];
+                OoNativeRum.startResource.mock.calls[0][3]['_oo.trace_id'];
             expect(traceId).toBeDefined();
             expect(traceId).toMatch(/[1-9].+/);
 
             const rulePsr =
-                DdNativeRum.startResource.mock.calls[0][3]['_dd.rule_psr'];
+                OoNativeRum.startResource.mock.calls[0][3]['_oo.rule_psr'];
             expect(rulePsr).toBe(1);
 
             // Check traceId and spanId are different
@@ -1162,18 +1162,18 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(DdNativeRum.startResource).not.toHaveBeenCalledWith(
+            expect(OoNativeRum.startResource).not.toHaveBeenCalledWith(
                 expect.anything(),
                 expect.anything(),
                 expect.anything(),
                 expect.objectContaining({
-                    '_dd.trace_id': expect.any(String),
-                    '_dd.span_id': expect.any(String),
-                    '_dd.rule_psr': expect.any(Number)
+                    '_oo.trace_id': expect.any(String),
+                    '_oo.span_id': expect.any(String),
+                    '_oo.rule_psr': expect.any(Number)
                 }),
                 expect.anything()
             );
-            expect(DdNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
+            expect(OoNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
                 {}
             );
         });
@@ -1202,18 +1202,18 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(DdNativeRum.startResource).not.toHaveBeenCalledWith(
+            expect(OoNativeRum.startResource).not.toHaveBeenCalledWith(
                 expect.anything(),
                 expect.anything(),
                 expect.anything(),
                 expect.objectContaining({
-                    '_dd.trace_id': expect.any(String),
-                    '_dd.span_id': expect.any(String),
-                    '_dd.rule_psr': expect.any(Number)
+                    '_oo.trace_id': expect.any(String),
+                    '_oo.span_id': expect.any(String),
+                    '_oo.rule_psr': expect.any(Number)
                 }),
                 expect.anything()
             );
-            expect(DdNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
+            expect(OoNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
                 {}
             );
         });
@@ -1244,8 +1244,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const timings = DdNativeRum.stopResource.mock.calls[0][4];
-            const resourceTimings = timings['_dd.resource_timings'];
+            const timings = OoNativeRum.stopResource.mock.calls[0][4];
+            const resourceTimings = timings['_oo.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
 
@@ -1293,8 +1293,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const timings = DdNativeRum.stopResource.mock.calls[0][4];
-            const resourceTimings = timings['_dd.resource_timings'];
+            const timings = OoNativeRum.stopResource.mock.calls[0][4];
+            const resourceTimings = timings['_oo.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
 
@@ -1317,7 +1317,7 @@ describe('XHRProxy', () => {
         });
     });
 
-    describe('DdRum.stopResource calls', () => {
+    describe('OoRum.stopResource calls', () => {
         it('does not generate resource timings when startTracking() + XHR.open() + XHR.send() + XHR.abort() before load started', async () => {
             // GIVEN
             const method = 'GET';
@@ -1336,9 +1336,9 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            expect(attributes['_dd.resource_timings']).toBeUndefined();
+            expect(attributes['_oo.resource_timings']).toBeUndefined();
         });
 
         it('attaches the XMLHttpRequest object containing response to the event mapper', async () => {
@@ -1349,7 +1349,7 @@ describe('XHRProxy', () => {
                 tracingSamplingRate: 100,
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
             });
-            DdRum.registerResourceEventMapper(event => {
+            OoRum.registerResourceEventMapper(event => {
                 (event.context as any)['body'] = JSON.parse(
                     event.resourceContext?.response
                 );
@@ -1365,7 +1365,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
             expect(attributes['body.body']).toEqual('content');
         });
@@ -1612,10 +1612,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.operation_type']).toEqual('query');
-            expect(attributes['_dd.graphql.operation_name']).toEqual('cats');
-            expect(attributes['_dd.graphql.variables']).toEqual('{}');
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
+            expect(attributes['_oo.graphql.operation_name']).toEqual('cats');
+            expect(attributes['_oo.graphql.variables']).toEqual('{}');
 
             expect(
                 xhr.requestHeaders.get(DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1650,10 +1650,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.operation_type']).toEqual('query');
-            expect(attributes['_dd.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_dd.graphql.variables']).not.toBeDefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
+            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_oo.graphql.variables']).not.toBeDefined();
 
             expect(
                 xhr.requestHeaders.get(DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1689,10 +1689,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.operation_type']).not.toBeDefined();
-            expect(attributes['_dd.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_dd.graphql.variables']).not.toBeDefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.operation_type']).not.toBeDefined();
+            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_oo.graphql.variables']).not.toBeDefined();
 
             expect(
                 xhr.requestHeaders.get(DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1713,16 +1713,16 @@ describe('XHRProxy', () => {
                 tracingSamplingRate: 100,
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
             });
-            DdRum.registerResourceEventMapper(event => {
-                if ((event.context as any)['_dd.graphql.variables']) {
+            OoRum.registerResourceEventMapper(event => {
+                if ((event.context as any)['_oo.graphql.variables']) {
                     const variables = JSON.parse(
-                        (event.context as any)['_dd.graphql.variables']
+                        (event.context as any)['_oo.graphql.variables']
                     );
                     if (variables.password) {
                         variables.password = '***';
                     }
                     (event.context as any)[
-                        '_dd.graphql.variables'
+                        '_oo.graphql.variables'
                     ] = JSON.stringify(variables);
                 }
 
@@ -1746,10 +1746,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.operation_type']).toBe('query');
-            expect(attributes['_dd.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_dd.graphql.variables']).toBe(
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.operation_type']).toBe('query');
+            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_oo.graphql.variables']).toBe(
                 '{"password":"***"}'
             );
         });
@@ -1801,12 +1801,12 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.operation_type']).toEqual('query');
-            expect(attributes['_dd.graphql.operation_name']).toEqual('GetUser');
-            expect(attributes['_dd.graphql.errors']).toBeDefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
+            expect(attributes['_oo.graphql.operation_name']).toEqual('GetUser');
+            expect(attributes['_oo.graphql.errors']).toBeDefined();
 
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors).toHaveLength(1);
 
             expect(errors[0]).toEqual({
@@ -1855,9 +1855,9 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors[0]).toEqual({
                 message: 'Invalid query',
                 code: 'GRAPHQL_VALIDATION_FAILED'
@@ -1904,9 +1904,9 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors).toHaveLength(2);
             expect(errors[0]).toEqual({
                 message: 'Insufficient permissions',
@@ -1953,9 +1953,9 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors[0]).toEqual({
                 message: 'Internal server error'
             });
@@ -1986,8 +1986,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
         });
 
         it('does not extract errors when trackErrors is false', async () => {
@@ -2024,10 +2024,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - errors should NOT be extracted
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
-            expect(attributes['_dd.graphql.operation_type']).toEqual('query');
+            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
         });
 
         it('does not extract errors when trackErrors header is missing', async () => {
@@ -2064,10 +2064,10 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - errors should NOT be extracted
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
-            expect(attributes['_dd.graphql.operation_type']).toEqual('query');
+            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
         });
 
         it('handles invalid JSON response gracefully', async () => {
@@ -2096,8 +2096,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - should not crash and should not set errors attribute
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
         });
 
         it('handles GraphQL response with empty errors array', async () => {
@@ -2129,8 +2129,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - empty array should not set errors attribute
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
         });
 
         it('handles GraphQL response without errors field', async () => {
@@ -2161,8 +2161,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_dd.graphql.errors']).toBeUndefined();
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            expect(attributes['_oo.graphql.errors']).toBeUndefined();
         });
 
         it('prefers extensions.code over legacy top-level code', async () => {
@@ -2202,9 +2202,9 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors[0].code).toEqual('EXTENSIONS_CODE');
         });
 
@@ -2242,8 +2242,8 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-            const errors = JSON.parse(attributes['_dd.graphql.errors']);
+            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const errors = JSON.parse(attributes['_oo.graphql.errors']);
             expect(errors[0].path).toEqual(['items', 0, 'name', 'first']);
         });
 
@@ -2302,8 +2302,8 @@ describe('XHRProxy', () => {
                 expect(parsedByApp.errors[0].message).toBe('User not found');
 
                 // AND - Datadog successfully extracted filtered errors
-                const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_dd.graphql.errors']);
+                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'User not found',
@@ -2369,8 +2369,8 @@ describe('XHRProxy', () => {
                 );
 
                 // AND - Datadog successfully extracted filtered errors (extensions filtered out)
-                const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_dd.graphql.errors']);
+                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'Access denied',
@@ -2440,8 +2440,8 @@ describe('XHRProxy', () => {
                 expect(applicationReadBlob.size).toBe(responseBody.length);
 
                 // AND - Datadog successfully extracted filtered errors
-                const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_dd.graphql.errors']);
+                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'Server error',
@@ -2521,8 +2521,8 @@ describe('XHRProxy', () => {
                 ]);
 
                 // AND - Datadog got filtered errors (no extensions details)
-                const attributes = DdNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_dd.graphql.errors']);
+                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(2);
                 expect(errors[0]).toEqual({
                     message: 'Posts not found',

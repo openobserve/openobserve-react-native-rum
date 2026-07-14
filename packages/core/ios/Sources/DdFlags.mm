@@ -10,10 +10,10 @@
 #else
 #import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
 #endif
-#import "DdFlags.h"
+#import "OoFlags.h"
 
 
-@implementation DdFlags
+@implementation OoFlags
 
 RCT_EXPORT_MODULE()
 
@@ -53,10 +53,10 @@ RCT_EXPORT_METHOD(trackEvaluation:(NSString *)clientName
 }
 #endif
 
-- (DdFlagsImplementation*)ddFlagsImplementation
+- (OoFlagsImplementation*)ddFlagsImplementation
 {
     if (_ddFlagsImplementation == nil) {
-        _ddFlagsImplementation = [[DdFlagsImplementation alloc] init];
+        _ddFlagsImplementation = [[OoFlagsImplementation alloc] init];
     }
     return _ddFlagsImplementation;
 }

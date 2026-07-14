@@ -19,7 +19,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.jupiter.api.Test
 
-internal class DdSdkBridgeExtTest {
+internal class OoSdkBridgeExtTest {
     // Default providers for toWritableArray and toWritableMap
     private val createWritableMap = { JavaOnlyMap() }
     private val createWritableArray = { JavaOnlyArray() }

@@ -19,7 +19,7 @@ open class BaseConfigurator :
     /** @inheritDoc */
     override fun configure(forge: Forge) {
         forge.addFactory(ThrowableForgeryFactory())
-        forge.addFactory(DdSdkConfigurationForgeryFactory())
+        forge.addFactory(OoSdkConfigurationForgeryFactory())
         forge.addFactory(PackageInfoForgeryFactory())
         forge.addFactory(TelemetryConfigurationEventForgeryFactory())
         forge.addFactory(ResourceEventForgeryFactory())

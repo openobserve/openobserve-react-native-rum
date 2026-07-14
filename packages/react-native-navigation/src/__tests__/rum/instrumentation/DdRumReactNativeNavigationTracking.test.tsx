@@ -5,7 +5,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdRum } from '@datadog/mobile-react-native';
+import { OoRum } from '@openobserve/mobile-react-native';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import {
     ApplicationMock,
@@ -20,15 +20,15 @@ import type {
     ParamsTrackingPredicate,
     ViewNamePredicate,
     ViewTrackingPredicate
-} from '../../../rum/instrumentation/DdRumReactNativeNavigationTracking';
-import { DdRumReactNativeNavigationTracking } from '../../../rum/instrumentation/DdRumReactNativeNavigationTracking';
+} from '../../../rum/instrumentation/OoRumReactNativeNavigationTracking';
+import { OoRumReactNativeNavigationTracking } from '../../../rum/instrumentation/OoRumReactNativeNavigationTracking';
 
 import { AppStateMockLegacy } from './__utils__/AppStateMockLegacy';
 import { AppStateMock } from './__utils__/AppStateMock';
 
-jest.mock('@datadog/mobile-react-native', () => {
+jest.mock('@openobserve/mobile-react-native', () => {
     return {
-        DdRum: {
+        OoRum: {
             startView: jest.fn().mockImplementation(() => {}),
             stopView: jest.fn().mockImplementation(() => {})
         }
@@ -90,21 +90,21 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    DdRumReactNativeNavigationTracking.stopTracking();
+    OoRumReactNativeNavigationTracking.stopTracking();
 });
 
 // Unit tests
 
 it('M send a RUM ViewEvent W startTracking() for the first view', async () => {
     // GIVEN
-    DdRumReactNativeNavigationTracking.startTracking();
+    OoRumReactNativeNavigationTracking.startTracking();
 
     // WHEN
     render(<ApplicationMock entryPoint={() => startPlayground()} />);
 
     // THEN
     await waitFor(() =>
-        expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home')
+        expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home')
     );
 });
 
@@ -121,7 +121,7 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { custom viewNam
         }
         return _trackedName;
     };
-    DdRumReactNativeNavigationTracking.startTracking({
+    OoRumReactNativeNavigationTracking.startTracking({
         viewNamePredicate: predicate
     });
 
@@ -133,9 +133,9 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { custom viewNam
     await fireEvent(button, 'press');
 
     // THEN
-    await waitFor(() => expect(DdRum.startView).toHaveBeenCalledTimes(2));
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
-    expect(DdRum.startView).toHaveBeenCalledWith(
+    await waitFor(() => expect(OoRum.startView).toHaveBeenCalledTimes(2));
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
+    expect(OoRum.startView).toHaveBeenCalledWith(
         expect.any(String),
         'customViewName'
     );
@@ -156,7 +156,7 @@ it('M not send a RUM ViewEvent W startTracking() componentDidAppear { viewNamePr
         }
         return _trackedName;
     };
-    DdRumReactNativeNavigationTracking.startTracking({
+    OoRumReactNativeNavigationTracking.startTracking({
         viewNamePredicate: predicate
     });
 
@@ -169,8 +169,8 @@ it('M not send a RUM ViewEvent W startTracking() componentDidAppear { viewNamePr
     await waitFor(() => viewDropped);
 
     // THEN
-    expect(DdRum.startView).toHaveBeenCalledTimes(1);
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
+    expect(OoRum.startView).toHaveBeenCalledTimes(1);
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
 });
 
 it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPredicate always returns true }', async () => {
@@ -183,7 +183,7 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPr
         hasRunPredicate = true;
         return true;
     };
-    DdRumReactNativeNavigationTracking.startTracking({
+    OoRumReactNativeNavigationTracking.startTracking({
         viewTrackingPredicate: predicate
     });
 
@@ -196,9 +196,9 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPr
     await waitFor(() => hasRunPredicate);
 
     // THEN
-    expect(DdRum.startView).toHaveBeenCalledTimes(2);
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'About');
+    expect(OoRum.startView).toHaveBeenCalledTimes(2);
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'About');
 });
 
 it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPredicate skips tracking About screen }', async () => {
@@ -211,7 +211,7 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPr
         hasRunPredicate = true;
         return _event.componentName !== 'About';
     };
-    DdRumReactNativeNavigationTracking.startTracking({
+    OoRumReactNativeNavigationTracking.startTracking({
         viewTrackingPredicate: predicate
     });
 
@@ -224,9 +224,9 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { viewTrackingPr
     await waitFor(() => hasRunPredicate);
 
     // THEN
-    expect(DdRum.startView).toHaveBeenCalledTimes(1);
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
-    expect(DdRum.startView).not.toHaveBeenCalledWith(
+    expect(OoRum.startView).toHaveBeenCalledTimes(1);
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home');
+    expect(OoRum.startView).not.toHaveBeenCalledWith(
         expect.any(String),
         'About'
     );
@@ -246,7 +246,7 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { paramsTracking
         hasRunPredicate = true;
         return testPassProps;
     };
-    DdRumReactNativeNavigationTracking.startTracking({
+    OoRumReactNativeNavigationTracking.startTracking({
         paramsTrackingPredicate: predicate
     });
 
@@ -259,11 +259,11 @@ it('M send a RUM ViewEvent W startTracking() componentDidAppear { paramsTracking
     await waitFor(() => hasRunPredicate);
 
     // THEN
-    expect(DdRum.startView).toHaveBeenCalledTimes(2);
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home', {
+    expect(OoRum.startView).toHaveBeenCalledTimes(2);
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'Home', {
         passProps: testPassProps
     });
-    expect(DdRum.startView).toHaveBeenCalledWith(expect.any(String), 'About', {
+    expect(OoRum.startView).toHaveBeenCalledWith(expect.any(String), 'About', {
         passProps: testPassProps
     });
 });
@@ -288,10 +288,10 @@ describe.each([
     });
     it('registers and unregisters AppState', async () => {
         // GIVEN
-        DdRumReactNativeNavigationTracking.startTracking();
+        OoRumReactNativeNavigationTracking.startTracking();
         render(<ApplicationMock entryPoint={() => startPlayground()} />);
         await waitFor(() =>
-            expect(DdRum.startView).toHaveBeenCalledWith(
+            expect(OoRum.startView).toHaveBeenCalledWith(
                 expect.any(String),
                 'Home'
             )
@@ -302,39 +302,39 @@ describe.each([
 
         // THEN
         expect(appStateMock.listeners.change).toHaveLength(1);
-        expect(DdRum.stopView).toHaveBeenCalledTimes(1);
+        expect(OoRum.stopView).toHaveBeenCalledTimes(1);
     });
 
     it('does not log AppState changes when tracking is stopped', async () => {
         // GIVEN
-        DdRumReactNativeNavigationTracking.startTracking();
-        DdRumReactNativeNavigationTracking.stopTracking();
+        OoRumReactNativeNavigationTracking.startTracking();
+        OoRumReactNativeNavigationTracking.stopTracking();
 
         // WHEN
         appStateMock.changeValue('background');
 
         // THEN
-        expect(DdRum.stopView).not.toHaveBeenCalled();
+        expect(OoRum.stopView).not.toHaveBeenCalled();
     });
 
     it('starts last view when app goes into foreground', async () => {
         // GIVEN
-        DdRumReactNativeNavigationTracking.startTracking();
+        OoRumReactNativeNavigationTracking.startTracking();
         const { findByText } = render(
             <ApplicationMock entryPoint={() => startPlayground()} />
         );
         const button = await findByText('Go to About');
         await fireEvent(button, 'press');
-        await waitFor(() => expect(DdRum.startView).toHaveBeenCalledTimes(2));
+        await waitFor(() => expect(OoRum.startView).toHaveBeenCalledTimes(2));
 
         // WHEN
         appStateMock.changeValue('background');
         appStateMock.changeValue('active');
 
         // THEN
-        expect(DdRum.stopView).toHaveBeenCalledTimes(1);
-        expect(DdRum.startView).toHaveBeenCalledTimes(3);
-        expect(DdRum.startView).toHaveBeenNthCalledWith(
+        expect(OoRum.stopView).toHaveBeenCalledTimes(1);
+        expect(OoRum.startView).toHaveBeenCalledTimes(3);
+        expect(OoRum.startView).toHaveBeenNthCalledWith(
             3,
             expect.any(String),
             'About'
@@ -343,12 +343,12 @@ describe.each([
 
     it('does not stop view when no navigator attached', async () => {
         // GIVEN
-        DdRumReactNativeNavigationTracking.startTracking();
+        OoRumReactNativeNavigationTracking.startTracking();
 
         // WHEN
         appStateMock.changeValue('background');
 
         // THEN
-        expect(DdRum.stopView).not.toHaveBeenCalled();
+        expect(OoRum.stopView).not.toHaveBeenCalled();
     });
 });

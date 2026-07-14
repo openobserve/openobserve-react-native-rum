@@ -41,11 +41,11 @@ const apolloClient = new ApolloClient({
 
 #### Use the Datadog Apollo Client Link to collect information
 
-Import `DatadogLink` from `@datadog/mobile-react-native-apollo-client` and use it in your ApolloClient initialization:
+Import `DatadogLink` from `@openobserve/mobile-react-native-apollo-client` and use it in your ApolloClient initialization:
 
 ```javascript
 import { ApolloClient, from, HttpLink } from '@apollo/client';
-import { DatadogLink } from '@datadog/mobile-react-native-apollo-client';
+import { DatadogLink } from '@openobserve/mobile-react-native-apollo-client';
 
 const apolloClient = new ApolloClient({
     link: from([
@@ -96,26 +96,26 @@ datadogConfiguration.resourceEventMapper = event => {
     const context = event.context as Record<string, string>;
 
     // Redact sensitive variables
-    if (context['_dd.graphql.variables']) {
-        const variables = JSON.parse(context['_dd.graphql.variables']);
+    if (context['_oo.graphql.variables']) {
+        const variables = JSON.parse(context['_oo.graphql.variables']);
         if (variables.password) {
             variables.password = '***';
         }
-        context['_dd.graphql.variables'] = JSON.stringify(variables);
+        context['_oo.graphql.variables'] = JSON.stringify(variables);
     }
 
     // Drop the payload entirely for a specific operation
-    if (context['_dd.graphql.operation_name'] === 'TestOperation') {
-        delete context['_dd.graphql.payload'];
+    if (context['_oo.graphql.operation_name'] === 'TestOperation') {
+        delete context['_oo.graphql.payload'];
     }
 
     // Redact error messages
-    if (context['_dd.graphql.errors']) {
-        const errors = JSON.parse(context['_dd.graphql.errors']);
+    if (context['_oo.graphql.errors']) {
+        const errors = JSON.parse(context['_oo.graphql.errors']);
         for (const error of errors) {
             error.message = error.message.replace(/email=\S+/g, 'email=***');
         }
-        context['_dd.graphql.errors'] = JSON.stringify(errors);
+        context['_oo.graphql.errors'] = JSON.stringify(errors);
     }
 
     return event;

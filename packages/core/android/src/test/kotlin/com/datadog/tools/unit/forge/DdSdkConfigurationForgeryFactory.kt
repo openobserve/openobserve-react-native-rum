@@ -7,7 +7,7 @@
 package com.datadog.tools.unit.forge
 
 import com.datadog.reactnative.ConfigurationForTelemetry
-import com.datadog.reactnative.DdSdkConfiguration
+import com.datadog.reactnative.OoSdkConfiguration
 import com.datadog.reactnative.LogsConfiguration
 import com.datadog.reactnative.RumConfiguration
 import com.datadog.reactnative.TraceConfiguration
@@ -15,10 +15,10 @@ import fr.xgouchet.elmyr.Forge
 import fr.xgouchet.elmyr.ForgeryFactory
 import java.util.UUID
 
-class DdSdkConfigurationForgeryFactory : ForgeryFactory<DdSdkConfiguration> {
+class OoSdkConfigurationForgeryFactory : ForgeryFactory<OoSdkConfiguration> {
 
-    override fun getForgery(forge: Forge): DdSdkConfiguration {
-        return DdSdkConfiguration(
+    override fun getForgery(forge: Forge): OoSdkConfiguration {
+        return OoSdkConfiguration(
             additionalConfiguration = forge.aMap {
                 forge.anAsciiString() to forge.anElementFrom(
                     forge.aMap { forge.anAsciiString() to forge.aString() },

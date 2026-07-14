@@ -5,20 +5,20 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdRumImplementation;
+@class OoRumImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSdkReactNative/DdSdkReactNative.h>
-@interface DdRum: NSObject <NativeDdRumSpec>
+#import <OoSdkReactNative/OoSdkReactNative.h>
+@interface OoRum: NSObject <NativeDdRumSpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdRum : NSObject <RCTBridgeModule>
+@interface OoRum : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdRumImplementation* ddRumImplementation;
+@property (nonatomic, strong) OoRumImplementation* ddRumImplementation;
 
 @end

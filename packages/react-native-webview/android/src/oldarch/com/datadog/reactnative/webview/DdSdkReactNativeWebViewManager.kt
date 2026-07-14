@@ -22,7 +22,7 @@ import com.reactnativecommunity.webview.RNCWebViewWrapper
 /**
  * The entry point to use Datadog auto-instrumented WebView feature.
  */
-class DdSdkReactNativeWebViewManager(
+class OoSdkReactNativeWebViewManager(
     private val reactContext: ReactContext
 ) : RNCWebViewManager() {
     // The name used to reference this custom View from React Native.
@@ -93,6 +93,6 @@ class DdSdkReactNativeWebViewManager(
 
     companion object {
         // The name used to reference this custom View from React Native.
-        const val VIEW_NAME = "DdReactNativeWebView"
+        const val VIEW_NAME = "OoReactNativeWebView"
     }
 }

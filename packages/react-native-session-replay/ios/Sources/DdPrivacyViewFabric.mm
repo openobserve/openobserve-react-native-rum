@@ -6,10 +6,10 @@
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/RCTViewComponentView.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/ComponentDescriptors.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/EventEmitters.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/Props.h>
-#import <react/renderer/components/DdSDKReactNativeSessionReplay/RCTComponentViewHelpers.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/ComponentDescriptors.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/EventEmitters.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/Props.h>
+#import <react/renderer/components/OoSDKReactNativeSessionReplay/RCTComponentViewHelpers.h>
 #import <React/RCTFabricComponentsPlugins.h>
 
 
@@ -19,22 +19,22 @@
 #import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
 #endif
 #import <objc/runtime.h>
-#import "DdPrivacyViewFabric.h"
+#import "OoPrivacyViewFabric.h"
 
 using namespace facebook::react;
 
-@implementation DdPrivacyViewFabric {
+@implementation OoPrivacyViewFabric {
     UIView * _view;
     
 }
 
 + (ComponentDescriptorProvider)componentDescriptorProvider {
-    return concreteComponentDescriptorProvider<DdPrivacyViewComponentDescriptor>();
+    return concreteComponentDescriptorProvider<OoPrivacyViewComponentDescriptor>();
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        static const auto defaultProps = std::make_shared<const DdPrivacyViewProps>();
+        static const auto defaultProps = std::make_shared<const OoPrivacyViewProps>();
         _props = defaultProps;
     }
     return self;
@@ -49,7 +49,7 @@ using namespace facebook::react;
     return objc_getAssociatedObject(self, @selector(nativeID));
 }
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps {
-    const auto &newProps = *std::static_pointer_cast<DdPrivacyViewProps const>(props);
+    const auto &newProps = *std::static_pointer_cast<OoPrivacyViewProps const>(props);
     
     NSString *text = [NSString stringWithUTF8String:newProps.textAndInputPrivacy.c_str()];
     NSString *image = [NSString stringWithUTF8String:newProps.imagePrivacy.c_str()];
@@ -62,7 +62,7 @@ using namespace facebook::react;
     attributesDict[@"height"] = [NSString stringWithUTF8String:newProps.attributes.height.c_str()];
     attributesDict[@"hash"] = [NSString stringWithUTF8String:newProps.attributes.hash.c_str()];
     
-    [DdPrivacyOverrider setOverridesFor:self textPrivacy:text imagePrivacy:image touchPrivacy:touch hide:newProps.hide];
+    [OoPrivacyOverrider setOverridesFor:self textPrivacy:text imagePrivacy:image touchPrivacy:touch hide:newProps.hide];
     self.nativeID = nativeID;
     self.attributes = attributesDict;
     
@@ -72,7 +72,7 @@ using namespace facebook::react;
 
 @end
 
-Class<RCTComponentViewProtocol> DdPrivacyViewCls(void) {
-    return DdPrivacyViewFabric.class;
+Class<RCTComponentViewProtocol> OoPrivacyViewCls(void) {
+    return OoPrivacyViewFabric.class;
 }
 #endif

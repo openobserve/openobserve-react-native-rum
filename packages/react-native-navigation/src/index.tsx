@@ -9,10 +9,10 @@ import type {
     ViewTrackingPredicate,
     ParamsTrackingPredicate,
     NavigationTrackingOptions
-} from './rum/instrumentation/DdRumReactNativeNavigationTracking';
-import { DdRumReactNativeNavigationTracking } from './rum/instrumentation/DdRumReactNativeNavigationTracking';
+} from './rum/instrumentation/OoRumReactNativeNavigationTracking';
+import { OoRumReactNativeNavigationTracking } from './rum/instrumentation/OoRumReactNativeNavigationTracking';
 
-export { DdRumReactNativeNavigationTracking };
+export { OoRumReactNativeNavigationTracking };
 
 export type {
     ViewNamePredicate,

@@ -14,13 +14,13 @@ import com.facebook.react.bridge.ReactMethod
 /**
  * The entry point to use Datadog's Session Replay feature.
  */
-class DdSessionReplay(
+class OoSessionReplay(
     reactContext: ReactApplicationContext
 ) : ReactContextBaseJavaModule(reactContext) {
 
-    private val implementation = DdSessionReplayImplementation(reactContext)
+    private val implementation = OoSessionReplayImplementation(reactContext)
 
-    override fun getName(): String = DdSessionReplayImplementation.NAME
+    override fun getName(): String = OoSessionReplayImplementation.NAME
 
     /**
      * Enable session replay and start recording session.

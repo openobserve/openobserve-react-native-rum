@@ -6,16 +6,16 @@
 
 import { InternalLog } from '../../../InternalLog';
 import { SdkVerbosity } from '../../../config/types';
-import { DdRum } from '../../../rum/DdRum';
+import { OoRum } from '../../../rum/OoRum';
 import {
-    DdEventsInterceptor,
+    OoEventsInterceptor,
     UNKNOWN_TARGET_NAME
-} from '../../../rum/instrumentation/interactionTracking/DdEventsInterceptor';
+} from '../../../rum/instrumentation/interactionTracking/OoEventsInterceptor';
 import { RumActionType } from '../../../rum/types';
 
-jest.mock('../../../rum/DdRum', () => {
+jest.mock('../../../rum/OoRum', () => {
     return {
-        DdRum: {
+        OoRum: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             addAction: jest.fn().mockImplementation(() => {})
         }
@@ -34,19 +34,19 @@ jest.mock('../../../InternalLog', () => {
 // jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 jest.useFakeTimers();
 
-let testedEventsInterceptor: DdEventsInterceptor;
+let testedEventsInterceptor: OoEventsInterceptor;
 
 beforeEach(() => {
-    testedEventsInterceptor = new DdEventsInterceptor();
+    testedEventsInterceptor = new OoEventsInterceptor();
     jest.setTimeout(20000);
     InternalLog.log.mockReset();
-    DdRum.addAction.mockReset();
+    OoRum.addAction.mockReset();
 });
 
 it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name } ', async () => {
     // GIVEN
     const fakeAccessibilityLabel = 'target_name';
-    const fakeDdActionLabel = 'DdActionLabel';
+    const fakeDdActionLabel = 'OoActionLabel';
     const fakeArguments = {
         _targetInst: {
             memoizedProps: {
@@ -60,15 +60,15 @@ it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
-    expect(DdRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
+    expect(OoRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
 });
 
 it('M send a RUM Action event W interceptOnPress { arguments with actionNameAttribute } ', async () => {
     // GIVEN
-    const eventsInterceptor = new DdEventsInterceptor({
+    const eventsInterceptor = new OoEventsInterceptor({
         actionNameAttribute: 'testID'
     });
     const fakeAccessibilityLabel = 'target_name';
@@ -86,20 +86,20 @@ it('M send a RUM Action event W interceptOnPress { arguments with actionNameAttr
     eventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeTestId);
-    expect(DdRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeTestId);
+    expect(OoRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
 });
 
 it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name over actionNameAttribute } ', async () => {
     // GIVEN
-    const eventsInterceptor = new DdEventsInterceptor({
+    const eventsInterceptor = new OoEventsInterceptor({
         actionNameAttribute: 'testID'
     });
     const fakeAccessibilityLabel = 'target_name';
     const fakeTestId = 'testID';
-    const fakeDdActionLabel = 'DdActionLabel';
+    const fakeDdActionLabel = 'OoActionLabel';
     const fakeArguments = {
         _targetInst: {
             memoizedProps: {
@@ -114,16 +114,16 @@ it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name
     eventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
-    expect(DdRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
+    expect(OoRum.addAction.mock.calls[0][4]).toBe(fakeArguments);
 });
 
 it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name on a parent node} ', async () => {
     // GIVEN
     const fakeAccessibilityLabel = 'target_name';
-    const fakeDdActionLabel = 'DdActionLabel';
+    const fakeDdActionLabel = 'OoActionLabel';
     const fakeArguments = {
         _targetInst: {
             memoizedProps: {
@@ -142,9 +142,9 @@ it('M send a RUM Action event W interceptOnPress { arguments with dd-action-name
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
 });
 
 it('M send a RUM Action event W interceptOnPress { arguments with accessibilityLabel } ', async () => {
@@ -160,9 +160,9 @@ it('M send a RUM Action event W interceptOnPress { arguments with accessibilityL
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
 });
 
 it('M send only one RUM Action event W interceptOnPress { called multiple times for same target } ', async () => {
@@ -181,9 +181,9 @@ it('M send only one RUM Action event W interceptOnPress { called multiple times 
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
 });
 
 it('M send a RUM Action event W interceptOnPress { no accessibilityLabel arguments, elementType is string } ', async () => {
@@ -195,9 +195,9 @@ it('M send a RUM Action event W interceptOnPress { no accessibilityLabel argumen
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeElementType);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeElementType);
 });
 
 it('M send a RUM Action event W interceptOnPress { no accessibilityLabel arguments, elementType is object with name property } ', async () => {
@@ -211,9 +211,9 @@ it('M send a RUM Action event W interceptOnPress { no accessibilityLabel argumen
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeElementType);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeElementType);
 });
 
 it('M send a RUM Action event W interceptOnPress { no accessibilityLabel, no elementType } ', async () => {
@@ -224,9 +224,9 @@ it('M send a RUM Action event W interceptOnPress { no accessibilityLabel, no ele
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(UNKNOWN_TARGET_NAME);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(UNKNOWN_TARGET_NAME);
 });
 
 it('M send a RUM Action event W interceptOnPress { event nested in props wrapper (react-native-ui-lib pattern) } ', async () => {
@@ -249,10 +249,10 @@ it('M send a RUM Action event W interceptOnPress { event nested in props wrapper
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
-    expect(DdRum.addAction.mock.calls[0][4]).toBe(fakeEvent);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeAccessibilityLabel);
+    expect(OoRum.addAction.mock.calls[0][4]).toBe(fakeEvent);
 });
 
 it('M send a RUM Action event W interceptOnPress { event nested in props wrapper with dd-action-name } ', async () => {
@@ -274,10 +274,10 @@ it('M send a RUM Action event W interceptOnPress { event nested in props wrapper
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(1);
-    expect(DdRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
-    expect(DdRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
-    expect(DdRum.addAction.mock.calls[0][4]).toBe(fakeEvent);
+    expect(OoRum.addAction.mock.calls.length).toBe(1);
+    expect(OoRum.addAction.mock.calls[0][0]).toBe(RumActionType.TAP);
+    expect(OoRum.addAction.mock.calls[0][1]).toBe(fakeDdActionLabel);
+    expect(OoRum.addAction.mock.calls[0][4]).toBe(fakeEvent);
 });
 
 it('M do nothing W interceptOnPress { props wrapper without nested event (incubator pattern) } ', async () => {
@@ -291,10 +291,10 @@ it('M do nothing W interceptOnPress { props wrapper without nested event (incuba
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -310,10 +310,10 @@ it('M do nothing W interceptOnPress { props wrapper with event that has no _targ
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -326,10 +326,10 @@ it('M do nothing W interceptOnPress { invalid arguments - empty object } ', asyn
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -342,10 +342,10 @@ it('M do nothing W interceptOnPress { invalid arguments - array } ', async () =>
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -358,10 +358,10 @@ it('M do nothing W interceptOnPress { invalid arguments - nested array } ', asyn
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -374,10 +374,10 @@ it('M do nothing W interceptOnPress { invalid arguments - undefined } ', async (
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -390,10 +390,10 @@ it('M do nothing W interceptOnPress { invalid arguments - null } ', async () => 
     testedEventsInterceptor.interceptOnPress(fakeArguments);
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -403,10 +403,10 @@ it('M do nothing W interceptOnPress { invalid arguments - wrong object } ', asyn
     testedEventsInterceptor.interceptOnPress({ a: 'b' });
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });
@@ -416,10 +416,10 @@ it('M do nothing W interceptOnPress { no arguments call } ', async () => {
     testedEventsInterceptor.interceptOnPress();
 
     // THEN
-    expect(DdRum.addAction.mock.calls.length).toBe(0);
+    expect(OoRum.addAction.mock.calls.length).toBe(0);
     expect(InternalLog.log.mock.calls.length).toBe(1);
     expect(InternalLog.log.mock.calls[0][0]).toBe(
-        DdEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
+        OoEventsInterceptor.ACTION_EVENT_DROPPED_DEBUG_MESSAGE
     );
     expect(InternalLog.log.mock.calls[0][1]).toBe(SdkVerbosity.DEBUG);
 });

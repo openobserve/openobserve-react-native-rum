@@ -40,14 +40,14 @@ import kotlin.time.Duration.Companion.seconds
 /**
  * Initializes the Android Datadog SDK.
  */
-class DdSdkNativeInitialization internal constructor(
+class OoSdkNativeInitialization internal constructor(
     private val appContext: Context,
     private val datadog: DatadogWrapper = DatadogSDKWrapper(),
-    private val ddTelemetry: DdTelemetry = DdTelemetry(),
+    private val ddTelemetry: OoTelemetry = OoTelemetry(),
     private val jsonFileReader: JSONFileReader = JSONFileReader()
 ) {
     @Suppress("CyclomaticComplexMethod")
-    internal fun initialize(ddSdkConfiguration: DdSdkConfiguration, isCalledFromJs: Boolean = true) {
+    internal fun initialize(ddSdkConfiguration: OoSdkConfiguration, isCalledFromJs: Boolean = true) {
         val sdkConfiguration = buildSdkConfiguration(ddSdkConfiguration)
         val trackingConsent = buildTrackingConsent(ddSdkConfiguration.trackingConsent)
         var rumConfiguration: RumConfiguration? = null
@@ -72,12 +72,12 @@ class DdSdkNativeInitialization internal constructor(
         configureRumAndTracesForLogs(ddSdkConfiguration)
 
         if (isCalledFromJs) {
-            DdSdkSessionStartedListener.getInstance().onRnSdkInitialized()
+            OoSdkSessionStartedListener.getInstance().onRnSdkInitialized()
             // Handles the case in which the SDK was already initialized with initFromNative.
             if (datadog.isInitialized()) {
                 datadog.getRumMonitor().getCurrentSessionId {
                     it?.let { sessionId ->
-                        DdSdkSessionStartedListener.getInstance().onSessionStarted(sessionId, false)
+                        OoSdkSessionStartedListener.getInstance().onSessionStarted(sessionId, false)
                     }
                 }
             }
@@ -102,7 +102,7 @@ class DdSdkNativeInitialization internal constructor(
         }
     }
 
-    private fun configureRumAndTracesForLogs(configuration: DdSdkConfiguration) {
+    private fun configureRumAndTracesForLogs(configuration: OoSdkConfiguration) {
         configuration.logsConfiguration?.bundleLogsWithRum?.let {
             datadog.bundleLogsWithRum = it
         }
@@ -111,7 +111,7 @@ class DdSdkNativeInitialization internal constructor(
         }
     }
 
-    private fun configureSdkVerbosity(configuration: DdSdkConfiguration) {
+    private fun configureSdkVerbosity(configuration: OoSdkConfiguration) {
         val verbosity =
             when (configuration.verbosity?.lowercase(Locale.US)) {
                 "debug" -> Log.DEBUG
@@ -131,8 +131,8 @@ class DdSdkNativeInitialization internal constructor(
             try {
                 appContext.packageManager.getPackageInfo(packageName, 0)
             } catch (e: PackageManager.NameNotFoundException) {
-                ddTelemetry.telemetryError(e.message ?: DdSdkImplementation.PACKAGE_INFO_NOT_FOUND_ERROR_MESSAGE, e)
-                return DdSdkImplementation.DEFAULT_APP_VERSION
+                ddTelemetry.telemetryError(e.message ?: OoSdkImplementation.PACKAGE_INFO_NOT_FOUND_ERROR_MESSAGE, e)
+                return OoSdkImplementation.DEFAULT_APP_VERSION
             }
 
         return packageInfo?.let {
@@ -141,11 +141,11 @@ class DdSdkNativeInitialization internal constructor(
             @Suppress("DEPRECATION")
             it.versionName ?: it.versionCode.toString()
         }
-            ?: DdSdkImplementation.DEFAULT_APP_VERSION
+            ?: OoSdkImplementation.DEFAULT_APP_VERSION
     }
 
     @Suppress("CyclomaticComplexMethod")
-    private fun buildRumConfiguration(configuration: DdSdkConfiguration): RumConfiguration {
+    private fun buildRumConfiguration(configuration: OoSdkConfiguration): RumConfiguration {
         val configBuilder =
             RumConfiguration.Builder(
                 applicationId = configuration.rumConfiguration?.applicationId ?: ""
@@ -183,7 +183,7 @@ class DdSdkNativeInitialization internal constructor(
         configBuilder.setResourceEventMapper(
             object : EventMapper<ResourceEvent> {
                 override fun map(event: ResourceEvent): ResourceEvent? {
-                    if (event.context?.additionalProperties?.containsKey(DdSdkImplementation.DD_DROP_RESOURCE) ==
+                    if (event.context?.additionalProperties?.containsKey(OoSdkImplementation.DD_DROP_RESOURCE) ==
                         true
                     ) {
                         return null
@@ -196,7 +196,7 @@ class DdSdkNativeInitialization internal constructor(
         configBuilder.setActionEventMapper(
             object : EventMapper<ActionEvent> {
                 override fun map(event: ActionEvent): ActionEvent? {
-                    if (event.context?.additionalProperties?.containsKey(DdSdkImplementation.DD_DROP_ACTION) == true
+                    if (event.context?.additionalProperties?.containsKey(OoSdkImplementation.DD_DROP_ACTION) == true
                     ) {
                         return null
                     }
@@ -257,12 +257,12 @@ class DdSdkNativeInitialization internal constructor(
             configBuilder.setInitialResourceIdentifier(TimeBasedInitialResourceIdentifier(milliseconds))
         }
 
-        configBuilder.setSessionListener(DdSdkSessionStartedListener.getInstance())
+        configBuilder.setSessionListener(OoSdkSessionStartedListener.getInstance())
 
         return configBuilder.build()
     }
 
-    private fun buildLogsConfiguration(configuration: DdSdkConfiguration): LogsConfiguration {
+    private fun buildLogsConfiguration(configuration: OoSdkConfiguration): LogsConfiguration {
         val configBuilder = LogsConfiguration.Builder()
         configuration.logsConfiguration?.customEndpoint?.let {
             // OpenObserve intake path: {base}/logs (Android takes the full URL verbatim).
@@ -272,7 +272,7 @@ class DdSdkNativeInitialization internal constructor(
         return configBuilder.build()
     }
 
-    private fun buildTraceConfiguration(configuration: DdSdkConfiguration): TraceConfiguration {
+    private fun buildTraceConfiguration(configuration: OoSdkConfiguration): TraceConfiguration {
         val configBuilder = TraceConfiguration.Builder()
         configuration.traceConfiguration?.customEndpoint?.let {
             configBuilder.useCustomEndpoint(it)
@@ -281,7 +281,7 @@ class DdSdkNativeInitialization internal constructor(
         return configBuilder.build()
     }
 
-    private fun buildSdkConfiguration(configuration: DdSdkConfiguration): Configuration {
+    private fun buildSdkConfiguration(configuration: OoSdkConfiguration): Configuration {
         val configBuilder = Configuration.Builder(
             clientToken = configuration.clientToken,
             env = configuration.env,
@@ -290,10 +290,10 @@ class DdSdkNativeInitialization internal constructor(
         )
 
         val additionalConfig = configuration.additionalConfiguration?.toMutableMap()
-        val versionSuffix = configuration.additionalConfiguration?.get(DdSdkImplementation.DD_VERSION_SUFFIX) as? String
+        val versionSuffix = configuration.additionalConfiguration?.get(OoSdkImplementation.DD_VERSION_SUFFIX) as? String
         if (versionSuffix != null && additionalConfig != null) {
             val defaultVersion = getDefaultAppVersion()
-            additionalConfig.put(DdSdkImplementation.DD_VERSION, defaultVersion + versionSuffix)
+            additionalConfig.put(OoSdkImplementation.DD_VERSION, defaultVersion + versionSuffix)
         }
         configBuilder.setAdditionalConfiguration(
             additionalConfig?.filterValues { it != null }?.mapValues {
@@ -322,7 +322,7 @@ class DdSdkNativeInitialization internal constructor(
 
         configBuilder.setBatchProcessingLevel(buildBatchProcessingLevel(configuration.batchProcessingLevel))
 
-        if (additionalConfig?.get(DdSdkImplementation.DD_NEEDS_CLEAR_TEXT_HTTP) == true) {
+        if (additionalConfig?.get(OoSdkImplementation.DD_NEEDS_CLEAR_TEXT_HTTP) == true) {
             _InternalProxy.allowClearTextHttp(configBuilder)
         }
 
@@ -336,7 +336,7 @@ class DdSdkNativeInitialization internal constructor(
             "not_granted" -> TrackingConsent.NOT_GRANTED
             else -> {
                 Log.w(
-                    DdSdk::class.java.canonicalName,
+                    OoSdk::class.java.canonicalName,
                     "Unknown consent given: $trackingConsent, " +
                             "using ${TrackingConsent.PENDING} as default"
                 )
@@ -399,7 +399,7 @@ class DdSdkNativeInitialization internal constructor(
         }
     }
 
-    internal fun getConfigurationFromJSONFile(): DdSdkConfiguration {
+    internal fun getConfigurationFromJSONFile(): OoSdkConfiguration {
         try {
             val jsonString = jsonFileReader.parseAssetsJSONFile(appContext, "datadog-configuration.json")
 
@@ -420,7 +420,7 @@ class DdSdkNativeInitialization internal constructor(
          */
         @JvmStatic
         fun initFromNative(appContext: Context) {
-            val nativeInitialization = DdSdkNativeInitialization(appContext.applicationContext)
+            val nativeInitialization = OoSdkNativeInitialization(appContext.applicationContext)
             try {
                 nativeInitialization.initialize(
                     ddSdkConfiguration = nativeInitialization.getConfigurationFromJSONFile(),
@@ -428,7 +428,7 @@ class DdSdkNativeInitialization internal constructor(
                 )
             } catch (@Suppress("TooGenericExceptionCaught") error: Exception) {
                 Log.w(
-                    DdSdkNativeInitialization::class.java.canonicalName,
+                    OoSdkNativeInitialization::class.java.canonicalName,
                     "Failed to initialize the Datadog SDK: $error"
                 )
             }

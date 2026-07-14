@@ -10,7 +10,7 @@ import { URLHostParser } from '../requestProxy/XHRProxy/URLHostParser';
 import { DatadogTracingContext } from './DatadogTracingContext';
 import { TracingIdFormat } from './TracingIdentifier';
 import type { TraceId, SpanId } from './TracingIdentifier';
-import type { DdRumResourceTracingAttributes } from './distributedTracingAttributes';
+import type { OoRumResourceTracingAttributes } from './distributedTracingAttributes';
 import {
     generateTracingAttributesWithSampling,
     getTracingAttributes
@@ -37,7 +37,7 @@ import {
 } from './headers';
 
 export const getTracingHeadersFromAttributes = (
-    tracingAttributes: DdRumResourceTracingAttributes
+    tracingAttributes: OoRumResourceTracingAttributes
 ): { header: string; value: string }[] => {
     const headers: { header: string; value: string }[] = [];
     if (tracingAttributes.tracingStrategy === 'DISCARD') {
@@ -211,7 +211,7 @@ export const getTracingContextForPropagators = (
 };
 
 const getTracingContextForAttributes = (
-    tracingAttributes: DdRumResourceTracingAttributes,
+    tracingAttributes: OoRumResourceTracingAttributes,
     tracingSamplingRate: number
 ): DatadogTracingContext => {
     const requestHeaders = getTracingHeadersFromAttributes(tracingAttributes);
@@ -219,19 +219,19 @@ const getTracingContextForAttributes = (
 
     const spanId = tracingAttributes.spanId;
     if (spanId) {
-        resourceContext['_dd.span_id'] = spanId.toString(
+        resourceContext['_oo.span_id'] = spanId.toString(
             TracingIdFormat.decimal
         );
     }
 
     const traceId = tracingAttributes.traceId;
     if (traceId) {
-        resourceContext['_dd.trace_id'] = traceId.toString(
+        resourceContext['_oo.trace_id'] = traceId.toString(
             TracingIdFormat.paddedHex
         );
     }
 
-    resourceContext['_dd.rule_psr'] = tracingSamplingRate / 100;
+    resourceContext['_oo.rule_psr'] = tracingSamplingRate / 100;
 
     return new DatadogTracingContext(
         requestHeaders,

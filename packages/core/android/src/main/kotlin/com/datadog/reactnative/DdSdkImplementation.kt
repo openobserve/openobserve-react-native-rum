@@ -26,10 +26,10 @@ import kotlin.math.max
 
 /** The entry point to initialize Datadog's features. */
 @Suppress("TooManyFunctions")
-class DdSdkImplementation(
+class OoSdkImplementation(
     private val reactContext: ReactApplicationContext,
     private val datadog: DatadogWrapper = DatadogSDKWrapper(),
-    private val ddTelemetry: DdTelemetry = DdTelemetry(),
+    private val ddTelemetry: OoTelemetry = OoTelemetry(),
     private val uiThreadExecutor: UiThreadExecutor = ReactUiThreadExecutor(),
     private val jsThreadExecutor: JsThreadExecutor = ReactJsThreadExecutor(reactContext)
 ) {
@@ -40,7 +40,7 @@ class DdSdkImplementation(
     @Volatile
     private var maxDisplayRefreshRate: Double? = null
 
-    // region DdSdk
+    // region OoSdk
 
     /**
      * Initializes Datadog's features.
@@ -49,16 +49,16 @@ class DdSdkImplementation(
     fun initialize(configuration: ReadableMap, promise: Promise) {
         val ddSdkConfiguration = configuration.asDdSdkConfiguration()
 
-        // On new arch DdSdk is a lazy TurboModule — it's instantiated on the first JS-side
+        // On new arch OoSdk is a lazy TurboModule — it's instantiated on the first JS-side
         // method call (typically this initialize()), which usually lands AFTER the activity's
         // first onHostResume. That means registerLifecycleEvents's listener missed the first
         // resume, reactContext is still null on the session listener, and the replay inside
         // nativeInitialization.initialize → onRnSdkInitialized has no emitter target. Setting
         // the reactContext here — we are provably being dispatched through an active one —
         // closes that race so the cached session ID is delivered on the first JS init.
-        DdSdkSessionStartedListener.getInstance().setReactContext(reactContext)
+        OoSdkSessionStartedListener.getInstance().setReactContext(reactContext)
 
-        val nativeInitialization = DdSdkNativeInitialization(appContext, datadog, ddTelemetry)
+        val nativeInitialization = OoSdkNativeInitialization(appContext, datadog, ddTelemetry)
         nativeInitialization.initialize(ddSdkConfiguration)
 
         val activity = reactContext.currentActivity
@@ -296,7 +296,7 @@ class DdSdkImplementation(
             "not_granted" -> TrackingConsent.NOT_GRANTED
             else -> {
                 Log.w(
-                    DdSdk::class.java.canonicalName,
+                    OoSdk::class.java.canonicalName,
                     "Unknown consent given: $trackingConsent, " +
                             "using ${TrackingConsent.PENDING} as default"
                 )
@@ -306,13 +306,13 @@ class DdSdkImplementation(
     }
 
     private fun configureSynthetics() {
-        if (DdSdkSynthetics.testId.isNullOrBlank() || DdSdkSynthetics.resultId.isNullOrBlank()) {
+        if (OoSdkSynthetics.testId.isNullOrBlank() || OoSdkSynthetics.resultId.isNullOrBlank()) {
             return
         }
 
         datadog.getRumMonitor()._getInternal()?.setSyntheticsAttribute(
-            DdSdkSynthetics.testId,
-            DdSdkSynthetics.resultId
+            OoSdkSynthetics.testId,
+            OoSdkSynthetics.resultId
         )
     }
 
@@ -328,7 +328,7 @@ class DdSdkImplementation(
     }
 
     private fun createFrameRateProvider(
-        ddSdkConfiguration: DdSdkConfiguration
+        ddSdkConfiguration: OoSdkConfiguration
     ): FrameRateProvider? {
         val frameTimeCallback = buildFrameTimeCallback(ddSdkConfiguration) ?: return null
         val frameRateProvider = FrameRateProvider(frameTimeCallback, jsThreadExecutor)
@@ -339,7 +339,7 @@ class DdSdkImplementation(
 
     @Suppress("CyclomaticComplexMethod")
     private fun buildFrameTimeCallback(
-        ddSdkConfiguration: DdSdkConfiguration
+        ddSdkConfiguration: OoSdkConfiguration
     ): ((Double) -> Unit)? {
         val jsRefreshRateMonitoringEnabled =
             ddSdkConfiguration.rumConfiguration != null &&
@@ -418,14 +418,14 @@ class DdSdkImplementation(
     // endregion
     internal companion object {
         internal const val DEFAULT_APP_VERSION = "?"
-        internal const val DD_VERSION = "_dd.version"
-        internal const val DD_VERSION_SUFFIX = "_dd.version_suffix"
-        internal const val DD_NEEDS_CLEAR_TEXT_HTTP = "_dd.needsClearTextHttp"
-        internal const val DD_DROP_RESOURCE = "_dd.resource.drop_resource"
-        internal const val DD_DROP_ACTION = "_dd.action.drop_action"
+        internal const val DD_VERSION = "_oo.version"
+        internal const val DD_VERSION_SUFFIX = "_oo.version_suffix"
+        internal const val DD_NEEDS_CLEAR_TEXT_HTTP = "_oo.needsClearTextHttp"
+        internal const val DD_DROP_RESOURCE = "_oo.resource.drop_resource"
+        internal const val DD_DROP_ACTION = "_oo.action.drop_action"
         internal const val MONITOR_JS_ERROR_MESSAGE = "Error monitoring JS refresh rate"
         internal const val PACKAGE_INFO_NOT_FOUND_ERROR_MESSAGE = "Error getting package info"
         internal const val DEFAULT_REFRESH_HZ = 60.0
-        internal const val NAME = "DdSdk"
+        internal const val NAME = "OoSdk"
     }
 }

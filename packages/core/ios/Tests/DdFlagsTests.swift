@@ -13,10 +13,10 @@ import DatadogInternal
 @testable
 import DatadogSDKReactNative
 
-class DdFlagsTests: XCTestCase {
+class OoFlagsTests: XCTestCase {
 
     private var core: FlagsTestCore!
-    private var implementation: DdFlagsImplementation!
+    private var implementation: OoFlagsImplementation!
 
     override func setUp() {
         super.setUp()
@@ -24,7 +24,7 @@ class DdFlagsTests: XCTestCase {
         core = FlagsTestCore()
         CoreRegistry.register(default: core)
         Flags.enable(in: core)
-        implementation = DdFlagsImplementation(core: core)
+        implementation = OoFlagsImplementation(core: core)
     }
 
     override func tearDown() {

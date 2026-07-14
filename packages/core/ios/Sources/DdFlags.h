@@ -5,20 +5,20 @@
  */
 
 #import <Foundation/Foundation.h>
-@class DdFlagsImplementation;
+@class OoFlagsImplementation;
 
 #ifdef RCT_NEW_ARCH_ENABLED
 
-#import <DdSdkReactNative/DdSdkReactNative.h>
-@interface DdFlags: NSObject <NativeDdFlagsSpec>
+#import <OoSdkReactNative/OoSdkReactNative.h>
+@interface OoFlags: NSObject <NativeDdFlagsSpec>
 
 #else
 
 #import <React/RCTBridgeModule.h>
-@interface DdFlags : NSObject <RCTBridgeModule>
+@interface OoFlags : NSObject <RCTBridgeModule>
 
 #endif
 
-@property (nonatomic, strong) DdFlagsImplementation* ddFlagsImplementation;
+@property (nonatomic, strong) OoFlagsImplementation* ddFlagsImplementation;
 
 @end

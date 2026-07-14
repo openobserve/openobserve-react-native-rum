@@ -23,12 +23,12 @@ endef
 export ReleaseTestAppPodfile
 
 define SDKUsageJavascript
-import { DdSdkReactNativeConfiguration, DdSdkReactNative, DdLogs, DdRum } from '@datadog/mobile-react-native';\n
-const config = new DdSdkReactNativeConfiguration("token", "env", "appID");\n
-DdSdkReactNative.initialize(config).then(() => {\n
+import { OoSdkReactNativeConfiguration, OoSdkReactNative, OoLogs, OoRum } from '@openobserve/mobile-react-native';\n
+const config = new OoSdkReactNativeConfiguration("token", "env", "appID");\n
+OoSdkReactNative.initialize(config).then(() => {\n
   console.log("DD running...");\n
-  DdRum.startView('first', 'App', {}, Date.now());\n
-  DdLogs.info('This is a log sent from react-native', {\n
+  OoRum.startView('first', 'App', {}, Date.now());\n
+  OoLogs.info('This is a log sent from react-native', {\n
     foo: 42,\n
     bar: 'xyz',\n
   });\n
@@ -38,9 +38,9 @@ export SDKUsageJavascript
 
 test-for-release:
 	yarn install
-	yarn workspace @datadog/mobile-react-native pack
-	yarn workspace @datadog/mobile-react-navigation pack
-	yarn workspace @datadog/mobile-react-native-navigation pack
+	yarn workspace @openobserve/mobile-react-native pack
+	yarn workspace @openobserve/mobile-react-navigation pack
+	yarn workspace @openobserve/mobile-react-native-navigation pack
 	./check-release-content.sh packages/core/datadog-mobile-react-native-v${RELEASE_PACKAGE_VERSION}.tgz packages/core/release-content.txt
 	./check-release-content.sh packages/react-navigation/datadog-mobile-react-navigation-v${RELEASE_PACKAGE_VERSION}.tgz packages/react-navigation/release-content.txt
 	./check-release-content.sh packages/react-native-navigation/datadog-mobile-react-native-navigation-v${RELEASE_PACKAGE_VERSION}.tgz packages/react-native-navigation/release-content.txt

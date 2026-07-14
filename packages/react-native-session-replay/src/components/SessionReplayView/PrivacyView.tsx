@@ -12,8 +12,8 @@ import type {
     TextAndInputPrivacyLevel,
     TouchPrivacyLevel
 } from '../../SessionReplay';
-import View from '../../specs/DdPrivacyView';
-import type { Attributes } from '../../types/DdPrivacyView';
+import View from '../../specs/OoPrivacyView';
+import type { Attributes } from '../../types/OoPrivacyView';
 
 type Props = ViewProps & {
     /**

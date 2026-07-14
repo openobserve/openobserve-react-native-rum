@@ -12,7 +12,7 @@ import Foundation
 
 extension NSDictionary {
 
-    func asDdSdkConfiguration() -> DdSdkConfiguration {
+    func asDdSdkConfiguration() -> OoSdkConfiguration {
         let additionalConfiguration = self["additionalConfiguration"] as? NSDictionary
 
         let clientToken = (self["clientToken"] as? String) ?? ""
@@ -144,7 +144,7 @@ extension NSDictionary {
         let configurationForTelemetryDict = self["configurationForTelemetry"] as? NSDictionary
         let configurationForTelemetry = configurationForTelemetryDict?.asConfigurationForTelemetry()
 
-        return DdSdkConfiguration(
+        return OoSdkConfiguration(
             additionalConfiguration: additionalConfiguration,
             clientToken: clientToken,
             env: env,
@@ -287,7 +287,7 @@ internal struct DefaultConfiguration {
 }
 
 extension Dictionary where Key == String, Value == AnyObject {
-    func asDdSdkConfigurationFromJSON() throws -> DdSdkConfiguration {
+    func asDdSdkConfigurationFromJSON() throws -> OoSdkConfiguration {
         guard let configuration = self["configuration"] as? [String: Any?] else {
             throw ProgrammerError(
                 description: "JSON configuration file is missing top-level \"configuration\" key.")
@@ -428,7 +428,7 @@ extension Dictionary where Key == String, Value == AnyObject {
         let telemetryDict = configuration["configurationForTelemetry"] as? NSDictionary
         let configurationForTelemetry = telemetryDict?.asConfigurationForTelemetry()
 
-        return DdSdkConfiguration(
+        return OoSdkConfiguration(
             additionalConfiguration: additionalConfiguration,
             clientToken: clientToken,
             env: env,

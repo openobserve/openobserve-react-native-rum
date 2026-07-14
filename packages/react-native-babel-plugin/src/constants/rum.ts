@@ -5,10 +5,10 @@
  */
 
 export const RumActionConstants = {
-    ACTION_CLASS: 'DdBabelInteractionTracking',
+    ACTION_CLASS: 'OoBabelInteractionTracking',
     ACTION_CLASS_INSTANCE: 'getInstance',
     ACTION_FUNCTION_WRAPPER: 'wrapRumAction',
-    IMPORT_PACKAGE: '@datadog/mobile-react-native',
+    IMPORT_PACKAGE: '@openobserve/mobile-react-native',
     UTILS_FUNCTION_EXTRACT_TEXT: '__ddExtractText'
 } as const;
 

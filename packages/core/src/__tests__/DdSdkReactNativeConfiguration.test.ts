@@ -15,7 +15,7 @@ import {
 } from '../config/types';
 import { PropagatorType } from '../rum/types';
 
-describe('DdSdkReactNativeConfiguration', () => {
+describe('OoSdkReactNativeConfiguration', () => {
     describe('buildConfigurationFromPartialConfiguration', () => {
         it('builds the SDK configuration when minimal configuration is passed', () => {
             expect(

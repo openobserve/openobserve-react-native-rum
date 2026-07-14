@@ -13,7 +13,7 @@ import type { DatadogTracingIdentifier } from './instrumentation/resourceTrackin
 /**
  * The entry point to use Datadog's RUM feature.
  */
-export type DdRumType = {
+export type OoRumType = {
     /**
      * Start tracking a RUM View.
      * @param key: The view unique key identifier.
@@ -196,7 +196,7 @@ export type DdRumType = {
      * The returned {@link DatadogTracingContext} can be used to retrieve the tracing headers
      * to append to your network request, and the attributes to add to your RUM Resource.
      *
-     * See also `DdRum.getTracingContextForPropagators(...)` if you do not intend to use `firstPartyHosts`.
+     * See also `OoRum.getTracingContextForPropagators(...)` if you do not intend to use `firstPartyHosts`.
      *
      * @param url The request URL.
      * @param tracingSamplingRate Percentage of tracing integrations for network calls between your app and your backend. Range `0`-`100`.

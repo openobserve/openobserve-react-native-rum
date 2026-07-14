@@ -7,22 +7,22 @@
 import { version as reactNativeVersion } from 'react-native/package.json';
 import { NativeModules } from 'react-native';
 
-import { DdSdkReactNative } from '../DdSdkReactNative';
-import type { DdSdkNativeConfiguration } from '../config/features/CoreConfigurationNative';
+import { OoSdkReactNative } from '../OoSdkReactNative';
+import type { OoSdkNativeConfiguration } from '../config/features/CoreConfigurationNative';
 import { CoreConfiguration } from '../config/features/CoreConfiguration';
 import { LogsConfiguration } from '../config/features/LogsConfiguration';
 import { RumConfiguration } from '../config/features/RumConfiguration';
 import { TraceConfiguration } from '../config/features/TraceConfiguration';
 import { TrackingConsent } from '../config/types/TrackingConsent';
 import { ProxyConfiguration, ProxyType, SdkVerbosity } from '../config/types';
-import { DdLogs } from '../logs/DdLogs';
-import { DdRum } from '../rum/DdRum';
-import { DdRumErrorTracking } from '../rum/instrumentation/DdRumErrorTracking';
-import { DdRumUserInteractionTracking } from '../rum/instrumentation/interactionTracking/DdRumUserInteractionTracking';
-import { DdRumResourceTracking } from '../rum/instrumentation/resourceTracking/DdRumResourceTracking';
+import { OoLogs } from '../logs/OoLogs';
+import { OoRum } from '../rum/OoRum';
+import { OoRumErrorTracking } from '../rum/instrumentation/OoRumErrorTracking';
+import { OoRumUserInteractionTracking } from '../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
+import { OoRumResourceTracking } from '../rum/instrumentation/resourceTracking/OoRumResourceTracking';
 import { PropagatorType, RumActionType } from '../rum/types';
 import { AttributesSingleton } from '../sdk/AttributesSingleton/AttributesSingleton';
-import { NativeDdSdk } from '../sdk/DdSdkInternal';
+import { NativeDdSdk } from '../sdk/OoSdkInternal';
 import { GlobalState } from '../sdk/GlobalState/GlobalState';
 import { UserInfoSingleton } from '../sdk/UserInfoSingleton/UserInfoSingleton';
 import type { LogEvent } from '../types';
@@ -32,10 +32,10 @@ import { version as sdkVersion } from '../version';
 jest.mock('../InternalLog');
 
 jest.mock(
-    '../rum/instrumentation/interactionTracking/DdRumUserInteractionTracking',
+    '../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking',
     () => {
         return {
-            DdRumUserInteractionTracking: {
+            OoRumUserInteractionTracking: {
                 startTracking: jest.fn().mockImplementation(() => {})
             }
         };
@@ -43,19 +43,19 @@ jest.mock(
 );
 
 jest.mock(
-    '../rum/instrumentation/resourceTracking/DdRumResourceTracking',
+    '../rum/instrumentation/resourceTracking/OoRumResourceTracking',
     () => {
         return {
-            DdRumResourceTracking: {
+            OoRumResourceTracking: {
                 startTracking: jest.fn().mockImplementation(() => {})
             }
         };
     }
 );
 
-jest.mock('../rum/instrumentation/DdRumErrorTracking', () => {
+jest.mock('../rum/instrumentation/OoRumErrorTracking', () => {
     return {
-        DdRumErrorTracking: {
+        OoRumErrorTracking: {
             startTracking: jest.fn().mockImplementation(() => {})
         }
     };
@@ -63,28 +63,28 @@ jest.mock('../rum/instrumentation/DdRumErrorTracking', () => {
 
 beforeEach(async () => {
     GlobalState.isInitialized = false;
-    DdSdkReactNative['wasAutoInstrumented'] = false;
-    NativeModules.DdSdk.initialize.mockClear();
-    NativeModules.DdSdk.addAttributes.mockClear();
-    NativeModules.DdSdk.setTrackingConsent.mockClear();
-    NativeModules.DdSdk.onRUMSessionStarted.mockClear();
+    OoSdkReactNative['wasAutoInstrumented'] = false;
+    NativeModules.OoSdk.initialize.mockClear();
+    NativeModules.OoSdk.addAttributes.mockClear();
+    NativeModules.OoSdk.setTrackingConsent.mockClear();
+    NativeModules.OoSdk.onRUMSessionStarted.mockClear();
 
-    (DdRumUserInteractionTracking.startTracking as jest.MockedFunction<
-        typeof DdRumUserInteractionTracking.startTracking
+    (OoRumUserInteractionTracking.startTracking as jest.MockedFunction<
+        typeof OoRumUserInteractionTracking.startTracking
     >).mockClear();
-    (DdRumResourceTracking.startTracking as jest.MockedFunction<
-        typeof DdRumResourceTracking.startTracking
+    (OoRumResourceTracking.startTracking as jest.MockedFunction<
+        typeof OoRumResourceTracking.startTracking
     >).mockClear();
-    (DdRumErrorTracking.startTracking as jest.MockedFunction<
-        typeof DdRumErrorTracking.startTracking
+    (OoRumErrorTracking.startTracking as jest.MockedFunction<
+        typeof OoRumErrorTracking.startTracking
     >).mockClear();
-    DdLogs.unregisterLogEventMapper();
+    OoLogs.unregisterLogEventMapper();
 
     UserInfoSingleton.reset();
     AttributesSingleton.reset();
 });
 
-describe('DdSdkReactNative', () => {
+describe('OoSdkReactNative', () => {
     describe('initialization', () => {
         it('initializes the SDK when initialize', async () => {
             // GIVEN
@@ -98,15 +98,15 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration = new RumConfiguration(fakeAppId);
             configuration.logsConfiguration = new LogsConfiguration();
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -132,9 +132,9 @@ describe('DdSdkReactNative', () => {
             ).toBe(true);
 
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
         });
 
@@ -149,17 +149,17 @@ describe('DdSdkReactNative', () => {
             );
             configuration.rumConfiguration = new RumConfiguration(fakeAppId);
 
-            NativeModules.DdSdk.initialize.mockRejectedValue('rejection');
+            NativeModules.OoSdk.initialize.mockRejectedValue('rejection');
 
             // WHEN
             await expect(
-                DdSdkReactNative.initialize(configuration)
+                OoSdkReactNative.initialize(configuration)
             ).rejects.toMatch('rejection');
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -169,19 +169,19 @@ describe('DdSdkReactNative', () => {
                 TrackingConsent.GRANTED
             );
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
 
             expect(GlobalState.isInitialized).toBe(false);
             expect(
-                DdRumUserInteractionTracking.startTracking
+                OoRumUserInteractionTracking.startTracking
             ).toHaveBeenCalledTimes(0);
-            expect(DdRumResourceTracking.startTracking).toHaveBeenCalledTimes(
+            expect(OoRumResourceTracking.startTracking).toHaveBeenCalledTimes(
                 0
             );
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(0);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(0);
         });
 
         it('initializes the SDK when initialize { explicit tracking consent }', async () => {
@@ -202,15 +202,15 @@ describe('DdSdkReactNative', () => {
                 false
             );
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -218,9 +218,9 @@ describe('DdSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.trackingConsent).toBe(fakeConsent);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
         });
 
@@ -236,27 +236,27 @@ describe('DdSdkReactNative', () => {
 
             configuration.rumConfiguration = new RumConfiguration(fakeAppId);
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
-            await DdSdkReactNative.initialize(configuration);
-            await DdSdkReactNative.initialize(configuration);
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
         });
 
@@ -293,18 +293,18 @@ describe('DdSdkReactNative', () => {
                 proxyPassword
             );
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             try {
                 // WHEN
-                await DdSdkReactNative.initialize(configuration);
+                await OoSdkReactNative.initialize(configuration);
 
                 // THEN
-                expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(
+                expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(
                     1
                 );
-                const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                    .calls[0][0] as DdSdkNativeConfiguration;
+                const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                    .calls[0][0] as OoSdkNativeConfiguration;
                 expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
                 expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                     fakeAppId
@@ -318,9 +318,9 @@ describe('DdSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_dd.react_native_version': reactNativeVersion,
-                    '_dd.source': 'react-native',
-                    '_dd.sdk_version': sdkVersion
+                    '_oo.react_native_version': reactNativeVersion,
+                    '_oo.source': 'react-native',
+                    '_oo.sdk_version': sdkVersion
                 });
                 expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
             } finally {
@@ -340,10 +340,10 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration = new RumConfiguration(fakeAppId);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledWith(
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
                         sessionSampleRate: 100
@@ -366,10 +366,10 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration.sessionSampleRate = 0;
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledWith(
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
                         sessionSampleRate: 0
@@ -391,10 +391,10 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration.sessionSampleRate = 70;
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledWith(
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
                         sessionSampleRate: 70
@@ -417,11 +417,11 @@ describe('DdSdkReactNative', () => {
             configuration.logsConfiguration.bundleLogsWithRum = false;
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 ddSdkConfiguration.logsConfiguration?.bundleLogsWithRum
             ).toBe(false);
@@ -441,11 +441,11 @@ describe('DdSdkReactNative', () => {
             configuration.logsConfiguration.bundleLogsWithTraces = false;
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 ddSdkConfiguration.logsConfiguration?.bundleLogsWithTraces
             ).toBe(false);
@@ -464,15 +464,15 @@ describe('DdSdkReactNative', () => {
             configuration.version = '2.0.0';
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_dd.version': string;
-                })['_dd.version']
+                    '_oo.version': string;
+                })['_oo.version']
             ).toBe('2.0.0');
         });
 
@@ -489,20 +489,20 @@ describe('DdSdkReactNative', () => {
             configuration.versionSuffix = 'codepush-3';
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_dd.version': string;
-                })['_dd.version']
+                    '_oo.version': string;
+                })['_oo.version']
             ).toBeUndefined();
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_dd.version_suffix': string;
-                })['_dd.version_suffix']
+                    '_oo.version_suffix': string;
+                })['_oo.version_suffix']
             ).toBe('-codepush-3');
         });
 
@@ -520,20 +520,20 @@ describe('DdSdkReactNative', () => {
             configuration.versionSuffix = 'codepush-3';
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_dd.version': string;
-                })['_dd.version']
+                    '_oo.version': string;
+                })['_oo.version']
             ).toBe('2.0.0-codepush-3');
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_dd.version_suffix': string;
-                })['_dd.version_suffix']
+                    '_oo.version_suffix': string;
+                })['_oo.version_suffix']
             ).toBeUndefined();
         });
 
@@ -550,10 +550,10 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration.initialResourceThreshold = 0.123;
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize).toHaveBeenCalledWith(
+            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
                         initialResourceThreshold: 0.123
@@ -578,27 +578,27 @@ describe('DdSdkReactNative', () => {
                 true
             );
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
             expect(
-                DdRumUserInteractionTracking.startTracking
+                OoRumUserInteractionTracking.startTracking
             ).toHaveBeenCalledTimes(1);
         });
 
@@ -631,15 +631,15 @@ describe('DdSdkReactNative', () => {
                 }
             ];
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -658,14 +658,14 @@ describe('DdSdkReactNative', () => {
                 }
             ]);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumResourceTracking.startTracking).toHaveBeenCalledTimes(
+            expect(OoRumResourceTracking.startTracking).toHaveBeenCalledTimes(
                 1
             );
-            expect(DdRumResourceTracking.startTracking).toHaveBeenCalledWith({
+            expect(OoRumResourceTracking.startTracking).toHaveBeenCalledWith({
                 resourceTraceSampleRate: 42,
                 firstPartyHosts: [
                     {
@@ -696,26 +696,26 @@ describe('DdSdkReactNative', () => {
                 true
             );
             configuration.rumConfiguration.resourceTraceSampleRate = 2;
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
 
         it('enables logs mapping when initialize { logs mapper enabled }', async () => {
@@ -740,14 +740,14 @@ describe('DdSdkReactNative', () => {
                 }
             });
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
-            await DdLogs.debug('original message');
+            await OoSdkReactNative.initialize(configuration);
+            await OoLogs.debug('original message');
 
             // THEN
-            expect(NativeModules.DdLogs.debug).toHaveBeenCalledWith(
+            expect(NativeModules.OoLogs.debug).toHaveBeenCalledWith(
                 'new message',
                 {}
             );
@@ -773,11 +773,11 @@ describe('DdSdkReactNative', () => {
                 return event;
             };
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
-            await DdRum.addError(
+            await OoSdkReactNative.initialize(configuration);
+            await OoRum.addError(
                 'original message',
                 ErrorSource.CUSTOM,
                 'stack',
@@ -786,12 +786,12 @@ describe('DdSdkReactNative', () => {
             );
 
             // THEN
-            expect(NativeModules.DdRum.addError).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addError).toHaveBeenCalledWith(
                 'new error massage',
                 'CUSTOM',
                 'stack',
                 {
-                    '_dd.error.source_type': 'react-native'
+                    '_oo.error.source_type': 'react-native'
                 },
                 456,
                 ''
@@ -821,21 +821,21 @@ describe('DdSdkReactNative', () => {
                 return event;
             };
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
-            await DdRum.startResource(
+            await OoSdkReactNative.initialize(configuration);
+            await OoRum.startResource(
                 'key',
                 'GET',
                 'https://datadoghq.com',
                 {},
                 234
             );
-            await DdRum.stopResource('key', 200, 'xhr', 22, {}, 345);
+            await OoRum.stopResource('key', 200, 'xhr', 22, {}, 345);
 
             // THEN
-            expect(NativeModules.DdRum.stopResource).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.stopResource).toHaveBeenCalledWith(
                 'key',
                 200,
                 'xhr',
@@ -870,11 +870,11 @@ describe('DdSdkReactNative', () => {
                 return event;
             };
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
-            await DdRum.addAction(
+            await OoSdkReactNative.initialize(configuration);
+            await OoRum.addAction(
                 RumActionType.CUSTOM,
                 'Click on button',
                 {},
@@ -882,7 +882,7 @@ describe('DdSdkReactNative', () => {
             );
 
             // THEN
-            expect(NativeModules.DdRum.addAction).toHaveBeenCalledWith(
+            expect(NativeModules.OoRum.addAction).toHaveBeenCalledWith(
                 'CUSTOM',
                 'Click on button',
                 null,
@@ -911,15 +911,15 @@ describe('DdSdkReactNative', () => {
             );
             configuration.service = fakeService;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -927,11 +927,11 @@ describe('DdSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.service).toBe(fakeService);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
 
         it('enables sdk verbosity when initialize { sdk verbosity }', async () => {
@@ -951,15 +951,15 @@ describe('DdSdkReactNative', () => {
             );
             configuration.verbosity = SdkVerbosity.DEBUG;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -967,11 +967,11 @@ describe('DdSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.verbosity).toBe(SdkVerbosity.DEBUG);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
 
         it('enables native view tracking when initialize { native_view_tracking enabled }', async () => {
@@ -991,15 +991,15 @@ describe('DdSdkReactNative', () => {
             );
             configuration.rumConfiguration.nativeViewTracking = true;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -1009,11 +1009,11 @@ describe('DdSdkReactNative', () => {
                 ddSdkConfiguration.rumConfiguration?.nativeViewTracking
             ).toBe(true);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
 
         it('enables native interaction tracking when initialize { native_interaction_tracking enabled }', async () => {
@@ -1033,15 +1033,15 @@ describe('DdSdkReactNative', () => {
             );
             configuration.rumConfiguration.nativeInteractionTracking = true;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(1);
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
             expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                 fakeAppId
@@ -1051,11 +1051,11 @@ describe('DdSdkReactNative', () => {
                 ddSdkConfiguration.rumConfiguration?.nativeInteractionTracking
             ).toBe(true);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_dd.react_native_version': reactNativeVersion,
-                '_dd.source': 'react-native',
-                '_dd.sdk_version': sdkVersion
+                '_oo.react_native_version': reactNativeVersion,
+                '_oo.source': 'react-native',
+                '_oo.sdk_version': sdkVersion
             });
-            expect(DdRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
+            expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
 
         it('enables long task tracking when initialize { native and javascript long task custom threshold }', async () => {
@@ -1076,14 +1076,14 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration.nativeLongTaskThresholdMs = 234;
             configuration.rumConfiguration.longTaskThresholdMs = 456;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 ddSdkConfiguration.rumConfiguration?.nativeLongTaskThresholdMs
             ).toBe(234);
@@ -1110,14 +1110,14 @@ describe('DdSdkReactNative', () => {
             configuration.rumConfiguration.nativeLongTaskThresholdMs = 0;
             configuration.rumConfiguration.longTaskThresholdMs = false;
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 ddSdkConfiguration.rumConfiguration?.nativeLongTaskThresholdMs
             ).toBe(0);
@@ -1150,14 +1150,14 @@ describe('DdSdkReactNative', () => {
             configuration.traceConfiguration.customEndpoint =
                 'https://trace.example.com/';
 
-            NativeModules.DdSdk.initialize.mockResolvedValue(null);
+            NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
             // WHEN
-            await DdSdkReactNative.initialize(configuration);
+            await OoSdkReactNative.initialize(configuration);
 
             // THEN
-            const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                .calls[0][0] as DdSdkNativeConfiguration;
+            const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                .calls[0][0] as OoSdkNativeConfiguration;
             expect(ddSdkConfiguration.rumConfiguration?.customEndpoint).toEqual(
                 'https://rum.example.com/'
             );
@@ -1178,7 +1178,7 @@ describe('DdSdkReactNative', () => {
 
             // WHEN
 
-            await DdSdkReactNative.addAttribute(key, value);
+            await OoSdkReactNative.addAttribute(key, value);
 
             // THEN
             expect(NativeDdSdk.addAttribute).toHaveBeenCalledTimes(1);
@@ -1196,10 +1196,10 @@ describe('DdSdkReactNative', () => {
             // GIVEN
             const key = 'foo';
             const value = 'bar';
-            await DdSdkReactNative.addAttribute(key, value);
+            await OoSdkReactNative.addAttribute(key, value);
 
             // WHEN
-            await DdSdkReactNative.removeAttribute(key);
+            await OoSdkReactNative.removeAttribute(key);
 
             // THEN
             expect(NativeDdSdk.removeAttribute).toHaveBeenCalledTimes(1);
@@ -1217,7 +1217,7 @@ describe('DdSdkReactNative', () => {
 
             // WHEN
 
-            await DdSdkReactNative.addAttributes(attributes);
+            await OoSdkReactNative.addAttributes(attributes);
 
             // THEN
             expect(NativeDdSdk.addAttributes).toHaveBeenCalledTimes(1);
@@ -1232,10 +1232,10 @@ describe('DdSdkReactNative', () => {
         it('calls SDK method when removeAttributes', async () => {
             // GIVEN
             const attributes = { foo: 'bar', baz: 'quux' };
-            await DdSdkReactNative.addAttributes(attributes);
+            await OoSdkReactNative.addAttributes(attributes);
 
             // WHEN
-            await DdSdkReactNative.removeAttributes(['foo', 'baz']);
+            await OoSdkReactNative.removeAttributes(['foo', 'baz']);
 
             // THEN
             expect(NativeDdSdk.removeAttributes).toHaveBeenCalledTimes(1);
@@ -1262,7 +1262,7 @@ describe('DdSdkReactNative', () => {
             };
 
             // WHEN
-            await DdSdkReactNative.setUserInfo(userInfo);
+            await OoSdkReactNative.setUserInfo(userInfo);
 
             // THEN
             expect(NativeDdSdk.setUserInfo).toHaveBeenCalledTimes(1);
@@ -1276,14 +1276,14 @@ describe('DdSdkReactNative', () => {
     describe('addUserExtraInfo', () => {
         it('calls SDK method when addUserExtraInfo, and updates the user in UserProvider', async () => {
             // GIVEN
-            await DdSdkReactNative.setUserInfo({
+            await OoSdkReactNative.setUserInfo({
                 id: 'id',
                 extraInfo: { type: 'premium' }
             });
             const extraInfo = { foo: 'bar' };
 
             // WHEN
-            await DdSdkReactNative.addUserExtraInfo(extraInfo);
+            await OoSdkReactNative.addUserExtraInfo(extraInfo);
 
             // THEN
             expect(NativeDdSdk.addUserExtraInfo).toHaveBeenCalledTimes(1);
@@ -1304,7 +1304,7 @@ describe('DdSdkReactNative', () => {
             const extraInfo = { testId: 'abc123' };
 
             // WHEN
-            await DdSdkReactNative.addUserExtraInfo(extraInfo);
+            await OoSdkReactNative.addUserExtraInfo(extraInfo);
 
             // THEN
             expect(NativeDdSdk.addUserExtraInfo).toHaveBeenCalledWith(
@@ -1330,10 +1330,10 @@ describe('DdSdkReactNative', () => {
                 }
             };
 
-            await DdSdkReactNative.setUserInfo(userInfo);
+            await OoSdkReactNative.setUserInfo(userInfo);
 
             // WHEN
-            await DdSdkReactNative.clearUserInfo();
+            await OoSdkReactNative.clearUserInfo();
 
             // THEN
             expect(NativeDdSdk.clearUserInfo).toHaveBeenCalledTimes(1);
@@ -1351,7 +1351,7 @@ describe('DdSdkReactNative', () => {
 
             // WHEN
 
-            DdSdkReactNative.setTrackingConsent(consent);
+            OoSdkReactNative.setTrackingConsent(consent);
 
             // THEN
             expect(NativeDdSdk.setTrackingConsent).toHaveBeenCalledTimes(1);
@@ -1364,7 +1364,7 @@ describe('DdSdkReactNative', () => {
     describe('clearAllData', () => {
         it('calls SDK method when clearAllData', async () => {
             // WHEN
-            DdSdkReactNative.clearAllData();
+            OoSdkReactNative.clearAllData();
 
             // THEN
             expect(NativeDdSdk.clearAllData).toHaveBeenCalledTimes(1);
@@ -1399,17 +1399,17 @@ describe('DdSdkReactNative', () => {
                     port: proxyPort
                 };
 
-                NativeModules.DdSdk.initialize.mockResolvedValue(null);
+                NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
                 // WHEN
-                await DdSdkReactNative.initialize(configuration);
+                await OoSdkReactNative.initialize(configuration);
 
                 // THEN
-                expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(
+                expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(
                     1
                 );
-                const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                    .calls[0][0] as DdSdkNativeConfiguration;
+                const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                    .calls[0][0] as OoSdkNativeConfiguration;
                 expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
                 expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                     fakeAppId
@@ -1423,9 +1423,9 @@ describe('DdSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_dd.react_native_version': reactNativeVersion,
-                    '_dd.source': 'react-native',
-                    '_dd.sdk_version': sdkVersion
+                    '_oo.react_native_version': reactNativeVersion,
+                    '_oo.source': 'react-native',
+                    '_oo.sdk_version': sdkVersion
                 });
             });
         }
@@ -1464,17 +1464,17 @@ describe('DdSdkReactNative', () => {
                     password: proxyPassword
                 };
 
-                NativeModules.DdSdk.initialize.mockResolvedValue(null);
+                NativeModules.OoSdk.initialize.mockResolvedValue(null);
 
                 // WHEN
-                await DdSdkReactNative.initialize(configuration);
+                await OoSdkReactNative.initialize(configuration);
 
                 // THEN
-                expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(
+                expect(NativeModules.OoSdk.initialize.mock.calls.length).toBe(
                     1
                 );
-                const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock
-                    .calls[0][0] as DdSdkNativeConfiguration;
+                const ddSdkConfiguration = NativeModules.OoSdk.initialize.mock
+                    .calls[0][0] as OoSdkNativeConfiguration;
                 expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken);
                 expect(ddSdkConfiguration.rumConfiguration?.applicationId).toBe(
                     fakeAppId
@@ -1490,9 +1490,9 @@ describe('DdSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_dd.react_native_version': reactNativeVersion,
-                    '_dd.source': 'react-native',
-                    '_dd.sdk_version': sdkVersion
+                    '_oo.react_native_version': reactNativeVersion,
+                    '_oo.source': 'react-native',
+                    '_oo.sdk_version': sdkVersion
                 });
             });
         }

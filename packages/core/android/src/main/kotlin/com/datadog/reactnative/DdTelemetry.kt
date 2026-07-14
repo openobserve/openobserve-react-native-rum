@@ -19,7 +19,7 @@ import com.facebook.react.bridge.ReadableMap
  *
  * This class is **public only for Datadog internal package visibility** and should not be used.
  */
-class DdTelemetry {
+class OoTelemetry {
 
     // We use Kotlin backing field here to initialize once the telemetry proxy
     // and make sure it is only after SDK is initialized.

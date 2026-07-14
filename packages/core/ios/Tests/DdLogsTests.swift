@@ -12,9 +12,9 @@ import DatadogInternal
 func mockResolve(args: Any?) {}
 func mockReject(args: String?, arg: String?, err: Error?) {}
 
-internal class DdLogsTests: XCTestCase {
+internal class OoLogsTests: XCTestCase {
     private let mockNativeLogger = MockNativeLogger()
-    private lazy var logger = DdLogsImplementation({ self.mockNativeLogger })
+    private lazy var logger = OoLogsImplementation({ self.mockNativeLogger })
 
     private let testMessage_swift: String = "message"
     private let testMessage_objc: NSString = "message"
@@ -47,18 +47,18 @@ internal class DdLogsTests: XCTestCase {
     }
 
     func testConfigurationMapping() {
-        let enabledSdkConfiguration: DdSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: true, bundleLogsWithTraces: true, customEndpoint: nil))
+        let enabledSdkConfiguration: OoSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: true, bundleLogsWithTraces: true, customEndpoint: nil))
         let enabledLoggerConfiguration = Logger.Configuration(enabledSdkConfiguration)
         XCTAssertEqual(enabledLoggerConfiguration.networkInfoEnabled, true)
         XCTAssertEqual(enabledLoggerConfiguration.bundleWithRumEnabled, true)
         XCTAssertEqual(enabledLoggerConfiguration.bundleWithTraceEnabled, true)
 
-        let disabledSdkConfiguration: DdSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: false, bundleLogsWithTraces: false, customEndpoint: nil))
+        let disabledSdkConfiguration: OoSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: false, bundleLogsWithTraces: false, customEndpoint: nil))
         let disabledLoggerConfiguration = Logger.Configuration(disabledSdkConfiguration)
         XCTAssertEqual(disabledLoggerConfiguration.bundleWithRumEnabled, false)
         XCTAssertEqual(disabledLoggerConfiguration.bundleWithTraceEnabled, false)
 
-        let oneDisabledSdkConfiguration: DdSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: false, bundleLogsWithTraces: true, customEndpoint: nil))
+        let oneDisabledSdkConfiguration: OoSdkConfiguration = .mockAny(logsConfiguration: LogsConfiguration(bundleLogsWithRum: false, bundleLogsWithTraces: true, customEndpoint: nil))
         let oneDisabledLoggerConfiguration = Logger.Configuration(oneDisabledSdkConfiguration)
         XCTAssertEqual(oneDisabledLoggerConfiguration.bundleWithRumEnabled, false)
         XCTAssertEqual(oneDisabledLoggerConfiguration.bundleWithTraceEnabled, true)
@@ -68,7 +68,7 @@ internal class DdLogsTests: XCTestCase {
         // Given
         let expectation = self.expectation(description: "Initialize logger once")
 
-        let logger = DdLogsImplementation({ [unowned self] in
+        let logger = OoLogsImplementation({ [unowned self] in
             expectation.fulfill()
             return self.mockNativeLogger
         })

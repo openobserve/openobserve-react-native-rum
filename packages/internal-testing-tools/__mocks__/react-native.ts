@@ -9,7 +9,7 @@ import type { NativeInternalTestingType } from '../src/nativeModulesTypes';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const actualRN = require('react-native');
 
-actualRN.NativeModules.DdInternalTesting = {
+actualRN.NativeModules.OoInternalTesting = {
     enable: jest.fn().mockImplementation(
         () => new Promise<void>(resolve => resolve())
     ) as jest.MockedFunction<NativeInternalTestingType['enable']>

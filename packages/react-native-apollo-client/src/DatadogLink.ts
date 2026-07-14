@@ -11,7 +11,7 @@ import {
     DATADOG_GRAPH_QL_VARIABLES_HEADER,
     DATADOG_GRAPH_QL_PAYLOAD_HEADER,
     DATADOG_GRAPH_QL_ERROR_HEADER
-} from '@datadog/mobile-react-native';
+} from '@openobserve/mobile-react-native';
 
 import {
     getOperationName,

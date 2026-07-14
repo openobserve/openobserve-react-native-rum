@@ -5,7 +5,7 @@
  */
 
 import { InternalLog } from '../../../../InternalLog';
-import { NativeDdSdk } from '../../../DdSdkInternal';
+import { NativeDdSdk } from '../../../OoSdkInternal';
 import { BoundedBuffer } from '../BoundedBuffer';
 
 describe('BoundedBuffer', () => {

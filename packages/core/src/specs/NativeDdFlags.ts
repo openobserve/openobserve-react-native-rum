@@ -11,7 +11,7 @@ import { TurboModuleRegistry } from 'react-native';
 import type { FlagCacheEntry } from '../flags/internal';
 
 /**
- * Do not import this Spec directly, use DdNativeFlagsType instead.
+ * Do not import this Spec directly, use OoNativeFlagsType instead.
  */
 export interface Spec extends TurboModule {
     readonly enable: (configuration: Object) => Promise<void>;
@@ -32,4 +32,4 @@ export interface Spec extends TurboModule {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default TurboModuleRegistry.get<Spec>('DdFlags');
+export default TurboModuleRegistry.get<Spec>('OoFlags');

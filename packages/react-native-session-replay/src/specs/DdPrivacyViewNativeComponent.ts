@@ -14,7 +14,7 @@ type Attributes = {
     height?: string;
 };
 
-interface DdPrivacyViewProps extends ViewProps {
+interface OoPrivacyViewProps extends ViewProps {
     textAndInputPrivacy: string;
     imagePrivacy: string;
     touchPrivacy: string;
@@ -23,6 +23,6 @@ interface DdPrivacyViewProps extends ViewProps {
     attributes: Attributes;
 }
 
-export default codegenNativeComponent<DdPrivacyViewProps>('DdPrivacyView', {
-    paperComponentName: 'DdPrivacyView'
-}) as HostComponent<DdPrivacyViewProps>;
+export default codegenNativeComponent<OoPrivacyViewProps>('OoPrivacyView', {
+    paperComponentName: 'OoPrivacyView'
+}) as HostComponent<OoPrivacyViewProps>;

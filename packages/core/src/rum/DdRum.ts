@@ -5,15 +5,15 @@
  */
 import type { GestureResponderEvent } from 'react-native';
 
-import { DdAttributes } from '../DdAttributes';
+import { OoAttributes } from '../OoAttributes';
 import { InternalLog } from '../InternalLog';
 import { SdkVerbosity } from '../config/types/SdkVerbosity';
 import { debugId } from '../metro/debugIdResolver';
-import type { DdNativeRumType } from '../nativeModulesTypes';
+import type { OoNativeRumType } from '../nativeModulesTypes';
 import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
 import type { Attributes } from '../sdk/AttributesSingleton/types';
 import { bufferVoidNativeCall } from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
-import { NativeDdSdk } from '../sdk/DdSdkInternal';
+import { NativeDdSdk } from '../sdk/OoSdkInternal';
 import { GlobalState } from '../sdk/GlobalState/GlobalState';
 import type { ErrorSource, FeatureOperationFailure } from '../types';
 import { getGlobalInstance } from '../utils/singletonUtils';
@@ -41,7 +41,7 @@ import {
     getTracingContextForPropagators
 } from './instrumentation/resourceTracking/distributedTracing/distributedTracingHeaders';
 import type {
-    DdRumType,
+    OoRumType,
     FirstPartyHost,
     PropagatorType,
     ResourceKind,
@@ -76,9 +76,9 @@ const touchDataFromEvent = (
     };
 };
 
-class DdRumWrapper implements DdRumType {
+class OoRumWrapper implements OoRumType {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    private nativeRum: DdNativeRumType = require('../specs/NativeDdRum')
+    private nativeRum: OoNativeRumType = require('../specs/NativeDdRum')
         .default;
     private lastActionData?: { type: RumActionType; name: string };
     private errorEventMapper = generateErrorEventMapper(undefined);
@@ -289,7 +289,7 @@ class DdRumWrapper implements DdRumType {
         });
         if (!mappedEvent) {
             /**
-             * To drop the resource we call `stopResource` and pass the `_dd.drop_resource` attribute in the context.
+             * To drop the resource we call `stopResource` and pass the `_oo.drop_resource` attribute in the context.
              * It will be picked up by the resource mappers we implement on the native side that will drop the resource.
              * This ensures we don't have any "started" resource left in memory on the native side.
              */
@@ -300,7 +300,7 @@ class DdRumWrapper implements DdRumType {
                     kind,
                     size,
                     {
-                        '_dd.resource.drop_resource': true
+                        '_oo.resource.drop_resource': true
                     },
                     timestampMs
                 )
@@ -345,10 +345,10 @@ class DdRumWrapper implements DdRumType {
         }
         InternalLog.log(`Adding RUM Error “${message}”`, SdkVerbosity.DEBUG);
         const updatedContext = encodeAttributes(mappedEvent.context);
-        updatedContext[DdAttributes.errorSourceType] = 'react-native';
+        updatedContext[OoAttributes.errorSourceType] = 'react-native';
 
         if (debugId) {
-            updatedContext[DdAttributes.debugId] = debugId;
+            updatedContext[OoAttributes.debugId] = debugId;
         }
 
         return bufferVoidNativeCall(() =>
@@ -539,7 +539,7 @@ class DdRumWrapper implements DdRumType {
                     type,
                     name,
                     {
-                        '_dd.action.drop_action': true
+                        '_oo.action.drop_action': true
                     },
                     timestampMs
                 )
@@ -595,12 +595,12 @@ class DdRumWrapper implements DdRumType {
                 ];
             }
             InternalLog.log(
-                'DdRum.startAction needs to be called before DdRum.stopAction',
+                'OoRum.startAction needs to be called before OoRum.stopAction',
                 SdkVerbosity.WARN
             );
         } else {
             InternalLog.log(
-                'DdRum.stopAction was called with wrong arguments',
+                'OoRum.stopAction was called with wrong arguments',
                 SdkVerbosity.WARN
             );
         }
@@ -640,4 +640,4 @@ const isOldStopActionAPI = (
     return typeof args[0] === 'object' || typeof args[0] === 'undefined';
 };
 
-export const DdRum = getGlobalInstance(RUM_MODULE, () => new DdRumWrapper());
+export const OoRum = getGlobalInstance(RUM_MODULE, () => new OoRumWrapper());

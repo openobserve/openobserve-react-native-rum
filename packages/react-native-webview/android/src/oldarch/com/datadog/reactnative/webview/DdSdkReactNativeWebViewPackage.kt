@@ -13,12 +13,12 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
 
-class DdSdkReactNativeWebViewPackage : TurboReactPackage() {
+class OoSdkReactNativeWebViewPackage : TurboReactPackage() {
     override fun createViewManagers(
         reactContext: ReactApplicationContext
     ): MutableList<ViewManager<*, *>> {
         return mutableListOf(
-            DdSdkReactNativeWebViewManager(
+            OoSdkReactNativeWebViewManager(
                 reactContext
             )
         )

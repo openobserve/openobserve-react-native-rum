@@ -39,7 +39,7 @@ import org.mockito.quality.Strictness
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ForgeConfiguration(BaseConfigurator::class)
-internal class DdSdkSessionStartedListenerTest {
+internal class OoSdkSessionStartedListenerTest {
 
     @Mock
     lateinit var mockListenerCallback: (sessionId: String) -> Unit
@@ -55,17 +55,17 @@ internal class DdSdkSessionStartedListenerTest {
 
     @BeforeEach
     fun `set up`() {
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.getInstance().setUiThreadExecutor(TestUiThreadExecutor())
-        DdSdkSessionStartedListener.resetIsRnSdkInitialized()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.getInstance().setUiThreadExecutor(TestUiThreadExecutor())
+        OoSdkSessionStartedListener.resetIsRnSdkInitialized()
     }
 
     @Test
     fun `𝕄 getInstance implements singleton correctly`() {
         // GIVEN
-        val instance1 = DdSdkSessionStartedListener.getInstance()
+        val instance1 = OoSdkSessionStartedListener.getInstance()
         // WHEN
-        val instance2 = DdSdkSessionStartedListener.getInstance()
+        val instance2 = OoSdkSessionStartedListener.getInstance()
         // THEN
         assertThat(instance1).isEqualTo(instance2)
     }
@@ -73,11 +73,11 @@ internal class DdSdkSessionStartedListenerTest {
     @Test
     fun `𝕄 invalidate() invalidates previous instance`() {
         // GIVEN
-        val instance1 = DdSdkSessionStartedListener.getInstance()
+        val instance1 = OoSdkSessionStartedListener.getInstance()
         // WHEN
-        DdSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.invalidate()
         // THEN
-        assertThat(instance1).isNotEqualTo(DdSdkSessionStartedListener.getInstance())
+        assertThat(instance1).isNotEqualTo(OoSdkSessionStartedListener.getInstance())
     }
 
     @Test
@@ -90,7 +90,7 @@ internal class DdSdkSessionStartedListenerTest {
         whenever(mockCatalystInstance.callFunction(any(), any(), anyOrNull()))
             .thenThrow(RuntimeException("TEST"))
 
-        val instance = DdSdkSessionStartedListener.getInstance()
+        val instance = OoSdkSessionStartedListener.getInstance()
         instance.setReactContext(mockReactContext)
         instance.setExceptionHandler(mockExceptionHandler)
         instance.setIsNewArchitecture(false)
@@ -123,7 +123,7 @@ internal class DdSdkSessionStartedListenerTest {
         whenever(mockCatalystInstance.isDestroyed).thenReturn(false)
         whenever(mockReactContext.fabricUIManager).thenReturn(null)
 
-        val instance = DdSdkSessionStartedListener.getInstance()
+        val instance = OoSdkSessionStartedListener.getInstance()
 
         val mockConvertToNativeArray = mock<(array: Array<String>) -> NativeArray?>()
         instance.setConvertToNativeArray(mockConvertToNativeArray)
@@ -155,7 +155,7 @@ internal class DdSdkSessionStartedListenerTest {
         whenever(mockCatalystInstance.callFunction(any(), any(), anyOrNull()))
             .thenThrow(RuntimeException("TEST"))
 
-        val instance = DdSdkSessionStartedListener.getInstance()
+        val instance = OoSdkSessionStartedListener.getInstance()
 
         val mockConvertToNativeArray = mock<(array: Array<String>) -> NativeArray?>()
         instance.setConvertToNativeArray(mockConvertToNativeArray)

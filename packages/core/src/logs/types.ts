@@ -9,7 +9,7 @@ import type { LogStatus, ErrorSource } from '../types';
 /**
  * The entry point to use Datadog's Logs feature.
  */
-export type DdLogsType = {
+export type OoLogsType = {
     /**
      * Send a log with debug level.
      * @param message: The message to send.

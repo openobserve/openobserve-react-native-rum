@@ -9,7 +9,7 @@ import { setCachedSessionId } from '../../rum/helper';
 import { DatadogDefaultEventEmitter } from '../DatadogEventEmitter/DatadogDefaultEventEmitter';
 import type { DatadogEventEmitter } from '../DatadogEventEmitter/DatadogEventEmitter';
 
-import { DdSdkInternalNativeBridgeEvent as BridgeEvent } from './DdSdkInternalNativeBridgeEvent';
+import { OoSdkInternalNativeBridgeEvent as BridgeEvent } from './OoSdkInternalNativeBridgeEvent';
 
 const DEFAULT_EVENTS = [
     new BridgeEvent<string>('RUMSessionStarted', (sessionId: string) => {
@@ -21,12 +21,12 @@ const defaultErrorHandler = (err: any) => {
     InternalLog.log(err, SdkVerbosity.DEBUG);
 };
 
-export class DdSdkInternalNativeBridge {
+export class OoSdkInternalNativeBridge {
     private eventEmitter: DatadogEventEmitter;
     private errorHandler: (err: any) => void;
     private _isInitialized: boolean = false;
 
-    private static _instance?: DdSdkInternalNativeBridge;
+    private static _instance?: OoSdkInternalNativeBridge;
     public static get isInitialized(): boolean {
         return this._instance?._isInitialized ?? false;
     }
@@ -34,8 +34,8 @@ export class DdSdkInternalNativeBridge {
     static initialize(
         eventEmitter: DatadogEventEmitter,
         errorHandler: (err: any) => void = defaultErrorHandler
-    ): DdSdkInternalNativeBridge {
-        this._instance = new DdSdkInternalNativeBridge(
+    ): OoSdkInternalNativeBridge {
+        this._instance = new OoSdkInternalNativeBridge(
             eventEmitter,
             errorHandler
         );
@@ -74,10 +74,10 @@ export const registerNativeBridge = (
 ) => {
     const nativeEventEmitter =
         eventEmitter ?? new DatadogDefaultEventEmitter(errorHandler);
-    DdSdkInternalNativeBridge.initialize(nativeEventEmitter);
-    if (!DdSdkInternalNativeBridge.isInitialized) {
+    OoSdkInternalNativeBridge.initialize(nativeEventEmitter);
+    if (!OoSdkInternalNativeBridge.isInitialized) {
         errorHandler('ERROR: Native Bridge initialization failed.');
     }
 };
 
-export const hasNativeBridge = () => DdSdkInternalNativeBridge.isInitialized;
+export const hasNativeBridge = () => OoSdkInternalNativeBridge.isInitialized;

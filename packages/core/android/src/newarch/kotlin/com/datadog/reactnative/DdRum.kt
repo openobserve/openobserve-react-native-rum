@@ -17,14 +17,14 @@ import com.facebook.react.bridge.ReadableMap
  * The entry point to use Datadog's RUM feature.
  */
 @Suppress("TooManyFunctions")
-class DdRum(
+class OoRum(
     reactContext: ReactApplicationContext,
     datadogWrapper: DatadogWrapper = DatadogSDKWrapper()
 ) : NativeDdRumSpec(reactContext) {
 
-    private val implementation = DdRumImplementation(datadog = datadogWrapper)
+    private val implementation = OoRumImplementation(datadog = datadogWrapper)
 
-    override fun getName(): String = DdRumImplementation.NAME
+    override fun getName(): String = OoRumImplementation.NAME
 
     /**
      * Start tracking a RUM View.

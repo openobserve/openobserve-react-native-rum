@@ -5,7 +5,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdRum, InternalLog } from '@datadog/mobile-react-native';
+import { OoRum, InternalLog } from '@openobserve/mobile-react-native';
 import type { Route } from '@react-navigation/native-v5';
 import { render, fireEvent } from '@testing-library/react-native';
 import mockBackHandler from 'react-native/Libraries/Utilities/__mocks__/BackHandler.js';
@@ -16,8 +16,8 @@ import type {
     ParamsTrackingPredicate,
     ViewNamePredicate,
     ViewTrackingPredicate
-} from '../../../rum/instrumentation/DdRumReactNavigationTracking';
-import { DdRumReactNavigationTracking } from '../../../rum/instrumentation/DdRumReactNavigationTracking';
+} from '../../../rum/instrumentation/OoRumReactNavigationTracking';
+import { OoRumReactNavigationTracking } from '../../../rum/instrumentation/OoRumReactNavigationTracking';
 import { transformViewKey } from '../../../rum/instrumentation/utils';
 
 import { AppStateMockLegacy } from './__utils__/AppStateMockLegacy';
@@ -55,9 +55,9 @@ jest.mock('react-native', () => {
     return reactNative;
 });
 
-jest.mock('@datadog/mobile-react-native', () => {
+jest.mock('@openobserve/mobile-react-native', () => {
     return {
-        DdRum: {
+        OoRum: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             startView: jest.fn().mockImplementation(() => {}),
             stopView: jest.fn().mockImplementation(() => {}),
@@ -81,13 +81,13 @@ jest.mock('@datadog/mobile-react-native', () => {
 beforeEach(() => {
     mocked(InternalLog.log).mockClear();
     jest.setTimeout(20000);
-    mocked(DdRum.startView).mockClear();
-    mocked(DdRum.stopView).mockClear();
+    mocked(OoRum.startView).mockClear();
+    mocked(OoRum.stopView).mockClear();
     mocked(AppState.addEventListener).mockClear();
     mocked(BackHandler.exitApp).mockClear();
 
     // @ts-ignore
-    DdRumReactNavigationTracking._resetInternalStateForTesting();
+    OoRumReactNavigationTracking._resetInternalStateForTesting();
 });
 
 // Unit tests
@@ -111,7 +111,7 @@ describe.each([
         }
     ]
 ])(
-    'DdRumReactNavigationTracking on react-navigation v%s',
+    'OoRumReactNavigationTracking on react-navigation v%s',
     (
         version,
         {
@@ -129,7 +129,7 @@ describe.each([
                     <FakeNavigator1 navigationRef={navigationRef} />
                 );
                 const goToAboutButton = getByText('Go to About');
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
 
@@ -138,12 +138,12 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'Home'
                 );
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'About'
                 );
@@ -165,7 +165,7 @@ describe.each([
                 ) {
                     return customViewName;
                 };
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current,
                     {
                         viewNamePredicate: predicate
@@ -177,7 +177,7 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'custom_view_name'
                 );
@@ -199,7 +199,7 @@ describe.each([
                     return null;
                 };
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current,
                     {
                         viewNamePredicate: predicate
@@ -211,7 +211,7 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).not.toHaveBeenCalled();
+                expect(OoRum.startView).not.toHaveBeenCalled();
             });
 
             it('sends a related RUM ViewEvent when switching screens { viewTrackingPredicate returns true }', async () => {
@@ -229,7 +229,7 @@ describe.each([
                     return true;
                 };
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current,
                     {
                         viewTrackingPredicate: predicate
@@ -241,12 +241,12 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'Home'
                 );
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'About'
                 );
@@ -267,7 +267,7 @@ describe.each([
                     return _route.name === 'Home';
                 };
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current,
                     {
                         viewTrackingPredicate: predicate
@@ -279,12 +279,12 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(1);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(1);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'Home'
                 );
-                expect(DdRum.startView).not.toHaveBeenCalledWith(
+                expect(OoRum.startView).not.toHaveBeenCalledWith(
                     expect.any(String),
                     'About'
                 );
@@ -309,7 +309,7 @@ describe.each([
                     return testParams;
                 };
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current,
                     {
                         paramsTrackingPredicate: predicate
@@ -321,13 +321,13 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'Home',
                     { params: testParams }
                 );
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'About',
                     { params: testParams }
@@ -341,10 +341,10 @@ describe.each([
                     <FakeNavigator1 navigationRef={navigationRef} />
                 );
                 const goToAboutButton = getByText('Go to About');
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
 
@@ -353,18 +353,18 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
             });
 
             it('does nothing when startTrackingViews { undefined any }', async () => {
                 // WHEN
-                DdRumReactNavigationTracking.startTrackingViews(null);
+                OoRumReactNavigationTracking.startTrackingViews(null);
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(0);
+                expect(OoRum.startView).toHaveBeenCalledTimes(0);
                 expect(InternalLog.log).toHaveBeenCalledTimes(1);
                 expect(InternalLog.log).toHaveBeenCalledWith(
-                    DdRumReactNavigationTracking.NULL_NAVIGATION_REF_ERROR_MESSAGE,
+                    OoRumReactNavigationTracking.NULL_NAVIGATION_REF_ERROR_MESSAGE,
                     'error'
                 );
             });
@@ -381,11 +381,11 @@ describe.each([
                     <FakeNavigator2 navigationRef={navigationRef2} />
                 );
                 const goToAboutButton2 = testUtils2.getByText('Go to About');
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef1.current
                 );
                 // this call will be ignored, because only one NavigationContainer tracking is supported at the time
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef2.current
                 );
 
@@ -396,9 +396,9 @@ describe.each([
                 fireEvent(goToAboutButton2, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
                 expect(InternalLog.log).toHaveBeenCalledWith(
-                    DdRumReactNavigationTracking.NAVIGATION_REF_IN_USE_ERROR_MESSAGE,
+                    OoRumReactNavigationTracking.NAVIGATION_REF_IN_USE_ERROR_MESSAGE,
                     'error'
                 );
             });
@@ -409,7 +409,7 @@ describe.each([
                 const testUtils: { getByText } = render(
                     <FakeNestedNavigator navigationRef={navigationRef} />
                 );
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
                 const goToAboutButton = testUtils.getByText('Go to About');
@@ -419,12 +419,12 @@ describe.each([
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'Home'
                 );
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'About'
                 );
@@ -434,7 +434,7 @@ describe.each([
                 fireEvent(goToNestedHome, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     expect.any(String),
                     'NestedHome'
                 );
@@ -449,19 +449,19 @@ describe.each([
                     <FakeNavigator1 navigationRef={navigationRef} />
                 );
                 const goToAboutButton = getByText('Go to About');
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
 
                 // WHEN
-                DdRumReactNavigationTracking.stopTrackingViews(
+                OoRumReactNavigationTracking.stopTrackingViews(
                     navigationRef.current
                 );
                 expect(goToAboutButton).toBeTruthy();
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                expect(OoRum.startView).toHaveBeenCalledTimes(1);
             });
 
             it('sends a RUM ViewEvent for each when startTrackingViews { multiple navigation containers when first is detached }', async () => {
@@ -481,15 +481,15 @@ describe.each([
                 expect(goToAboutButton1).toBeTruthy();
                 expect(goToAboutButton2).toBeTruthy();
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef1.current
                 );
                 fireEvent(goToAboutButton1, 'press');
-                DdRumReactNavigationTracking.stopTrackingViews(
+                OoRumReactNavigationTracking.stopTrackingViews(
                     navigationRef1.current
                 );
 
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef2.current
                 );
 
@@ -498,12 +498,12 @@ describe.each([
                 fireEvent(goToAboutButton2, 'press');
 
                 // THEN
-                expect(DdRum.startView).toHaveBeenCalledTimes(4);
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledTimes(4);
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     transformViewKey(navigationRef2StartRoute.key, 'Home'),
                     'Home'
                 );
-                expect(DdRum.startView).toHaveBeenCalledWith(
+                expect(OoRum.startView).toHaveBeenCalledWith(
                     transformViewKey(
                         navigationRef2.current?.getCurrentRoute()?.key,
                         'About'
@@ -545,15 +545,15 @@ describe.each([
                     render(<FakeNavigator2 navigationRef={navigationRef2} />);
 
                     // WHEN
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef1.current
                     );
-                    DdRumReactNavigationTracking.stopTrackingViews(
+                    OoRumReactNavigationTracking.stopTrackingViews(
                         navigationRef1.current
                     );
                     expect(appStateMock.listeners.change).toHaveLength(0);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef2.current
                     );
 
@@ -565,7 +565,7 @@ describe.each([
                     appStateMock.changeValue('background');
 
                     // THEN the listener is only called once
-                    expect(DdRum.stopView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.stopView).toHaveBeenCalledTimes(1);
                 });
 
                 it('does not log AppState changes when tracking is stopped', async () => {
@@ -574,16 +574,16 @@ describe.each([
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
                     // WHEN
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
-                    DdRumReactNavigationTracking.stopTrackingViews(
+                    OoRumReactNavigationTracking.stopTrackingViews(
                         navigationRef.current
                     );
                     appStateMock.changeValue('background');
 
                     // THEN
-                    expect(DdRum.stopView).not.toHaveBeenCalled();
+                    expect(OoRum.stopView).not.toHaveBeenCalled();
                     expect(InternalLog.log).not.toHaveBeenCalledWith(
                         'We could not determine the route when changing the application state to: background. No RUM View event will be sent in this case.',
                         'error'
@@ -595,7 +595,7 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
@@ -603,7 +603,7 @@ describe.each([
                     appStateMock.changeValue('background');
 
                     // THEN
-                    expect(DdRum.stopView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.stopView).toHaveBeenCalledTimes(1);
 
                     const currentRoute = navigationRef.current?.getCurrentRoute();
                     const transformedKey = transformViewKey(
@@ -611,7 +611,7 @@ describe.each([
                         currentRoute?.name
                     );
 
-                    expect(DdRum.stopView).toHaveBeenCalledWith(transformedKey);
+                    expect(OoRum.stopView).toHaveBeenCalledWith(transformedKey);
                     expect(typeof transformedKey).toBe('string');
                 });
 
@@ -620,7 +620,7 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
@@ -629,8 +629,8 @@ describe.each([
                     appStateMock.changeValue('active');
 
                     // THEN
-                    expect(DdRum.stopView).toHaveBeenCalledTimes(1);
-                    expect(DdRum.startView).toHaveBeenCalledTimes(2);
+                    expect(OoRum.stopView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.startView).toHaveBeenCalledTimes(2);
                 });
 
                 /**
@@ -644,10 +644,10 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
-                    expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.startView).toHaveBeenCalledTimes(1);
 
                     // WHEN
                     appStateMock.changeValue('inactive');
@@ -656,8 +656,8 @@ describe.each([
                     appStateMock.changeValue('active');
 
                     // THEN
-                    expect(DdRum.stopView).toHaveBeenCalledTimes(1);
-                    expect(DdRum.startView).toHaveBeenCalledTimes(2);
+                    expect(OoRum.stopView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.startView).toHaveBeenCalledTimes(2);
                 });
 
                 it('does not create a new view if the appState transitions to active after registration of route', async () => {
@@ -665,7 +665,7 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
@@ -673,7 +673,7 @@ describe.each([
                     appStateMock.changeValue('active');
 
                     // THEN
-                    expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.startView).toHaveBeenCalledTimes(1);
                 });
 
                 it('does not create a new view if the appState transitions to active after inactive', async () => {
@@ -681,7 +681,7 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
@@ -690,7 +690,7 @@ describe.each([
                     appStateMock.changeValue('active');
 
                     // THEN
-                    expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                    expect(OoRum.startView).toHaveBeenCalledTimes(1);
                 });
 
                 it('does not stop view when no navigator attached', async () => {
@@ -698,10 +698,10 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
-                    DdRumReactNavigationTracking.stopTrackingViews(
+                    OoRumReactNavigationTracking.stopTrackingViews(
                         navigationRef.current
                     );
 
@@ -709,7 +709,7 @@ describe.each([
                     appStateMock.changeValue('background');
 
                     // THEN
-                    expect(DdRum.stopView).not.toHaveBeenCalled();
+                    expect(OoRum.stopView).not.toHaveBeenCalled();
                 });
 
                 it('does not crash when stopTrackingViews is called before startTrackingViews', async () => {
@@ -717,10 +717,10 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.stopTrackingViews(
+                    OoRumReactNavigationTracking.stopTrackingViews(
                         navigationRef.current
                     );
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
@@ -728,7 +728,7 @@ describe.each([
                     appStateMock.changeValue('background');
 
                     // THEN
-                    expect(DdRum.stopView).toHaveBeenCalled();
+                    expect(OoRum.stopView).toHaveBeenCalled();
                 });
 
                 it('does not create a RUM view when the app starts in background', async () => {
@@ -737,12 +737,12 @@ describe.each([
                     const navigationRef = createRef<any>();
                     render(<FakeNavigator1 navigationRef={navigationRef} />);
 
-                    DdRumReactNavigationTracking.startTrackingViews(
+                    OoRumReactNavigationTracking.startTrackingViews(
                         navigationRef.current
                     );
 
                     // THEN
-                    expect(DdRum.startView).not.toHaveBeenCalled();
+                    expect(OoRum.startView).not.toHaveBeenCalled();
                 });
 
                 // Note: currently iOS apps start in "unknown" app state, but should default to "inactive"
@@ -756,7 +756,7 @@ describe.each([
                             <FakeNavigator1 navigationRef={navigationRef} />
                         );
 
-                        DdRumReactNavigationTracking.startTrackingViews(
+                        OoRumReactNavigationTracking.startTrackingViews(
                             navigationRef.current
                         );
 
@@ -764,7 +764,7 @@ describe.each([
                         appStateMock.changeValue('active');
 
                         // THEN
-                        expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                        expect(OoRum.startView).toHaveBeenCalledTimes(1);
                     }
                 );
             }
@@ -780,11 +780,11 @@ describe.each([
                 const hideNavButton = await findByText('display nav 2');
                 fireEvent(hideNavButton, 'press');
 
-                expect(DdRum.startView).toHaveBeenCalledTimes(1);
+                expect(OoRum.startView).toHaveBeenCalledTimes(1);
 
                 const switchNav = await findByText('display nav 1');
                 fireEvent(switchNav, 'press');
-                expect(DdRum.startView).toHaveBeenCalledTimes(2);
+                expect(OoRum.startView).toHaveBeenCalledTimes(2);
 
                 expect(InternalLog.log).not.toHaveBeenCalled();
             });
@@ -797,7 +797,7 @@ describe.each([
                 const { unmount } = render(
                     <FakeNavigator1 navigationRef={navigationRef1} />
                 );
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef1.current
                 );
 
@@ -812,19 +812,19 @@ describe.each([
                 const { getByText } = render(
                     <FakeNavigator2 navigationRef={navigationRef2} />
                 );
-                DdRumReactNavigationTracking.startTrackingViews(
+                OoRumReactNavigationTracking.startTrackingViews(
                     navigationRef2.current
                 );
                 const goToAboutButton = getByText('Go to About');
                 fireEvent(goToAboutButton, 'press');
 
                 // THEN new navigation is attached, no error and message is sent
-                expect(DdRum.startView).toHaveBeenLastCalledWith(
+                expect(OoRum.startView).toHaveBeenLastCalledWith(
                     expect.any(String),
                     'About'
                 );
                 expect(InternalLog.log).not.toHaveBeenCalledWith(
-                    DdRumReactNavigationTracking.NAVIGATION_REF_IN_USE_ERROR_MESSAGE,
+                    OoRumReactNavigationTracking.NAVIGATION_REF_IN_USE_ERROR_MESSAGE,
                     'error'
                 );
             });

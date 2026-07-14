@@ -9,7 +9,7 @@ import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
 
 /**
- * Do not import this Spec directly, use DdNativeTraceType instead.
+ * Do not import this Spec directly, use OoNativeTraceType instead.
  */
 export interface Spec extends TurboModule {
     readonly getConstants: () => {};
@@ -40,4 +40,4 @@ export interface Spec extends TurboModule {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default TurboModuleRegistry.get<Spec>('DdTrace');
+export default TurboModuleRegistry.get<Spec>('OoTrace');

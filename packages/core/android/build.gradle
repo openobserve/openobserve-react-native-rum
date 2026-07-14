@@ -5,7 +5,7 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['DdSdkReactNative_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['OoSdkReactNative_kotlinVersion']
 
   repositories {
     mavenCentral()
@@ -90,11 +90,11 @@ def reactNativeVersion = reactProperties.getProperty("VERSION_NAME")
 def (reactNativeMajorVersion, reactNativeMinorVersion) = reactNativeVersion.split("\\.").collect { it.isInteger() ? it.toInteger() : it }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['DdSdkReactNative_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['OoSdkReactNative_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['DdSdkReactNative_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['OoSdkReactNative_' + name]).toInteger()
 }
 
 android {

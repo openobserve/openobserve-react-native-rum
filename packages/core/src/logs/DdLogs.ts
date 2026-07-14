@@ -4,11 +4,11 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DdAttributes } from '../DdAttributes';
+import { OoAttributes } from '../OoAttributes';
 import { InternalLog } from '../InternalLog';
 import { SdkVerbosity } from '../config/types/SdkVerbosity';
 import { debugId } from '../metro/debugIdResolver';
-import type { DdNativeLogsType } from '../nativeModulesTypes';
+import type { OoNativeLogsType } from '../nativeModulesTypes';
 import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
 import { bufferVoidNativeCall } from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
 import type { ErrorSource, LogEventMapper } from '../types';
@@ -16,7 +16,7 @@ import { getGlobalInstance } from '../utils/singletonUtils';
 
 import { generateEventMapper } from './eventMapper';
 import type {
-    DdLogsType,
+    OoLogsType,
     LogArguments,
     LogWithErrorArguments,
     NativeLogWithError,
@@ -43,9 +43,9 @@ const isLogWithError = (
     );
 };
 
-class DdLogsWrapper implements DdLogsType {
+class OoLogsWrapper implements OoLogsType {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    private nativeLogs: DdNativeLogsType = require('../specs/NativeDdLogs')
+    private nativeLogs: OoNativeLogsType = require('../specs/NativeDdLogs')
         .default;
     private logEventMapper = generateEventMapper(undefined);
 
@@ -186,16 +186,16 @@ class DdLogsWrapper implements DdLogsType {
         const encodedContext = encodeAttributes(mappedEvent.context);
         const updatedContext = {
             ...encodedContext,
-            [DdAttributes.errorSourceType]: 'react-native'
+            [OoAttributes.errorSourceType]: 'react-native'
         };
 
         if (fingerprint && fingerprint !== '') {
-            updatedContext[DdAttributes.errorFingerprint] = fingerprint;
+            updatedContext[OoAttributes.errorFingerprint] = fingerprint;
         }
 
         const _debugId = debugId;
         if (_debugId) {
-            updatedContext[DdAttributes.debugId] = _debugId;
+            updatedContext[OoAttributes.debugId] = _debugId;
         }
 
         return bufferVoidNativeCall(() =>
@@ -218,4 +218,4 @@ class DdLogsWrapper implements DdLogsType {
     }
 }
 
-export const DdLogs = getGlobalInstance(LOGS_MODULE, () => new DdLogsWrapper());
+export const OoLogs = getGlobalInstance(LOGS_MODULE, () => new OoLogsWrapper());

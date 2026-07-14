@@ -10,7 +10,7 @@ import DatadogInternal
 import DatadogFlags
 
 @objc
-public class DdFlagsImplementation: NSObject {
+public class OoFlagsImplementation: NSObject {
     private let core: DatadogCoreProtocol
 
     internal var clientProviders: [String: () -> FlagsClientProtocol] = [:]

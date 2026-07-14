@@ -19,7 +19,7 @@ export class DatadogDefaultEventEmitter implements DatadogEventEmitter {
     constructor(errorHandler: (err: any) => void) {
         try {
             const ddSdkModule =
-                NativeModules.DdSdk ||
+                NativeModules.OoSdk ||
                 // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
                 require('../../specs/NativeDdSdk').default;
             this.eventEmitter = this.isNewArchitecture

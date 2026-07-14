@@ -9,15 +9,15 @@
 #else
 #import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
 #endif
-#import "DdSdk.h"
+#import "OoSdk.h"
 
-@implementation DdSdk
+@implementation OoSdk
 
 static __weak RCTBridge *_bridge = nil;
 
 /// This method can be called from AppDelegate to initialize the SDK from the native layer, to be able to catch startup errors and logs.
 + (void)initFromNative {
-    DdSdkNativeInitialization *nativeInitialization = [[DdSdkNativeInitialization alloc] init];
+    OoSdkNativeInitialization *nativeInitialization = [[OoSdkNativeInitialization alloc] init];
     [nativeInitialization initializeFromNative];
 }
 
@@ -154,10 +154,10 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
   return self;
 }
 
-- (DdSdkImplementation*)ddSdkImplementation
+- (OoSdkImplementation*)ddSdkImplementation
 {
     if (_ddSdkImplementation == nil) {
-        _ddSdkImplementation = [[DdSdkImplementation alloc] initWithBridge:_bridge];
+        _ddSdkImplementation = [[OoSdkImplementation alloc] initWithBridge:_bridge];
 #ifdef RCT_NEW_ARCH_ENABLED
         [self registerSessionIdListener];
 #endif
@@ -240,12 +240,12 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
 }
 
 - (void)addListener:(NSString *)eventType {
-    [DdSdkSessionStartedListener.instance setHasListeners: true];
+    [OoSdkSessionStartedListener.instance setHasListeners: true];
     [super addListener:eventType];
 }
 
 - (void)removeListeners:(double)count {
-    [DdSdkSessionStartedListener.instance setHasListeners: false];
+    [OoSdkSessionStartedListener.instance setHasListeners: false];
     [super removeListeners:count];
 }
 
@@ -254,11 +254,11 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
 }
 
 - (void)startObserving {
-    [DdSdkSessionStartedListener.instance setHasListeners: true];
+    [OoSdkSessionStartedListener.instance setHasListeners: true];
 }
 
 - (void)stopObserving {
-    [DdSdkSessionStartedListener.instance setHasListeners: false];
+    [OoSdkSessionStartedListener.instance setHasListeners: false];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -266,7 +266,7 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
 }
 
 - (void)didReceiveReloadCommand {
-    [DdSdkSessionStartedListener invalidate];
+    [OoSdkSessionStartedListener invalidate];
 }
 
 + (RCTBridge *)latestBridgeReference {
@@ -281,9 +281,9 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
 }
 
 - (void)registerSessionIdListener {
-    __weak DdSdk* weakSelf = self;
-    [DdSdkSessionStartedListener.instance setListenerCallback:^(NSString * _Nonnull sessionId) {
-        DdSdk* strongSelf = weakSelf;
+    __weak OoSdk* weakSelf = self;
+    [OoSdkSessionStartedListener.instance setListenerCallback:^(NSString * _Nonnull sessionId) {
+        OoSdk* strongSelf = weakSelf;
         if (!strongSelf) {
             return;
         }
@@ -294,7 +294,7 @@ RCT_REMAP_METHOD(sendTelemetryLog, withMessage:(NSString*)message
 
 #else
 - (void)registerNativeBridge {
-    [DdSdkSessionStartedListener.instance setRCTBridge: _bridge];
+    [OoSdkSessionStartedListener.instance setRCTBridge: _bridge];
 }
 #endif
 

@@ -38,7 +38,7 @@ If you are using Visual Studio Code, please make sure to set workspace version o
 
 ### Native Module development
 
-To edit the Objective-C and Swift files, open `example/ios/DdSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > DdSdkReactNative`.
+To edit the Objective-C and Swift files, open `example/ios/OoSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > OoSdkReactNative`.
 
 To edit the Kotlin files, open `example/android` in Android studio and find the source files at `ddsdkreactnative` under `Android`.
 
@@ -64,8 +64,8 @@ yarn test
 # Run the linter
 yarn lint
 
-# Run a command for the particular workspace (ex. @datadog/mobile-react-native)
-yarn workspace @datadog/mobile-react-native <command>
+# Run a command for the particular workspace (ex. @openobserve/mobile-react-native)
+yarn workspace @openobserve/mobile-react-native <command>
 ```
 
 ### Example App
@@ -113,18 +113,18 @@ This publishes the packages and also adds updated `gitHead` to the corresponding
 
 #### For iOS, run `make test-for-release`. If it doesn't work, read below
 
-1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/mobile-react-native pack`
+1. `cd path/to/dd-sdk-reactnative && yarn workspace @openobserve/mobile-react-native pack`
     * this creates a tarball from your local & unpublished package
 2. `cd {some other folder} && react-native init SomeAppName --version 0.63.4 && cd SomeAppName`
 3. `npm install --save path/to/dd-sdk-reactnative/packages/core/{tarball that npm pack created}`
-    * this installs the unpublished version of `@datadog/mobile-react-native` **from your local**
+    * this installs the unpublished version of `@openobserve/mobile-react-native` **from your local**
  
 If for some reason `yarn pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
 
 1. `yarn install --save path/to/dd-sdk-reactnative/packages/core`
-2. `open node_modules` and remove symlink to `@datadog/mobile-react-native`
-3. copy the real `@datadog/mobile-react-native` folder to `node_modules`
-    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/mobile-react-native` when you import it in your JS code
+2. `open node_modules` and remove symlink to `@openobserve/mobile-react-native`
+3. copy the real `@openobserve/mobile-react-native` folder to `node_modules`
+    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @openobserve/mobile-react-native` when you import it in your JS code
 
 Now you can proceed to `/ios`:
 
@@ -137,12 +137,12 @@ use_frameworks!
 
 # and disable Flipper related lines
 ```
-**NOTE:** You do **NOT** need to add `DdSdkReactNative` here manually, `pod install` should find and install it automatically
+**NOTE:** You do **NOT** need to add `OoSdkReactNative` here manually, `pod install` should find and install it automatically
 
-Now you can go back to your `App.js/tsx` and use `@datadog/mobile-react-native` from there
+Now you can go back to your `App.js/tsx` and use `@openobserve/mobile-react-native` from there
 Example code:
 ```
-import { DdSdkReactNative, CoreConfiguration, TrackingConsent } from '@datadog/mobile-react-native';
+import { OoSdkReactNative, CoreConfiguration, TrackingConsent } from '@openobserve/mobile-react-native';
 
 const App: () => React$Node = () => {
   const config = new CoreConfiguration(
@@ -162,7 +162,7 @@ const App: () => React$Node = () => {
     }
   )
 
-  DdSdkReactNative.initialize(config);
+  OoSdkReactNative.initialize(config);
   ...
 ```
 
@@ -175,7 +175,7 @@ If it doesn't, you should fix it before shipping ❌
 Many great ideas for new features come from the community, and we'd be happy to
 consider yours!
 
-To share your request, you can open an [issue](https://github.com/DataDog/dd-sdk-reactnative/issues/new) 
+To share your request, you can open an [issue](https://github.com/openobserve/openobserve-react-native-rum/issues/new) 
 with the details about what you'd like to see. At a minimum, please provide:
 
  - The goal of the new feature;
@@ -190,7 +190,7 @@ or UI, contact our support team via https://docs.datadoghq.com/help/ for direct,
 faster assistance.
 
 You may submit bug reports concerning the Datadog SDK for Android by 
-[opening a Github issue](https://github.com/DataDog/dd-sdk-reactnative/issues/new).
+[opening a Github issue](https://github.com/openobserve/openobserve-react-native-rum/issues/new).
 At a minimum, please provide:
 
  - A description of the problem;
@@ -218,20 +218,20 @@ the bug are best.
 ## Have a patch?
 
 We welcome code contributions to the library, which you can 
-[submit as a pull request](https://github.com/DataDog/dd-sdk-reactnative/pull/new/master).
+[submit as a pull request](https://github.com/openobserve/openobserve-react-native-rum/pull/new/master).
 Before you submit a PR, make sure that you first create an Issue to explain the
 bug or the feature your patch covers, and make sure another Issue or PR doesn't
 already exist.
 
 To create a pull request:
 
-1. **Fork the repository** from https://github.com/DataDog/dd-sdk-reactnative ;
+1. **Fork the repository** from https://github.com/openobserve/openobserve-react-native-rum ;
 2. **Make any changes** for your patch;
 3. **Write tests** that demonstrate how the feature works or how the bug is fixed;
 4. **Update any documentation** such as `docs/GettingStarted.md`, especially for
     new features;
 5. **Submit the pull request** from your fork back to this 
-    [repository](https://github.com/DataDog/dd-sdk-reactnative) .
+    [repository](https://github.com/openobserve/openobserve-react-native-rum) .
 
 
 The pull request will be run through our CI pipeline, and a project member will

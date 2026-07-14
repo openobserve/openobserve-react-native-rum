@@ -1,5 +1,5 @@
 {
-    "$schema": "./node_modules/@datadog/mobile-react-native/datadog-configuration.schema.json",
+    "$schema": "./node_modules/@openobserve/mobile-react-native/datadog-configuration.schema.json",
     "configuration": {
         "clientToken": "CLIENT_TOKEN",
         "env": "ENVIRONMENT",

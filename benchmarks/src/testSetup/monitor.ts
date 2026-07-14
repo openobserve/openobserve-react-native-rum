@@ -4,13 +4,13 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DefaultTimeProvider, ErrorSource, RumActionType } from "@datadog/mobile-react-native";
-import type { DdRumType, ResourceKind } from "@datadog/mobile-react-native/lib/typescript/rum/types";
+import { DefaultTimeProvider, ErrorSource, RumActionType } from "@openobserve/mobile-react-native";
+import type { OoRumType, ResourceKind } from "@openobserve/mobile-react-native/lib/typescript/rum/types";
 import type { GestureResponderEvent } from "react-native/types";
 
 const timeProvider = new DefaultTimeProvider();
 
-export const Monitor: Pick<DdRumType, 'startView' | 'stopView' | 'addAction' | 'startResource' | 'stopResource' | 'addError'> = {
+export const Monitor: Pick<OoRumType, 'startView' | 'stopView' | 'addAction' | 'startResource' | 'stopResource' | 'addError'> = {
     startView: (
         key: string,
         name: string,

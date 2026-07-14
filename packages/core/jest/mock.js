@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const React = require('react');
 
-const actualDatadog = jest.requireActual('@datadog/mobile-react-native');
+const actualDatadog = jest.requireActual('@openobserve/mobile-react-native');
 
 /**
  * Explicitly mocking the provider prevents auto-instrumentation in tests.
@@ -22,7 +22,7 @@ DatadogProviderMock.initialize = jest.fn().mockResolvedValue();
 
 module.exports = {
     ...actualDatadog,
-    DdSdkReactNative: {
+    OoSdkReactNative: {
         initialize: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -74,7 +74,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    DdLogs: {
+    OoLogs: {
         debug: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -89,7 +89,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    DdTrace: {
+    OoTrace: {
         startSpan: jest
             .fn()
             .mockImplementation(
@@ -100,7 +100,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    DdRum: {
+    OoRum: {
         startView: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -171,7 +171,7 @@ module.exports = {
         generateSpanId: jest.fn().mockReturnValue('mock-span-id')
     },
     DatadogProvider: DatadogProviderMock,
-    DdSdk: {
+    OoSdk: {
         initialize: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve()))

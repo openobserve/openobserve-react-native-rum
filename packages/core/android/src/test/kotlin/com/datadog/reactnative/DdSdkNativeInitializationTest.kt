@@ -40,9 +40,9 @@ import org.mockito.quality.Strictness
 )
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ForgeConfiguration(value = BaseConfigurator::class)
-internal class DdSdkNativeInitializationTest {
+internal class OoSdkNativeInitializationTest {
 
-    lateinit var testedNativeInitialization: DdSdkNativeInitialization
+    lateinit var testedNativeInitialization: OoSdkNativeInitialization
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     lateinit var mockContext: ReactApplicationContext
@@ -54,7 +54,7 @@ internal class DdSdkNativeInitializationTest {
     lateinit var mockDatadog: DatadogWrapper
 
     @Mock
-    lateinit var mockDdTelemetry: DdTelemetry
+    lateinit var mockDdTelemetry: OoTelemetry
 
     @Mock
     lateinit var mockJSONFileReader: JSONFileReader
@@ -69,15 +69,15 @@ internal class DdSdkNativeInitializationTest {
             )
         ) doReturn mockPackageInfo
 
-        testedNativeInitialization = DdSdkNativeInitialization(
+        testedNativeInitialization = OoSdkNativeInitialization(
             mockContext,
             mockDatadog,
             mockDdTelemetry,
             mockJSONFileReader
         )
 
-        DdSdkSessionStartedListener.invalidate()
-        DdSdkSessionStartedListener.resetIsRnSdkInitialized()
+        OoSdkSessionStartedListener.invalidate()
+        OoSdkSessionStartedListener.resetIsRnSdkInitialized()
     }
 
     // region getConfigurationFromJSONFile
@@ -103,10 +103,10 @@ internal class DdSdkNativeInitializationTest {
         assertThat(configuration.batchSize).isEqualTo("SMALL")
         assertThat(configuration.verbosity).isEqualTo("WARN")
         assertThat(configuration.service).isEqualTo("my.app")
-        assertThat(configuration.additionalConfiguration?.get("_dd.source")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_oo.source")).isEqualTo(
             "react-native"
         )
-        assertThat(configuration.additionalConfiguration?.get("_dd.sdk_version")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_oo.sdk_version")).isEqualTo(
             SDK_VERSION
         )
         assertThat(configuration.rumConfiguration?.applicationId).isEqualTo("fake-app-id")
@@ -169,10 +169,10 @@ internal class DdSdkNativeInitializationTest {
         assertThat(configuration.uploadFrequency).isEqualTo("AVERAGE")
         assertThat(configuration.batchSize).isEqualTo("MEDIUM")
         assertThat(configuration.trackingConsent).isEqualTo("GRANTED")
-        assertThat(configuration.additionalConfiguration?.get("_dd.source")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_oo.source")).isEqualTo(
             "react-native"
         )
-        assertThat(configuration.additionalConfiguration?.get("_dd.sdk_version")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_oo.sdk_version")).isEqualTo(
             SDK_VERSION
         )
         assertThat(configuration.configurationForTelemetry).isNull()
@@ -227,7 +227,7 @@ internal class DdSdkNativeInitializationTest {
         )
 
         // Then
-        assertThat(DdSdkSessionStartedListener.isRnSdkInitializedForTests()).isTrue()
+        assertThat(OoSdkSessionStartedListener.isRnSdkInitializedForTests()).isTrue()
         verify(mockRumMonitor).getCurrentSessionId(any())
     }
 
@@ -243,7 +243,7 @@ internal class DdSdkNativeInitializationTest {
         )
 
         // Then
-        assertThat(DdSdkSessionStartedListener.isRnSdkInitializedForTests()).isTrue()
+        assertThat(OoSdkSessionStartedListener.isRnSdkInitializedForTests()).isTrue()
         verify(mockDatadog, never()).getRumMonitor()
     }
 
@@ -259,13 +259,13 @@ internal class DdSdkNativeInitializationTest {
         )
 
         // Then
-        assertThat(DdSdkSessionStartedListener.isRnSdkInitializedForTests()).isFalse()
+        assertThat(OoSdkSessionStartedListener.isRnSdkInitializedForTests()).isFalse()
         verify(mockDatadog, never()).getRumMonitor()
     }
 
     // endregion
 
-    private fun minimalConfiguration(): DdSdkConfiguration = DdSdkConfiguration(
+    private fun minimalConfiguration(): OoSdkConfiguration = OoSdkConfiguration(
         clientToken = "fake-client-token",
         env = "fake-env",
         additionalConfiguration = emptyMap()

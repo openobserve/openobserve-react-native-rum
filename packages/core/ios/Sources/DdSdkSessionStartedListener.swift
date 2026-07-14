@@ -9,10 +9,10 @@ import DatadogRUM
 import React
 
 @objc
-public class DdSdkSessionStartedListener: NSObject {
-    @objc public static var instance: DdSdkSessionStartedListener {
+public class OoSdkSessionStartedListener: NSObject {
+    @objc public static var instance: OoSdkSessionStartedListener {
         if _instance == nil {
-            _instance = DdSdkSessionStartedListener()
+            _instance = OoSdkSessionStartedListener()
         }
         return _instance!
     }
@@ -27,7 +27,7 @@ public class DdSdkSessionStartedListener: NSObject {
     private static let BRIDGE_MODULE_NAME = "DatadogInternalReactBridge"
     private static let BRIDGE_MODULE_METHOD = "__datadogOnMessageReceived"
     private static let BRIDGE_EVENT_NAME = "RUMSessionStarted"
-    private static var _instance: DdSdkSessionStartedListener?
+    private static var _instance: OoSdkSessionStartedListener?
 
     // Process-level state — survives instance invalidate() because the JS-side
     // DatadogInternalReactBridge registration survives bridge-lifecycle resets
@@ -90,7 +90,7 @@ public class DdSdkSessionStartedListener: NSObject {
         } else if Self.isRnSdkInitialized {
             sendToJsWithBridge(sessionId: sessionId)
         }
-        // else: bridge path is gated until JS DdSdk.initialize() runs, so that
+        // else: bridge path is gated until JS OoSdk.initialize() runs, so that
         // DatadogInternalReactBridge is guaranteed to be registered. The cached
         // lastSessionId will be replayed when onRnSdkInitialized() fires.
     }
@@ -104,9 +104,9 @@ public class DdSdkSessionStartedListener: NSObject {
         }
 
         rctBridge.enqueueJSCall(
-            DdSdkSessionStartedListener.BRIDGE_MODULE_NAME,
-            method: DdSdkSessionStartedListener.BRIDGE_MODULE_METHOD,
-            args: [DdSdkSessionStartedListener.BRIDGE_EVENT_NAME, sessionId],
+            OoSdkSessionStartedListener.BRIDGE_MODULE_NAME,
+            method: OoSdkSessionStartedListener.BRIDGE_MODULE_METHOD,
+            args: [OoSdkSessionStartedListener.BRIDGE_EVENT_NAME, sessionId],
             completion: {}
         )
     }

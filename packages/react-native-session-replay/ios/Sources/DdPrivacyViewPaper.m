@@ -11,7 +11,7 @@
 #import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
 #endif
 
-@interface DdPrivacyView : UIView
+@interface OoPrivacyView : UIView
 
 @property (nonatomic, strong) NSString *textPrivacy;
 @property (nonatomic, strong) NSString *imagePrivacy;
@@ -23,46 +23,46 @@
 
 @end
 
-@implementation DdPrivacyView
+@implementation OoPrivacyView
 @end
 
 
-@interface DdPrivacyViewPaper : RCTViewManager
+@interface OoPrivacyViewPaper : RCTViewManager
 @end
 
-@implementation DdPrivacyViewPaper
+@implementation OoPrivacyViewPaper
 
-RCT_EXPORT_MODULE(DdPrivacyView)
+RCT_EXPORT_MODULE(OoPrivacyView)
 
 - (UIView *) view {
-    return [[DdPrivacyView alloc] init];
+    return [[OoPrivacyView alloc] init];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(textAndInputPrivacy, NSString, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(textAndInputPrivacy, NSString, OoPrivacyView) {
     view.textPrivacy = [RCTConvert NSString:json];
     [self setPrivacyOverridesFor:view];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(imagePrivacy, NSString, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(imagePrivacy, NSString, OoPrivacyView) {
     view.imagePrivacy = [RCTConvert NSString:json];
     [self setPrivacyOverridesFor:view];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(touchPrivacy, NSString, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(touchPrivacy, NSString, OoPrivacyView) {
     view.touchPrivacy = [RCTConvert NSString:json];
     [self setPrivacyOverridesFor:view];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(hide, BOOL, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(hide, BOOL, OoPrivacyView) {
     view.hide = json ? [json boolValue] : NO;
     [self setPrivacyOverridesFor:view];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(nativeID, NSString, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(nativeID, NSString, OoPrivacyView) {
     view.nativeID = [RCTConvert NSString:json];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(attributes, NSDictionary, DdPrivacyView) {
+RCT_CUSTOM_VIEW_PROPERTY(attributes, NSDictionary, OoPrivacyView) {
     if (json && [json isKindOfClass:[NSDictionary class]]) {
         NSMutableDictionary<NSString *, NSString *> *dict = [NSMutableDictionary new];
         for (id key in json) {
@@ -79,8 +79,8 @@ RCT_CUSTOM_VIEW_PROPERTY(attributes, NSDictionary, DdPrivacyView) {
     }
 }
 
-- (void) setPrivacyOverridesFor:(DdPrivacyView *) view {
-    [DdPrivacyOverrider setOverridesFor:view textPrivacy:view.textPrivacy imagePrivacy:view.imagePrivacy touchPrivacy:view.touchPrivacy hide:view.hide];
+- (void) setPrivacyOverridesFor:(OoPrivacyView *) view {
+    [OoPrivacyOverrider setOverridesFor:view textPrivacy:view.textPrivacy imagePrivacy:view.imagePrivacy touchPrivacy:view.touchPrivacy hide:view.hide];
 }
 
 @end

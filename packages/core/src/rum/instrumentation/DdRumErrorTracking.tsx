@@ -18,12 +18,12 @@ import {
 } from '../../sdk/AttributesEncoding/errorUtils';
 import { ErrorSource } from '../../types';
 import { executeWithDelay } from '../../utils/jsUtils';
-import { DdRum } from '../DdRum';
+import { OoRum } from '../OoRum';
 
 /**
  * Provides RUM auto-instrumentation feature to track errors as RUM events.
  */
-export class DdRumErrorTracking {
+export class OoRumErrorTracking {
     private static isTracking = false;
 
     private static isInDefaultErrorHandler = false;
@@ -39,7 +39,7 @@ export class DdRumErrorTracking {
      */
     static startTracking(): void {
         // extra safety to avoid wrapping the Error handler twice
-        if (DdRumErrorTracking.isTracking) {
+        if (OoRumErrorTracking.isTracking) {
             InternalLog.log(
                 'Datadog SDK is already tracking errors',
                 SdkVerbosity.WARN
@@ -48,13 +48,13 @@ export class DdRumErrorTracking {
         }
 
         if (ErrorUtils) {
-            DdRumErrorTracking.defaultErrorHandler = ErrorUtils.getGlobalHandler();
-            DdRumErrorTracking.defaultConsoleError = console.error;
+            OoRumErrorTracking.defaultErrorHandler = ErrorUtils.getGlobalHandler();
+            OoRumErrorTracking.defaultConsoleError = console.error;
 
-            ErrorUtils.setGlobalHandler(DdRumErrorTracking.onGlobalError);
-            console.error = DdRumErrorTracking.onConsoleError;
+            ErrorUtils.setGlobalHandler(OoRumErrorTracking.onGlobalError);
+            console.error = OoRumErrorTracking.onConsoleError;
 
-            DdRumErrorTracking.isTracking = true;
+            OoRumErrorTracking.isTracking = true;
             InternalLog.log(
                 'Datadog SDK is tracking errors',
                 SdkVerbosity.INFO
@@ -71,10 +71,10 @@ export class DdRumErrorTracking {
         const message = getErrorMessage(error);
         const stacktrace = getErrorStackTrace(error);
         this.reportError(message, ErrorSource.SOURCE, stacktrace, {
-            '_dd.error.is_crash': isFatal,
-            '_dd.error.raw': errorEncoder.encode(error)
+            '_oo.error.is_crash': isFatal,
+            '_oo.error.raw': errorEncoder.encode(error)
         }).then(async () => {
-            DdRumErrorTracking.isInDefaultErrorHandler = true;
+            OoRumErrorTracking.isInDefaultErrorHandler = true;
             try {
                 // On real iOS devices, the crash context is not updated soon
                 // enough for the view update to contain the crash.
@@ -82,17 +82,17 @@ export class DdRumErrorTracking {
                 // is updated before actually crashing the app.
                 await executeWithDelay(
                     () =>
-                        DdRumErrorTracking.defaultErrorHandler(error, isFatal),
+                        OoRumErrorTracking.defaultErrorHandler(error, isFatal),
                     50
                 );
             } finally {
-                DdRumErrorTracking.isInDefaultErrorHandler = false;
+                OoRumErrorTracking.isInDefaultErrorHandler = false;
             }
         });
     };
 
     static onConsoleError = (...params: unknown[]): void => {
-        if (DdRumErrorTracking.isInDefaultErrorHandler) {
+        if (OoRumErrorTracking.isInDefaultErrorHandler) {
             return;
         }
 
@@ -130,7 +130,7 @@ export class DdRumErrorTracking {
             .join(' ');
 
         this.reportError(message, ErrorSource.CONSOLE, stack).then(() => {
-            DdRumErrorTracking.defaultConsoleError.apply(console, params);
+            OoRumErrorTracking.defaultConsoleError.apply(console, params);
         });
     };
 
@@ -140,6 +140,6 @@ export class DdRumErrorTracking {
         stacktrace: string,
         context: object = {}
     ): Promise<void> => {
-        return DdRum.addError(message, source, stacktrace, context);
+        return OoRum.addError(message, source, stacktrace, context);
     };
 }

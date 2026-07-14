@@ -12,50 +12,50 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.facebook.react.viewmanagers.DdPrivacyViewManagerDelegate
-import com.facebook.react.viewmanagers.DdPrivacyViewManagerInterface
+import com.facebook.react.viewmanagers.OoPrivacyViewManagerDelegate
+import com.facebook.react.viewmanagers.OoPrivacyViewManagerInterface
 
-class DdPrivacyViewManager(context: ReactApplicationContext) : ViewGroupManager<DdPrivacyView>(),
-    DdPrivacyViewManagerInterface<DdPrivacyView> {
+class OoPrivacyViewManager(context: ReactApplicationContext) : ViewGroupManager<OoPrivacyView>(),
+    OoPrivacyViewManagerInterface<OoPrivacyView> {
     companion object {
-        const val REACT_CLASS = "DdPrivacyView"
+        const val REACT_CLASS = "OoPrivacyView"
     }
 
-    private val delegate: DdPrivacyViewManagerDelegate<DdPrivacyView, DdPrivacyViewManager> = DdPrivacyViewManagerDelegate(this)
+    private val delegate: OoPrivacyViewManagerDelegate<OoPrivacyView, OoPrivacyViewManager> = OoPrivacyViewManagerDelegate(this)
 
-    override fun getDelegate(): ViewManagerDelegate<DdPrivacyView> = delegate
+    override fun getDelegate(): ViewManagerDelegate<OoPrivacyView> = delegate
 
     override fun getName(): String = REACT_CLASS
 
-    override fun createViewInstance(context: ThemedReactContext): DdPrivacyView = DdPrivacyView(context)
+    override fun createViewInstance(context: ThemedReactContext): OoPrivacyView = OoPrivacyView(context)
 
     @ReactProp(name = "hide")
-    override fun setHide(view: DdPrivacyView?, value: Boolean) {
+    override fun setHide(view: OoPrivacyView?, value: Boolean) {
         view?.let { view.hide = value }
     }
 
     @ReactProp(name = "textAndInputPrivacy")
-    override fun setTextAndInputPrivacy(view: DdPrivacyView?, value: String?) {
+    override fun setTextAndInputPrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.textAndInputPrivacy = value }
     }
 
     @ReactProp(name = "imagePrivacy")
-    override fun setImagePrivacy(view: DdPrivacyView?, value: String?) {
+    override fun setImagePrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.imagePrivacy = value }
     }
 
     @ReactProp(name = "touchPrivacy")
-    override fun setTouchPrivacy(view: DdPrivacyView?, value: String?) {
+    override fun setTouchPrivacy(view: OoPrivacyView?, value: String?) {
         view?.let { view.touchPrivacy = value }
     }
 
     @ReactProp(name = "nativeID")
-    override fun setNativeID(view: DdPrivacyView?, value: String?) {
+    override fun setNativeID(view: OoPrivacyView?, value: String?) {
         view?.nativeID = value
     }
 
     @ReactProp(name = "attributes")
-    override fun setAttributes(view: DdPrivacyView?, map: ReadableMap?) {
+    override fun setAttributes(view: OoPrivacyView?, map: ReadableMap?) {
         view?.attributes = map?.toHashMap()?.mapValues {
             it.value.toString() ?: ""
         }
