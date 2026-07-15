@@ -1,0 +1,12 @@
+OpenObserve React Native RUM
+Copyright 2026-Present OpenObserve, Inc.
+
+This software is a derivative work based on the Datadog SDK for React Native
+(https://github.com/DataDog/dd-sdk-reactnative), used under the Apache License,
+Version 2.0 (see LICENSE). Modifications have been made to the original software
+by OpenObserve, Inc.
+
+Portions of this product include software developed at Datadog
+(https://www.datadoghq.com/), Copyright 2016-Present Datadog, Inc. The original
+per-file copyright and license notices are retained throughout the source, as
+required by section 4 of the Apache License, Version 2.0.

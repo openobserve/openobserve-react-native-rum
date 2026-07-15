@@ -1,3 +1,6 @@
+> **OpenObserve fork.** This project is a fork of the corresponding Datadog SDK,
+> distributed under the Apache License 2.0 and modified by OpenObserve, Inc.
+> See [`NOTICE`](./NOTICE) for attribution and [`LICENSE`](./LICENSE) for terms.
 # Datadog SDK for React Native
 
 Datadog Real User Monitoring (RUM) enables you to visualize and analyze the real-time performance and user journeys of your application’s individual users.
