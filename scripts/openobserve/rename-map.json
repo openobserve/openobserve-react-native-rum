@@ -32,7 +32,7 @@
     "rules": [
       {
         "literal": "com.datadoghq:dd-sdk-android",
-        "to": "io.openobserve:oo-sdk-android",
+        "to": "ai.openobserve:oo-sdk-android",
         "why": "Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay)"
       },
       {
