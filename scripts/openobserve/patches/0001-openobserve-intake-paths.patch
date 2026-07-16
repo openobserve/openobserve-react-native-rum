@@ -1,0 +1,51 @@
+diff --git b/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt a/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
+index 38f056aa..566a0842 100644
+--- b/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
++++ a/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
+@@ -242,7 +242,10 @@ class OoSdkNativeInitialization internal constructor(
+         )
+ 
+         configuration.rumConfiguration?.customEndpoint?.let {
+-            configBuilder.useCustomEndpoint(it)
++            // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
++            // Android's useCustomEndpoint takes the full URL verbatim (no path append by the
++            // SDK), so the "/rum" suffix is added here in the bridge.
++            configBuilder.useCustomEndpoint("$it/rum")
+         }
+ 
+         configuration.rumConfiguration?.trackNonFatalAnrs?.let {
+@@ -262,7 +265,8 @@ class OoSdkNativeInitialization internal constructor(
+     private fun buildLogsConfiguration(configuration: OoSdkConfiguration): LogsConfiguration {
+         val configBuilder = LogsConfiguration.Builder()
+         configuration.logsConfiguration?.customEndpoint?.let {
+-            configBuilder.useCustomEndpoint(it)
++            // OpenObserve intake path: {base}/logs (Android takes the full URL verbatim).
++            configBuilder.useCustomEndpoint("$it/logs")
+         }
+ 
+         return configBuilder.build()
+diff --git b/packages/core/ios/Sources/DdSdkNativeInitialization.swift a/packages/core/ios/Sources/DdSdkNativeInitialization.swift
+index 6cd954ef..274f02bf 100644
+--- b/packages/core/ios/Sources/DdSdkNativeInitialization.swift
++++ a/packages/core/ios/Sources/DdSdkNativeInitialization.swift
+@@ -189,7 +189,9 @@ public class OoSdkNativeInitialization: NSObject {
+ 
+         var customRUMEndpointURL: URL? = nil
+         if let customEndpoint = rumConfig.customEndpoint, !customEndpoint.isEmpty {
+-            customRUMEndpointURL = URL(string: "\(customEndpoint)/api/v2/rum")
++            // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
++            // (Upstream Datadog used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
++            customRUMEndpointURL = URL(string: "\(customEndpoint)/rum")
+         }
+ 
+         var networkSettledResourcePredicate: TimeBasedTNSResourcePredicate? = nil
+@@ -248,7 +250,8 @@ public class OoSdkNativeInitialization: NSObject {
+         var customLogsEndpointURL: URL? = nil
+         if let customLogsEndpoint = logsConfig.customEndpoint as? NSString {
+             if customLogsEndpoint != "" {
+-                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/api/v2/logs" as String)
++                // OpenObserve intake path: {base}/logs (upstream Datadog used "/api/v2/logs").
++                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/logs" as String)
+             }
+         }
+ 
