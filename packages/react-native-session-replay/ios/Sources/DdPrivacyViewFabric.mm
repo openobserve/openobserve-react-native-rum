@@ -13,10 +13,10 @@
 #import <React/RCTFabricComponentsPlugins.h>
 
 
-#if __has_include("DatadogSDKReactNativeSessionReplay-Swift.h")
-#import <DatadogSDKReactNativeSessionReplay-Swift.h>
+#if __has_include("OpenObserveSDKReactNativeSessionReplay-Swift.h")
+#import <OpenObserveSDKReactNativeSessionReplay-Swift.h>
 #else
-#import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
+#import <OpenObserveSDKReactNativeSessionReplay/OpenObserveSDKReactNativeSessionReplay-Swift.h>
 #endif
 #import <objc/runtime.h>
 #import "OoPrivacyViewFabric.h"

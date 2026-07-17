@@ -182,7 +182,7 @@ function TracesScenario(props: TracesScenarioProps): React.JSX.Element {
                             <Text style={styles.label}>{'isError'}</Text>
                         </Pressable>
                         <Switch
-                            trackColor={{false: Colors.Grey, true: Colors.DatadogPurple}}
+                            trackColor={{false: Colors.Grey, true: Colors.OpenObservePurple}}
                             thumbColor={Colors.White}
                             onValueChange={onToggleIsError}
                             value={isError}
@@ -233,7 +233,7 @@ function TracesScenario(props: TracesScenarioProps): React.JSX.Element {
                 </View>
                 <View style={styles.buttonWrapper}>
                 <Button
-                    color={OS === 'android' ? Colors.DatadogPurple : Colors.White}
+                    color={OS === 'android' ? Colors.OpenObservePurple : Colors.White}
                     onPress={sendTraces}
                     title={isSending ? 'Sending...' : 'Send'}
                     disabled={isSending}

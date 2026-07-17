@@ -1,6 +1,6 @@
 # React-Native Monitoring for `react-native-navigation` components
 
-Datadog *Real User Monitoring (RUM)* enables you to visualize and analyze the real-time performance and user journeys of your application’s individual users. This specific package adds support to the [`react-native-navigation`][1] library.
+OpenObserve *Real User Monitoring (RUM)* enables you to visualize and analyze the real-time performance and user journeys of your application’s individual users. This specific package adds support to the [`react-native-navigation`][1] library.
 
 ## Setup
 

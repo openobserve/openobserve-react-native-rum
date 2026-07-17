@@ -5,9 +5,9 @@
  */
 
 import XCTest
-@testable import DatadogCore
-@testable import DatadogSDKReactNative
-@testable import DatadogInternal
+@testable import OpenObserveCore
+@testable import OpenObserveSDKReactNative
+@testable import OpenObserveInternal
 
 class OoSdkNativeInitializationTests: XCTestCase {
     var consoleMessage = ""
@@ -19,8 +19,8 @@ class OoSdkNativeInitializationTests: XCTestCase {
     }
 
     override func tearDown() {
-        DatadogSDKWrapper.shared.onSdkInitializedListeners = []
-        Datadog.internalFlushAndDeinitialize()
+        OpenObserveSDKWrapper.shared.onSdkInitializedListeners = []
+        OpenObserve.internalFlushAndDeinitialize()
         OoSdkSessionStartedListener.invalidate()
         OoSdkSessionStartedListener.resetIsRnSdkInitializedForTests()
         super.tearDown()
@@ -123,7 +123,7 @@ class OoSdkNativeInitializationTests: XCTestCase {
         )
         
         XCTAssertNil(nativeInitialization.getConfigurationFromJSONFile())
-        XCTAssertEqual(self.consoleMessage, "Error parsing datadog-configuration.json file: 🔥 Datadog SDK usage error: JSON configuration file is missing top-level \"configuration\" key.")
+        XCTAssertEqual(self.consoleMessage, "Error parsing openobserve-configuration.json file: 🔥 OpenObserve SDK usage error: JSON configuration file is missing top-level \"configuration\" key.")
     }
 
     func testInitializeWithIsCalledFromJsTrueMarksRnSdkInitialized() {

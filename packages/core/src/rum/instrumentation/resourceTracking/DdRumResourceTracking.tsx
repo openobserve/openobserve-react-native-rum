@@ -17,7 +17,7 @@ import { XHRProxy } from './requestProxy/XHRProxy/XHRProxy';
 import type { RequestProxy } from './requestProxy/interfaces/RequestProxy';
 
 const RUM_RESOURCE_TRACKING_MODULE =
-    'com.datadog.reactnative.rum.resource_tracking';
+    'com.openobserve.reactnative.rum.resource_tracking';
 
 /**
  * Provides RUM auto-instrumentation feature to track resources (fetch, XHR, axios) as RUM events.
@@ -48,7 +48,7 @@ class RumResourceTracking {
         // extra safety to avoid proxying the XHR class twice
         if (this._isTracking) {
             InternalLog.log(
-                'Datadog SDK is already tracking XHR resources',
+                'OpenObserve SDK is already tracking XHR resources',
                 SdkVerbosity.WARN
             );
             return;
@@ -63,7 +63,7 @@ class RumResourceTracking {
         });
 
         InternalLog.log(
-            'Datadog SDK is tracking XHR resources',
+            'OpenObserve SDK is tracking XHR resources',
             SdkVerbosity.INFO
         );
 
@@ -76,7 +76,7 @@ class RumResourceTracking {
     /**
      * Applies a new resource trace sample rate to the already-installed
      * request proxy. Used by deferred-initialization flows
-     * (DatadogProvider.initialize) where tracking is started at provider
+     * (OpenObserveProvider.initialize) where tracking is started at provider
      * mount with default features, and the final sample rate is only known
      * later. No-op if tracking has not started.
      */

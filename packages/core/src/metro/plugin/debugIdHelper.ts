@@ -16,7 +16,7 @@ import type {
     MixedOutput,
     Module,
     MetroBundleWithMap,
-    DatadogDebugIdModule
+    OpenObserveDebugIdModule
 } from './types/metroTypes';
 import { getCreateCountingSetFunction, getCountLinesFunction } from './utils';
 
@@ -59,7 +59,7 @@ const DEBUG_ID_METADATA_PREFIX = 'datadog-debug-id-';
  * @param debugId - the debug ID to inject into the bundle, or a placeholder.
  * @returns The Debug ID virtual module.
  */
-export const createDebugIdModule = (debugId: string): DatadogDebugIdModule => {
+export const createDebugIdModule = (debugId: string): OpenObserveDebugIdModule => {
     let debugIdCode = createDebugIdSnippet(debugId);
     const countLines = getCountLinesFunction();
     const createCountingSet = getCreateCountingSetFunction();
@@ -92,7 +92,7 @@ export const createDebugIdModule = (debugId: string): DatadogDebugIdModule => {
  */
 export const addDebugIdModule = (
     preModules: readonly Module<MixedOutput>[],
-    debugIdModule: DatadogDebugIdModule
+    debugIdModule: OpenObserveDebugIdModule
 ): Module<MixedOutput>[] => {
     const result = [...preModules];
     const hasPrelude = result.length > 0 && result[0]?.path === '__prelude__';

@@ -19,7 +19,7 @@ type TextAndInputPrivacyLevel =
     | 'MASK_ALL';
 
 /**
- * The entry point to use Datadog's Session Replay feature.
+ * The entry point to use OpenObserve's Session Replay feature.
  */
 export interface NativeSessionReplayType extends NativeDdSessionReplay {
     /**

@@ -5,9 +5,9 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNative
-import DatadogLogs
-import DatadogInternal
+@testable import OpenObserveSDKReactNative
+import OpenObserveLogs
+import OpenObserveInternal
 
 func mockResolve(args: Any?) {}
 func mockReject(args: String?, arg: String?, err: Error?) {}
@@ -370,7 +370,7 @@ private class MockNativeLogger: LoggerProtocol {
         
     }
     
-    func log(level: DatadogLogs.LogLevel, message: String, error: Error?, attributes: [String : Encodable]?) {
+    func log(level: OpenObserveLogs.LogLevel, message: String, error: Error?, attributes: [String : Encodable]?) {
         receivedMethodCalls.append(MethodCall(
             kind: MockNativeLogger.MethodCall.Kind(from: level),
             message: message,
@@ -381,9 +381,9 @@ private class MockNativeLogger: LoggerProtocol {
         ))
     }
     
-    func addAttribute(forKey key: DatadogInternal.AttributeKey, value: DatadogInternal.AttributeValue) {}
+    func addAttribute(forKey key: OpenObserveInternal.AttributeKey, value: OpenObserveInternal.AttributeValue) {}
     
-    func removeAttribute(forKey key: DatadogInternal.AttributeKey) {}
+    func removeAttribute(forKey key: OpenObserveInternal.AttributeKey) {}
     
     func addTag(withKey key: String, value: String) {}
     
@@ -425,9 +425,9 @@ private class MockNativeLogger: LoggerProtocol {
 }
 
 extension MockNativeLogger: InternalLoggerProtocol {
-    func critical(message: String, error: (any Error)?, attributes: [String : any Encodable]?, completionHandler: @escaping DatadogInternal.CompletionHandler) {}
+    func critical(message: String, error: (any Error)?, attributes: [String : any Encodable]?, completionHandler: @escaping OpenObserveInternal.CompletionHandler) {}
     
-    func log(level: DatadogLogs.LogLevel, message: String, errorKind: String?, errorMessage: String?, stackTrace: String?, attributes: [String : Encodable]?) {
+    func log(level: OpenObserveLogs.LogLevel, message: String, errorKind: String?, errorMessage: String?, stackTrace: String?, attributes: [String : Encodable]?) {
         receivedMethodCalls.append(MethodCall(
             kind: MockNativeLogger.MethodCall.Kind(from: level),
             message: message,
@@ -440,7 +440,7 @@ extension MockNativeLogger: InternalLoggerProtocol {
 }
 
 extension MockNativeLogger.MethodCall.Kind {
-    init (from level: DatadogLogs.LogLevel) {
+    init (from level: OpenObserveLogs.LogLevel) {
         switch level {
         case .debug:
             self = .debug

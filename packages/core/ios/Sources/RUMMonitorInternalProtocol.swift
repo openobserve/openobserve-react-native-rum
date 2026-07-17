@@ -5,8 +5,8 @@
  * Copyright 2019-2020 Datadog, Inc.
  */
 
-import DatadogRUM
-import DatadogInternal
+import OpenObserveRUM
+import OpenObserveInternal
 
 public protocol RUMMonitorInternalProtocol {
     func addLongTask(
@@ -52,4 +52,4 @@ public protocol RUMMonitorInternalProtocol {
     )
 }
 
-extension DatadogInternalInterface: RUMMonitorInternalProtocol {}
+extension OpenObserveInternalInterface: RUMMonitorInternalProtocol {}

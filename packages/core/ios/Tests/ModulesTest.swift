@@ -5,7 +5,7 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNative
+@testable import OpenObserveSDKReactNative
 @testable import React
 
 class ModulesTest: XCTestCase {

@@ -1,13 +1,13 @@
 {
-  "name": "dd-sdk-reactnative",
-  "description": "A client-side React Native module to interact with Datadog",
+  "name": "openobserve-react-native-rum",
+  "description": "A client-side React Native module to interact with OpenObserve",
   "keywords": [
     "datadog",
     "react-native",
     "ios",
     "android"
   ],
-  "author": "Datadog (https://github.com/DataDog)",
+  "author": "OpenObserve (https://github.com/DataDog)",
   "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
   "repository": "https://github.com/openobserve/openobserve-react-native-rum",
   "bugs": {

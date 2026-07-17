@@ -5,7 +5,7 @@
  */
 import { OoSdkReactNative } from './OoSdkReactNative';
 import { InternalLog } from './InternalLog';
-import { DatadogProviderConfiguration } from './config/DatadogProviderConfiguration';
+import { OpenObserveProviderConfiguration } from './config/OpenObserveProviderConfiguration';
 import { FileBasedConfiguration } from './config/FileBasedConfiguration';
 import type { AutoInstrumentationConfiguration } from './config/async/AutoInstrumentationConfiguration';
 import type { PartialInitializationConfiguration } from './config/async/PartialInitializationConfiguration';
@@ -42,8 +42,8 @@ import { OoLogs } from './logs/OoLogs';
 import { OoRum } from './rum/OoRum';
 import { OoBabelInteractionTracking } from './rum/instrumentation/interactionTracking/OoBabelInteractionTracking';
 import { __ddExtractText } from './rum/instrumentation/interactionTracking/ddBabelUtils';
-import { DatadogTracingContext } from './rum/instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
-import { DatadogTracingIdentifier } from './rum/instrumentation/resourceTracking/distributedTracing/DatadogTracingIdentifier';
+import { OpenObserveTracingContext } from './rum/instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
+import { OpenObserveTracingIdentifier } from './rum/instrumentation/resourceTracking/distributedTracing/OpenObserveTracingIdentifier';
 import {
     TracingIdFormat,
     TracingIdType
@@ -57,7 +57,7 @@ import {
 } from './rum/instrumentation/resourceTracking/graphql/graphqlHeaders';
 import type { FirstPartyHost } from './rum/types';
 import { PropagatorType, RumActionType } from './rum/types';
-import { DatadogProvider } from './sdk/DatadogProvider/DatadogProvider';
+import { OpenObserveProvider } from './sdk/OpenObserveProvider/OpenObserveProvider';
 import { OoSdk } from './sdk/OoSdk';
 import { OoTrace } from './trace/OoTrace';
 import { ErrorSource, FeatureOperationFailure } from './types';
@@ -66,8 +66,8 @@ import type { Timestamp } from './utils/time-provider/TimeProvider';
 import { TimeProvider } from './utils/time-provider/TimeProvider';
 
 export {
-    DatadogProvider,
-    DatadogProviderConfiguration,
+    OpenObserveProvider,
+    OpenObserveProviderConfiguration,
     FileBasedConfiguration,
     InitializationMode,
     OoLogs,
@@ -102,8 +102,8 @@ export {
     DATADOG_GRAPH_QL_ERROR_HEADER,
     TracingIdType,
     TracingIdFormat,
-    DatadogTracingIdentifier,
-    DatadogTracingContext,
+    OpenObserveTracingIdentifier,
+    OpenObserveTracingContext,
     OoBabelInteractionTracking,
     __ddExtractText
 };

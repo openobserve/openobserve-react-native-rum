@@ -31,10 +31,10 @@ export interface TestConfig {
     command?: Command;
     scenario?: Scenario;
     runType?: RunType;
-    datadogConfig?: DatadogConfig;
+    datadogConfig?: OpenObserveConfig;
 }
 
-export interface DatadogConfig {
+export interface OpenObserveConfig {
     clientToken?: string;
     applicationID?: string;
     apiKey?: string;

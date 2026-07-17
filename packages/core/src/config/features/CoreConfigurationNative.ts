@@ -11,7 +11,7 @@ import type { RumNativeConfiguration } from './RumConfigurationNative';
 import type { TraceNativeConfiguration } from './TraceConfigurationNative';
 
 /**
- * A configuration object to initialize Datadog's features.
+ * A configuration object to initialize OpenObserve's features.
  */
 export class OoSdkNativeConfiguration {
     constructor(

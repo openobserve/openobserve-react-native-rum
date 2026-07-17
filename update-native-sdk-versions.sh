@@ -9,9 +9,9 @@ core_package_json="packages/core/package.json"
 
 # iOS podspecs
 podspec_files=(
-    "packages/core/DatadogSDKReactNative.podspec"
-    "packages/react-native-session-replay/DatadogSDKReactNativeSessionReplay.podspec"
-    "packages/react-native-webview/DatadogSDKReactNativeWebView.podspec"
+    "packages/core/OpenObserveSDKReactNative.podspec"
+    "packages/react-native-session-replay/OpenObserveSDKReactNativeSessionReplay.podspec"
+    "packages/react-native-webview/OpenObserveSDKReactNativeWebView.podspec"
 )
 
 # Android build.gradle files
@@ -83,10 +83,10 @@ else
 fi
 
 # Get iOS version
-extract_and_validate_version podspec_files[@] "dependency 'Datadog.*' *, *'" "s/.*dependency *'Datadog.*, *'\([0-9.]*\).*/\1/" "iOS" ios_version
+extract_and_validate_version podspec_files[@] "dependency 'OpenObserve.*' *, *'" "s/.*dependency *'OpenObserve.*, *'\([0-9.]*\).*/\1/" "iOS" ios_version
 
 # Get Android version
-extract_and_validate_version build_gradle_files[@] "com.datadoghq:dd-sdk-android" 's/.*:\([0-9.]*\).*/\1/' "Android" android_version
+extract_and_validate_version build_gradle_files[@] "ai.openobserve:oo-sdk-android" 's/.*:\([0-9.]*\).*/\1/' "Android" android_version
 
 # Check if NATIVE_SDK_VERSIONS.md exists, create it otherwise
 if [ ! -f "NATIVE_SDK_VERSIONS.md" ]; then

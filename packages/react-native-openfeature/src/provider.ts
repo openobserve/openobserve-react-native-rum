@@ -24,30 +24,30 @@ import type {
     ProviderEvents
 } from '@openfeature/web-sdk';
 
-export interface DatadogOpenFeatureProviderOptions {
+export interface OpenObserveOpenFeatureProviderOptions {
     /**
-     * The name of the Datadog Flags client to use.
+     * The name of the OpenObserve Flags client to use.
      *
-     * Provide this parameter in order to use different Datadog Flags clients for different OpenFeature domains.
+     * Provide this parameter in order to use different OpenObserve Flags clients for different OpenFeature domains.
      *
      * @default 'default'
      */
     clientName?: string;
 }
 
-export class DatadogOpenFeatureProvider implements Provider {
+export class OpenObserveOpenFeatureProvider implements Provider {
     readonly runsOn: Paradigm = 'client';
     readonly metadata: ProviderMetadata = {
         name: 'datadog-react-native'
     };
 
-    private options: DatadogOpenFeatureProviderOptions;
+    private options: OpenObserveOpenFeatureProviderOptions;
     private flagsClient: FlagsClient;
 
     readonly events: ProviderEventEmitter<ProviderEvents> = new OpenFeatureEventEmitter();
     private contextChangePromise = Promise.resolve();
 
-    constructor(options: DatadogOpenFeatureProviderOptions = {}) {
+    constructor(options: OpenObserveOpenFeatureProviderOptions = {}) {
         if (!options.clientName) {
             options.clientName = 'default';
         }
@@ -127,7 +127,7 @@ export class DatadogOpenFeatureProvider implements Provider {
         _logger: Logger
     ): ResolutionDetails<T> {
         // The OpenFeature spec states that the return value can be any valid JSON value.
-        // However, the Datadog Flags feature only supports JSON objects for the JSON feature flag type.
+        // However, the OpenObserve Flags feature only supports JSON objects for the JSON feature flag type.
         // Thus, the user should always expect the returned value to be an object instead of any arbitrary JSON value.
         // Also, the user is responsible for providing a proper `defaultValue` that's an object.
 

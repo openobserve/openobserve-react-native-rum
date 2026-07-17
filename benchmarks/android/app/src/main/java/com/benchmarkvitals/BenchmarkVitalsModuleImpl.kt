@@ -10,22 +10,22 @@ import android.content.Context
 import com.benchmarkrunner.BuildConfig
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableMap
-import com.datadog.android.Datadog
-import com.datadog.benchmark.DatadogVitalsMeter
-import com.datadog.benchmark.DatadogExporterConfiguration
+import com.openobserve.android.OpenObserve
+import com.openobserve.benchmark.OpenObserveVitalsMeter
+import com.openobserve.benchmark.OpenObserveExporterConfiguration
 
 private const val METER_INTERVAL_IN_SECONDS = 10L
 private const val BENCHMARK_APPLICATION_NAME = "Benchmark RN - Android Application"
 
 class BenchmarkVitalsModuleImpl(private val context: Context) {
-  internal lateinit var vitalsMeter: DatadogVitalsMeter
+  internal lateinit var vitalsMeter: OpenObserveVitalsMeter
 
   fun startCollectingVitals(config: ReadableMap, promise: Promise) {
     val runType = config.getString("runType") ?: ""
     val scenario = config.getString("scenario") ?: ""
     val apiKey = config.getString("apiKey") ?: ""
 
-    val exporterConfig = DatadogExporterConfiguration.Builder(apiKey)
+    val exporterConfig = OpenObserveExporterConfiguration.Builder(apiKey)
       .setApplicationId(BuildConfig.APPLICATION_ID)
       .setApplicationName(BENCHMARK_APPLICATION_NAME)
       .setRun(runType)
@@ -34,7 +34,7 @@ class BenchmarkVitalsModuleImpl(private val context: Context) {
       .setIntervalInSeconds(METER_INTERVAL_IN_SECONDS)
       .build()
 
-    vitalsMeter = DatadogVitalsMeter.create(exporterConfig, Datadog.getInstance())
+    vitalsMeter = OpenObserveVitalsMeter.create(exporterConfig, OpenObserve.getInstance())
     vitalsMeter.startMeasuring()
 
     promise.resolve(true)

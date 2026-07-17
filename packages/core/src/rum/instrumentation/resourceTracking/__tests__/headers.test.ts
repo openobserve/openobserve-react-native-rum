@@ -3,12 +3,12 @@
  * This product includes software developed at Datadog (https://www.datadoghq.com/).
  * Copyright 2016-Present Datadog, Inc.
  */
-import { isDatadogCustomHeader } from '../headers';
+import { isOpenObserveCustomHeader } from '../headers';
 
 describe('headers', () => {
-    describe('isDatadogCustomHeader', () => {
+    describe('isOpenObserveCustomHeader', () => {
         it('returns false for non-custom headers', () => {
-            expect(isDatadogCustomHeader('non-custom-header')).toBeFalsy();
+            expect(isOpenObserveCustomHeader('non-custom-header')).toBeFalsy();
         });
     });
 });

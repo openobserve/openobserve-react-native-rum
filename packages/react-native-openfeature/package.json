@@ -1,7 +1,7 @@
 {
     "name": "@openobserve/mobile-react-native-openfeature",
-    "version": "3.5.3",
-    "description": "A client-side React Native module to provide OpenFeature integration with Datadog Feature Flags",
+    "version": "0.1.0-alpha.2",
+    "description": "A client-side React Native module to provide OpenFeature integration with OpenObserve Feature Flags",
     "keywords": [
         "datadog",
         "react-native",
@@ -10,7 +10,7 @@
         "openfeature",
         "feature-flags"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",
@@ -38,7 +38,7 @@
         "prepare": "rm -rf lib && yarn bob build"
     },
     "devDependencies": {
-        "@openobserve/mobile-react-native": "^3.5.3",
+        "@openobserve/mobile-react-native": "^0.1.0-alpha.2",
         "@openfeature/core": "^1.9.2",
         "@openfeature/web-sdk": "^1.7.3",
         "@testing-library/react-native": "7.0.2",

@@ -1,10 +1,10 @@
 # Babel Plugin for React Native
 
-The `@openobserve/mobile-react-native-babel-plugin` enhances the Datadog React Native SDK by automatically enriching React components with contextual metadata. This helps improve the accuracy of features such as RUM Action tracking and Session Replay.
+The `@openobserve/mobile-react-native-babel-plugin` enhances the OpenObserve React Native SDK by automatically enriching React components with contextual metadata. This helps improve the accuracy of features such as RUM Action tracking and Session Replay.
 
 ## Setup
 
-**Note**: Make sure you've already integrated the [Datadog React Native SDK][1].
+**Note**: Make sure you've already integrated the [OpenObserve React Native SDK][1].
 
 To install with NPM, run:
 

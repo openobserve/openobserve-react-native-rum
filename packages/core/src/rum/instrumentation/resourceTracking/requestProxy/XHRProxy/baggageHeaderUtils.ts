@@ -55,12 +55,12 @@ export function formatBaggageHeader(entries: Set<string>): string | null {
 
         const rawKey = mainPart.slice(0, idx).trim();
         const rawValue = mainPart.slice(idx + 1).trim();
-        const isDatadogKey = isDatadogPropertyKey(rawKey);
+        const isOpenObserveKey = isOpenObservePropertyKey(rawKey);
         let encodedValue: string;
 
-        if (isDatadogKey) {
+        if (isOpenObserveKey) {
             // Only encode datadog-specific properties
-            encodedValue = isDatadogKey ? encodeValue(rawValue) : rawValue;
+            encodedValue = isOpenObserveKey ? encodeValue(rawValue) : rawValue;
         } else {
             if (!TOKEN_REGEX.test(rawKey)) {
                 InternalLog.log(
@@ -200,11 +200,11 @@ function getBaggageHeaderSafeChars(): Set<string> {
 }
 
 /**
- * Checks if the given key is a Datadog-specific baggage property key.
+ * Checks if the given key is a OpenObserve-specific baggage property key.
  * @param key the baggage property key.
- * @returns true if the key is Datadog-specific, false otherwise.
+ * @returns true if the key is OpenObserve-specific, false otherwise.
  */
-function isDatadogPropertyKey(key: string): boolean {
+function isOpenObservePropertyKey(key: string): boolean {
     return (
         key === DD_RUM_SESSION_ID_TAG ||
         key === DD_RUM_USER_ID_TAG ||

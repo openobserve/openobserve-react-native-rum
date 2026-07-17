@@ -4,10 +4,10 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 // Import this first to prevent require cycles
-#if __has_include("DatadogSDKReactNativeSessionReplay-Swift.h")
-#import <DatadogSDKReactNativeSessionReplay-Swift.h>
+#if __has_include("OpenObserveSDKReactNativeSessionReplay-Swift.h")
+#import <OpenObserveSDKReactNativeSessionReplay-Swift.h>
 #else
-#import <DatadogSDKReactNativeSessionReplay/DatadogSDKReactNativeSessionReplay-Swift.h>
+#import <OpenObserveSDKReactNativeSessionReplay/OpenObserveSDKReactNativeSessionReplay-Swift.h>
 #endif
 #import "OoSessionReplay.h"
 

@@ -5,7 +5,7 @@
 */
 
 import Foundation
-import DatadogRUM
+import OpenObserveRUM
 import React
 
 @objc
@@ -24,13 +24,13 @@ public class OoSdkSessionStartedListener: NSObject {
     @objc public private(set) var rumSessionListener: RUM.SessionListener?
     @objc public private(set) var listener: ((String) -> Void)?
 
-    private static let BRIDGE_MODULE_NAME = "DatadogInternalReactBridge"
+    private static let BRIDGE_MODULE_NAME = "OpenObserveInternalReactBridge"
     private static let BRIDGE_MODULE_METHOD = "__datadogOnMessageReceived"
     private static let BRIDGE_EVENT_NAME = "RUMSessionStarted"
     private static var _instance: OoSdkSessionStartedListener?
 
     // Process-level state — survives instance invalidate() because the JS-side
-    // DatadogInternalReactBridge registration survives bridge-lifecycle resets
+    // OpenObserveInternalReactBridge registration survives bridge-lifecycle resets
     // for the lifetime of the JS runtime / process.
     private static var isRnSdkInitialized: Bool = false
 
@@ -63,7 +63,7 @@ public class OoSdkSessionStartedListener: NSObject {
     }
 
     /// Called when the RN SDK is initialized from JS. At this point
-    /// DatadogInternalReactBridge (the JS-side callable module registered by
+    /// OpenObserveInternalReactBridge (the JS-side callable module registered by
     /// BatchedBridge.registerCallableModule) is guaranteed to be registered,
     /// so it is safe to deliver any session ID that was buffered before the
     /// bridge was usable.
@@ -91,7 +91,7 @@ public class OoSdkSessionStartedListener: NSObject {
             sendToJsWithBridge(sessionId: sessionId)
         }
         // else: bridge path is gated until JS OoSdk.initialize() runs, so that
-        // DatadogInternalReactBridge is guaranteed to be registered. The cached
+        // OpenObserveInternalReactBridge is guaranteed to be registered. The cached
         // lastSessionId will be replayed when onRnSdkInitialized() fires.
     }
 

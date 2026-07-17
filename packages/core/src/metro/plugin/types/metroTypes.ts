@@ -78,7 +78,7 @@ export type Bundle = {
  */
 export type MetroBundleWithMap = { code: string; map: string };
 
-export type DatadogMetroSerializer = (
+export type OpenObserveMetroSerializer = (
     entryPoint: string,
     preModules: ReadonlyArray<Module>,
     graph: ReadOnlyGraph,
@@ -87,7 +87,7 @@ export type DatadogMetroSerializer = (
     }
 ) => Promise<string | MetroBundleWithMap>;
 
-export type DatadogDebugIdModule = Module<MetroVirtualModuleOutput> & {
+export type OpenObserveDebugIdModule = Module<MetroVirtualModuleOutput> & {
     setSource: (code: string) => void;
 };
 

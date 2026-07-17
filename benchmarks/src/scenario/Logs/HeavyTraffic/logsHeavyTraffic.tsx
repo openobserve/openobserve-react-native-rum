@@ -22,7 +22,7 @@ function LogsHeavyTrafficScenario(props: LogsHeavyTrafficScenarioProps): React.J
 
     return (
       <Pressable onPress={() => navigation.navigate('Config' as never)}>
-        <Text style={{color: Colors.DatadogPurple}}>{"Config"}</Text>
+        <Text style={{color: Colors.OpenObservePurple}}>{"Config"}</Text>
       </Pressable>
     );
   }
@@ -34,7 +34,7 @@ function LogsHeavyTrafficScenario(props: LogsHeavyTrafficScenarioProps): React.J
   const RootStack = createNativeStackNavigator({
     initialRouteName: "ImageList",
     screenOptions: {
-      headerTintColor: Colors.DatadogPurple,
+      headerTintColor: Colors.OpenObservePurple,
       headerTitleAlign: 'left',
       headerTitleStyle: {
         fontSize: 22,

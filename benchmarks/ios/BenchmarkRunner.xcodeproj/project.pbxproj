@@ -332,8 +332,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/DatadogCore\"",
-					"\"${PODS_ROOT}/Headers/Public/DatadogSDKReactNative\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenObserveCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenObserveSDKReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
 					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
@@ -413,8 +413,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.datadog.react.native.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.datadog.react.native.BenchmarkRunner;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openobserve.react.native.--PRODUCT-NAME-rfc1034identifier-";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.openobserve.react.native.BenchmarkRunner;
 				PRODUCT_NAME = BenchmarkRunner;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -435,8 +435,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/DatadogCore\"",
-					"\"${PODS_ROOT}/Headers/Public/DatadogSDKReactNative\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenObserveCore\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenObserveSDKReactNative\"",
 					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
 					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
 					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
@@ -516,8 +516,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.datadog.react.native.--PRODUCT-NAME-rfc1034identifier-";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.datadog.react.native.BenchmarkRunner;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.openobserve.react.native.--PRODUCT-NAME-rfc1034identifier-";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.openobserve.react.native.BenchmarkRunner;
 				PRODUCT_NAME = BenchmarkRunner;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

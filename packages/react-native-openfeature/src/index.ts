@@ -4,8 +4,8 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { DatadogOpenFeatureProvider } from './provider';
-import type { DatadogOpenFeatureProviderOptions } from './provider';
+import { OpenObserveOpenFeatureProvider } from './provider';
+import type { OpenObserveOpenFeatureProviderOptions } from './provider';
 
-export { DatadogOpenFeatureProvider };
-export type { DatadogOpenFeatureProviderOptions };
+export { OpenObserveOpenFeatureProvider };
+export type { OpenObserveOpenFeatureProviderOptions };

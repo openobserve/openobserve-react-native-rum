@@ -14,7 +14,7 @@ export enum Colors {
     Black = '#000000',
     Grey = '#EEEEEF',
     DarkGrey = '#9E9E9F',
-    DatadogPurple = '#BC72E4',
+    OpenObservePurple = '#BC72E4',
     Background = '#F2F2F7',
     Title = '#AFAFA0',
 }
@@ -87,7 +87,7 @@ export const CommonStyles = StyleSheet.create({
         marginRight: 20,
     },
     buttonWrapper: {
-        backgroundColor: Colors.DatadogPurple,
+        backgroundColor: Colors.OpenObservePurple,
         borderRadius: 10,
         padding: 5,
         marginBottom: 20,
@@ -201,7 +201,7 @@ export const CommonStyles = StyleSheet.create({
     },
     uiElementArrow: {
         flex: 0.1,
-        color: Colors.DatadogPurple,
+        color: Colors.OpenObservePurple,
         fontSize: 25,
     },
     sessionReplayView: {
@@ -238,7 +238,7 @@ export const CommonStyles = StyleSheet.create({
         height: 350,
     },
     sessionReplayText: {
-        color: Colors.DatadogPurple,
+        color: Colors.OpenObservePurple,
         fontSize: 16,
         textAlign: 'left',
         marginVertical: 10,
@@ -254,7 +254,7 @@ export const CommonStyles = StyleSheet.create({
         textAlign: 'right',
     },
     sessionReplayTextSpaced: {
-        color: Colors.DatadogPurple,
+        color: Colors.OpenObservePurple,
         letterSpacing: 10,
         lineHeight: 25,
     },
@@ -271,7 +271,7 @@ export const CommonStyles = StyleSheet.create({
     },
     sessionReplayButton: {
         marginVertical: 20,
-        backgroundColor: Colors.DatadogPurple,
+        backgroundColor: Colors.OpenObservePurple,
         width: '80%',
         padding: 20,
         borderRadius: 15,
@@ -301,7 +301,7 @@ export const CommonStyles = StyleSheet.create({
         width: SCR_WIDTH,
     },
     sessionReplaySectionListItem: {
-        backgroundColor: Colors.DatadogPurple,
+        backgroundColor: Colors.OpenObservePurple,
         padding: 20,
         marginVertical: 8,
     },

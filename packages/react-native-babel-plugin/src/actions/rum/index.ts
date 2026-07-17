@@ -509,7 +509,7 @@ export function setContentAttribute(
  * Scans a JSXElement and derives:
  *   - `actionPathList`: attribute paths to wrap (based on configured handler names)
  *   - `actionPathNames`: the corresponding attribute names
- *   - `ddValues`: arrays of Datadog-specific attributes (e.g., data-dd-action-name),
+ *   - `ddValues`: arrays of OpenObserve-specific attributes (e.g., data-dd-action-name),
  *                and an `options` object based on the tracked component config
  *
  * @param componentName  Host component name to look up handlers/flags.
@@ -614,7 +614,7 @@ export function getJSXElementActionPaths(
 }
 
 /**
- * Wraps a specific JSXAttribute (e.g., onPress, onLongPress, onCustomAction) with the Datadog RUM handler.
+ * Wraps a specific JSXAttribute (e.g., onPress, onLongPress, onCustomAction) with the OpenObserve RUM handler.
  *
  * @param t                 Babel types helper.
  * @param path              Attribute path to wrap.

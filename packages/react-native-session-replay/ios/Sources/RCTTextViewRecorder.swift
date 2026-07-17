@@ -4,7 +4,7 @@
  * Copyright 2019-Present Datadog, Inc.
  */
 
-@_spi(Internal) import DatadogSessionReplay
+@_spi(Internal) import OpenObserveSessionReplay
 import React
 import UIKit
 

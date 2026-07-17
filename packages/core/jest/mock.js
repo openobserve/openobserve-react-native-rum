@@ -8,20 +8,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const React = require('react');
 
-const actualDatadog = jest.requireActual('@openobserve/mobile-react-native');
+const actualOpenObserve = jest.requireActual('@openobserve/mobile-react-native');
 
 /**
  * Explicitly mocking the provider prevents auto-instrumentation in tests.
  * This prevents errors in tests to be logged in the console, as well as needing
  * to mock XMLHttpRequest.
  */
-const DatadogProviderMock = ({ children }) => {
+const OpenObserveProviderMock = ({ children }) => {
     return <>{children}</>;
 };
-DatadogProviderMock.initialize = jest.fn().mockResolvedValue();
+OpenObserveProviderMock.initialize = jest.fn().mockResolvedValue();
 
 module.exports = {
-    ...actualDatadog,
+    ...actualOpenObserve,
     OoSdkReactNative: {
         initialize: jest
             .fn()
@@ -170,7 +170,7 @@ module.exports = {
         generateTraceId: jest.fn().mockReturnValue('mock-trace-id'),
         generateSpanId: jest.fn().mockReturnValue('mock-span-id')
     },
-    DatadogProvider: DatadogProviderMock,
+    OpenObserveProvider: OpenObserveProviderMock,
     OoSdk: {
         initialize: jest
             .fn()

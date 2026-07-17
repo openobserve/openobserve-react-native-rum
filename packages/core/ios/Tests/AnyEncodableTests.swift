@@ -5,8 +5,8 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNative
-@testable import DatadogInternal
+@testable import OpenObserveSDKReactNative
+@testable import OpenObserveInternal
 
 internal class AnyEncodableTests: XCTestCase {
     // MARK: - Casting attributes

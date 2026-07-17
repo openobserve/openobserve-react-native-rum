@@ -4,7 +4,7 @@
 * Copyright 2019-2020 Datadog, Inc.
 */
 
-import DatadogInternal
+import OpenObserveInternal
 import Foundation
 
 internal func castAttributesToSwift(_ attributes: NSDictionary) -> [String: Encodable] {

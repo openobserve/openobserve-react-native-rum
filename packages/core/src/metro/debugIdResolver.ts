@@ -8,7 +8,7 @@
 let debugId: any | null = null;
 
 /**
- * Loads the Datadog Debug ID dynamically
+ * Loads the OpenObserve Debug ID dynamically
  */
 function loadDebugId() {
     if (typeof globalThis === 'undefined') {
@@ -23,7 +23,7 @@ function loadDebugId() {
         if (!hasDebugId) {
             if (shouldWarn) {
                 console.warn(
-                    '[Datadog SDK] Debug ID not found. Are you using @openobserve/mobile-react-native/metro config?'
+                    '[OpenObserve SDK] Debug ID not found. Are you using @openobserve/mobile-react-native/metro config?'
                 );
             }
             return;
@@ -33,7 +33,7 @@ function loadDebugId() {
     } catch (error) {
         if (shouldWarn) {
             console.warn(
-                '[Datadog SDK] Error while retrieving Debug ID. Are you using @openobserve/mobile-react-native/metro config?'
+                '[OpenObserve SDK] Error while retrieving Debug ID. Are you using @openobserve/mobile-react-native/metro config?'
             );
         }
     }

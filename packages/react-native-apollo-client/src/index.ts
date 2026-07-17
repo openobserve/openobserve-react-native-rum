@@ -4,4 +4,4 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-export { DatadogLink } from './DatadogLink';
+export { OpenObserveLink } from './OpenObserveLink';

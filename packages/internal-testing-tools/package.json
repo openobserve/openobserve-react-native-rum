@@ -1,14 +1,14 @@
 {
     "name": "@openobserve/react-native-internal-testing-tools",
-    "version": "3.5.3",
-    "description": "Internal tools for testing the Datadog React Native SDK.",
+    "version": "0.1.0-alpha.2",
+    "description": "Internal tools for testing the OpenObserve React Native SDK.",
     "keywords": [
         "datadog",
         "react-native",
         "ios",
         "android"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {
@@ -25,10 +25,10 @@
         "android/gradle.properties",
         "android/src/**",
         "ios/Sources/**",
-        "ios/DatadogInternalTesting.xcodeproj/project.xcworkspace/xcsharedata",
-        "ios/DatadogInternalTesting.xcodeproj/project.xcworkspace/*.xcworkspacedata",
-        "ios/DatadogInternalTesting.xcodeproj/*.pbxproj",
-        "DatadogInternalTesting.podspec"
+        "ios/OpenObserveInternalTesting.xcodeproj/project.xcworkspace/xcsharedata",
+        "ios/OpenObserveInternalTesting.xcodeproj/project.xcworkspace/*.xcworkspacedata",
+        "ios/OpenObserveInternalTesting.xcodeproj/*.pbxproj",
+        "OpenObserveInternalTesting.podspec"
     ],
     "types": "lib/typescript/index.d.ts",
     "react-native": "src/index",
@@ -90,7 +90,7 @@
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {
-            "javaPackageName": "com.datadog.reactnative.internaltesting"
+            "javaPackageName": "com.openobserve.reactnative.internaltesting"
         }
     },
     "dependencies": {

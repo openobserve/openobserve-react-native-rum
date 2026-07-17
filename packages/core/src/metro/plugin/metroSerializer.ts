@@ -18,8 +18,8 @@ import {
 } from './debugIdHelper';
 import type {
     Bundle,
-    DatadogDebugIdModule,
-    DatadogMetroSerializer,
+    OpenObserveDebugIdModule,
+    OpenObserveMetroSerializer,
     MetroSerializer,
     MixedOutput,
     Module,
@@ -40,9 +40,9 @@ import {
  * @param customSerializer - Optional custom {@link MetroSerializer}. If provided, you are responsible
  * for invoking `options.datadogBundleCallback` within it.
  */
-export const createDatadogMetroSerializer = (
+export const createOpenObserveMetroSerializer = (
     customSerializer?: MetroSerializer
-): DatadogMetroSerializer => {
+): OpenObserveMetroSerializer => {
     const serializer = customSerializer || createDefaultMetroSerializer();
     return async (entryPoint, preModules, graph, options) => {
         // Skip for hot reload mode, web builds and modulesOnly bundles
@@ -63,7 +63,7 @@ export const createDatadogMetroSerializer = (
         const debugIdModule = createDebugIdModule(DEBUG_ID_PLACEHOLDER);
 
         // Set the datadogBundleCallback in the options, to be used later by the serializer
-        options.datadogBundleCallback = createDatadogBundleCallback(
+        options.datadogBundleCallback = createOpenObserveBundleCallback(
             debugIdModule
         );
 
@@ -146,8 +146,8 @@ export const createDefaultMetroSerializer = (): MetroSerializer => {
  * @param debugIdModule - The virtual Debug ID module
  * @returns The bundle callback
  */
-export const createDatadogBundleCallback = (
-    debugIdModule: DatadogDebugIdModule
+export const createOpenObserveBundleCallback = (
+    debugIdModule: OpenObserveDebugIdModule
 ) => {
     return (bundle: Bundle) => {
         const debugId = createDebugIdFromBundle(bundle);

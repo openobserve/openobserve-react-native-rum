@@ -92,7 +92,7 @@ coverage
 # Auto-generated iOS Header
 packages/react-native-session-replay/ios/Sources/RCTVersion.h
 
-# Datadog temporary files
+# OpenObserve temporary files
 .tmp
 *.tgz
 

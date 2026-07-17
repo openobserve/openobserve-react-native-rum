@@ -7,6 +7,6 @@
 export const DATADOG_CUSTOM_HEADER_PREFIX = '_oo-custom-header';
 export const DATADOG_BAGGAGE_HEADER = `${DATADOG_CUSTOM_HEADER_PREFIX}-baggage`;
 
-export const isDatadogCustomHeader = (header: string) => {
+export const isOpenObserveCustomHeader = (header: string) => {
     return header.match(new RegExp(`^${DATADOG_CUSTOM_HEADER_PREFIX}`));
 };

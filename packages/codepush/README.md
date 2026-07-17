@@ -18,11 +18,11 @@ yarn add @openobserve/mobile-react-native-code-push
 
 ## Initialize the SDK
 
-To initialize the Datadog React Native SDK for RUM, use `DatadogCodepush.initialize` instead of `OoSdkReactNative.initialize`:
+To initialize the OpenObserve React Native SDK for RUM, use `OpenObserveCodepush.initialize` instead of `OoSdkReactNative.initialize`:
 
 ```js
 import { OoSdkReactNativeConfiguration } from '@openobserve/mobile-react-native';
-import { DatadogCodepush } from '@openobserve/mobile-react-native-code-push';
+import { OpenObserveCodepush } from '@openobserve/mobile-react-native-code-push';
 
 const config = new OoSdkReactNativeConfiguration(
     '<CLIENT_TOKEN>',
@@ -33,7 +33,7 @@ const config = new OoSdkReactNativeConfiguration(
     true // track errors
 );
 
-await DatadogCodepush.initialize(config);
+await OpenObserveCodepush.initialize(config);
 ```
 
 This method sets your reported version to the same value as the one the [`datadog-ci react-native codepush` command][3] uses when uploading your CodePush bundle and source maps.

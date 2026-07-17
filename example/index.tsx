@@ -9,7 +9,7 @@ import App from './src/App';
 import {startReactNativeNavigation} from './src/WixApp';
 import {name as appName} from './app.json';
 import {navigation as navigationLib} from './app.json';
-import {initializeDatadog} from './src/ddUtils';
+import {initializeOpenObserve} from './src/ddUtils';
 import {TrackingConsent} from '@openobserve/mobile-react-native';
 import {Navigation} from 'react-native-navigation';
 
@@ -39,6 +39,6 @@ if (navigationLib == 'react-navigation') {
     });
   });
 } else if (navigationLib == 'react-native-navigation') {
-  initializeDatadog(TrackingConsent.GRANTED);
+  initializeOpenObserve(TrackingConsent.GRANTED);
   startReactNativeNavigation();
 }

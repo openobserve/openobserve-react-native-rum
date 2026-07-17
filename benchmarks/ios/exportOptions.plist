@@ -4,7 +4,7 @@
     <dict>
         <key>provisioningProfiles</key>
         <dict>
-            <key>com.datadog.react.native.BenchmarkRunner</key>
+            <key>com.openobserve.react.native.BenchmarkRunner</key>
             <string>React Native SDK Benchmark App</string>
         </dict>
         <key>uploadBitcode</key>

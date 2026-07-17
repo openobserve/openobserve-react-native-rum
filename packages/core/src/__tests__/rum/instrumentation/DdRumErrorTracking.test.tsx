@@ -8,7 +8,7 @@ import { NativeModules } from 'react-native';
 
 import type { OoNativeRumType } from '../../../nativeModulesTypes';
 import { OoRumErrorTracking } from '../../../rum/instrumentation/OoRumErrorTracking';
-import { BufferSingleton } from '../../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 
 jest.mock('../../../utils/jsUtils');
 

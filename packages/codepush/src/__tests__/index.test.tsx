@@ -10,10 +10,10 @@ jest.mock('react-native-code-push', () => ({
 jest.mock('@openobserve/mobile-react-native', () => {
     const actualPackage = jest.requireActual('@openobserve/mobile-react-native');
     actualPackage.OoSdkReactNative.initialize = jest.fn();
-    actualPackage.OoSdkReactNative._enableFeaturesFromDatadogProvider = jest.fn();
-    actualPackage.OoSdkReactNative._enableFeaturesFromDatadogProviderAsync = jest.fn();
-    actualPackage.OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync = jest.fn();
-    actualPackage.OoSdkReactNative._initializeFromDatadogProvider = jest.fn();
+    actualPackage.OoSdkReactNative._enableFeaturesFromOpenObserveProvider = jest.fn();
+    actualPackage.OoSdkReactNative._enableFeaturesFromOpenObserveProviderAsync = jest.fn();
+    actualPackage.OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync = jest.fn();
+    actualPackage.OoSdkReactNative._initializeFromOpenObserveProvider = jest.fn();
     return actualPackage;
 });
 
@@ -42,7 +42,7 @@ describe('AppCenter Codepush integration', () => {
             unknown
         >;
         const providerState = _globalThis[
-            Symbol.for('com.datadog.reactnative.rum.datadog_provider_state')
+            Symbol.for('com.openobserve.reactnative.rum.datadog_provider_state')
         ] as
             | {
                   _reset: () => void;
@@ -54,7 +54,7 @@ describe('AppCenter Codepush integration', () => {
     describe('initialize', () => {
         it('initializes the SDK with the correct version when using a CodePush bundle', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepush } = require('..');
+            const { OpenObserveCodepush } = require('..');
             const {
                 CoreConfiguration,
                 RumConfiguration,
@@ -73,7 +73,7 @@ describe('AppCenter Codepush integration', () => {
                 true
             );
 
-            await DatadogCodepush.initialize(configuration);
+            await OpenObserveCodepush.initialize(configuration);
 
             expect(OoSdkReactNative.initialize).toHaveBeenCalledTimes(1);
             expect(OoSdkReactNative.initialize).toHaveBeenCalledWith(
@@ -83,7 +83,7 @@ describe('AppCenter Codepush integration', () => {
 
         it('initializes the SDK with the correct version when not using a CodePush bundle', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepush } = require('..');
+            const { OpenObserveCodepush } = require('..');
             const {
                 CoreConfiguration,
                 RumConfiguration,
@@ -102,7 +102,7 @@ describe('AppCenter Codepush integration', () => {
                 true
             );
 
-            await DatadogCodepush.initialize(configuration);
+            await OpenObserveCodepush.initialize(configuration);
 
             expect(OoSdkReactNative.initialize).toHaveBeenCalledTimes(1);
             expect(
@@ -115,17 +115,17 @@ describe('AppCenter Codepush integration', () => {
         });
     });
 
-    describe('DatadogCodepushProvider', () => {
+    describe('OpenObserveCodepushProvider', () => {
         beforeEach(() => {
             jest.clearAllMocks();
             jest.resetModules();
         });
 
-        it('initializes the sdk with the right codepush version when using DatadogProviderConfiguration', async () => {
+        it('initializes the sdk with the right codepush version when using OpenObserveProviderConfiguration', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepushProvider } = require('..');
+            const { OpenObserveCodepushProvider } = require('..');
             const {
-                DatadogProviderConfiguration,
+                OpenObserveProviderConfiguration,
                 RumConfiguration,
                 OoSdkReactNative
             } = require('@openobserve/mobile-react-native');
@@ -134,7 +134,7 @@ describe('AppCenter Codepush integration', () => {
                 typeof codePush.getUpdateMetadata
             >).mockResolvedValueOnce(createCodepushPackageMock('v4'));
 
-            const configuration = new DatadogProviderConfiguration(
+            const configuration = new OpenObserveProviderConfiguration(
                 'token',
                 'env'
             );
@@ -144,21 +144,21 @@ describe('AppCenter Codepush integration', () => {
                 true,
                 true
             );
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledWith(
                 expect.objectContaining({ versionSuffix: 'codepush.v4' })
             );
         });
         it('initializes the sdk with the right codepush version when using partial configuration', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepushProvider } = require('..');
+            const { OpenObserveCodepushProvider } = require('..');
             const {
                 OoSdkReactNative
             } = require('@openobserve/mobile-react-native');
@@ -172,13 +172,13 @@ describe('AppCenter Codepush integration', () => {
                 trackInteractions: true,
                 trackResources: true
             };
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).not.toHaveBeenCalled();
 
-            DatadogCodepushProvider.initialize({
+            OpenObserveCodepushProvider.initialize({
                 applicationId: 'fake-application-id',
                 clientToken: 'fake-client-token',
                 env: 'fake-env'
@@ -186,20 +186,20 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledWith(
                 expect.objectContaining({ versionSuffix: 'codepush.v5' })
             );
         });
 
-        it('initializes the sdk with commercial version when using DatadogProviderConfiguration', async () => {
+        it('initializes the sdk with commercial version when using OpenObserveProviderConfiguration', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepushProvider } = require('..');
+            const { OpenObserveCodepushProvider } = require('..');
             const {
-                DatadogProviderConfiguration,
+                OpenObserveProviderConfiguration,
                 RumConfiguration,
                 OoSdkReactNative
             } = require('@openobserve/mobile-react-native');
@@ -208,7 +208,7 @@ describe('AppCenter Codepush integration', () => {
                 typeof codePush.getUpdateMetadata
             >).mockResolvedValueOnce(createCodepushPackageMock(null));
 
-            const configuration = new DatadogProviderConfiguration(
+            const configuration = new OpenObserveProviderConfiguration(
                 'token',
                 'env'
             );
@@ -219,23 +219,23 @@ describe('AppCenter Codepush integration', () => {
                 true,
                 true
             );
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
                 Object.keys(
-                    (OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync as jest.MockedFunction<
-                        typeof OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                    (OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
+                        typeof OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
                     >).mock.calls[0]
                 )
             ).not.toContain('versionSuffix');
         });
         it('initializes the sdk with commercial version when using partial configuration', async () => {
             const codePush = require('react-native-code-push');
-            const { DatadogCodepushProvider } = require('..');
+            const { OpenObserveCodepushProvider } = require('..');
             const {
                 OoSdkReactNative
             } = require('@openobserve/mobile-react-native');
@@ -249,13 +249,13 @@ describe('AppCenter Codepush integration', () => {
                 trackInteractions: true,
                 trackResources: true
             };
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).not.toHaveBeenCalled();
 
-            DatadogCodepushProvider.initialize({
+            OpenObserveCodepushProvider.initialize({
                 clientToken: 'fake-client-token',
                 env: 'fake-env',
                 rumConfiguration: {
@@ -265,19 +265,19 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
                 Object.keys(
-                    (OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync as jest.MockedFunction<
-                        typeof OoSdkReactNative._initializeFromDatadogProviderWithConfigurationAsync
+                    (OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
+                        typeof OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
                     >).mock.calls[0]
                 )
             ).not.toContain('versionSuffix');
         });
 
-        it('initializes the DatadogProvider with FileBasedConfiguration & all parameters', async () => {
-            const { DatadogCodepushProvider } = require('..');
+        it('initializes the OpenObserveProvider with FileBasedConfiguration & all parameters', async () => {
+            const { OpenObserveCodepushProvider } = require('..');
             const {
                 OoSdkReactNative,
                 PropagatorType,
@@ -313,16 +313,16 @@ describe('AppCenter Codepush integration', () => {
                 configuration: autoInstrumentationConfig
             });
 
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
 
             await flushPromises();
             await waitFor(() => {
                 expect(
-                    OoSdkReactNative._enableFeaturesFromDatadogProvider
+                    OoSdkReactNative._enableFeaturesFromOpenObserveProvider
                 ).toHaveBeenCalledTimes(1);
             });
             expect(
-                OoSdkReactNative._enableFeaturesFromDatadogProvider
+                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
             ).toHaveBeenCalledWith({
                 rumConfiguration: {
                     useAccessibilityLabel: true,
@@ -350,7 +350,7 @@ describe('AppCenter Codepush integration', () => {
             });
 
             expect(
-                OoSdkReactNative._enableFeaturesFromDatadogProvider
+                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
             ).not.toHaveBeenCalledWith(
                 expect.objectContaining({
                     clientToken: expect.anything(),
@@ -360,8 +360,8 @@ describe('AppCenter Codepush integration', () => {
             );
         });
 
-        it('initializes the DatadogProvider with FileBasedConfiguration & undefined parameters', async () => {
-            const { DatadogCodepushProvider } = require('..');
+        it('initializes the OpenObserveProvider with FileBasedConfiguration & undefined parameters', async () => {
+            const { OpenObserveCodepushProvider } = require('..');
             const {
                 OoSdkReactNative,
                 FileBasedConfiguration
@@ -379,16 +379,16 @@ describe('AppCenter Codepush integration', () => {
                 configuration: autoInstrumentationConfig
             });
 
-            render(<DatadogCodepushProvider configuration={configuration} />);
+            render(<OpenObserveCodepushProvider configuration={configuration} />);
 
             await flushPromises();
             await waitFor(() => {
                 expect(
-                    OoSdkReactNative._enableFeaturesFromDatadogProvider
+                    OoSdkReactNative._enableFeaturesFromOpenObserveProvider
                 ).toHaveBeenCalledTimes(1);
             });
             expect(
-                OoSdkReactNative._enableFeaturesFromDatadogProvider
+                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
             ).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
@@ -410,7 +410,7 @@ describe('AppCenter Codepush integration', () => {
             );
 
             expect(
-                OoSdkReactNative._enableFeaturesFromDatadogProvider
+                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
             ).not.toHaveBeenCalledWith(
                 expect.objectContaining({
                     clientToken: expect.anything(),

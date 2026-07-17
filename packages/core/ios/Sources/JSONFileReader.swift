@@ -5,7 +5,7 @@
  */
 
 import Foundation
-import DatadogInternal
+import OpenObserveInternal
 
 public class JSONFileReader: ResourceFileReader {
     public func parseResourceFile(resourcePath: String) -> Any? {

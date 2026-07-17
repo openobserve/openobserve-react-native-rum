@@ -20,7 +20,7 @@ export interface Spec extends TurboModule {
     readonly getConstants: () => {};
 
     /**
-     * Initializes Datadog's features.
+     * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
     initialize(configuration: Object): Promise<void>;
@@ -122,7 +122,7 @@ export interface Spec extends TurboModule {
     consumeWebviewEvent(message: string): Promise<void>;
 
     /**
-     * Clears all data that has not already been sent to Datadog servers
+     * Clears all data that has not already been sent to OpenObserve servers
      */
     clearAllData(): Promise<void>;
 

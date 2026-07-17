@@ -10,7 +10,7 @@ import { SdkVerbosity } from '../config/types/SdkVerbosity';
 import { debugId } from '../metro/debugIdResolver';
 import type { OoNativeLogsType } from '../nativeModulesTypes';
 import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
-import { bufferVoidNativeCall } from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
+import { bufferVoidNativeCall } from '../sdk/OpenObserveProvider/Buffer/bufferNativeCall';
 import type { ErrorSource, LogEventMapper } from '../types';
 import { getGlobalInstance } from '../utils/singletonUtils';
 
@@ -23,7 +23,7 @@ import type {
     RawLogWithError
 } from './types';
 
-const LOGS_MODULE = 'com.datadog.reactnative.logs';
+const LOGS_MODULE = 'com.openobserve.reactnative.logs';
 
 const generateEmptyPromise = () => new Promise<void>(resolve => resolve());
 

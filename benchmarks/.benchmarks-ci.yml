@@ -69,7 +69,7 @@ build-and-upload:app:
 
     - echo $(pwd)
 
-    # Datadog SDK - Yarn install
+    # OpenObserve SDK - Yarn install
     - echo "Installing DDSDK dependencies"
     - yarn install
 

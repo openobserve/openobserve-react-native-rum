@@ -1,6 +1,6 @@
 # TROUBLESHOOTING
 
-### No data is being sent to Datadog
+### No data is being sent to OpenObserve
 
 See the [dedicated troubleshooting guide](./docs/troubleshooting_no_data.md).
 
@@ -13,7 +13,7 @@ If you have the following error message:
 ```
 Undefined symbols for architecture x86_64:
   "static Foundation.JSONEncoder.OutputFormatting.withoutEscapingSlashes.getter : Foundation.JSONEncoder.OutputFormatting", referenced from:
-      static (extension in Datadog):Foundation.JSONEncoder.default() -> Foundation.JSONEncoder in libDatadogSDK.a(JSONEncoder.o)
+      static (extension in OpenObserve):Foundation.JSONEncoder.default() -> Foundation.JSONEncoder in libOpenObserveSDK.a(JSONEncoder.o)
 ...
 ```
 

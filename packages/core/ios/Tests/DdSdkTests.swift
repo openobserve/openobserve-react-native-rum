@@ -6,13 +6,13 @@
 
 import XCTest
 
-@testable import DatadogCore
-@testable import DatadogCrashReporting
-@testable import DatadogInternal
-@testable import DatadogLogs
-@testable import DatadogRUM
-@testable import DatadogSDKReactNative
-@testable import DatadogTrace
+@testable import OpenObserveCore
+@testable import OpenObserveCrashReporting
+@testable import OpenObserveInternal
+@testable import OpenObserveLogs
+@testable import OpenObserveRUM
+@testable import OpenObserveSDKReactNative
+@testable import OpenObserveTrace
 
 final class DispatchQueueMock: DispatchQueueType {
     func async(execute work: @escaping @convention(block) () -> Void) {
@@ -34,8 +34,8 @@ class OoSdkTests: XCTestCase {
     private func mockReject(args _: String?, arg _: String?, err _: Error?) {}
 
     override func tearDown() {
-        DatadogSDKWrapper.shared.onSdkInitializedListeners = []
-        Datadog.internalFlushAndDeinitialize()
+        OpenObserveSDKWrapper.shared.onSdkInitializedListeners = []
+        OpenObserve.internalFlushAndDeinitialize()
     }
 
     func testSDKInitialization() {
@@ -76,14 +76,14 @@ class OoSdkTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            consoleMessage, "Datadog SDK is already initialized, skipping initialization.")
+            consoleMessage, "OpenObserve SDK is already initialized, skipping initialization.")
     }
 
     func testResolvesPromiseAfterInitializationIsDone() throws {
         let bridge = DispatchQueueMock()
         let mockJSRefreshRateMonitor = MockJSRefreshRateMonitor()
         let mockListener = MockOnSdkInitializedListener()
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: mockListener.listener)
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: mockListener.listener)
 
         let expectation = self.expectation(description: "Listener is called when promise resolves")
         func mockPromiseResolve(_: Any?) {
@@ -188,7 +188,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertEqual(Datadog.verbosityLevel, CoreLoggerLevel.debug)
+        XCTAssertEqual(OpenObserve.verbosityLevel, CoreLoggerLevel.debug)
     }
 
     func testSDKInitializationWithVerbosityInfo() {
@@ -206,7 +206,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertEqual(Datadog.verbosityLevel, CoreLoggerLevel.debug)
+        XCTAssertEqual(OpenObserve.verbosityLevel, CoreLoggerLevel.debug)
     }
 
     func testSDKInitializationWithVerbosityWarn() {
@@ -224,7 +224,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertEqual(Datadog.verbosityLevel, CoreLoggerLevel.warn)
+        XCTAssertEqual(OpenObserve.verbosityLevel, CoreLoggerLevel.warn)
     }
 
     func testSDKInitializationWithVerbosityError() {
@@ -242,7 +242,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertEqual(Datadog.verbosityLevel, CoreLoggerLevel.error)
+        XCTAssertEqual(OpenObserve.verbosityLevel, CoreLoggerLevel.error)
     }
 
     func testSDKInitializationWithVerbosityNil() {
@@ -260,7 +260,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertNil(Datadog.verbosityLevel)
+        XCTAssertNil(OpenObserve.verbosityLevel)
     }
 
     func testSDKInitializationWithVerbosityUnknown() {
@@ -278,16 +278,16 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertNil(Datadog.verbosityLevel)
+        XCTAssertNil(OpenObserve.verbosityLevel)
     }
 
     func testSDKInitializationWithOnInitializedCallback() {
         var isInitialized = false
-        var coreFromCallback: DatadogCoreProtocol? = nil
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: {
+        var coreFromCallback: OpenObserveCoreProtocol? = nil
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: {
             core in
             coreFromCallback = core
-            isInitialized = Datadog.isInitialized()
+            isInitialized = OpenObserve.isInitialized()
         })
 
         OoSdkImplementation(
@@ -306,7 +306,7 @@ class OoSdkTests: XCTestCase {
     }
 
     func testEnableAllFeatures() {
-        let core = MockDatadogCore()
+        let core = MockOpenObserveCore()
         CoreRegistry.register(default: core)
         defer { CoreRegistry.unregisterDefault() }
 
@@ -477,7 +477,7 @@ class OoSdkTests: XCTestCase {
     }
 
     func testBuildConfigurationNoCrashReportByDefault() {
-        let core = MockDatadogCore()
+        let core = MockOpenObserveCore()
         let rumConfiguration = makeDefaultRumConfiguration()
         rumConfiguration.nativeCrashReportEnabled = nil
         let configuration: OoSdkConfiguration = .mockAny(rumConfiguration: rumConfiguration)
@@ -490,7 +490,7 @@ class OoSdkTests: XCTestCase {
     }
 
     func testBuildConfigurationNoCrashReport() {
-        let core = MockDatadogCore()
+        let core = MockOpenObserveCore()
         let rumConfiguration = makeDefaultRumConfiguration()
         rumConfiguration.nativeCrashReportEnabled = false
         let configuration: OoSdkConfiguration = .mockAny(rumConfiguration: rumConfiguration)
@@ -503,7 +503,7 @@ class OoSdkTests: XCTestCase {
     }
 
     func testBuildConfigurationWithCrashReport() {
-        let core = MockDatadogCore()
+        let core = MockOpenObserveCore()
         CoreRegistry.register(default: core)
         defer { CoreRegistry.unregisterDefault() }
 
@@ -600,7 +600,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        let ddContext = try XCTUnwrap(CoreRegistry.default as? DatadogCore).contextProvider.read()
+        let ddContext = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).contextProvider.read()
         let userInfo = try XCTUnwrap(ddContext.userInfo)
 
         XCTAssertEqual(userInfo.id, "id_123")
@@ -663,7 +663,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        let ddContext = try XCTUnwrap(CoreRegistry.default as? DatadogCore).contextProvider.read()
+        let ddContext = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).contextProvider.read()
         let userInfo = try XCTUnwrap(ddContext.userInfo)
 
         XCTAssertEqual(userInfo.id, "id_123")
@@ -717,7 +717,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        var ddContext = try XCTUnwrap(CoreRegistry.default as? DatadogCore).contextProvider.read()
+        var ddContext = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).contextProvider.read()
         var userInfo = try XCTUnwrap(ddContext.userInfo)
 
         XCTAssertEqual(userInfo.id, "id_123")
@@ -738,7 +738,7 @@ class OoSdkTests: XCTestCase {
 
         bridge.clearUserInfo(resolve: mockResolve, reject: mockReject)
 
-        ddContext = try XCTUnwrap(CoreRegistry.default as? DatadogCore).contextProvider.read()
+        ddContext = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).contextProvider.read()
         userInfo = try XCTUnwrap(ddContext.userInfo)
 
         XCTAssertEqual(userInfo.id, nil)
@@ -1430,21 +1430,21 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        let logsFeature = try XCTUnwrap(CoreRegistry.default as? DatadogCore).get(
+        let logsFeature = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).get(
             feature: LogsFeature.self)
         let customLogsEndpoint = try XCTUnwrap(
-            logsFeature?.requestBuilder as? DatadogLogs.RequestBuilder
+            logsFeature?.requestBuilder as? OpenObserveLogs.RequestBuilder
         ).customIntakeURL
         XCTAssertEqual(customLogsEndpoint?.absoluteString, "https://logs.example.com/api/v2/logs")
 
-        let rumFeature = try XCTUnwrap(CoreRegistry.default as? DatadogCore).get(
+        let rumFeature = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).get(
             feature: RUMFeature.self)
         let customRumEndpoint = try XCTUnwrap(
-            rumFeature?.requestBuilder as? DatadogRUM.RequestBuilder
+            rumFeature?.requestBuilder as? OpenObserveRUM.RequestBuilder
         ).customIntakeURL
         XCTAssertEqual(customRumEndpoint?.absoluteString, "https://rum.example.com/api/v2/rum")
 
-        let traceFeature = try XCTUnwrap(CoreRegistry.default as? DatadogCore).get(
+        let traceFeature = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore).get(
             feature: TraceFeature.self)
         let customTraceEndpoint = try XCTUnwrap(
             traceFeature?.requestBuilder as? TracingRequestBuilder
@@ -1475,8 +1475,8 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        XCTAssertFalse(DatadogSDKWrapper.shared.loggerConfiguration.bundleWithRumEnabled)
-        XCTAssertFalse(DatadogSDKWrapper.shared.loggerConfiguration.bundleWithTraceEnabled)
+        XCTAssertFalse(OpenObserveSDKWrapper.shared.loggerConfiguration.bundleWithRumEnabled)
+        XCTAssertFalse(OpenObserveSDKWrapper.shared.loggerConfiguration.bundleWithTraceEnabled)
     }
 
     func testBackgroundTrackingEnabled() {
@@ -1517,7 +1517,7 @@ class OoSdkTests: XCTestCase {
     }
 
     func testConfigurationTelemetryOverride() throws {
-        let core = MockDatadogCore()
+        let core = MockOpenObserveCore()
         CoreRegistry.register(default: core)
         defer { CoreRegistry.unregisterDefault() }
 
@@ -1635,7 +1635,7 @@ class OoSdkTests: XCTestCase {
         let mockJSRefreshRateMonitor = MockJSRefreshRateMonitor()
         let mockListener = MockOnSdkInitializedListener()
 
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: mockListener.listener)
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: mockListener.listener)
 
         OoSdkImplementation(
             mainDispatchQueue: DispatchQueueMock(),
@@ -1704,7 +1704,7 @@ class OoSdkTests: XCTestCase {
             reject: mockReject
         )
 
-        let core = try XCTUnwrap(CoreRegistry.default as? DatadogCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? OpenObserveCore)
         // On SDK init, underlying `ConsentAwareDataWriter` performs data migration for each feature, which includes
         // data removal in `unauthorised` (`.pending`) directory. To not cause test flakiness, we must ensure that
         // mock data is written only after this operation completes - otherwise, migration may delete mocked files.
@@ -1933,7 +1933,7 @@ extension OoSdkImplementation {
 
 class MockOnSdkInitializedListener {
     var called = false
-    var receivedCore: DatadogCoreProtocol?
+    var receivedCore: OpenObserveCoreProtocol?
 
     lazy var listener: OnSdkInitializedListener = { core in
         self.called = true

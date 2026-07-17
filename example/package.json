@@ -1,6 +1,6 @@
 {
-    "name": "dd-sdk-reactnative-example",
-    "description": "Example app for dd-sdk-reactnative",
+    "name": "openobserve-react-native-rum-example",
+    "description": "Example app for openobserve-react-native-rum",
     "version": "0.0.1",
     "private": true,
     "scripts": {

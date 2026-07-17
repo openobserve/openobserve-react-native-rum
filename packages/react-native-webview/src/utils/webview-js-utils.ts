@@ -8,9 +8,9 @@ import { NativeDdSdk } from '../ext-specs/NativeDdSdk';
 export const DATADOG_MESSAGE_PREFIX = '[DATADOG]';
 
 /**
- * Internal Datadog Message Type
+ * Internal OpenObserve Message Type
  */
-export type DatadogMessageType =
+export type OpenObserveMessageType =
     /**
      * Signals errors that occured during the execution of JavaScript code in the WebView.
      */
@@ -21,10 +21,10 @@ export type DatadogMessageType =
     | 'NATIVE_EVENT';
 
 /**
- * Internal Datadog Message Format.
+ * Internal OpenObserve Message Format.
  */
-export type DatadogMessageFormat = {
-    type: DatadogMessageType;
+export type OpenObserveMessageFormat = {
+    type: OpenObserveMessageType;
     message: string;
 };
 

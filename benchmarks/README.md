@@ -1,4 +1,4 @@
-# Benchmark runner app for Datadog React Native SDK
+# Benchmark runner app for OpenObserve React Native SDK
 
 ## Build and run
 
@@ -22,7 +22,7 @@ Set `newArchEnabled=false` in `benchmarks/android/gradle.properties`.
 
 ## ENV config
 
-The `.env` config file contains a configuration for the Datadog API, as well as a test scenario that you can launch when the app boots up. If it doesn't contain a test scenario, the app waits for a deep link to trigger a test scenario instead.
+The `.env` config file contains a configuration for the OpenObserve API, as well as a test scenario that you can launch when the app boots up. If it doesn't contain a test scenario, the app waits for a deep link to trigger a test scenario instead.
 
     DD_CLIENT_TOKEN="CLIENT_TOKEN"
     DD_API_KEY="API_KEY"
@@ -165,7 +165,7 @@ You can then trigger this scenario through either a deep link or by setting `BEN
 
 ## Instrument a scenario
 
-Depending on the scenario’s structure and flow, the Datadog SDK initialization may vary. Each scenario is responsible for managing its own initialization logic.
+Depending on the scenario’s structure and flow, the OpenObserve SDK initialization may vary. Each scenario is responsible for managing its own initialization logic.
 
 To simplify this, use the `instrument()` helper from `benchmarks/src/testSetup/testUtils`. It initializes the SDK with a default configuration.
 
@@ -175,22 +175,22 @@ Since your scenario component receives `testConfig` as a prop, you can use it to
 useEffect(() => {
   if (props.testConfig?.runType !== RunType.BASELINE) {
     instrument().then(() => {
-      // Datadog is initialized
+      // OpenObserve is initialized
     });
   }
 }, []);
 ```
 
-## Using the Datadog Provider
+## Using the OpenObserve Provider
 
-If your scenario uses the `DatadogProvider`, you can retrieve the necessary configuration using `getDatadogProviderConfig()` from the same `testUtils` module:
+If your scenario uses the `OpenObserveProvider`, you can retrieve the necessary configuration using `getOpenObserveProviderConfig()` from the same `testUtils` module:
 
 ```ts
 return (
-  <DatadogProvider
-    config={getDatadogProviderConfig()}
-    onInitialization={onDatadogInitialization}>
+  <OpenObserveProvider
+    config={getOpenObserveProviderConfig()}
+    onInitialization={onOpenObserveInitialization}>
     ...
-  </DatadogProvider>
+  </OpenObserveProvider>
 );
 ```

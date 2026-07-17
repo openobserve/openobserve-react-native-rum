@@ -10,7 +10,7 @@ import { MaskNoneView } from './MaskNoneView';
 import { PrivacyView } from './PrivacyView';
 
 /**
- * A collection of preconfigured React components for controlling privacy in Datadog Session Replay.
+ * A collection of preconfigured React components for controlling privacy in OpenObserve Session Replay.
  *
  * These components can be used to control how different parts of the UI appear in session recordings:
  *

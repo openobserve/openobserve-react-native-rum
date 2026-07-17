@@ -7,7 +7,7 @@ import { PropagatorType } from '../../../types';
 import type { FirstPartyHost } from '../../../types';
 import { URLHostParser } from '../requestProxy/XHRProxy/URLHostParser';
 
-import { DatadogTracingContext } from './DatadogTracingContext';
+import { OpenObserveTracingContext } from './OpenObserveTracingContext';
 import { TracingIdFormat } from './TracingIdentifier';
 import type { TraceId, SpanId } from './TracingIdentifier';
 import type { OoRumResourceTracingAttributes } from './distributedTracingAttributes';
@@ -44,11 +44,11 @@ export const getTracingHeadersFromAttributes = (
         return headers;
     }
 
-    let hasDatadogOrW3CPropagator = false;
+    let hasOpenObserveOrW3CPropagator = false;
     tracingAttributes.propagatorTypes.forEach(propagator => {
         switch (propagator) {
             case PropagatorType.DATADOG: {
-                hasDatadogOrW3CPropagator = true;
+                hasOpenObserveOrW3CPropagator = true;
                 headers.push(
                     {
                         header: ORIGIN_HEADER_KEY,
@@ -80,7 +80,7 @@ export const getTracingHeadersFromAttributes = (
                 break;
             }
             case PropagatorType.TRACECONTEXT: {
-                hasDatadogOrW3CPropagator = true;
+                hasOpenObserveOrW3CPropagator = true;
                 const isSampled =
                     tracingAttributes.samplingPriorityHeader === '1';
                 headers.push(
@@ -138,7 +138,7 @@ export const getTracingHeadersFromAttributes = (
         }
     });
 
-    if (hasDatadogOrW3CPropagator) {
+    if (hasOpenObserveOrW3CPropagator) {
         if (tracingAttributes.rumSessionId) {
             headers.push({
                 header: BAGGAGE_HEADER_KEY,
@@ -171,7 +171,7 @@ export const getTracingContext = (
     rumSessionId?: string,
     userId?: string,
     accountId?: string
-): DatadogTracingContext => {
+): OpenObserveTracingContext => {
     const hostname = URLHostParser(url);
     const firstPartyHostsRegexMap = firstPartyHostsRegexMapBuilder(
         firstPartyHosts
@@ -197,7 +197,7 @@ export const getTracingContextForPropagators = (
     rumSessionId?: string,
     userId?: string,
     accountId?: string
-): DatadogTracingContext => {
+): OpenObserveTracingContext => {
     return getTracingContextForAttributes(
         generateTracingAttributesWithSampling(
             tracingSamplingRate,
@@ -213,7 +213,7 @@ export const getTracingContextForPropagators = (
 const getTracingContextForAttributes = (
     tracingAttributes: OoRumResourceTracingAttributes,
     tracingSamplingRate: number
-): DatadogTracingContext => {
+): OpenObserveTracingContext => {
     const requestHeaders = getTracingHeadersFromAttributes(tracingAttributes);
     const resourceContext: Record<string, string | number> = {};
 
@@ -233,7 +233,7 @@ const getTracingContextForAttributes = (
 
     resourceContext['_oo.rule_psr'] = tracingSamplingRate / 100;
 
-    return new DatadogTracingContext(
+    return new OpenObserveTracingContext(
         requestHeaders,
         resourceContext,
         tracingAttributes.traceId,

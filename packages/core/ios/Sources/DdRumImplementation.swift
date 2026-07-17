@@ -6,8 +6,8 @@
 
 import Foundation
 @_spi(Experimental)
-import DatadogRUM
-import DatadogInternal
+import OpenObserveRUM
+import OpenObserveInternal
 import React
 
 private extension RUMActionType {

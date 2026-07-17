@@ -11,7 +11,7 @@ enum MetricExporterError: Error {
     case unsupportedMetric(type: MetricDataType, dataType: Any.Type)
 }
 
-/// Replacement of otel `DatadogExporter` for metrics.
+/// Replacement of otel `OpenObserveExporter` for metrics.
 ///
 /// This version does not store data to disk, it uploads to the intake directly.
 /// Additionally, it does not crash.
@@ -90,7 +90,7 @@ final class MetricExporter: OpenTelemetrySdk.MetricExporter {
         return .cumulative
     }
 
-    /// Transforms otel `MetricData` to Datadog `serie`.
+    /// Transforms otel `MetricData` to OpenObserve `serie`.
     ///
     /// - Parameter metric: The otel metric data
     /// - Returns: The timeserie.

@@ -4,10 +4,10 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 // Import this first to prevent require cycles
-#if __has_include("DatadogInternalTesting-Swift.h")
-#import <DatadogInternalTesting-Swift.h>
+#if __has_include("OpenObserveInternalTesting-Swift.h")
+#import <OpenObserveInternalTesting-Swift.h>
 #else
-#import <DatadogInternalTesting/DatadogInternalTesting-Swift.h>
+#import <OpenObserveInternalTesting/OpenObserveInternalTesting-Swift.h>
 #endif
 #import "OoInternalTesting.h"
 

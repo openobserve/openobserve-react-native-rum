@@ -8,16 +8,16 @@ import type { FlagsClient } from './FlagsClient';
 
 export interface OoFlagsType {
     /**
-     * Enables the Datadog Flags feature in your application.
+     * Enables the OpenObserve Flags feature in your application.
      *
-     * Call this method after initializing the Datadog SDK to enable feature flag evaluation.
+     * Call this method after initializing the OpenObserve SDK to enable feature flag evaluation.
      * This method must be called before creating any `FlagsClient` instances via `OoFlags.getClient()`.
      *
      * @example
      * ```ts
      * import { OoSdkReactNativeConfiguration, OoSdkReactNative, OoFlags } from '@openobserve/mobile-react-native';
      *
-     * // Initialize the Datadog SDK.
+     * // Initialize the OpenObserve SDK.
      * await OoSdkReactNative.initialize(...);
      *
      * // Optinal flags configuration object.
@@ -33,7 +33,7 @@ export interface OoFlagsType {
      * const flagValue = await flagsClient.getBooleanValue('new-feature', false);
      * ```
      *
-     * @param configuration Configuration options for the Datadog Flags feature.
+     * @param configuration Configuration options for the OpenObserve Flags feature.
      */
     enable: (configuration?: FlagsConfiguration) => Promise<void>;
     /**
@@ -63,7 +63,7 @@ export interface OoFlagsType {
 }
 
 /**
- * Configuration options for the Datadog Flags feature.
+ * Configuration options for the OpenObserve Flags feature.
  */
 export interface FlagsConfiguration {
     /**
@@ -72,7 +72,7 @@ export interface FlagsConfiguration {
      * The provided value should only include the base URL, and the endpoint will be appended automatically.
      * For example, if you provide 'https://flags.example.com', the SDK will use 'https://flags.example.com/precompute-assignments'.
      *
-     * If not set, the SDK uses the default Datadog Flags endpoint for the configured site.
+     * If not set, the SDK uses the default OpenObserve Flags endpoint for the configured site.
      *
      * @default undefined
      */
@@ -83,7 +83,7 @@ export interface FlagsConfiguration {
      * The provided value should only include the base URL, and the endpoint will be appended automatically.
      * For example, if you provide 'https://flags.example.com', the SDK will use 'https://flags.example.com/api/v2/exposures'.
      *
-     * If not set, the SDK uses the default Datadog Flags exposure endpoint.
+     * If not set, the SDK uses the default OpenObserve Flags exposure endpoint.
      *
      * @default undefined
      */

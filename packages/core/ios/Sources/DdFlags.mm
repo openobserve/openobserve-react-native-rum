@@ -5,10 +5,10 @@
  */
 
 // Import this first to prevent require cycles
-#if __has_include("DatadogSDKReactNative-Swift.h")
-#import <DatadogSDKReactNative-Swift.h>
+#if __has_include("OpenObserveSDKReactNative-Swift.h")
+#import <OpenObserveSDKReactNative-Swift.h>
 #else
-#import <DatadogSDKReactNative/DatadogSDKReactNative-Swift.h>
+#import <OpenObserveSDKReactNative/OpenObserveSDKReactNative-Swift.h>
 #endif
 #import "OoFlags.h"
 

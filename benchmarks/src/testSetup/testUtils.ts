@@ -6,7 +6,7 @@
 
 import queryString from 'query-string';
 import {
-    DatadogProviderConfiguration,
+    OpenObserveProviderConfiguration,
     OoSdkReactNative,
     CoreConfiguration,
     SdkVerbosity,
@@ -15,7 +15,7 @@ import {
 import Config from 'react-native-config';
 import BenchmarkVitals from '../specs/NativeBenchmarkVitals';
 import { Command, RunType, Scenario } from './types/testConfig';
-import type { DatadogConfig, NativeTestConfig, TestConfig } from './types/testConfig';
+import type { OpenObserveConfig, NativeTestConfig, TestConfig } from './types/testConfig';
 import { Platform } from 'react-native';
 
 export const DEFAULT_ENV_TEST_CONFIG: TestConfig = {
@@ -24,7 +24,7 @@ export const DEFAULT_ENV_TEST_CONFIG: TestConfig = {
     runType: Config.BENCH_RUN_TYPE || RunType.BASELINE,
 };
 
-export const getDatadogConfig = (): DatadogConfig => {
+export const getOpenObserveConfig = (): OpenObserveConfig => {
     return {
         clientToken: Config.DD_CLIENT_TOKEN,
         applicationID: Config.DD_APP_ID,
@@ -34,10 +34,10 @@ export const getDatadogConfig = (): DatadogConfig => {
     };
 };
 
-export const getDatadogProviderConfig = () => {
+export const getOpenObserveProviderConfig = () => {
     const platform = Platform.OS;
-    let baseConfig = getDatadogConfig();
-    let config = new DatadogProviderConfiguration(
+    let baseConfig = getOpenObserveConfig();
+    let config = new OpenObserveProviderConfiguration(
         baseConfig.clientToken ?? '',
         baseConfig.env ?? '',
         TrackingConsent.GRANTED,
@@ -63,7 +63,7 @@ export const getDatadogProviderConfig = () => {
     return config;
 };
 
-export const initializeDatadog = (clientToken?: string, environment?: string, appId?: string): Promise<void> =>  {
+export const initializeOpenObserve = (clientToken?: string, environment?: string, appId?: string): Promise<void> =>  {
     const platform = Platform.OS;
     const config = new CoreConfiguration(
         clientToken ?? '',
@@ -111,7 +111,7 @@ export const getTestConfigFromDeeplink = (url: string): TestConfig | undefined =
     };
 };
 
-export const startCollectingVitals = async (testConfig: TestConfig, datadogConfig: DatadogConfig) => {
+export const startCollectingVitals = async (testConfig: TestConfig, datadogConfig: OpenObserveConfig) => {
     const nativeTestConfig: NativeTestConfig = {
         scenario: testConfig.scenario,
         runType: testConfig.runType,
@@ -129,8 +129,8 @@ export const stopCollectingVitals = async () => {
 };
 
 export const instrument = async (): Promise<void> => {
-    const datadogConfig = getDatadogConfig();
-    return initializeDatadog(datadogConfig.clientToken, datadogConfig.env, datadogConfig.applicationID);
+    const datadogConfig = getOpenObserveConfig();
+    return initializeOpenObserve(datadogConfig.clientToken, datadogConfig.env, datadogConfig.applicationID);
 };
 
 export const isValidScenario = (scenario?: string): boolean => {

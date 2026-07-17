@@ -17,26 +17,26 @@ import type { Spec as NativeDdTrace } from './specs/NativeDdTrace';
  */
 
 /**
- * The entry point to use Datadog's Logs feature.
+ * The entry point to use OpenObserve's Logs feature.
  */
 export type OoNativeLogsType = NativeDdLogs;
 
 /**
- * The entry point to use Datadog's Trace feature.
+ * The entry point to use OpenObserve's Trace feature.
  */
 export type OoNativeTraceType = NativeDdTrace;
 
 /**
- * The entry point to use Datadog's Flags feature.
+ * The entry point to use OpenObserve's Flags feature.
  */
 export type OoNativeFlagsType = NativeDdFlags;
 
 /**
- * The entry point to initialize Datadog's features.
+ * The entry point to initialize OpenObserve's features.
  */
 export interface OoNativeSdkType extends NativeDdSdk {
     /**
-     * Initializes Datadog's features.
+     * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
     initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
@@ -60,7 +60,7 @@ type ResourceKind =
 type ErrorSource = 'NETWORK' | 'SOURCE' | 'CONSOLE' | 'WEBVIEW' | 'CUSTOM';
 
 /**
- * The entry point to use Datadog's RUM feature.
+ * The entry point to use OpenObserve's RUM feature.
  */
 export interface OoNativeRumType extends NativeDdRum {
     /**

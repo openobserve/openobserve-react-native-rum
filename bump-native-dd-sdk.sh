@@ -18,12 +18,12 @@ build_gradle_files=(
 )
 
 podspec_files=(
-  "packages/core/DatadogSDKReactNative.podspec"
-  "packages/react-native-session-replay/DatadogSDKReactNativeSessionReplay.podspec"
-  "packages/react-native-webview/DatadogSDKReactNativeWebView.podspec"
+  "packages/core/OpenObserveSDKReactNative.podspec"
+  "packages/react-native-session-replay/OpenObserveSDKReactNativeSessionReplay.podspec"
+  "packages/react-native-webview/OpenObserveSDKReactNativeWebView.podspec"
 )
 
-ios_pattern="('Datadog[^']+', ')[0-9.]+'"
+ios_pattern="('OpenObserve[^']+', ')[0-9.]+'"
 android_pattern='(com\.datadoghq:dd-sdk-android-[^:"]+):[0-9.]+'
 
 if [[ "$sdk" == "ios" ]]; then

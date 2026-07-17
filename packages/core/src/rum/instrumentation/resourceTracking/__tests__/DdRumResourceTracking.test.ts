@@ -6,7 +6,7 @@
 
 import { NativeModules } from 'react-native';
 
-import { BufferSingleton } from '../../../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { PropagatorType } from '../../../types';
 import { OoRumResourceTracking } from '../OoRumResourceTracking';
 import { SAMPLING_PRIORITY_HEADER_KEY } from '../distributedTracing/headers';

@@ -1,4 +1,4 @@
-package/DatadogSDKReactNativeSessionReplay.podspec
+package/OpenObserveSDKReactNativeSessionReplay.podspec
 package/README.md
 package/android/build.gradle
 package/android/consumer-proguard-rules.pro
@@ -33,7 +33,7 @@ package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessi
 package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
 package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplay.kt
 package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
-package/android/src/rn69/kotlin/com.datadog.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+package/android/src/rn69/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
 package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
 package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
 package/android/src/rn76/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
@@ -44,7 +44,7 @@ package/android/src/rn80/kotlin/com/datadog/reactnative/sessionreplay/extensions
 package/android/src/rn80/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
 package/android/src/rn83/kotlin/com/datadog/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
 package/android/src/rn83/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
-package/android/src/rnlegacy/kotlin/com.datadog.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+package/android/src/rnlegacy/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
 package/android/src/rnpost74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
 package/android/src/rnpre74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
 package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplayImplementationTest.kt
@@ -66,9 +66,9 @@ package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/Wirefra
 package/android/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
 package/assets/assets.bin
 package/assets/assets.json
-package/ios/DatadogSDKReactNativeSessionReplay.xcodeproj/project.pbxproj
-package/ios/DatadogSDKReactNativeSessionReplay.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-package/ios/Sources/DatadogSDKReactNativeSessionReplay.h
+package/ios/OpenObserveSDKReactNativeSessionReplay.xcodeproj/project.pbxproj
+package/ios/OpenObserveSDKReactNativeSessionReplay.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+package/ios/Sources/OpenObserveSDKReactNativeSessionReplay.h
 package/ios/Sources/OoPrivacyOverrider.swift
 package/ios/Sources/OoPrivacyViewFabric.h
 package/ios/Sources/OoPrivacyViewFabric.mm

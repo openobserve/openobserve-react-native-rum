@@ -49,10 +49,10 @@ const privateProperties = {
         'DD_REACT_NATIVE_VERSION',
         'wasAutoInstrumented',
         'initializeNativeSDK',
-        '_initializeFromDatadogProviderWithConfigurationAsync',
-        '_enableFeaturesFromDatadogProvider',
-        '_enableFeaturesFromDatadogProviderAsync',
-        '_initializeFromDatadogProvider',
+        '_initializeFromOpenObserveProviderWithConfigurationAsync',
+        '_enableFeaturesFromOpenObserveProvider',
+        '_enableFeaturesFromOpenObserveProviderAsync',
+        '_initializeFromOpenObserveProvider',
         'buildConfiguration'
     ]
 };

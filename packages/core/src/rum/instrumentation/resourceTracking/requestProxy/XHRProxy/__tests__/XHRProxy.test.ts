@@ -9,7 +9,7 @@ import { Platform, NativeModules } from 'react-native';
 
 import { InternalLog } from '../../../../../../InternalLog';
 import { SdkVerbosity } from '../../../../../../config/types';
-import { BufferSingleton } from '../../../../../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { OoRum } from '../../../../../OoRum';
 import {
     setCachedSessionId,
@@ -43,7 +43,7 @@ import {
     DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
     DATADOG_GRAPH_QL_VARIABLES_HEADER
 } from '../../../graphql/graphqlHeaders';
-import { ResourceReporter } from '../DatadogRumResource/ResourceReporter';
+import { ResourceReporter } from '../OpenObserveRumResource/ResourceReporter';
 import { XHRProxy } from '../XHRProxy';
 import {
     calculateResponseSize,
@@ -666,10 +666,10 @@ describe('XHRProxy', () => {
              * ========================================================================= */
 
             // x-datadog-trace-id is a decimal representing the low 64 bits of the 128 bits Trace ID
-            const xDatadogTraceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
+            const xOpenObserveTraceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
 
             expect(
-                TracingIdentifierUtils.isWithin64Bits(xDatadogTraceId as string)
+                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTraceId as string)
             );
 
             /* ===============================================================
@@ -677,13 +677,13 @@ describe('XHRProxy', () => {
              * =============================================================== */
 
             // x-datadog-tags is a HEX 16 contains the high 64 bits of the 128 bits Trace ID
-            const xDatadogTagsTraceId = xhr.requestHeaders
+            const xOpenObserveTagsTraceId = xhr.requestHeaders
                 ?.get(TAGS_HEADER_KEY)
                 ?.split('=')[1] as string;
 
-            expect(xDatadogTagsTraceId).toMatch(/^[a-f0-9]{16}$/);
+            expect(xOpenObserveTagsTraceId).toMatch(/^[a-f0-9]{16}$/);
             expect(
-                TracingIdentifierUtils.isWithin64Bits(xDatadogTagsTraceId, 16)
+                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTagsTraceId, 16)
             );
 
             /* =========================================================================
@@ -2301,7 +2301,7 @@ describe('XHRProxy', () => {
                 expect(parsedByApp.errors).toHaveLength(1);
                 expect(parsedByApp.errors[0].message).toBe('User not found');
 
-                // AND - Datadog successfully extracted filtered errors
+                // AND - OpenObserve successfully extracted filtered errors
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
@@ -2368,7 +2368,7 @@ describe('XHRProxy', () => {
                     'FORBIDDEN'
                 );
 
-                // AND - Datadog successfully extracted filtered errors (extensions filtered out)
+                // AND - OpenObserve successfully extracted filtered errors (extensions filtered out)
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
@@ -2439,7 +2439,7 @@ describe('XHRProxy', () => {
                 expect(applicationReadBlob._data).toBe(responseBody);
                 expect(applicationReadBlob.size).toBe(responseBody.length);
 
-                // AND - Datadog successfully extracted filtered errors
+                // AND - OpenObserve successfully extracted filtered errors
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(1);
@@ -2520,7 +2520,7 @@ describe('XHRProxy', () => {
                     '...'
                 ]);
 
-                // AND - Datadog got filtered errors (no extensions details)
+                // AND - OpenObserve got filtered errors (no extensions details)
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_oo.graphql.errors']);
                 expect(errors).toHaveLength(2);

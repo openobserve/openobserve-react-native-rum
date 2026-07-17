@@ -7,7 +7,7 @@
 import type { LogStatus, ErrorSource } from '../types';
 
 /**
- * The entry point to use Datadog's Logs feature.
+ * The entry point to use OpenObserve's Logs feature.
  */
 export type OoLogsType = {
     /**

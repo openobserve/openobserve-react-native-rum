@@ -5,10 +5,10 @@
  */
 
 import XCTest
-@testable import DatadogCore
-@testable import DatadogRUM
-@testable import DatadogSDKReactNative
-@testable import DatadogInternal
+@testable import OpenObserveCore
+@testable import OpenObserveRUM
+@testable import OpenObserveSDKReactNative
+@testable import OpenObserveInternal
 import React
 
 internal class OoRumTests: XCTestCase {
@@ -61,8 +61,8 @@ internal class OoRumTests: XCTestCase {
     func testInternalTimestampKeyValue() {
         let key = "_oo.timestamp"
         
-        XCTAssertEqual(OoRumImplementation.timestampKey, DatadogInternal.CrossPlatformAttributes.timestampInMilliseconds)
-        XCTAssertEqual(OoRumImplementation.timestampKey, DatadogSDKReactNative.CrossPlatformAttributes.timestampInMilliseconds)
+        XCTAssertEqual(OoRumImplementation.timestampKey, OpenObserveInternal.CrossPlatformAttributes.timestampInMilliseconds)
+        XCTAssertEqual(OoRumImplementation.timestampKey, OpenObserveSDKReactNative.CrossPlatformAttributes.timestampInMilliseconds)
     }
 
     func testStartView() throws {

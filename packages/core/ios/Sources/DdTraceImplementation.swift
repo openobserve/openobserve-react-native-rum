@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DatadogTrace
+import OpenObserveTrace
 import Foundation
 
 @objc

@@ -5,18 +5,18 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNativeSessionReplay
+@testable import OpenObserveSDKReactNativeSessionReplay
 @_spi(Internal)
-@testable import DatadogSessionReplay
+@testable import OpenObserveSessionReplay
 import React
-import DatadogInternal
+import OpenObserveInternal
 
 let BACKGROUND_RECT = CGRect(x: 50, y: 50, width: 100, height: 100)
 // Simulates view with padding vertical of 10 and horizontal of 20.
 let INNER_TEXT_RECT = CGRect(x: 20, y: 10, width: 60, height: 80) // position inside the background view
 
 internal class NoOpTelemetry: Telemetry {
-    func send(telemetry: DatadogInternal.TelemetryMessage) {}
+    func send(telemetry: OpenObserveInternal.TelemetryMessage) {}
 }
 
 internal class RCTTextViewRecorderTests: XCTestCase {

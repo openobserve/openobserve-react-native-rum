@@ -1,6 +1,6 @@
 import ObjectiveC
 import UIKit
-@_spi(objc) import DatadogSessionReplay
+@_spi(objc) import OpenObserveSessionReplay
 
 @objc public class OoPrivacyOverrider: NSObject {
     @objc public static func setOverrides(

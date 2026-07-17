@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { DEFAULT_ENV_TEST_CONFIG, getDatadogConfig, getTestConfigFromDeeplink, isValidScenario, startCollectingVitals, stopCollectingVitals } from './testSetup/testUtils';
+import { DEFAULT_ENV_TEST_CONFIG, getOpenObserveConfig, getTestConfigFromDeeplink, isValidScenario, startCollectingVitals, stopCollectingVitals } from './testSetup/testUtils';
 import { Command, Scenario } from './testSetup/types/testConfig';
 import type { TestConfig } from './testSetup/types/testConfig';
 import DefaultScenario from './scenario/Default/defaultScenario';
@@ -45,7 +45,7 @@ function App(): React.JSX.Element {
     switch (testConfig?.command) {
       case Command.Start: 
         if (isValidScenario(testConfig?.scenario)) {
-          const datadogConfig = getDatadogConfig();
+          const datadogConfig = getOpenObserveConfig();
           testConfig.datadogConfig = datadogConfig;
 
           await startCollectingVitals(testConfig, datadogConfig);

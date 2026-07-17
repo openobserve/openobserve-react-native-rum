@@ -4,17 +4,17 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DatadogCore
-import DatadogCrashReporting
-import DatadogInternal
-import DatadogLogs
-import DatadogRUM
-import DatadogTrace
+import OpenObserveCore
+import OpenObserveCrashReporting
+import OpenObserveInternal
+import OpenObserveLogs
+import OpenObserveRUM
+import OpenObserveTrace
 import Foundation
 import React
 
 #if os(iOS)
-    import DatadogWebViewTracking
+    import OpenObserveWebViewTracking
 #endif
 
 @objc
@@ -33,9 +33,9 @@ public class OoSdkNativeInitialization: NSObject {
     }
 
     internal func initialize(sdkConfiguration: OoSdkConfiguration, isCalledFromJs: Bool = true) {
-        if Datadog.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
+        if OpenObserve.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
             // Initializing the SDK twice results in Global.rum and Global.sharedTracer to be set to no-op instances
-            consolePrint("Datadog SDK is already initialized, skipping initialization.", .debug)
+            consolePrint("OpenObserve SDK is already initialized, skipping initialization.", .debug)
             OoTelemetry.telemetryDebug(
                 id: "datadog_react_native: RN  SDK was already initialized in native",
                 message: "RN SDK was already initialized in native"
@@ -44,9 +44,9 @@ public class OoSdkNativeInitialization: NSObject {
             self.setVerbosityLevel(configuration: sdkConfiguration)
 
             let coreConfiguration = self.buildSDKConfiguration(configuration: sdkConfiguration)
-            DatadogSDKWrapper.shared.initialize(
+            OpenObserveSDKWrapper.shared.initialize(
                 coreConfiguration: coreConfiguration,
-                loggerConfiguration: DatadogLogs.Logger.Configuration(sdkConfiguration),
+                loggerConfiguration: OpenObserveLogs.Logger.Configuration(sdkConfiguration),
                 trackingConsent: sdkConfiguration.trackingConsent
             )
 
@@ -57,8 +57,8 @@ public class OoSdkNativeInitialization: NSObject {
             OoSdkSessionStartedListener.instance.onRnSdkInitialized()
             // Handles the case in which the SDK was already initialized via initFromNative.
             // Replay the current session ID so the listener can deliver it now that the
-            // JS-side DatadogInternalReactBridge module is guaranteed to be registered.
-            if Datadog.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
+            // JS-side OpenObserveInternalReactBridge module is guaranteed to be registered.
+            if OpenObserve.isInitialized(instanceName: CoreRegistry.defaultInstanceName) {
                 RUMMonitor.shared().currentSessionID { sessionId in
                     guard let id = sessionId else { return }
                     OoSdkSessionStartedListener.instance.rumSessionListener?(id, false)
@@ -68,17 +68,17 @@ public class OoSdkNativeInitialization: NSObject {
     }
 
     internal func getConfigurationFromJSONFile() -> OoSdkConfiguration? {
-        if let jsonResult = jsonFileReader.parseResourceFile(resourcePath: "datadog-configuration")
+        if let jsonResult = jsonFileReader.parseResourceFile(resourcePath: "openobserve-configuration")
             as? [String: AnyObject]
         {
             do {
                 return try jsonResult.asDdSdkConfigurationFromJSON()
             } catch {
-                consolePrint("Error parsing datadog-configuration.json file: \(error)", .critical)
+                consolePrint("Error parsing openobserve-configuration.json file: \(error)", .critical)
             }
         } else {
             consolePrint(
-                "datadog-configuration.json file cannot be parsed. Make sure it is valid.",
+                "openobserve-configuration.json file cannot be parsed. Make sure it is valid.",
                 .critical)
         }
         return nil
@@ -113,15 +113,15 @@ public class OoSdkNativeInitialization: NSObject {
         }
 
         #if os(iOS)
-            DatadogSDKWrapper.shared.enableWebviewTracking()
+            OpenObserveSDKWrapper.shared.enableWebviewTracking()
         #endif
     }
 
     func buildSDKConfiguration(
         configuration: OoSdkConfiguration,
         defaultAppVersion: String = getDefaultAppVersion()
-    ) -> Datadog.Configuration {
-        var config = Datadog.Configuration(
+    ) -> OpenObserve.Configuration {
+        var config = OpenObserve.Configuration(
             clientToken: configuration.clientToken,
             env: configuration.env,
             site: configuration.site,
@@ -190,7 +190,7 @@ public class OoSdkNativeInitialization: NSObject {
         var customRUMEndpointURL: URL? = nil
         if let customEndpoint = rumConfig.customEndpoint, !customEndpoint.isEmpty {
             // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
-            // (Upstream Datadog used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
+            // (Upstream OpenObserve used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
             customRUMEndpointURL = URL(string: "\(customEndpoint)/rum")
         }
 
@@ -250,7 +250,7 @@ public class OoSdkNativeInitialization: NSObject {
         var customLogsEndpointURL: URL? = nil
         if let customLogsEndpoint = logsConfig.customEndpoint as? NSString {
             if customLogsEndpoint != "" {
-                // OpenObserve intake path: {base}/logs (upstream Datadog used "/api/v2/logs").
+                // OpenObserve intake path: {base}/logs (upstream OpenObserve used "/api/v2/logs").
                 customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/logs" as String)
             }
         }
@@ -277,16 +277,16 @@ public class OoSdkNativeInitialization: NSObject {
     func setVerbosityLevel(configuration: OoSdkConfiguration) {
         switch configuration.verbosity?.lowercased {
         case "debug":
-            Datadog.verbosityLevel = .debug
+            OpenObserve.verbosityLevel = .debug
         case "info":
             // .info is mapped to .debug
-            Datadog.verbosityLevel = .debug
+            OpenObserve.verbosityLevel = .debug
         case "warn":
-            Datadog.verbosityLevel = .warn
+            OpenObserve.verbosityLevel = .warn
         case "error":
-            Datadog.verbosityLevel = .error
+            OpenObserve.verbosityLevel = .error
         default:
-            Datadog.verbosityLevel = nil
+            OpenObserve.verbosityLevel = nil
         }
     }
 }

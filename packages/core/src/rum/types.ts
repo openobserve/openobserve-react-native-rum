@@ -7,11 +7,11 @@
 import type { Attributes } from '../sdk/AttributesSingleton/types';
 import type { ErrorSource, FeatureOperationFailure } from '../types';
 
-import type { DatadogTracingContext } from './instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
-import type { DatadogTracingIdentifier } from './instrumentation/resourceTracking/distributedTracing/DatadogTracingIdentifier';
+import type { OpenObserveTracingContext } from './instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
+import type { OpenObserveTracingIdentifier } from './instrumentation/resourceTracking/distributedTracing/OpenObserveTracingIdentifier';
 
 /**
- * The entry point to use Datadog's RUM feature.
+ * The entry point to use OpenObserve's RUM feature.
  */
 export type OoRumType = {
     /**
@@ -193,7 +193,7 @@ export type OoRumType = {
 
     /**
      * Gets the tracing context for the given url, tracingSamplingRate and firstPartyHosts.
-     * The returned {@link DatadogTracingContext} can be used to retrieve the tracing headers
+     * The returned {@link OpenObserveTracingContext} can be used to retrieve the tracing headers
      * to append to your network request, and the attributes to add to your RUM Resource.
      *
      * See also `OoRum.getTracingContextForPropagators(...)` if you do not intend to use `firstPartyHosts`.
@@ -206,12 +206,12 @@ export type OoRumType = {
         url: string,
         tracingSamplingRate: number,
         firstPartyHosts: FirstPartyHost[]
-    ): DatadogTracingContext;
+    ): OpenObserveTracingContext;
 
     /**
      * Gets the tracing context for the given list of propagator types and tracing sampling rate.
      *
-     * The returned {@link DatadogTracingContext} can be used to retrieve the tracing headers
+     * The returned {@link OpenObserveTracingContext} can be used to retrieve the tracing headers
      * to append to your network request, and the attributes to add to your RUM Resource.
      * @param propagators The list of propagators of type {@link PropagatorType}
      * @param tracingSamplingRate Percentage of tracing integrations for network calls between your app and your backend. Range `0`-`100`.
@@ -219,17 +219,17 @@ export type OoRumType = {
     getTracingContextForPropagators(
         propagators: PropagatorType[],
         tracingSamplingRate: number
-    ): DatadogTracingContext;
+    ): OpenObserveTracingContext;
 
     /**
      * Generates a unique 128bit Trace ID.
      */
-    generateTraceId(): DatadogTracingIdentifier;
+    generateTraceId(): OpenObserveTracingIdentifier;
 
     /**
      * Generates a unique 128bit Span ID.
      */
-    generateSpanId(): DatadogTracingIdentifier;
+    generateSpanId(): OpenObserveTracingIdentifier;
 
     /**
      * Starts a Feature Operation, representing a high-level logical flow within your application (e.g., `login_flow`).
@@ -303,7 +303,7 @@ export type ResourceKind =
 
 /**
  * Type of instrumentation on the host.
- * - DATADOG: Datadog’s propagator (`x-datadog-*`)
+ * - DATADOG: OpenObserve’s propagator (`x-datadog-*`)
  * - TRACECONTEXT: W3C Trace Context (`traceparent`)
  * - B3: B3 single header (`b3`)
  * - B3MULTI: B3 multiple headers (`X-B3-*`)

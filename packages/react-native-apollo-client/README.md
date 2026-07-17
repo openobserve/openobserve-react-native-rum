@@ -39,17 +39,17 @@ const apolloClient = new ApolloClient({
 });
 ```
 
-#### Use the Datadog Apollo Client Link to collect information
+#### Use the OpenObserve Apollo Client Link to collect information
 
-Import `DatadogLink` from `@openobserve/mobile-react-native-apollo-client` and use it in your ApolloClient initialization:
+Import `OpenObserveLink` from `@openobserve/mobile-react-native-apollo-client` and use it in your ApolloClient initialization:
 
 ```javascript
 import { ApolloClient, from, HttpLink } from '@apollo/client';
-import { DatadogLink } from '@openobserve/mobile-react-native-apollo-client';
+import { OpenObserveLink } from '@openobserve/mobile-react-native-apollo-client';
 
 const apolloClient = new ApolloClient({
     link: from([
-        new DatadogLink(),
+        new OpenObserveLink(),
         new HttpLink({ uri: 'https://my.api.com/graphql' }) // always in last position
     ])
 });
@@ -57,10 +57,10 @@ const apolloClient = new ApolloClient({
 
 #### Configuration options
 
-You can pass options to the `DatadogLink` constructor to control what data is collected:
+You can pass options to the `OpenObserveLink` constructor to control what data is collected:
 
 ```javascript
-new DatadogLink({
+new OpenObserveLink({
     trackVariables: true, // track GraphQL operation variables (default: true)
     trackPayload: false, // track the GraphQL query payload (default: false)
     trackErrors: false // track GraphQL errors from the response (default: false)
@@ -77,10 +77,10 @@ For more information on Apollo Client Links, refer to the [official documentatio
 
 ### Redacting sensitive GraphQL data
 
-Use a `resourceEventMapper` in your Datadog configuration to redact or drop sensitive data from GraphQL attributes. Variables, payload, and errors are all stored as JSON strings in the resource event context.
+Use a `resourceEventMapper` in your OpenObserve configuration to redact or drop sensitive data from GraphQL attributes. Variables, payload, and errors are all stored as JSON strings in the resource event context.
 
 ```typescript
-const datadogConfiguration = new DatadogProviderConfiguration(
+const datadogConfiguration = new OpenObserveProviderConfiguration(
     '<CLIENT_TOKEN>',
     '<ENVIRONMENT_NAME>',
     TrackingConsent.GRANTED,

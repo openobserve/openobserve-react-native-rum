@@ -9,7 +9,7 @@ import { NativeModules } from 'react-native';
 
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types';
-import { BufferSingleton } from '../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { OoTrace } from '../OoTrace';
 
 jest.mock('../../utils/time-provider/DefaultTimeProvider', () => {

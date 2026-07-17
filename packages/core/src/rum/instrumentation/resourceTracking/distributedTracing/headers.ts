@@ -4,7 +4,7 @@
  */
 
 /**
- * Datadog headers
+ * OpenObserve headers
  */
 export const SAMPLING_PRIORITY_HEADER_KEY = 'x-datadog-sampling-priority';
 export const ORIGIN_HEADER_KEY = 'x-datadog-origin';

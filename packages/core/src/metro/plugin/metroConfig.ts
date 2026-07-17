@@ -6,20 +6,20 @@
 import type { MetroConfig } from 'metro';
 
 import {
-    createDatadogMetroSerializer,
+    createOpenObserveMetroSerializer,
     unstable_beforeAssetSerializationPlugin
 } from './metroSerializer';
 import type {
-    DatadogExpoConfigOptions,
+    OpenObserveExpoConfigOptions,
     DefaultConfigOptions
 } from './types/expoTypes';
-import type { DatadogMetroSerializer } from './types/metroTypes';
+import type { OpenObserveMetroSerializer } from './types/metroTypes';
 import { getDefaultExpoConfig } from './utils';
 
 /**
- * Custom Datadog Metro Configuration.
+ * Custom OpenObserve Metro Configuration.
  */
-export type DatadogMetroConfigOptions = {
+export type OpenObserveMetroConfigOptions = {
     /**
      * Determines whether a Debug ID should be injected into bundles and sourcemaps.
      *
@@ -32,18 +32,18 @@ export type DatadogMetroConfigOptions = {
 };
 
 /**
- * Extends the Metro bundler configuration to integrate with Datadog.
+ * Extends the Metro bundler configuration to integrate with OpenObserve.
  *
  * *Note: If a custom serializer is used and `config.useDebugId` is set to `true` (as it is by default),
  * you must manually invoke `options.datadogBundleCallback` within the serializer.*
  */
-export function withDatadogMetroConfig(
-    config: MetroConfig & DatadogMetroConfigOptions
+export function withOpenObserveMetroConfig(
+    config: MetroConfig & OpenObserveMetroConfigOptions
 ): MetroConfig {
     let newConfig = config;
 
     if (config.useDebugId ?? true) {
-        newConfig = withDatadogDebugId(config);
+        newConfig = withOpenObserveDebugId(config);
     }
 
     return {
@@ -55,13 +55,13 @@ export function withDatadogMetroConfig(
 }
 
 /**
- * Extends the Expo configuration to integrate with Datadog.
+ * Extends the Expo configuration to integrate with OpenObserve.
  * @param config
  * @returns
  */
-export function getDatadogExpoConfig(
+export function getOpenObserveExpoConfig(
     projectRoot: string,
-    options: DefaultConfigOptions & DatadogExpoConfigOptions = {}
+    options: DefaultConfigOptions & OpenObserveExpoConfigOptions = {}
 ): DefaultConfigOptions {
     const plugins = options.unstable_beforeAssetSerializationPlugins ?? [];
     const datadogOptions: DefaultConfigOptions = {
@@ -82,10 +82,10 @@ export function getDatadogExpoConfig(
  * Extends the Metro bundler configuration by enabling Debug ID injection.
  * Ref: https://github.com/tc39/ecma426/blob/main/proposals/debug-id.md
  */
-export function withDatadogDebugId(config: MetroConfig): MetroConfig {
-    const customSerializer = createDatadogMetroSerializer(
+export function withOpenObserveDebugId(config: MetroConfig): MetroConfig {
+    const customSerializer = createOpenObserveMetroSerializer(
         config.serializer?.customSerializer || undefined
-    ) as DatadogMetroSerializer;
+    ) as OpenObserveMetroSerializer;
 
     return {
         ...config,

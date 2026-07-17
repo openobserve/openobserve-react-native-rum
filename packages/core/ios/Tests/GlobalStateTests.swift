@@ -5,7 +5,7 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNative
+@testable import OpenObserveSDKReactNative
 
 class GlobalStateTests: XCTestCase {
     override func setUp() {

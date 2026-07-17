@@ -4,10 +4,10 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DatadogCore
-import DatadogFlags
-import DatadogInternal
-import DatadogRUM
+import OpenObserveCore
+import OpenObserveFlags
+import OpenObserveInternal
+import OpenObserveRUM
 import Foundation
 
 extension NSDictionary {
@@ -477,7 +477,7 @@ extension NSString? {
         }
     }
 
-    func asUploadFrequency() -> Datadog.Configuration.UploadFrequency {
+    func asUploadFrequency() -> OpenObserve.Configuration.UploadFrequency {
         switch self?.lowercased {
         case "rare":
             return .rare
@@ -490,7 +490,7 @@ extension NSString? {
         }
     }
 
-    func asBatchSize() -> Datadog.Configuration.BatchSize {
+    func asBatchSize() -> OpenObserve.Configuration.BatchSize {
         switch self?.lowercased {
         case "small":
             return .small
@@ -503,7 +503,7 @@ extension NSString? {
         }
     }
 
-    func asSite() -> DatadogSite {
+    func asSite() -> OpenObserveSite {
         switch self?.lowercased {
         case "us1", "us":
             return .us1
@@ -526,7 +526,7 @@ extension NSString? {
         }
     }
 
-    func asBatchProcessingLevel() -> Datadog.Configuration.BatchProcessingLevel {
+    func asBatchProcessingLevel() -> OpenObserve.Configuration.BatchProcessingLevel {
         switch self?.lowercased {
         case "low":
             return .low

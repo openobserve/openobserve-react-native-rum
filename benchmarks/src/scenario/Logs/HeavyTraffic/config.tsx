@@ -102,7 +102,7 @@ function ConfigScreen(): React.JSX.Element {
                     />
             </View>
         </View>
-        <Button title={'Apply config'} color={Colors.DatadogPurple} onPress={applyConfig}/>
+        <Button title={'Apply config'} color={Colors.OpenObservePurple} onPress={applyConfig}/>
       </View>
     )
   }

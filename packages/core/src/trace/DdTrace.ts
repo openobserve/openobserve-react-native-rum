@@ -11,12 +11,12 @@ import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
 import {
     bufferNativeCallReturningId,
     bufferNativeCallWithId
-} from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
+} from '../sdk/OpenObserveProvider/Buffer/bufferNativeCall';
 import type { OoTraceType } from '../types';
 import { getGlobalInstance } from '../utils/singletonUtils';
 import { DefaultTimeProvider } from '../utils/time-provider/DefaultTimeProvider';
 
-const TRACE_MODULE = 'com.datadog.reactnative.trace';
+const TRACE_MODULE = 'com.openobserve.reactnative.trace';
 
 const timeProvider = new DefaultTimeProvider();
 

@@ -47,10 +47,10 @@ const config = new CoreConfiguration(
 await OoSdkReactNative.initialize(config);
 ```
 
-Or if using the DatadogProvider wrapper:
+Or if using the OpenObserveProvider wrapper:
 
 ```
-const configuration = new DatadogProviderConfiguration(
+const configuration = new OpenObserveProviderConfiguration(
     CLIENT_TOKEN,
     ENVIRONMENT,
     TrackingConsent.GRANTED,
@@ -81,7 +81,7 @@ const configuration = new DatadogProviderConfiguration(
 
 ...
 
-<DatadogProvider configuration={configuration} onInitialization={onDatadogInitialization}>
+<OpenObserveProvider configuration={configuration} onInitialization={onOpenObserveInitialization}>
 ```
 
 **NOTE: Unlike v2.x, which would always enable all feature modules when initializing the SDK, v3 won't initialize nor enable a feature module if there's no configuration for it.**
@@ -166,7 +166,7 @@ const config = new CoreConfiguration(
 
 ### FileBasedConfiguration changes
 
-FileBasedConfiguration now requires a path to a configuration JSON file instead of trying to find a default `datadog-configuration.json` at the app's root level like it did on v2.
+FileBasedConfiguration now requires a path to a configuration JSON file instead of trying to find a default `openobserve-configuration.json` at the app's root level like it did on v2.
 
 ### Changes to SessionReplay configuration
 defaultPrivacyLevel has been removed in favor of granular options: imagePrivacyLevel, touchPrivacyLevel and textAndInputPrivacyLevel.
@@ -177,7 +177,7 @@ Fatal Errors are no longer automatically reported as Logs. Fatal crashes will st
 
 ### Context / Attribute encoding
 Context / attributes encoding is now safe and deterministic
- All attributes passed to Datadog SDK APIs are automatically sanitized and encoded:
+ All attributes passed to OpenObserve SDK APIs are automatically sanitized and encoded:
 Unsupported values (functions, symbols, non-finite numbers, etc.) are dropped with a warning to prevent crashes and undefined behavior
 Common types (Date, Error, Map) are properly serialized
 Nested objects are flattened using dot notation (a.b.c = value) to match native SDK expectations
@@ -213,7 +213,7 @@ The attribute API has been expanded allowing for addition and removal of single 
 
 #### ViewAttributes
 
-RUM View-level attributes are now automatically propagated to all related child events, including resources, user actions, errors, and long tasks. This ensures consistent metadata across events, making it easier to filter and correlate data on Datadog dashboards.
+RUM View-level attributes are now automatically propagated to all related child events, including resources, user actions, errors, and long tasks. This ensures consistent metadata across events, making it easier to filter and correlate data on OpenObserve dashboards.
 
 To manage View level attributes more effectively, new APIs were added:
 
@@ -225,7 +225,7 @@ removeViewAttributes = (keys: string[])
 ```
 
 #### AccountInfo
-The AccountInfo API from the native Datadog SDKs has been exposed to React Native as well:
+The AccountInfo API from the native OpenObserve SDKs has been exposed to React Native as well:
 
 ```
 setAccountInfo = async (accountInfo: {

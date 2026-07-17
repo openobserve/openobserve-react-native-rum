@@ -18,7 +18,7 @@ import type {
 import { transformViewKey } from './utils';
 
 const REACT_NAVIGATION_TRACKING_MODULE =
-    'com.datadog.reactnative.rum.react_navigation_tracking';
+    'com.openobserve.reactnative.rum.react_navigation_tracking';
 
 function getGlobalInstance<T>(key: string, objectConstructor: () => T): T {
     const symbol = Symbol.for(key);

@@ -8,12 +8,12 @@ import TraceScreen from './screens/TraceScreen';
 import style from './screens/styles';
 import { navigationRef } from './NavigationRoot';
 import { OoRumReactNavigationTracking, NavigationTrackingOptions, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
-import { DatadogProvider, TrackingConsent, OoFlags } from '@openobserve/mobile-react-native'
-import { DatadogOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
+import { OpenObserveProvider, TrackingConsent, OoFlags } from '@openobserve/mobile-react-native'
+import { OpenObserveOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature, OpenFeatureProvider } from '@openfeature/react-sdk';
 import { Route } from "@react-navigation/native";
 import { NestedNavigator } from './screens/NestedNavigator/NestedNavigator';
-import { getDatadogConfig, onDatadogInitialization } from './ddUtils';
+import { getOpenObserveConfig, onOpenObserveInitialization } from './ddUtils';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,17 +48,17 @@ const navigationTrackingOptions: NavigationTrackingOptions = {
   viewTrackingPredicate,
   paramsTrackingPredicate,
 }
-// === Datadog Provider Configuration schemes ===
+// === OpenObserve Provider Configuration schemes ===
 
 // 1.- Direct configuration
-const configuration = getDatadogConfig(TrackingConsent.GRANTED)
+const configuration = getOpenObserveConfig(TrackingConsent.GRANTED)
 
 // 2.- File based configuration from .json
-// const configuration = new FileBasedConfiguration(require("../datadog-configuration.json"));
+// const configuration = new FileBasedConfiguration(require("../openobserve-configuration.json"));
 
 // 3.- File based configuration from .json and custom mapper setup
 // const configuration = new FileBasedConfiguration( {
-//   configuration: require("../datadog-configuration.json").configuration,
+//   configuration: require("../openobserve-configuration.json").configuration,
 //   errorEventMapper: (event) => event,
 //   resourceEventMapper: (event) => event,
 //   actionEventMapper: (event) => event});
@@ -66,22 +66,22 @@ const configuration = getDatadogConfig(TrackingConsent.GRANTED)
 // 4.- File based configuration from the native side (using initFromNative)
 // see https://docs.datadoghq.com/real_user_monitoring/guide/initialize-your-native-sdk-before-react-native-starts
 
-// const configuration = new DatadogProviderConfiguration("fake_value", "fake_value");
+// const configuration = new OpenObserveProviderConfiguration("fake_value", "fake_value");
 
-const handleDatadogInitialization = async () => {
-  onDatadogInitialization();
+const handleOpenObserveInitialization = async () => {
+  onOpenObserveInitialization();
 
-  // Enable Datadog Flags feature.
+  // Enable OpenObserve Flags feature.
   await OoFlags.enable();
 
   // Set the provider with OpenFeature.
-  const provider = new DatadogOpenFeatureProvider();
+  const provider = new OpenObserveOpenFeatureProvider();
   OpenFeature.setProvider(provider);
 }
 
 export default function App() {
   return (
-    <DatadogProvider configuration={configuration} onInitialization={handleDatadogInitialization}>
+    <OpenObserveProvider configuration={configuration} onInitialization={handleOpenObserveInitialization}>
       <OpenFeatureProvider>
         <NavigationContainer ref={navigationRef} onReady={() => {
           OoRumReactNavigationTracking.startTrackingViews(
@@ -101,6 +101,6 @@ export default function App() {
           </Tab.Navigator>
         </NavigationContainer>
       </OpenFeatureProvider>
-    </DatadogProvider>
+    </OpenObserveProvider>
   )
 }

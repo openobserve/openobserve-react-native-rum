@@ -76,7 +76,7 @@ export class OoRumUserInteractionTracking {
         // extra safety to avoid wrapping more than 1 time this function
         if (OoRumUserInteractionTracking.isTracking) {
             InternalLog.log(
-                'Datadog SDK is already tracking interactions',
+                'OpenObserve SDK is already tracking interactions',
                 SdkVerbosity.WARN
             );
             return;
@@ -163,7 +163,7 @@ export class OoRumUserInteractionTracking {
 
         OoRumUserInteractionTracking.isTracking = true;
         InternalLog.log(
-            'Datadog SDK is tracking interactions',
+            'OpenObserve SDK is tracking interactions',
             SdkVerbosity.INFO
         );
     }

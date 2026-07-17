@@ -14,7 +14,7 @@ import type { RumActionType } from '../../types';
 import { ActionSource } from '../../types';
 
 const BABEL_INTERACTION_TRACKING_MODULE =
-    'com.datadog.reactnative.rum.babel_interaction_tracking';
+    'com.openobserve.reactnative.rum.babel_interaction_tracking';
 
 type BabelConfig = {
     trackInteractions: boolean;

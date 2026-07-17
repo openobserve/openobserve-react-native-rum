@@ -17,7 +17,7 @@ if linkage != nil
 end
 
 target 'OoSdkReactNativeExample' do
-  pod 'DatadogSDKReactNative', :path => '../../packages/core/DatadogSDKReactNative.podspec', :testspecs => ['Tests']
+  pod 'OpenObserveSDKReactNative', :path => '../../packages/core/OpenObserveSDKReactNative.podspec', :testspecs => ['Tests']
 
   config = use_native_modules!
 
@@ -35,8 +35,8 @@ target 'OoSdkReactNativeExample' do
       :mac_catalyst_enabled => false
     )
 
-    # Enable `DD_SDK_COMPILED_FOR_TESTING` condition when compiling `DatadogSDK` dependency:
-    datadog_sdk_target = installer.pods_project.targets.detect {|t| ["DatadogCore", "DatadogRUM", "DatadogLogs", "DatadogInternal", "DatadogTrace", "DatadogCrashReporting"].include?(t.name) }
+    # Enable `DD_SDK_COMPILED_FOR_TESTING` condition when compiling `OpenObserveSDK` dependency:
+    datadog_sdk_target = installer.pods_project.targets.detect {|t| ["OpenObserveCore", "OpenObserveRUM", "OpenObserveLogs", "OpenObserveInternal", "OpenObserveTrace", "OpenObserveCrashReporting"].include?(t.name) }
     datadog_sdk_target.build_configurations.each do |config|
       config.build_settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = '$(inherited) DD_SDK_COMPILED_FOR_TESTING'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = min_ios_version_supported

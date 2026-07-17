@@ -12,7 +12,7 @@ import { CoreConfiguration } from '../../config/features/CoreConfiguration';
 import { LogsConfiguration } from '../../config/features/LogsConfiguration';
 import { RumConfiguration } from '../../config/features/RumConfiguration';
 import { SdkVerbosity } from '../../config/types';
-import { BufferSingleton } from '../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { ErrorSource } from '../../types';
 import type { LogEventMapper, LogEvent } from '../../types';
 import { OoLogs } from '../OoLogs';

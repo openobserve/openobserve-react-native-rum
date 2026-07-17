@@ -11,8 +11,8 @@ function ActivityIndicators(): React.JSX.Element {
         <View style={styles.fullScreenHolder}>
             <ActivityIndicator style={styles.sessionReplayActivityIndicator}/>
             <ActivityIndicator style={styles.sessionReplayActivityIndicator} size={'large'}/>
-            <ActivityIndicator style={styles.sessionReplayActivityIndicator} size={'small'} color={Colors.DatadogPurple}/>
-            <ActivityIndicator style={styles.sessionReplayActivityIndicator} size={'large'} color={Colors.DatadogPurple}/>
+            <ActivityIndicator style={styles.sessionReplayActivityIndicator} size={'small'} color={Colors.OpenObservePurple}/>
+            <ActivityIndicator style={styles.sessionReplayActivityIndicator} size={'large'} color={Colors.OpenObservePurple}/>
         </View>
     )                
 };

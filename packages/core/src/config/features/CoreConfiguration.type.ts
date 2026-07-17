@@ -22,7 +22,7 @@ import type { TraceConfigurationType } from './TraceConfiguration.type';
  */
 export interface CoreConfigurationRequired {
     /**
-     * The Datadog client token.
+     * The OpenObserve client token.
      */
     clientToken: string;
 
@@ -82,7 +82,7 @@ export interface CoreConfigurationOptions {
     service?: string;
 
     /**
-     * Datadog site to send data to.
+     * OpenObserve site to send data to.
      */
     site?: string;
 

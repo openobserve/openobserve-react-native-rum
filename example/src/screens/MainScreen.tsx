@@ -20,7 +20,7 @@ const axios = require('../axiosConfig');
 
 interface MainScreenState {
   welcomeMessage: string
-  callDatadogButtonAction: string
+  callOpenObserveButtonAction: string
   resultButtonAction: string
   resultTouchableOpacityAction: string,
   resultTouchableWithoutFeedback: string,
@@ -45,7 +45,7 @@ export default class MainScreen extends Component<any, MainScreenState> {
     this.consentModal = React.createRef()
   }
 
-  fetchDatadogLogs() {
+  fetchOpenObserveLogs() {
     return fetch('https://api.datadoghq.com/api/v2/logs/events', {
       headers: {
         'Content-Type': 'application/json',
@@ -137,16 +137,16 @@ export default class MainScreen extends Component<any, MainScreenState> {
               this.setTrackingConsentModalVisible(false)
             }
           } />
-        <Text style={{ marginTop: 20 }}>{this.state.callDatadogButtonAction}</Text>
+        <Text style={{ marginTop: 20 }}>{this.state.callOpenObserveButtonAction}</Text>
         <Button
-          title="Fetch Datadog Logs"
+          title="Fetch OpenObserve Logs"
           accessibilityLabel="call_datadog_button"
           onPress={() => {
-            this.fetchDatadogLogs().then((response) => {
+            this.fetchOpenObserveLogs().then((response) => {
               console.log(response)
-              this.setState({ callDatadogButtonAction: "Datadog logs retrieved" } as MainScreenState);
+              this.setState({ callOpenObserveButtonAction: "OpenObserve logs retrieved" } as MainScreenState);
             }).catch(function (error) {
-              this.setState({ callDatadogButtonAction: "Unable to call Datadog" } as MainScreenState);
+              this.setState({ callOpenObserveButtonAction: "Unable to call OpenObserve" } as MainScreenState);
               console.log(error);
             });
           }}

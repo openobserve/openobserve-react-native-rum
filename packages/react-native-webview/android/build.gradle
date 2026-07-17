@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['DatadogSDKReactNativeWebView_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['OpenObserveSDKReactNativeWebView_kotlinVersion']
 
   repositories {
     mavenCentral()
@@ -86,11 +86,11 @@ def reactNativeVersion = reactProperties.getProperty("VERSION_NAME")
 def (reactNativeMajorVersion, reactNativeMinorVersion) = reactNativeVersion.split("\\.").collect { it.isInteger() ? it.toInteger() : it }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['DatadogSDKReactNativeWebView_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['OpenObserveSDKReactNativeWebView_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['DatadogSDKReactNativeWebView_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['OpenObserveSDKReactNativeWebView_' + name]).toInteger()
 }
 
 android {
@@ -99,7 +99,7 @@ android {
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION
   if (agpVersion.tokenize('.')[0].toInteger() >= 7) {
-    namespace = "com.datadog.reactnative.webview"
+    namespace = "com.openobserve.reactnative.webview"
   }
   if (agpVersion.tokenize('.')[0].toInteger() >= 8) {
     buildFeatures {
@@ -196,7 +196,7 @@ dependencies {
     implementation "com.facebook.react:react-android:$reactNativeVersion"
   }
 
-  implementation "com.datadoghq:dd-sdk-android-webview:3.10.0"
+  implementation "ai.openobserve:oo-sdk-android-webview:0.1.0-alpha2"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
   implementation project(path: ':datadog_mobile-react-native')

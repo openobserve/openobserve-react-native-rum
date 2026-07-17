@@ -8,7 +8,7 @@ import { version as reactNativeVersion } from 'react-native/package.json';
 import { InteractionManager } from 'react-native';
 
 import { InternalLog } from './InternalLog';
-import type { DatadogProviderConfiguration } from './config/DatadogProviderConfiguration';
+import type { OpenObserveProviderConfiguration } from './config/OpenObserveProviderConfiguration';
 import { FileBasedConfiguration } from './config/FileBasedConfiguration';
 import type {
     AutoInstrumentationConfiguration,
@@ -36,8 +36,8 @@ import { OoRumResourceTracking } from './rum/instrumentation/resourceTracking/Oo
 import { AccountInfoSingleton } from './sdk/AccountInfoSingleton/AccountInfoSingleton';
 import { AttributesSingleton } from './sdk/AttributesSingleton/AttributesSingleton';
 import type { Attributes } from './sdk/AttributesSingleton/types';
-import { registerNativeBridge } from './sdk/DatadogInternalBridge/OoSdkInternalNativeBridge';
-import { BufferSingleton } from './sdk/DatadogProvider/Buffer/BufferSingleton';
+import { registerNativeBridge } from './sdk/OpenObserveInternalBridge/OoSdkInternalNativeBridge';
+import { BufferSingleton } from './sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { NativeDdSdk } from './sdk/OoSdkInternal';
 import { GlobalState } from './sdk/GlobalState/GlobalState';
 import { UserInfoSingleton } from './sdk/UserInfoSingleton/UserInfoSingleton';
@@ -46,7 +46,7 @@ import { adaptLongTaskThreshold } from './utils/longTasksUtils';
 import { version as sdkVersion } from './version';
 
 /**
- * This class initializes the Datadog SDK, and sets up communication with the server.
+ * This class initializes the OpenObserve SDK, and sets up communication with the server.
  */
 export class OoSdkReactNative {
     private static readonly DD_SOURCE_KEY = '_oo.source';
@@ -60,7 +60,7 @@ export class OoSdkReactNative {
     private static features?: AutoInstrumentationConfiguration;
 
     /**
-     * Initializes the Datadog SDK.
+     * Initializes the OpenObserve SDK.
      * @param configuration the configuration for the SDK library
      * @returns a Promise.
      */
@@ -82,7 +82,7 @@ export class OoSdkReactNative {
     ): Promise<void> => {
         if (GlobalState.isInitialized) {
             InternalLog.log(
-                "Can't initialize Datadog, SDK was already initialized",
+                "Can't initialize OpenObserve, SDK was already initialized",
                 SdkVerbosity.WARN
             );
             if (!__DEV__) {
@@ -101,7 +101,7 @@ export class OoSdkReactNative {
             OoSdkReactNative.buildConfiguration(configuration, params)
         );
 
-        InternalLog.log('Datadog SDK was initialized', SdkVerbosity.INFO);
+        InternalLog.log('OpenObserve SDK was initialized', SdkVerbosity.INFO);
         GlobalState.isInitialized = true;
         BufferSingleton.onInitialization();
     };
@@ -109,8 +109,8 @@ export class OoSdkReactNative {
     /**
      * FOR INTERNAL USE ONLY.
      */
-    static _initializeFromDatadogProvider = async (
-        configuration: DatadogProviderConfiguration
+    static _initializeFromOpenObserveProvider = async (
+        configuration: OpenObserveProviderConfiguration
     ): Promise<void> => {
         OoSdkReactNative.enableFeatures(configuration);
         if (configuration instanceof FileBasedConfiguration) {
@@ -157,13 +157,13 @@ export class OoSdkReactNative {
     /**
      * FOR INTERNAL USE ONLY.
      */
-    static _enableFeaturesFromDatadogProvider = (
+    static _enableFeaturesFromOpenObserveProvider = (
         features: AutoInstrumentationConfiguration
     ): void => {
-        OoSdkReactNative._enableFeaturesFromDatadogProviderAsync(features);
+        OoSdkReactNative._enableFeaturesFromOpenObserveProviderAsync(features);
     };
 
-    static _enableFeaturesFromDatadogProviderAsync = async (
+    static _enableFeaturesFromOpenObserveProviderAsync = async (
         features: AutoInstrumentationConfiguration
     ): Promise<void> => {
         OoSdkReactNative.features = features;
@@ -174,12 +174,12 @@ export class OoSdkReactNative {
     /**
      * FOR INTERNAL USE ONLY.
      */
-    static _initializeFromDatadogProviderWithConfigurationAsync = async (
+    static _initializeFromOpenObserveProviderWithConfigurationAsync = async (
         configuration: PartialInitializationConfiguration
     ): Promise<void> => {
         if (!OoSdkReactNative.features) {
             InternalLog.log(
-                "Can't initialize Datadog, make sure the DatadogProvider component is mounted before calling this function",
+                "Can't initialize OpenObserve, make sure the OpenObserveProvider component is mounted before calling this function",
                 SdkVerbosity.WARN
             );
             return new Promise(resolve => resolve());
@@ -192,7 +192,7 @@ export class OoSdkReactNative {
 
         // The XHRProxy was installed at provider mount with the features'
         // default resourceTraceSampleRate; re-apply the resolved value so a
-        // resourceTraceSampleRate supplied via DatadogProvider.initialize
+        // resourceTraceSampleRate supplied via OpenObserveProvider.initialize
         // takes effect on subsequent fetch/XHR calls.
         OoRumResourceTracking.updateTrackingContext({
             resourceTraceSampleRate:
@@ -392,7 +392,7 @@ export class OoSdkReactNative {
     };
 
     /**
-     * Clears all data that has not already been sent to Datadog servers
+     * Clears all data that has not already been sent to OpenObserve servers
      * @returns a Promise
      */
     static clearAllData = (): Promise<void> => {
@@ -536,7 +536,7 @@ export class OoSdkReactNative {
 
         if (OoSdkReactNative.wasAutoInstrumented) {
             InternalLog.log(
-                "Can't auto instrument Datadog, SDK was already instrumented",
+                "Can't auto instrument OpenObserve, SDK was already instrumented",
                 SdkVerbosity.WARN
             );
             return;

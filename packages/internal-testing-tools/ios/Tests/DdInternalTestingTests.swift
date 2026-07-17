@@ -5,10 +5,10 @@
  */
 
 import XCTest
-@testable import DatadogInternalTesting
-@testable import DatadogSDKReactNative
-import DatadogCore
-import DatadogInternal
+@testable import OpenObserveInternalTesting
+@testable import OpenObserveSDKReactNative
+import OpenObserveCore
+import OpenObserveInternal
 import React
 
 internal class OoInternalTestingTests: XCTestCase {
@@ -17,8 +17,8 @@ internal class OoInternalTestingTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        DatadogSDKWrapper.shared.setCoreInstance(core: nil)
-        DatadogSDKWrapper.shared.onCoreInitializedListeners = []
+        OpenObserveSDKWrapper.shared.setCoreInstance(core: nil)
+        OpenObserveSDKWrapper.shared.onCoreInitializedListeners = []
     }
     
     func testItReturnsSavedEventsWhenEnabled() {
@@ -27,9 +27,9 @@ internal class OoInternalTestingTests: XCTestCase {
         internalTesting.enable(resolve: mockResolve, reject: mockReject)
 
         // Initialize SDK and send logger message
-        DatadogSDKWrapper.shared.initialize(with: .init(clientToken: "token", env: "env"), trackingConsent: .granted)
-        DatadogSDKWrapper.shared.enableLogs(with: .init())
-        let logger = DatadogSDKWrapper.shared.createLogger()
+        OpenObserveSDKWrapper.shared.initialize(with: .init(clientToken: "token", env: "env"), trackingConsent: .granted)
+        OpenObserveSDKWrapper.shared.enableLogs(with: .init())
+        let logger = OpenObserveSDKWrapper.shared.createLogger()
         logger.debug("debug log message")
 
         let eventsResolver = EventsResolver()

@@ -282,7 +282,7 @@ function RUMManualScenario(props: RUMManualScenarioProps): React.JSX.Element {
                             <Text style={styles.label}>{'Repeat sending events'}</Text>
                         </Pressable>
                         <Switch
-                            trackColor={{false: Colors.Grey, true: Colors.DatadogPurple}}
+                            trackColor={{false: Colors.Grey, true: Colors.OpenObservePurple}}
                             thumbColor={Colors.White}
                             onValueChange={onToggleIsRepeatSendingEvents}
                             value={isRepeatSendingEvents}
@@ -291,7 +291,7 @@ function RUMManualScenario(props: RUMManualScenarioProps): React.JSX.Element {
                 </View>
                 <View style={styles.buttonWrapper}>
                     <Button 
-                        color={OS === 'android' ? Colors.DatadogPurple : Colors.White}
+                        color={OS === 'android' ? Colors.OpenObservePurple : Colors.White}
                         onPress={isSendingState ? stopSending : startSending}
                         title={isSendingState ? 'Stop' : 'Send'}
                     />

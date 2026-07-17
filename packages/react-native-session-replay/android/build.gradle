@@ -5,7 +5,7 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['DatadogSDKReactNativeSessionReplay_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['OpenObserveSDKReactNativeSessionReplay_kotlinVersion']
 
   repositories {
     mavenCentral()
@@ -87,11 +87,11 @@ def reactNativeVersion = reactProperties.getProperty("VERSION_NAME")
 def (reactNativeMajorVersion, reactNativeMinorVersion) = reactNativeVersion.split("\\.").collect { it.isInteger() ? it.toInteger() : it }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['DatadogSDKReactNativeSessionReplay_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['OpenObserveSDKReactNativeSessionReplay_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['DatadogSDKReactNativeSessionReplay_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['OpenObserveSDKReactNativeSessionReplay_' + name]).toInteger()
 }
 
 android {
@@ -102,7 +102,7 @@ android {
   def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION
 
   if (agpVersion.tokenize('.')[0].toInteger() >= 7) {
-    namespace = "com.datadog.reactnative.sessionreplay"
+    namespace = "com.openobserve.reactnative.sessionreplay"
   }
 
   if (agpVersion.tokenize('.')[0].toInteger() >= 8) {
@@ -216,8 +216,8 @@ dependencies {
     api "com.facebook.react:react-android:$reactNativeVersion"
   }
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "com.datadoghq:dd-sdk-android-session-replay:3.10.0"
-  implementation "com.datadoghq:dd-sdk-android-internal:3.10.0"
+  implementation "ai.openobserve:oo-sdk-android-session-replay:0.1.0-alpha2"
+  implementation "ai.openobserve:oo-sdk-android-internal:0.1.0-alpha2"
   implementation project(path: ':datadog_mobile-react-native')
 
   testImplementation "org.junit.platform:junit-platform-launcher:1.6.2"

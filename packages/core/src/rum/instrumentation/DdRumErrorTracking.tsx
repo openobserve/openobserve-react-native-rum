@@ -41,7 +41,7 @@ export class OoRumErrorTracking {
         // extra safety to avoid wrapping the Error handler twice
         if (OoRumErrorTracking.isTracking) {
             InternalLog.log(
-                'Datadog SDK is already tracking errors',
+                'OpenObserve SDK is already tracking errors',
                 SdkVerbosity.WARN
             );
             return;
@@ -56,12 +56,12 @@ export class OoRumErrorTracking {
 
             OoRumErrorTracking.isTracking = true;
             InternalLog.log(
-                'Datadog SDK is tracking errors',
+                'OpenObserve SDK is tracking errors',
                 SdkVerbosity.INFO
             );
         } else {
             InternalLog.log(
-                'Datadog SDK cannot track errors, ErrorUtils is not defined',
+                'OpenObserve SDK cannot track errors, ErrorUtils is not defined',
                 SdkVerbosity.ERROR
             );
         }

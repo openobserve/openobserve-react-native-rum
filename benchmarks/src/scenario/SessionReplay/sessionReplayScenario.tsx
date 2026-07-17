@@ -36,7 +36,7 @@ function SessionReplayScenario(props: SessionReplayScenarioProps): React.JSX.Ele
     if (isReady) { 
         const RootStack = createNativeStackNavigator({
             initialRouteName: "UICatalogMenu",
-            headerTintColor: Colors.DatadogPurple,
+            headerTintColor: Colors.OpenObservePurple,
             headerTitleAlign: 'left',
             headerTitleStyle: {
                 fontSize: 22,

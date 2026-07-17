@@ -5,9 +5,9 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNative
-@testable import DatadogCore
-@testable import DatadogTrace
+@testable import OpenObserveSDKReactNative
+@testable import OpenObserveCore
+@testable import OpenObserveTrace
 
 
 internal class OoTraceTests: XCTestCase {

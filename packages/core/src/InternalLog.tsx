@@ -9,12 +9,12 @@ import { getGlobalInstance } from './utils/singletonUtils';
 
 export const DATADOG_MESSAGE_PREFIX = 'DATADOG:';
 
-const INTERNAL_LOG_MODULE = 'com.datadog.reactnative.internal_log';
+const INTERNAL_LOG_MODULE = 'com.openobserve.reactnative.internal_log';
 
 /**
  * /!\ DO NOT USE THIS IN YOUR APP /!\\
  *
- * This logger is only for debugging the Datadog SDK.
+ * This logger is only for debugging the OpenObserve SDK.
  */
 class _InternalLog {
     private levelMap = new Map<SdkVerbosity, number>([

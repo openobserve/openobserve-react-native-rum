@@ -3,7 +3,7 @@
 ROOT="$(pwd)"
 
 DD_VAULT_ADDR=https://vault.us1.ddbuild.io
-DD_SDK_RN_SECRETS_PATH_PREFIX='kv/aws/arn:aws:iam::486234852809:role/ci-dd-sdk-reactnative'
+DD_SDK_RN_SECRETS_PATH_PREFIX='kv/aws/arn:aws:iam::486234852809:role/ci-openobserve-react-native-rum'
 
 DD_RN_BENCHMARK_CLIENT_TOKEN="benchmark.client.token"
 DD_RN_BENCHMARK_API_KEY="benchmark.api.key"

@@ -14,7 +14,7 @@ import type { VitalsUpdateFrequency } from '../types';
  */
 export interface RumConfigurationRequired {
     /**
-     * The Datadog RUM application ID.
+     * The OpenObserve RUM application ID.
      */
     applicationId: string;
 

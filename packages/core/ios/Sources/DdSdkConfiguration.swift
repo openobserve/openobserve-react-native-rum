@@ -4,23 +4,23 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DatadogCore
-import DatadogInternal
-import DatadogRUM
+import OpenObserveCore
+import OpenObserveInternal
+import OpenObserveRUM
 import Foundation
 
-/// A configuration object used to initialize Datadog's core SDK and its feature modules.
+/// A configuration object used to initialize OpenObserve's core SDK and its feature modules.
 /// - Parameters:
 ///    - additionalConfiguration: Additional configuration parameters forwarded directly
-///      to the native Datadog SDKs.
-///    - clientToken: A valid Datadog client token.
+///      to the native OpenObserve SDKs.
+///    - clientToken: A valid OpenObserve client token.
 ///    - env: The application’s environment (e.g., "prod", "pre-prod", "staging").
-///    - site: The Datadog site of your organization (e.g., `US1`, `US1_FED`, `US3`, `US5`, `EU1`).
+///    - site: The OpenObserve site of your organization (e.g., `US1`, `US1_FED`, `US3`, `US5`, `EU1`).
 ///    - service: The custom service name reported for logs, traces, and RUM.
 ///    - verbosity: Verbosity level of the SDK’s internal logging (`DEBUG`, `INFO`, `WARN`, `ERROR`).
 ///    - trackingConsent: User tracking consent (`pending`, `granted`, `not_granted`).
 ///    - uploadFrequency: The frequency at which batches of data are uploaded.
-///    - batchSize: The preferred size of batches sent to Datadog.
+///    - batchSize: The preferred size of batches sent to OpenObserve.
 ///    - batchProcessingLevel: Maximum number of batches processed sequentially before applying a delay.
 ///    - proxyConfiguration: Configuration for proxying SDK data (proxy type, address, port, etc.).
 ///    - rumConfiguration: Configuration for the RUM feature module.
@@ -32,13 +32,13 @@ public class OoSdkConfiguration: NSObject {
     public var additionalConfiguration: NSDictionary? = nil
     public var clientToken: String = ""
     public var env: String = ""
-    public var site: DatadogSite
+    public var site: OpenObserveSite
     public var service: NSString? = nil
     public var verbosity: NSString? = nil
     public var trackingConsent: TrackingConsent
-    public var uploadFrequency: Datadog.Configuration.UploadFrequency
-    public var batchSize: Datadog.Configuration.BatchSize
-    public var batchProcessingLevel: Datadog.Configuration.BatchProcessingLevel
+    public var uploadFrequency: OpenObserve.Configuration.UploadFrequency
+    public var batchSize: OpenObserve.Configuration.BatchSize
+    public var batchProcessingLevel: OpenObserve.Configuration.BatchProcessingLevel
     public var proxyConfiguration: [AnyHashable: Any]? = nil
     public var rumConfiguration: RumConfiguration? = nil
     public var logsConfiguration: LogsConfiguration? = nil
@@ -49,13 +49,13 @@ public class OoSdkConfiguration: NSObject {
         additionalConfiguration: NSDictionary?,
         clientToken: String,
         env: String,
-        site: DatadogSite,
+        site: OpenObserveSite,
         service: NSString?,
         verbosity: NSString? = nil,
         trackingConsent: TrackingConsent,
-        uploadFrequency: Datadog.Configuration.UploadFrequency,
-        batchSize: Datadog.Configuration.BatchSize,
-        batchProcessingLevel: Datadog.Configuration.BatchProcessingLevel,
+        uploadFrequency: OpenObserve.Configuration.UploadFrequency,
+        batchSize: OpenObserve.Configuration.BatchSize,
+        batchProcessingLevel: OpenObserve.Configuration.BatchProcessingLevel,
         proxyConfiguration: [AnyHashable: Any]?,
         rumConfiguration: RumConfiguration?,
         logsConfiguration: LogsConfiguration?,
@@ -80,7 +80,7 @@ public class OoSdkConfiguration: NSObject {
     }
 }
 
-/// A configuration object for the Datadog RUM feature.
+/// A configuration object for the OpenObserve RUM feature.
 ///
 /// - Parameters:
 ///    - applicationId: The RUM Application ID.
@@ -102,7 +102,7 @@ public class OoSdkConfiguration: NSObject {
 ///    - initialResourceThreshold: The amount of time after a view starts where a Resource should be considered when calculating Time to Network-Settled (TNS).
 ///    - trackMemoryWarnings: Whether memory warning events should be tracked.
 ///    - telemetrySampleRate: Sampling rate (0–100) for internal telemetry emitted via RUM.
-///    - customEndpoint: A custom RUM  intake endpoint to override the default Datadog intake.
+///    - customEndpoint: A custom RUM  intake endpoint to override the default OpenObserve intake.
 public class RumConfiguration: NSObject {
     public var applicationId: String = ""
     public var trackFrustrations: Bool? = true
@@ -165,12 +165,12 @@ public class RumConfiguration: NSObject {
 
 }
 
-/// A configuration object for Datadog Logs features.
+/// A configuration object for OpenObserve Logs features.
 ///
 /// - Parameters:
 ///    - bundleLogsWithRum: Enables correlation between logs and RUM events.
 ///    - bundleLogsWithTraces: Enables correlation between logs and tracing spans.
-///    - customEndpoint: A custom logs intake endpoint to override the default Datadog intake.
+///    - customEndpoint: A custom logs intake endpoint to override the default OpenObserve intake.
 public class LogsConfiguration: NSObject {
     public var bundleLogsWithRum: Bool
     public var bundleLogsWithTraces: Bool
@@ -187,10 +187,10 @@ public class LogsConfiguration: NSObject {
     }
 }
 
-/// A configuration object for Datadog Tracing (APM) features.
+/// A configuration object for OpenObserve Tracing (APM) features.
 ///
 /// - Parameters:
-///    - customEndpoint: A custom Trace intake endpoint to override the default Datadog intake.
+///    - customEndpoint: A custom Trace intake endpoint to override the default OpenObserve intake.
 public class TraceConfiguration: NSObject {
     public var customEndpoint: String? = nil
 

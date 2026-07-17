@@ -1,7 +1,7 @@
 {
     "name": "@openobserve/mobile-react-native-babel-plugin",
-    "version": "3.5.3",
-    "description": "A Babel plugin that enhances Datadog's React Native SDK by automatically enriching React components with contextual metadata.",
+    "version": "0.1.0-alpha.2",
+    "description": "A Babel plugin that enhances OpenObserve's React Native SDK by automatically enriching React components with contextual metadata.",
     "keywords": [
         "babel",
         "babel-plugin",
@@ -9,7 +9,7 @@
         "datadog",
         "react-native"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {
@@ -18,7 +18,7 @@
     "license": "Apache-2.0",
     "main": "lib/commonjs/index",
     "bin": {
-        "datadog-generate-sr-assets": "./lib/commonjs/cli/generate-sr-assets.js"
+        "openobserve-generate-sr-assets": "./lib/commonjs/cli/generate-sr-assets.js"
     },
     "files": [
         "src/**",

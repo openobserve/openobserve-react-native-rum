@@ -8,7 +8,7 @@ import { spawnSync } from 'child_process';
 
 it.skip('M call datadog-ci W android uploadReleaseSourcemaps', () => {
     // TODO this test requires the setup for the sample app and
-    // creating datadog-sourcemaps.properties file. Should be automated in the future.
+    // creating openobserve-sourcemaps.properties file. Should be automated in the future.
     // WHEN
     const { stdout } = spawnSync('./gradlew uploadReleaseSourcemaps --info', {
         cwd: 'example/android',

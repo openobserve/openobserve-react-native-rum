@@ -1,7 +1,7 @@
 {
     "name": "@openobserve/mobile-react-native-apollo-client",
-    "version": "3.5.3",
-    "description": "A client-side React Native module to interact with Apollo Client and Datadog",
+    "version": "0.1.0-alpha.2",
+    "description": "A client-side React Native module to interact with Apollo Client and OpenObserve",
     "keywords": [
         "datadog",
         "react-native",
@@ -10,7 +10,7 @@
         "apollo",
         "graphql"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum/packages/react-native-apollo-client#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",

@@ -58,7 +58,7 @@ describe('OoFlags', () => {
         OoFlags.getClient();
 
         expect(InternalLog.log).toHaveBeenCalledWith(
-            '`OoFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
+            '`OoFlags.getClient()` called before OpenObserve Flags feature have been enabled. Client will fall back to serving default flag values.',
             SdkVerbosity.ERROR
         );
     });

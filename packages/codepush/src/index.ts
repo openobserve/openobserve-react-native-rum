@@ -4,8 +4,8 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 import {
-    DatadogProvider,
-    DatadogProviderConfiguration,
+    OpenObserveProvider,
+    OpenObserveProviderConfiguration,
     OoSdkReactNative
 } from '@openobserve/mobile-react-native';
 import type {
@@ -18,9 +18,9 @@ import { removeDiscardProperties } from './utils';
 import type { RequiredOrDiscard } from './utils';
 
 /**
- * Use this class instead of OoSdkReactNative to initialize the Datadog SDK when using AppCenter CodePush.
+ * Use this class instead of OoSdkReactNative to initialize the OpenObserve SDK when using AppCenter CodePush.
  */
-export const DatadogCodepush = {
+export const OpenObserveCodepush = {
     async initialize(configuration: CoreConfiguration): Promise<void> {
         const codePushUpdateMetadata = await codePush.getUpdateMetadata();
         if (codePushUpdateMetadata) {
@@ -31,17 +31,17 @@ export const DatadogCodepush = {
 };
 
 const initializeWithCodepushVersion = async (
-    configuration: DatadogProviderConfiguration
+    configuration: OpenObserveProviderConfiguration
 ) => {
     const codePushUpdateMetadata = await codePush.getUpdateMetadata();
     if (codePushUpdateMetadata) {
         configuration.versionSuffix = `codepush.${codePushUpdateMetadata.label}`;
     }
-    DatadogProvider.initialize(configuration);
+    OpenObserveProvider.initialize(configuration);
 };
 
 const buildPartialConfiguration = (
-    configuration: DatadogProviderConfiguration
+    configuration: OpenObserveProviderConfiguration
 ): AutoInstrumentationConfiguration => {
     const partialConfiguration: RequiredOrDiscard<AutoInstrumentationConfiguration> = {
         rumConfiguration: {
@@ -83,27 +83,27 @@ const buildPartialConfiguration = (
     ) as AutoInstrumentationConfiguration;
 };
 
-export const DatadogCodepushProvider: typeof DatadogProvider = ({
+export const OpenObserveCodepushProvider: typeof OpenObserveProvider = ({
     configuration,
     ...rest
 }) => {
     // We cannot use SYNC or ASYNC initialization modes as we need to asynchronously get the CodePush version.
     // We turn it to partial initialization, while in parallel we get the CodePush version and initialize the SDK.
-    if (configuration instanceof DatadogProviderConfiguration) {
+    if (configuration instanceof OpenObserveProviderConfiguration) {
         initializeWithCodepushVersion(configuration);
-        return DatadogProvider({
+        return OpenObserveProvider({
             configuration: buildPartialConfiguration(configuration),
             ...rest
         });
     } else {
-        return DatadogProvider({ configuration, ...rest });
+        return OpenObserveProvider({ configuration, ...rest });
     }
 };
 
-DatadogCodepushProvider.initialize = async configuration => {
+OpenObserveCodepushProvider.initialize = async configuration => {
     const codePushUpdateMetadata = await codePush.getUpdateMetadata();
     if (codePushUpdateMetadata) {
         configuration.versionSuffix = `codepush.${codePushUpdateMetadata.label}`;
     }
-    DatadogProvider.initialize(configuration);
+    OpenObserveProvider.initialize(configuration);
 };

@@ -7,13 +7,13 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { useNavigationContainerRef } from '@react-navigation/native';
-import { DatadogProvider } from "@openobserve/mobile-react-native";
+import { OpenObserveProvider } from "@openobserve/mobile-react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { OoRumReactNavigationTracking, type NavigationTrackingOptions, type ViewNamePredicate } from '@openobserve/mobile-react-navigation';
 import type { Route } from "@react-navigation/native";
 import { RunType } from '../../../testSetup/types/testConfig';
-import { getDatadogProviderConfig } from '../../../testSetup/testUtils';
+import { getOpenObserveProviderConfig } from '../../../testSetup/testUtils';
 import type { RUMAutoScenarioProps, RootStackParamList } from './types';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CharactersScreen from './screens/characters';
@@ -35,8 +35,8 @@ function RUMAutoScenario(props: RUMAutoScenarioProps): React.JSX.Element {
         viewNamePredicate,
     };
 
-    const onDatadogInitialization = () => {
-        console.info("Datadog SDK initialized");
+    const onOpenObserveInitialization = () => {
+        console.info("OpenObserve SDK initialized");
     };
 
     const Tab = createBottomTabNavigator();
@@ -84,9 +84,9 @@ function RUMAutoScenario(props: RUMAutoScenarioProps): React.JSX.Element {
 
     if (instrumented) {
         return (
-            <DatadogProvider configuration={getDatadogProviderConfig()} onInitialization={onDatadogInitialization}>
+            <OpenObserveProvider configuration={getOpenObserveProviderConfig()} onInitialization={onOpenObserveInitialization}>
                 {renderApp()}
-            </DatadogProvider>
+            </OpenObserveProvider>
         )
     } else {
         return renderApp();

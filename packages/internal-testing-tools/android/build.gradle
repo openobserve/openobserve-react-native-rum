@@ -5,7 +5,7 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['DatadogInternalTesting_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['OpenObserveInternalTesting_kotlinVersion']
 
   repositories {
     mavenCentral()
@@ -84,11 +84,11 @@ def reactNativeVersion = reactProperties.getProperty("VERSION_NAME")
 def (reactNativeMajorVersion, reactNativeMinorVersion) = reactNativeVersion.split("\\.").collect { it.isInteger() ? it.toInteger() : it }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['DatadogInternalTesting_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['OpenObserveInternalTesting_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['DatadogInternalTesting_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['OpenObserveInternalTesting_' + name]).toInteger()
 }
 
 android {
@@ -99,7 +99,7 @@ android {
   def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION
 
   if (agpVersion.tokenize('.')[0].toInteger() >= 7) {
-    namespace = "com.datadog.reactnative.internaltesting"
+    namespace = "com.openobserve.reactnative.internaltesting"
   }
 
   if (agpVersion.tokenize('.')[0].toInteger() >= 8) {
@@ -188,7 +188,7 @@ dependencies {
   }
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation project(path: ':datadog_mobile-react-native')
-  implementation "com.datadoghq:dd-sdk-android-core"
+  implementation "ai.openobserve:oo-sdk-android-core"
   implementation "com.google.code.gson:gson:2.11.0"
 
   testImplementation "org.junit.platform:junit-platform-launcher:1.6.2"

@@ -4,9 +4,9 @@
  * Copyright 2019-Present Datadog, Inc.
  */
 
-@testable import DatadogRUM
-@testable import DatadogCore
-@testable import DatadogInternal
+@testable import OpenObserveRUM
+@testable import OpenObserveCore
+@testable import OpenObserveInternal
 
 // MARK: - Foundation Mocks
 protocol RandomMockable {

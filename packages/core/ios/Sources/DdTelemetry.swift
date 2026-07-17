@@ -4,8 +4,8 @@
  * This product includes software developed at Datadog (https://www.datadoghq.com/).
  * Copyright 2019-2025 Datadog, Inc.
  */
-import DatadogCore
-import DatadogInternal
+import OpenObserveCore
+import OpenObserveInternal
 
 public class OoTelemetry {
     public static func sendTelemetryLog(message: String, attributes: [String: any Encodable], config: [String: any Encodable]) {
@@ -14,11 +14,11 @@ public class OoTelemetry {
     }
 
     public static func telemetryDebug(id: String, message: String) {
-        return Datadog._internal.telemetry.debug(id: id, message: message)
+        return OpenObserve._internal.telemetry.debug(id: id, message: message)
     }
 
     public static func telemetryError(id: String, message: String, kind: String?, stack: String?) {
-        return Datadog._internal.telemetry.error(id: id, message: message, kind: kind, stack: stack)
+        return OpenObserve._internal.telemetry.error(id: id, message: message, kind: kind, stack: stack)
     }
 
     public static func overrideTelemetryConfiguration(

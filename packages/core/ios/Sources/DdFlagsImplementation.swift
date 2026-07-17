@@ -5,18 +5,18 @@
  */
 
 import Foundation
-import DatadogInternal
+import OpenObserveInternal
 @_spi(Internal)
-import DatadogFlags
+import OpenObserveFlags
 
 @objc
 public class OoFlagsImplementation: NSObject {
-    private let core: DatadogCoreProtocol
+    private let core: OpenObserveCoreProtocol
 
     internal var clientProviders: [String: () -> FlagsClientProtocol] = [:]
 
     /// Exposing this initializer for testing purposes. React Native will always use the default initializer.
-    internal init(core: DatadogCoreProtocol) {
+    internal init(core: OpenObserveCoreProtocol) {
         self.core = core
     }
 
@@ -58,7 +58,7 @@ public class OoFlagsImplementation: NSObject {
     public func setEvaluationContext(_ clientName: String, targetingKey: String, attributes: NSDictionary, resolve: @escaping ((Any?) -> Void), reject: @escaping ((String?, String?, NSError?) -> Void)) {
         let client = getClient(name: clientName)
         guard let clientInternal = client as? FlagsClientInternal else {
-            reject("CLIENT_NOT_INITIALIZED", "Flags client '\(clientName)' is not properly initialized. Make sure the Datadog SDK has been initialized and Flags.enable() has been called.", nil)
+            reject("CLIENT_NOT_INITIALIZED", "Flags client '\(clientName)' is not properly initialized. Make sure the OpenObserve SDK has been initialized and Flags.enable() has been called.", nil)
             return
         }
 
@@ -104,7 +104,7 @@ public class OoFlagsImplementation: NSObject {
     @objc
     public func trackEvaluation(_ clientName: String, key: String, rawFlag: NSDictionary, targetingKey: String, attributes: NSDictionary, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         guard let client = getClient(name: clientName) as? FlagsClientInternal else {
-            reject("CLIENT_NOT_INITIALIZED", "Flags client '\(clientName)' is not properly initialized. Make sure the Datadog SDK has been initialized and Flags.enable() has been called.", nil)
+            reject("CLIENT_NOT_INITIALIZED", "Flags client '\(clientName)' is not properly initialized. Make sure the OpenObserve SDK has been initialized and Flags.enable() has been called.", nil)
             return
         }
         guard let flagAssignment = rawFlag.asFlagAssignment() else {

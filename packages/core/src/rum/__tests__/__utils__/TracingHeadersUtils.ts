@@ -5,14 +5,14 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { DatadogTracingContext } from '../../instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
+import type { OpenObserveTracingContext } from '../../instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
 import { TracingIdFormat } from '../../instrumentation/resourceTracking/distributedTracing/TracingIdentifier';
 import { TracingIdentifierUtils } from '../../instrumentation/resourceTracking/distributedTracing/__tests__/__utils__/TracingIdentifierUtils';
 
 type Header = { header: string; value: string };
 
 export const verifyRumResourceContext = (
-    tracingContext: DatadogTracingContext,
+    tracingContext: OpenObserveTracingContext,
     resourceContext?: Record<string, string | number>
 ) => {
     const rumResourceContext =
@@ -29,7 +29,7 @@ export const verifyRumResourceContext = (
     );
 };
 
-export const verifyDatadogHeaders = (
+export const verifyOpenObserveHeaders = (
     headersArray: Header[],
     isSampled: boolean
 ) => {

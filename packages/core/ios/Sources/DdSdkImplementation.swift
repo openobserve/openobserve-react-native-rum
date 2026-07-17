@@ -4,18 +4,18 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import DatadogCore
-import DatadogCrashReporting
-import DatadogInternal
-import DatadogLogs
-import DatadogRUM
-import DatadogTrace
-import DatadogWebViewTracking
+import OpenObserveCore
+import OpenObserveCrashReporting
+import OpenObserveInternal
+import OpenObserveLogs
+import OpenObserveRUM
+import OpenObserveTrace
+import OpenObserveWebViewTracking
 import Foundation
 import React
 
 #if os(iOS)
-    import DatadogWebViewTracking
+    import OpenObserveWebViewTracking
 #endif
 
 func getDefaultAppVersion() -> String {
@@ -159,7 +159,7 @@ public class OoSdkImplementation: NSObject {
         }
 
         if let validId = id {
-            Datadog.setUserInfo(id: validId, name: name, email: email, extraInfo: extraInfo)
+            OpenObserve.setUserInfo(id: validId, name: name, email: email, extraInfo: extraInfo)
         }
 
         resolve(nil)
@@ -171,13 +171,13 @@ public class OoSdkImplementation: NSObject {
     ) {
         let castedExtraInfo = castAttributesToSwift(extraInfo)
 
-        Datadog.addUserExtraInfo(castedExtraInfo)
+        OpenObserve.addUserExtraInfo(castedExtraInfo)
         resolve(nil)
     }
 
     @objc
     public func clearUserInfo(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        Datadog.clearUserInfo()
+        OpenObserve.clearUserInfo()
         resolve(nil)
     }
 
@@ -197,7 +197,7 @@ public class OoSdkImplementation: NSObject {
         }
 
         if let validId = id {
-            Datadog.setAccountInfo(id: validId, name: name, extraInfo: extraInfo)
+            OpenObserve.setAccountInfo(id: validId, name: name, extraInfo: extraInfo)
         }
 
         resolve(nil)
@@ -209,13 +209,13 @@ public class OoSdkImplementation: NSObject {
     ) {
         let castedExtraInfo = castAttributesToSwift(extraInfo)
 
-        Datadog.addAccountExtraInfo(castedExtraInfo)
+        OpenObserve.addAccountExtraInfo(castedExtraInfo)
         resolve(nil)
     }
 
     @objc
     public func clearAccountInfo(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        Datadog.clearAccountInfo()
+        OpenObserve.clearAccountInfo()
         resolve(nil)
     }
 
@@ -223,7 +223,7 @@ public class OoSdkImplementation: NSObject {
     public func setTrackingConsent(
         trackingConsent: NSString, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock
     ) {
-        Datadog.set(trackingConsent: (trackingConsent as NSString?).asTrackingConsent())
+        OpenObserve.set(trackingConsent: (trackingConsent as NSString?).asTrackingConsent())
         resolve(nil)
     }
 
@@ -266,7 +266,7 @@ public class OoSdkImplementation: NSObject {
             message: NSString, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock
         ) {
             do {
-                try DatadogSDKWrapper.shared.sendWebviewMessage(body: message)
+                try OpenObserveSDKWrapper.shared.sendWebviewMessage(body: message)
             } catch {
                 OoTelemetry.telemetryError(
                     id: "datadog_react_native:\(error.localizedDescription)",
@@ -282,7 +282,7 @@ public class OoSdkImplementation: NSObject {
 
     @objc
     public func clearAllData(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        Datadog.clearAllData()
+        OpenObserve.clearAllData()
         resolve(nil)
     }
 

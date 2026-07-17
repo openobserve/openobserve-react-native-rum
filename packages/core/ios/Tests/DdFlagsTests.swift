@@ -5,13 +5,13 @@
  */
 
 import XCTest
-import DatadogCore
+import OpenObserveCore
 @_spi(Internal)
-import DatadogFlags
-import DatadogInternal
+import OpenObserveFlags
+import OpenObserveInternal
 @_spi(Internal)
 @testable
-import DatadogSDKReactNative
+import OpenObserveSDKReactNative
 
 class OoFlagsTests: XCTestCase {
 
@@ -20,7 +20,7 @@ class OoFlagsTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        // MockDatadogCore doesn't work here because it returns `nil` in `feature` method.
+        // MockOpenObserveCore doesn't work here because it returns `nil` in `feature` method.
         core = FlagsTestCore()
         CoreRegistry.register(default: core)
         Flags.enable(in: core)
@@ -392,10 +392,10 @@ class OoFlagsTests: XCTestCase {
     }
 }
 
-private class FlagsTestCore: DatadogCoreProtocol {
-    private var features: [String: DatadogFeature] = [:]
+private class FlagsTestCore: OpenObserveCoreProtocol {
+    private var features: [String: OpenObserveFeature] = [:]
 
-    func register<T>(feature: T) throws where T : DatadogFeature {
+    func register<T>(feature: T) throws where T : OpenObserveFeature {
         features[T.name] = feature
     }
 
@@ -403,7 +403,7 @@ private class FlagsTestCore: DatadogCoreProtocol {
         return features[name] as? T
     }
 
-    func scope<T>(for featureType: T.Type) -> any FeatureScope where T : DatadogFeature {
+    func scope<T>(for featureType: T.Type) -> any FeatureScope where T : OpenObserveFeature {
         return NOPFeatureScope()
     }
 
@@ -413,7 +413,7 @@ private class FlagsTestCore: DatadogCoreProtocol {
 }
 
 private class MockFlagsClient: FlagsClientProtocol, FlagsClientInternal {
-    func getDetails<T>(key: String, defaultValue: T) -> DatadogFlags.FlagDetails<T> where T : DatadogFlags.FlagValue, T : Equatable {
+    func getDetails<T>(key: String, defaultValue: T) -> OpenObserveFlags.FlagDetails<T> where T : OpenObserveFlags.FlagValue, T : Equatable {
         return FlagDetails(key: key, value: defaultValue, variant: nil, reason: nil, error: nil)
     }
 
@@ -423,7 +423,7 @@ private class MockFlagsClient: FlagsClientProtocol, FlagsClientInternal {
     var lastEvaluationContext: FlagsEvaluationContext?
     var trackedEvaluation: (key: String, assignment: FlagAssignment, context: FlagsEvaluationContext)?
 
-    func setEvaluationContext(_ context: DatadogFlags.FlagsEvaluationContext, completion: @escaping (Result<Void, DatadogFlags.FlagsError>) -> Void) {
+    func setEvaluationContext(_ context: OpenObserveFlags.FlagsEvaluationContext, completion: @escaping (Result<Void, OpenObserveFlags.FlagsError>) -> Void) {
         lastEvaluationContext = context
         if let error = errorToReturn {
             completion(.failure(error))
@@ -432,11 +432,11 @@ private class MockFlagsClient: FlagsClientProtocol, FlagsClientInternal {
         }
     }
 
-    func getFlagAssignments() -> [String: DatadogFlags.FlagAssignment]? {
+    func getFlagAssignments() -> [String: OpenObserveFlags.FlagAssignment]? {
         return assignments
     }
 
-    func sendFlagEvaluation(key: String, assignment: DatadogFlags.FlagAssignment, context: DatadogFlags.FlagsEvaluationContext) {
+    func sendFlagEvaluation(key: String, assignment: OpenObserveFlags.FlagAssignment, context: OpenObserveFlags.FlagsEvaluationContext) {
         trackedEvaluation = (key, assignment, context)
     }
 }

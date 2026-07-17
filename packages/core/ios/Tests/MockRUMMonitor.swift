@@ -4,10 +4,10 @@
  * Copyright 2019-2020 Datadog, Inc.
  */
 
-@testable import DatadogCore
-@testable import DatadogRUM
-@testable import DatadogInternal
-@testable import DatadogSDKReactNative
+@testable import OpenObserveCore
+@testable import OpenObserveRUM
+@testable import OpenObserveInternal
+@testable import OpenObserveSDKReactNative
 
 internal class MockRUMMonitor: RUMMonitorProtocol {
     func reportAppFullyDisplayed() {
@@ -22,21 +22,21 @@ internal class MockRUMMonitor: RUMMonitorProtocol {
         self.debug = false
     }
     
-    func addAttribute(forKey key: DatadogInternal.AttributeKey, value: DatadogInternal.AttributeValue) {
+    func addAttribute(forKey key: OpenObserveInternal.AttributeKey, value: OpenObserveInternal.AttributeValue) {
         addedAttributes[key] = value
     }
     
-    func removeAttribute(forKey key: DatadogInternal.AttributeKey) {
+    func removeAttribute(forKey key: OpenObserveInternal.AttributeKey) {
         addedAttributes.removeValue(forKey: key)
     }
     
-    func addAttributes(_ attributes: [DatadogInternal.AttributeKey : any DatadogInternal.AttributeValue]) {
+    func addAttributes(_ attributes: [OpenObserveInternal.AttributeKey : any OpenObserveInternal.AttributeValue]) {
         for (key, value) in attributes {
             addAttribute(forKey: key, value: value)
         }
     }
     
-    func removeAttributes(forKeys keys: [DatadogInternal.AttributeKey]) {
+    func removeAttributes(forKeys keys: [OpenObserveInternal.AttributeKey]) {
         for key in keys {
             removeAttribute(forKey: key)
         }
@@ -81,7 +81,7 @@ internal class MockRUMMonitor: RUMMonitorProtocol {
                                 responseBodySize: BodySize?,
                                 requestBodySize: BodySize?)
         case addLongTasks(time: Date, duration: TimeInterval)
-        case updatePerformanceMetric(time: Date, metric: DatadogRUM.PerformanceMetric, value: Double)
+        case updatePerformanceMetric(time: Date, metric: OpenObserveRUM.PerformanceMetric, value: Double)
         case addAction(time: Date, type: RUMActionType, name: String, heatmapAttributes: HeatmapAttributes?)
     }
 
@@ -130,21 +130,21 @@ internal class MockRUMMonitor: RUMMonitorProtocol {
     func addTiming(name: String) {
         calledMethods.append(.addTiming(name: name))
     }
-    func addViewAttribute(forKey key: DatadogInternal.AttributeKey, value: any DatadogInternal.AttributeValue) {
+    func addViewAttribute(forKey key: OpenObserveInternal.AttributeKey, value: any OpenObserveInternal.AttributeValue) {
         calledMethods.append(.addViewAttribute(key: key))
         receivedAttributes.append([key :value])
     }
         
-    func removeViewAttribute(forKey key: DatadogInternal.AttributeKey) {
+    func removeViewAttribute(forKey key: OpenObserveInternal.AttributeKey) {
         calledMethods.append(.removeViewAttribute(key: key))
     }
     
-    func addViewAttributes(_ attributes: [DatadogInternal.AttributeKey : any DatadogInternal.AttributeValue]) {
+    func addViewAttributes(_ attributes: [OpenObserveInternal.AttributeKey : any OpenObserveInternal.AttributeValue]) {
         calledMethods.append(.addViewAttributes())
         receivedAttributes.append(attributes)
     }
     
-    func removeViewAttributes(forKeys keys: [DatadogInternal.AttributeKey]) {
+    func removeViewAttributes(forKeys keys: [OpenObserveInternal.AttributeKey]) {
         calledMethods.append(.removeViewAttributes(keys: keys))
     }
     
@@ -174,7 +174,7 @@ public struct MockRUMMonitorInternal: RUMMonitorInternalProtocol {
         monitor.receivedLongTasks[time] = duration
     }
     
-    public func updatePerformanceMetric(at time: Date, metric: DatadogRUM.PerformanceMetric, value: Double, attributes: [AttributeKey : AttributeValue]) {
+    public func updatePerformanceMetric(at time: Date, metric: OpenObserveRUM.PerformanceMetric, value: Double, attributes: [AttributeKey : AttributeValue]) {
         monitor.calledMethods.append(
             .updatePerformanceMetric(time: time, metric: metric, value: value)
         )

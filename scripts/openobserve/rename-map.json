@@ -1,15 +1,45 @@
 {
-  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' — see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
+  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' \u2014 see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
   "rules": [
+    {
+      "literal": "datadog-sourcemaps",
+      "to": "openobserve-sourcemaps",
+      "why": "SHIPPED + PUBLIC: consumers apply this by path \u2014 `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-sourcemaps.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
+    },
+    {
+      "literal": "datadog-configuration",
+      "to": "openobserve-configuration",
+      "why": "SHIPPED + PUBLIC: consumers apply this by path \u2014 `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-configuration.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
+    },
+    {
+      "literal": "com.datadog.",
+      "to": "com.openobserve.",
+      "why": "Dotted Java package references AND the literal directory named `com.datadog.reactnative.sessionreplay` (rn69/rnlegacy source sets use a dotted dir, not nested folders), which the com/datadog slash rule cannot match. Must precede the broad Datadog rule so the lowercase form is handled explicitly."
+    },
     {
       "literal": "DataDog/dd-sdk-reactnative",
       "to": "openobserve/openobserve-react-native-rum",
       "why": "repository URLs in package.json / docs"
     },
     {
+      "literal": "dd-sdk-reactnative",
+      "to": "openobserve-react-native-rum",
+      "why": "The bare upstream repo/package slug \u2014 the monorepo root package name (private, ships nowhere) plus docs, CI and scripts. MUST come after the DataDog/dd-sdk-reactnative URL rule, or that rule's input is destroyed and you get the nonsense `DataDog/openobserve-react-native-rum`. NOTICE keeps the upstream name deliberately and is excluded via keep-ours."
+    },
+    {
       "literal": "expo-datadog",
       "to": "expo-openobserve",
       "why": "expo config plugin package name (must precede the generic 'datadog' rules)"
+    },
+    {
+      "literal": "@datadog/datadog-ci",
+      "to": "@datadog/datadog-ci",
+      "why": "GUARD \u2014 must precede the '@datadog/' rule. datadog-ci is an EXTERNAL, upstream-published npm package (@datadog/datadog-ci -> 200). The broad '@datadog/' -> '@openobserve/' rule rewrote it to @openobserve/datadog-ci, which has never existed (404), breaking `yarn install` in benchmarks/ and example/. Same class as the Gradle-plugin and swift-testing over-renames (doc 08 3.4): never blanket-rename a coordinate someone else publishes. Identity mapping so the later rule cannot reach it."
+    },
+    {
+      "literal": "datadog-generate-sr-assets",
+      "to": "openobserve-generate-sr-assets",
+      "why": "SHIPPED: the `bin` name declared by @openobserve/mobile-react-native-babel-plugin, a PUBLISHED package. Consumers installing it get a `datadog-generate-sr-assets` executable on PATH. Lowercase, so no other rule matches it."
     },
     {
       "literal": "@datadog/",
@@ -25,29 +55,74 @@
       "regex": "\\b_dd\\b",
       "to": "_oo",
       "why": "RUM/telemetry event internal namespace field renamed _dd -> _oo (matches the rum-events-format schema fork)."
+    },
+    {
+      "literal": "Datadog",
+      "to": "OpenObserve",
+      "why": "Catch-all for the product/class names: Core, Internal, RUM, Logs, Trace, Flags, CrashReporting, SessionReplay, WebViewTracking, SDKReactNative. Replaces the narrow deferredRules alternation, which listed only 7 of them and silently missed DatadogTrace (28 refs), DatadogFlags (25) and DatadogSDKReactNative (100). Case-sensitive: does NOT match the `DataDog` GitHub org or lowercase `datadog-*` names, so external coordinates are untouched. Attribution lines are protected separately by ATTRIBUTION_RE in rebrand.mjs."
+    },
+    {
+      "literal": "com.datadoghq:dd-sdk-android",
+      "to": "ai.openobserve:oo-sdk-android",
+      "why": "ACTIVATED at STEP 4 (alpha2 natives are published). Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay)"
+    },
+    {
+      "regex": "(ai\\.openobserve:oo-sdk-android-[a-z0-9-]+):[0-9][0-9A-Za-z.-]*",
+      "to": "$1:0.1.0-alpha2",
+      "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:oo-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:oo-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released."
+    },
+    {
+      "regex": "(dependency '(?:OpenObserve[A-Za-z]+)', ')[0-9][0-9A-Za-z.-]*(')",
+      "to": "$10.1.0-alpha.2$2",
+      "why": "RE-PIN (STEP 4): same for the CocoaPods deps \u2014 the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
     }
   ],
   "deferredRules": {
-    "comment": "DO NOT MOVE INTO 'rules' UNTIL the OpenObserve iOS + Android native forks (Workstream B/C, tracker A5) are published to CocoaPods/Maven. rebrand.mjs ignores this key. Applying these renames the native artifact COORDINATES the fork depends on; until the forks exist on the registries, `pod install` and Gradle dependency resolution would fail. During Phase 0 the build resolves the ORIGINAL upstream coordinates (local-only, never shipped). Switch these on in task A5.",
-    "rules": [
-      {
-        "literal": "com.datadoghq:dd-sdk-android",
-        "to": "ai.openobserve:oo-sdk-android",
-        "why": "Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay)"
-      },
-      {
-        "regex": "\\bDatadog(Core|Internal|RUM|Logs|CrashReporting|SessionReplay|WebViewTracking)\\b",
-        "to": "OpenObserve$1",
-        "why": "iOS native core CocoaPods/SPM product names"
-      }
-    ]
+    "comment": "EMPTY \u2014 activated in STEP 4 once ai.openobserve:oo-sdk-android-* 0.1.0-alpha2 and the OpenObserve* pods 0.1.0-alpha.2 were live on Maven Central / CocoaPods trunk. Kept as a key so the mechanism (and the reason it existed) stays discoverable: before the native forks were published, renaming the coordinates would have broken `pod install` and Gradle resolution.",
+    "rules": []
   },
   "intentionallyNotRebranded": {
     "comment": "Left alone on purpose.",
     "items": [
-      "ddsource / ddtags query params and tags — wire protocol to the intake; handled by the backend (doc 02), not renamed client-side to avoid breaking ingest.",
-      "DD-API-KEY header — auth rename to oo-api-key is coupled to the doc 02 header-auth backend change (design §6); the native core emits it, so it is a native-fork concern, not a JS rename.",
-      "Cosmetic 'Datadog' mentions in prose/comments/links to docs.datadoghq.com — not identity-critical; handled in a later docs pass."
+      "ddsource / ddtags query params and tags \u2014 wire protocol to the intake; handled by the backend (doc 02), not renamed client-side to avoid breaking ingest.",
+      "DD-API-KEY header \u2014 auth rename to oo-api-key is coupled to the doc 02 header-auth backend change (design \u00a76); the native core emits it, so it is a native-fork concern, not a JS rename.",
+      "Cosmetic 'Datadog' mentions in prose/comments/links to docs.datadoghq.com \u2014 not identity-critical; handled in a later docs pass."
     ]
-  }
+  },
+  "pathRenames": [
+    {
+      "from": "com/datadog",
+      "to": "com/openobserve",
+      "why": "The Android bridge's Java package: packages/core/android/src/main/kotlin/com/datadog/reactnative/** (184 files). It SHIPS inside the published npm tarball, so the directory name reaches every consumer even though the file CONTENT was rebranded. RN's codemod had no path-rename phase at all \u2014 Android and iOS have had one since day one \u2014 so these survived every run. Content rules cannot express a rename; only `git mv` can."
+    }
+  ],
+  "fileRenames": [
+    {
+      "token": "Datadog",
+      "to": "OpenObserve",
+      "why": "Class-name FILES whose basename still carries the upstream token although the class inside was rebranded (DatadogSDKWrapper.kt -> OpenObserveSDKWrapper.kt), plus the bridge podspecs (DatadogSDKReactNative.podspec). Those podspecs are NOT published to trunk (404) \u2014 they are resolved by :path via autolinking from node_modules \u2014 so renaming them is safe as long as the Podfile references move with them, which the broad content rule below handles."
+    },
+    {
+      "token": "datadog-configuration",
+      "to": "openobserve-configuration",
+      "why": "Renames datadog-configuration.gradle / .schema.json / .json alongside the content rule above."
+    },
+    {
+      "token": "datadog-sourcemaps",
+      "to": "openobserve-sourcemaps",
+      "why": "Renames datadog-sourcemaps.gradle / .schema.json / .json alongside the content rule above."
+    }
+  ],
+  "dirRenames": [
+    {
+      "token": "com.datadog.",
+      "to": "com.openobserve.",
+      "why": "The rn69/rnlegacy source sets use a DOTTED directory name (com.datadog.reactnative.sessionreplay) rather than nested folders, so neither the com/datadog slash rule nor the `Datadog` token rule can see it. Ships inside @openobserve/mobile-react-native-session-replay."
+    },
+    {
+      "token": "Datadog",
+      "to": "OpenObserve",
+      "why": "DIRECTORIES whose basename carries the token at any depth \u2014 src/sdk/DatadogProvider, DatadogRumResource, DatadogEventEmitter, DatadogInternalBridge, and the packages/*/ios/*.xcodeproj bundles. pathRenames only matches the fixed slash-path com/datadog and cannot see these. They SHIP in the npm tarball, and the earlier pass renamed the FILES inside while stranding the directory (DatadogEventEmitter/OpenObserveEventEmitter.tsx). The .xcodeproj bundles are dev-only and referenced only by :path from the example Podfiles, which the content rules rewrite in the same run."
+    }
+  ]
 }

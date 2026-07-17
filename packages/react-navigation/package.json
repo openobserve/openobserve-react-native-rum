@@ -1,14 +1,14 @@
 {
     "name": "@openobserve/mobile-react-navigation",
-    "version": "3.5.3",
-    "description": "A client-side React Native module to interact with Datadog",
+    "version": "0.1.0-alpha.2",
+    "description": "A client-side React Native module to interact with OpenObserve",
     "keywords": [
         "datadog",
         "react-native",
         "ios",
         "android"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",
@@ -36,7 +36,7 @@
         "prepare": "rm -rf lib && yarn bob build"
     },
     "devDependencies": {
-        "@openobserve/mobile-react-native": "^3.5.3",
+        "@openobserve/mobile-react-native": "^0.1.0-alpha.2",
         "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8",
         "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2",
         "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2",

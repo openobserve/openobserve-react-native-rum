@@ -12,7 +12,7 @@ import {
   OoFlags,
   PropagatorType,
 } from '@openobserve/mobile-react-native';
-import {DatadogOpenFeatureProvider} from '@openobserve/mobile-react-native-openfeature';
+import {OpenObserveOpenFeatureProvider} from '@openobserve/mobile-react-native-openfeature';
 import {
   OpenFeature,
   OpenFeatureProvider,
@@ -69,17 +69,17 @@ import {APPLICATION_ID, CLIENT_TOKEN, ENVIRONMENT} from './ddCredentials';
   config.uploadFrequency = UploadFrequency.FREQUENT;
   config.batchSize = BatchSize.SMALL;
 
-  // Initialize the Datadog SDK.
+  // Initialize the OpenObserve SDK.
   await OoSdkReactNative.initialize(config);
 
-  // Enable Datadog Flags feature.
+  // Enable OpenObserve Flags feature.
   await OoFlags.enable();
 
   // Set the provider with OpenFeature.
-  const provider = new DatadogOpenFeatureProvider();
+  const provider = new OpenObserveOpenFeatureProvider();
   OpenFeature.setProvider(provider);
 
-  // Datadog SDK usage examples.
+  // OpenObserve SDK usage examples.
   await OoRum.startView('main', 'Main');
   setTimeout(async () => {
     await OoRum.addTiming('one_second');

@@ -12,7 +12,7 @@ import { debugId } from '../metro/debugIdResolver';
 import type { OoNativeRumType } from '../nativeModulesTypes';
 import { encodeAttributes } from '../sdk/AttributesEncoding/attributesEncoding';
 import type { Attributes } from '../sdk/AttributesSingleton/types';
-import { bufferVoidNativeCall } from '../sdk/DatadogProvider/Buffer/bufferNativeCall';
+import { bufferVoidNativeCall } from '../sdk/OpenObserveProvider/Buffer/bufferNativeCall';
 import { NativeDdSdk } from '../sdk/OoSdkInternal';
 import { GlobalState } from '../sdk/GlobalState/GlobalState';
 import type { ErrorSource, FeatureOperationFailure } from '../types';
@@ -33,8 +33,8 @@ import {
     getCachedUserId,
     setCachedSessionId
 } from './helper';
-import type { DatadogTracingContext } from './instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
-import { DatadogTracingIdentifier } from './instrumentation/resourceTracking/distributedTracing/DatadogTracingIdentifier';
+import type { OpenObserveTracingContext } from './instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
+import { OpenObserveTracingIdentifier } from './instrumentation/resourceTracking/distributedTracing/OpenObserveTracingIdentifier';
 import { TracingIdentifier } from './instrumentation/resourceTracking/distributedTracing/TracingIdentifier';
 import {
     getTracingContext,
@@ -48,7 +48,7 @@ import type {
     RumActionType
 } from './types';
 
-const RUM_MODULE = 'com.datadog.reactnative.rum';
+const RUM_MODULE = 'com.openobserve.reactnative.rum';
 
 const generateEmptyPromise = () => new Promise<void>(resolve => resolve());
 
@@ -463,7 +463,7 @@ class OoRumWrapper implements OoRumType {
         url: string,
         tracingSamplingRate: number,
         firstPartyHosts: FirstPartyHost[]
-    ): DatadogTracingContext => {
+    ): OpenObserveTracingContext => {
         return getTracingContext(
             url,
             tracingSamplingRate,
@@ -477,7 +477,7 @@ class OoRumWrapper implements OoRumType {
     getTracingContextForPropagators = (
         propagators: PropagatorType[],
         tracingSamplingRate: number
-    ): DatadogTracingContext => {
+    ): OpenObserveTracingContext => {
         return getTracingContextForPropagators(
             propagators,
             tracingSamplingRate,
@@ -487,12 +487,12 @@ class OoRumWrapper implements OoRumType {
         );
     };
 
-    generateTraceId(): DatadogTracingIdentifier {
-        return new DatadogTracingIdentifier(TracingIdentifier.createTraceId());
+    generateTraceId(): OpenObserveTracingIdentifier {
+        return new OpenObserveTracingIdentifier(TracingIdentifier.createTraceId());
     }
 
-    generateSpanId(): DatadogTracingIdentifier {
-        return new DatadogTracingIdentifier(TracingIdentifier.createSpanId());
+    generateSpanId(): OpenObserveTracingIdentifier {
+        return new OpenObserveTracingIdentifier(TracingIdentifier.createSpanId());
     }
 
     registerErrorEventMapper(errorEventMapper: ErrorEventMapper) {

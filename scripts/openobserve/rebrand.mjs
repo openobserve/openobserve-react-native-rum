@@ -27,7 +27,12 @@ const ROOT = process.cwd()
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const CHECK = process.argv.includes('--check')
 
-const { rules } = JSON.parse(fs.readFileSync(path.join(HERE, 'rename-map.json'), 'utf8'))
+const {
+  rules,
+  pathRenames = [],
+  dirRenames = [],
+  fileRenames = [],
+} = JSON.parse(fs.readFileSync(path.join(HERE, 'rename-map.json'), 'utf8'))
 
 // Fork-owned files (keep-ours overlay) are never rebranded: they are authored
 // for the fork already, and may intentionally reference upstream.
@@ -53,15 +58,119 @@ const SKIP = [
   /\.(png|jpg|jpeg|gif|ico|svg|webp|woff2?|ttf|eot|otf|mp4|webm|mov|zip|jar|aar|keystore|pdf|so|a|dylib|framework)$/i,
 ]
 
-const trackedFiles = execFileSync('git', ['ls-files', '-z'], {
-  cwd: ROOT,
-  maxBuffer: 256 * 1024 * 1024,
-})
-  .toString('utf8')
-  .split('\0')
-  .filter(Boolean)
-  .filter((f) => !SKIP.some((re) => re.test(f)))
-  .filter((f) => !keepOursPaths.some((p) => f === p || f.startsWith(`${p}/`)))
+const git = (args) => execFileSync('git', args, { cwd: ROOT, maxBuffer: 256 * 1024 * 1024 }).toString('utf8')
+const tracked = () =>
+  git(['ls-files', '-z'])
+    .split('\0')
+    .filter(Boolean)
+    .filter((f) => !SKIP.some((re) => re.test(f)))
+    .filter((f) => !keepOursPaths.some((p) => f === p || f.startsWith(`${p}/`)))
+
+// ---- Phase 1: path renames (git mv) -----------------------------------------
+// The Android/iOS forks have had these from the start; RN did not, so its codemod
+// renamed file CONTENT while leaving 191 upstream-named PATHS in place — including
+// packages/core/android/src/main/kotlin/com/datadog/reactnative/** (the bridge's Java
+// package, which ships inside the published npm tarball) and the bridge podspec
+// itself. Content rules cannot express a rename; only `git mv` can.
+//
+// Each rule is applied against a FRESH scan so rules compose. Within one rule we drop
+// a move nested under another move OF THE SAME RULE (git mv carries nested content).
+function dirsNow() {
+  return [...new Set(tracked().map((f) => path.dirname(f)))]
+}
+function movesForRule(rule, dirs) {
+  const moves = []
+  const from = rule.from
+  const srcs = new Set()
+  for (const d of dirs) {
+    let idx = d.indexOf(from)
+    while (idx !== -1) {
+      const before = idx === 0 || d[idx - 1] === '/'
+      const afterPos = idx + from.length
+      const after = afterPos === d.length || d[afterPos] === '/'
+      if (before && after) srcs.add(d.slice(0, afterPos))
+      idx = d.indexOf(from, idx + 1)
+    }
+  }
+  for (const src of srcs) moves.push([src, src.slice(0, src.length - from.length) + rule.to])
+  const uniq = [...new Map(moves.map((m) => [m[0], m])).values()].sort(
+    (a, b) => a[0].split('/').length - b[0].split('/').length
+  )
+  const done = []
+  return uniq.filter(([f]) => {
+    if (done.some((p) => f === p || f.startsWith(`${p}/`))) return false
+    done.push(f)
+    return true
+  })
+}
+
+let dirMoves = 0
+for (const rule of pathRenames) {
+  const moves = movesForRule(rule, dirsNow())
+  dirMoves += moves.length
+  console.log(`pathRename [${rule.from}]: ${moves.length} dir(s) ${CHECK ? 'would be' : ''} moved`)
+  if (process.argv.includes('--list')) moves.forEach(([a, b]) => console.log(`  ${a} -> ${b}`))
+  if (!CHECK) for (const [f, t] of moves) { fs.mkdirSync(path.dirname(t), { recursive: true }); git(['mv', f, t]) }
+}
+
+// ---- Phase 1.2: nested directory renames (any depth) ------------------------
+// pathRenames only matches a fixed slash-path (com/datadog). It cannot reach a DIRECTORY
+// whose basename merely contains the token — e.g. src/sdk/DatadogProvider/,
+// DatadogRumResource/, DatadogEventEmitter/, DatadogInternalBridge/. Those ship in the
+// npm tarball, and the first pass renamed the FILES inside them while stranding the
+// directory (DatadogEventEmitter/OpenObserveEventEmitter.tsx). Iterates to a fixpoint —
+// a rename can expose a parent/child that still matches — and drops moves nested under
+// another move in the same pass, since git mv carries their content.
+let nestedDirMoves = 0
+for (const rule of dirRenames) {
+  for (let pass = 0; pass < 10; pass++) {
+    const dirs = new Set()
+    for (const f of tracked()) {
+      const parts = f.split('/')
+      for (let i = 1; i < parts.length; i++) dirs.add(parts.slice(0, i).join('/'))
+    }
+    const moves = []
+    for (const d of dirs) {
+      const base = path.basename(d)
+      if (!base.includes(rule.token)) continue
+      if ((rule.skip || []).some((s) => d.includes(s))) continue
+      moves.push([d, path.join(path.dirname(d), base.split(rule.token).join(rule.to))])
+    }
+    moves.sort((a, b) => a[0].split('/').length - b[0].split('/').length)
+    const done = []
+    const batch = moves.filter(([f]) => {
+      if (done.some((p) => f === p || f.startsWith(`${p}/`))) return false
+      done.push(f)
+      return true
+    })
+    if (!batch.length) break
+    nestedDirMoves += batch.length
+    if (process.argv.includes('--list')) batch.forEach(([a, b]) => console.log(`  ${a} -> ${b}`))
+    if (CHECK) break // no mutation: a second pass would report the same moves
+    for (const [f, t] of batch) git(['mv', f, t])
+  }
+}
+if (dirRenames.length) console.log(`dirRenames: ${nestedDirMoves} dir(s) ${CHECK ? 'would be' : ''} moved`)
+
+// ---- Phase 1.5: file renames (basename token) -------------------------------
+// Class-name FILES whose basename still carries the upstream token even though the
+// class INSIDE was rebranded by the content rules (e.g. DatadogSDKWrapper.kt holding
+// `class OpenObserveSDKWrapper`). Basename only — directories are Phase 1's job.
+let fileMoves = 0
+for (const rule of fileRenames) {
+  for (const f of tracked()) {
+    const base = path.basename(f)
+    if (!base.includes(rule.token)) continue
+    if ((rule.skip || []).some((s) => f.includes(s))) continue
+    const to = path.join(path.dirname(f), base.split(rule.token).join(rule.to))
+    fileMoves++
+    if (process.argv.includes('--list')) console.log(`  ${f} -> ${to}`)
+    if (!CHECK) git(['mv', f, to])
+  }
+}
+if (fileRenames.length) console.log(`fileRenames: ${fileMoves} file(s) ${CHECK ? 'would be' : ''} moved`)
+
+const trackedFiles = tracked()
 
 const compiled = rules.map((rule) => ({
   ...rule,
@@ -116,7 +225,7 @@ console.log(`rebrand: ${changed} files ${CHECK ? 'would be' : ''} rebranded`)
 if (process.argv.includes('--list')) {
   for (const f of changedFiles) console.log(`  ${f}`)
 }
-if (CHECK && changed > 0) {
+if (CHECK && (changed > 0 || dirMoves > 0 || fileMoves > 0)) {
   console.error('rebrand --check: tree is not fully branded')
   process.exit(1)
 }

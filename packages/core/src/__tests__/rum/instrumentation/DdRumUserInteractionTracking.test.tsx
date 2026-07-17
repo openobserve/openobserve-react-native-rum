@@ -20,7 +20,7 @@ import React from 'react';
 
 import type { OoNativeRumType } from '../../../nativeModulesTypes';
 import { OoRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
-import { BufferSingleton } from '../../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { NativeDdSdk } from '../../../sdk/OoSdkInternal';
 
 const styles = StyleSheet.create({

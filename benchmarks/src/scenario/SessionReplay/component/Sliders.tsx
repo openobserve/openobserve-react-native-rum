@@ -15,14 +15,14 @@ function Sliders(): React.JSX.Element {
                 maximumValue={1}
                 value={0.5}
                 minimumTrackTintColor={Colors.Grey}
-                maximumTrackTintColor={Colors.DatadogPurple}
+                maximumTrackTintColor={Colors.OpenObservePurple}
                 />
             <Slider
                 style={styles.sessionReplaySlider}
                 minimumValue={0}
                 maximumValue={1}
                 minimumTrackTintColor={Colors.Grey}
-                maximumTrackTintColor={Colors.DatadogPurple}
+                maximumTrackTintColor={Colors.OpenObservePurple}
                 disabled={true}
                 />
             <Slider
@@ -32,14 +32,14 @@ function Sliders(): React.JSX.Element {
                 step={0.2}
                 value={0.2}
                 minimumTrackTintColor={Colors.Grey}
-                maximumTrackTintColor={Colors.DatadogPurple}
+                maximumTrackTintColor={Colors.OpenObservePurple}
                 />
             <Slider
                 style={styles.sessionReplaySlider}
                 minimumValue={0}
                 maximumValue={1}
                 minimumTrackTintColor={Colors.Grey}
-                maximumTrackTintColor={Colors.DatadogPurple}
+                maximumTrackTintColor={Colors.OpenObservePurple}
                 thumbImage={require('./assets/bits.png')}
                 />
         </View>

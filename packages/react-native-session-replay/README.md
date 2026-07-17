@@ -4,7 +4,7 @@ Mobile Session Replay expands visibility into your mobile applications by visual
 
 ## Setup
 
-**Note**: Make sure you’ve setup and initialized the [Datadog React Native SDK][1] with views instrumentation enabled.
+**Note**: Make sure you’ve setup and initialized the [OpenObserve React Native SDK][1] with views instrumentation enabled.
 
 To install with NPM, run:
 
@@ -53,11 +53,11 @@ SessionReplay.stopRecording();
 
 ## SVG Support
 
-Session Replay provides enhanced support for capturing SVG images in your React Native application. To enable SVG tracking, you need to set up the Datadog Babel plugin and Metro plugin.
+Session Replay provides enhanced support for capturing SVG images in your React Native application. To enable SVG tracking, you need to set up the OpenObserve Babel plugin and Metro plugin.
 
 ### Prerequisites
 
-Install the Datadog Babel plugin:
+Install the OpenObserve Babel plugin:
 
 ```sh
 npm install @openobserve/mobile-react-native-babel-plugin
@@ -114,7 +114,7 @@ When setting up your project or after installing new dependencies, follow this w
 yarn install
 
 # 2. Generate Session Replay SVG assets
-npx datadog-generate-sr-assets
+npx openobserve-generate-sr-assets
 
 # 3. Install iOS pods (if building for iOS)
 cd ios && pod install && cd ..
@@ -125,24 +125,24 @@ yarn ios
 yarn android
 ```
 
-The `datadog-generate-sr-assets` CLI utility scans your codebase for SVG elements and pre-generates optimized assets that will be included in your native builds.
+The `openobserve-generate-sr-assets` CLI utility scans your codebase for SVG elements and pre-generates optimized assets that will be included in your native builds.
 
 #### CLI Options
 
-The `datadog-generate-sr-assets` command supports the following options:
+The `openobserve-generate-sr-assets` command supports the following options:
 
 ```sh
-npx datadog-generate-sr-assets [options]
+npx openobserve-generate-sr-assets [options]
 ```
 
 | Option | Alias | Description | Example |
 |--------|-------|-------------|---------|
-| `--ignore <pattern>` | `-i` | Additional glob patterns to ignore during scanning. Can be specified multiple times. | `npx datadog-generate-sr-assets --ignore "**/legacy/**" --ignore "**/vendor/**"` |
-| `--verbose` | `-v` | Enable verbose output for debugging. | `npx datadog-generate-sr-assets --verbose` |
-| `--path <path>` | `-p` | Path to the root directory to scan. Defaults to the current working directory. | `npx datadog-generate-sr-assets --path ./src` |
-| `--followSymlinks` | | Follow symbolic links during directory traversal. Default: false (symlinks are ignored). | `npx datadog-generate-sr-assets --followSymlinks` |
+| `--ignore <pattern>` | `-i` | Additional glob patterns to ignore during scanning. Can be specified multiple times. | `npx openobserve-generate-sr-assets --ignore "**/legacy/**" --ignore "**/vendor/**"` |
+| `--verbose` | `-v` | Enable verbose output for debugging. | `npx openobserve-generate-sr-assets --verbose` |
+| `--path <path>` | `-p` | Path to the root directory to scan. Defaults to the current working directory. | `npx openobserve-generate-sr-assets --path ./src` |
+| `--followSymlinks` | | Follow symbolic links during directory traversal. Default: false (symlinks are ignored). | `npx openobserve-generate-sr-assets --followSymlinks` |
 
-**Note for CI/CD**: If you use continuous integration for your builds, make sure to include these steps in your CI pipeline. The workflow should be: `yarn install` → `npx datadog-generate-sr-assets` → `pod install` (for iOS) → build your app. This ensures SVG assets are properly generated before the native build process.
+**Note for CI/CD**: If you use continuous integration for your builds, make sure to include these steps in your CI pipeline. The workflow should be: `yarn install` → `npx openobserve-generate-sr-assets` → `pod install` (for iOS) → build your app. This ensures SVG assets are properly generated before the native build process.
 
 ### Development Workflow
 

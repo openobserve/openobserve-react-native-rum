@@ -1,5 +1,5 @@
 import {
-    DatadogProviderConfiguration,
+    OpenObserveProviderConfiguration,
     OoLogs,
     OoSdkReactNative,
     CoreConfiguration,
@@ -10,15 +10,15 @@ import {
     OoFlags,
     PropagatorType,
 } from '@openobserve/mobile-react-native';
-import { DatadogOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
+import { OpenObserveOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature } from '@openfeature/react-sdk';
 
 import {APPLICATION_ID, CLIENT_TOKEN, ENVIRONMENT} from './ddCredentials';
 import { BatchProcessingLevel } from '@openobserve/mobile-react-native/src/config/types';
 
 // New SDK Setup - not available for react-native-navigation
-export function getDatadogConfig(trackingConsent: TrackingConsent) {
-    const config = new DatadogProviderConfiguration(
+export function getOpenObserveConfig(trackingConsent: TrackingConsent) {
+    const config = new OpenObserveProviderConfiguration(
         CLIENT_TOKEN,
         ENVIRONMENT,
         trackingConsent,
@@ -57,14 +57,14 @@ export function getDatadogConfig(trackingConsent: TrackingConsent) {
     return config
 }
 
- export function onDatadogInitialization() {
+ export function onOpenObserveInitialization() {
     OoLogs.info('The RN Sdk was properly initialized')
     OoSdkReactNative.setUserInfo({id: "1337", name: "Xavier", email: "xg@example.com", extraInfo: { type: "premium" } })
     OoSdkReactNative.addAttributes({campaign: "ad-network"})
 }
 
 // Legacy SDK Setup
-export function initializeDatadog(trackingConsent: TrackingConsent) {
+export function initializeOpenObserve(trackingConsent: TrackingConsent) {
 
     const config = new CoreConfiguration(
         CLIENT_TOKEN,
@@ -98,7 +98,7 @@ export function initializeDatadog(trackingConsent: TrackingConsent) {
     // Enable the Flags feature.
     OoFlags.enable().then(() => {
         // Set the provider with OpenFeature.
-        const provider = new DatadogOpenFeatureProvider();
+        const provider = new OpenObserveOpenFeatureProvider();
         OpenFeature.setProvider(provider);
     })
 }

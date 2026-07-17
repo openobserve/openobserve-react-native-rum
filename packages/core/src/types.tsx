@@ -12,11 +12,11 @@ declare global {
 }
 
 /**
- * The entry point to initialize Datadog's features.
+ * The entry point to initialize OpenObserve's features.
  */
 export type OoSdkType = {
     /**
-     * Initializes Datadog's features.
+     * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
     initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
@@ -94,7 +94,7 @@ export type OoSdkType = {
 };
 
 /**
- * The entry point to use Datadog's Trace feature.
+ * The entry point to use OpenObserve's Trace feature.
  */
 export type OoTraceType = {
     /**

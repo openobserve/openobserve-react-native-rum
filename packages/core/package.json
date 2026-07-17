@@ -1,14 +1,14 @@
 {
     "name": "@openobserve/mobile-react-native",
-    "version": "3.5.3",
-    "description": "A client-side React Native module to interact with Datadog",
+    "version": "0.1.0-alpha.2",
+    "description": "A client-side React Native module to interact with OpenObserve",
     "keywords": [
         "datadog",
         "react-native",
         "ios",
         "android"
     ],
-    "author": "Datadog (https://github.com/DataDog)",
+    "author": "OpenObserve (https://github.com/DataDog)",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {
@@ -29,10 +29,10 @@
         "ios/OoSdkReactNative.xcodeproj/project.xcworkspace/*.xcworkspacedata",
         "ios/OoSdkReactNative.xcodeproj/*.pbxproj",
         "jest",
-        "DatadogSDKReactNative.podspec",
-        "datadog-sourcemaps.gradle",
-        "datadog-configuration.gradle",
-        "datadog-configuration.schema.json"
+        "OpenObserveSDKReactNative.podspec",
+        "openobserve-sourcemaps.gradle",
+        "openobserve-configuration.gradle",
+        "openobserve-configuration.schema.json"
     ],
     "types": "lib/typescript/index.d.ts",
     "react-native": "src/index",
@@ -112,7 +112,7 @@
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {
-            "javaPackageName": "com.datadog.reactnative"
+            "javaPackageName": "com.openobserve.reactnative"
         }
     },
     "dependencies": {

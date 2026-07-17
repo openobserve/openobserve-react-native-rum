@@ -5,17 +5,17 @@
  */
 
 import Foundation
-import DatadogInternal
+import OpenObserveInternal
 import OpenTelemetryApi
 
-internal final class Profiler: DatadogInternal.BenchmarkProfiler {
+internal final class Profiler: OpenObserveInternal.BenchmarkProfiler {
     let provider: TracerProvider
 
     init(provider: TracerProvider) {
         self.provider = provider
     }
 
-    func tracer(operation: @autoclosure () -> String) -> any DatadogInternal.BenchmarkTracer {
+    func tracer(operation: @autoclosure () -> String) -> any OpenObserveInternal.BenchmarkTracer {
         TracerWrapper(
             tracer: provider.get(
                 instrumentationName: operation(),
@@ -25,14 +25,14 @@ internal final class Profiler: DatadogInternal.BenchmarkProfiler {
     }
 }
 
-private final class TracerWrapper: DatadogInternal.BenchmarkTracer {
+private final class TracerWrapper: OpenObserveInternal.BenchmarkTracer {
     let tracer: OpenTelemetryApi.Tracer
 
     init(tracer: OpenTelemetryApi.Tracer) {
         self.tracer = tracer
     }
 
-    func startSpan(named: @autoclosure () -> String) -> any DatadogInternal.BenchmarkSpan {
+    func startSpan(named: @autoclosure () -> String) -> any OpenObserveInternal.BenchmarkSpan {
         SpanWrapper(
             span: tracer
                 .spanBuilder(spanName: named())
@@ -42,7 +42,7 @@ private final class TracerWrapper: DatadogInternal.BenchmarkTracer {
     }
 }
 
-private final class SpanWrapper: DatadogInternal.BenchmarkSpan {
+private final class SpanWrapper: OpenObserveInternal.BenchmarkSpan {
     let span: OpenTelemetryApi.Span
 
     init(span: OpenTelemetryApi.Span) {

@@ -228,7 +228,7 @@ function LogsCustomScenario(props: LogsCustomScenarioProps): React.JSX.Element {
               <Text style={styles.label}>{'Repeat logging'}</Text>
             </Pressable>
             <Switch
-              trackColor={{false: Colors.Grey, true: Colors.DatadogPurple}}
+              trackColor={{false: Colors.Grey, true: Colors.OpenObservePurple}}
               thumbColor={Colors.White}
               onValueChange={onToggleIsRepeatLogging}
               value={isRepeatLogging}
@@ -238,7 +238,7 @@ function LogsCustomScenario(props: LogsCustomScenarioProps): React.JSX.Element {
         <View style={styles.buttonWrapper}>
           <Button
             color={
-              Platform.OS === 'android' ? Colors.DatadogPurple : Colors.White
+              Platform.OS === 'android' ? Colors.OpenObservePurple : Colors.White
             }
             onPress={isLoggingState ? stopLogging : startLogging}
             title={isLoggingState ? 'Stop logging' : ' Start logging'}

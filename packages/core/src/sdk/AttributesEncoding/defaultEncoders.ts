@@ -53,7 +53,7 @@ export const arrayEncoder: AttributeEncoder<unknown[]> = {
 };
 
 /**
- * Default Datadog Date Encoder.
+ * Default OpenObserve Date Encoder.
  * This does not make assumptions on format; uses String(date).
  */
 export const dateEncoder: AttributeEncoder<Date> = {

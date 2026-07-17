@@ -175,9 +175,9 @@ export function parseCliArgs(args?: string[]): CliOptions {
  */
 function printHelp(): void {
     console.info(`
-Usage: npx datadog-generate-sr-assets [options]
+Usage: npx openobserve-generate-sr-assets [options]
 
-Pre-generate SVG assets for Datadog Session Replay.
+Pre-generate SVG assets for OpenObserve Session Replay.
 
 Options:
   --ignore, -i <pattern>  Additional patterns to ignore during scanning.
@@ -192,11 +192,11 @@ Options:
   --help, -h              Show this help message.
 
 Examples:
-  npx datadog-generate-sr-assets
-  npx datadog-generate-sr-assets --path ./src
-  npx datadog-generate-sr-assets --ignore legacy --ignore vendor
-  npx datadog-generate-sr-assets --ignore "**/custom-pattern/**" --verbose
-  npx datadog-generate-sr-assets -p ./src -i old-code -v
+  npx openobserve-generate-sr-assets
+  npx openobserve-generate-sr-assets --path ./src
+  npx openobserve-generate-sr-assets --ignore legacy --ignore vendor
+  npx openobserve-generate-sr-assets --ignore "**/custom-pattern/**" --verbose
+  npx openobserve-generate-sr-assets -p ./src -i old-code -v
 `);
 }
 
@@ -274,7 +274,7 @@ function mergeSvgAssets(assetsDir: string) {
  * CLI tool to pre-generate SVG assets for Session Replay.
  *
  * This command scans the user's codebase for React components that use SVG elements,
- * processes them through the Datadog Babel plugin, and extracts assets
+ * processes them through the OpenObserve Babel plugin, and extracts assets
  * into the Session Replay module's assets directory.
  *
  * This should be ran before `pod install` on iOS to ensure that native asset
@@ -283,7 +283,7 @@ function mergeSvgAssets(assetsDir: string) {
  * Usage:
  *   npx @openobserve/mobile-react-native-babel-plugin generate-sr-assets [options]
  *   or
- *   npx datadog-generate-sr-assets [options]
+ *   npx openobserve-generate-sr-assets [options]
  *
  * Options:
  *   --ignore, -i pattern  Additional glob patterns to ignore during scanning.

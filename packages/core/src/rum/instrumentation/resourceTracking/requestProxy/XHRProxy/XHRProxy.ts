@@ -28,13 +28,13 @@ import {
     DATADOG_GRAPH_QL_VARIABLES_HEADER
 } from '../../graphql/graphqlHeaders';
 import { extractGraphQLErrors } from '../../graphql/graphqlUtils';
-import { DATADOG_BAGGAGE_HEADER, isDatadogCustomHeader } from '../../headers';
+import { DATADOG_BAGGAGE_HEADER, isOpenObserveCustomHeader } from '../../headers';
 import type { RequestProxyOptions } from '../interfaces/RequestProxy';
 import { RequestProxy } from '../interfaces/RequestProxy';
 import type { OoRumResourceGraphqlAttributes } from '../interfaces/RumResource';
 
-import { ResourceReporter } from './DatadogRumResource/ResourceReporter';
-import { filterDevResource } from './DatadogRumResource/internalDevResourceBlocklist';
+import { ResourceReporter } from './OpenObserveRumResource/ResourceReporter';
+import { filterDevResource } from './OpenObserveRumResource/internalDevResourceBlocklist';
 import { URLHostParser } from './URLHostParser';
 import { formatBaggageHeader } from './baggageHeaderUtils';
 import { calculateResponseSize } from './responseSize';
@@ -291,7 +291,7 @@ const proxySetRequestHeader = (providers: XHRProxyProviders): void => {
         value: string
     ) {
         const key = header.toLowerCase();
-        if (isDatadogCustomHeader(key)) {
+        if (isOpenObserveCustomHeader(key)) {
             switch (key) {
                 case DATADOG_GRAPH_QL_OPERATION_NAME_HEADER:
                     this._datadog_xhr.graphql.operationName = value;
@@ -310,7 +310,7 @@ const proxySetRequestHeader = (providers: XHRProxyProviders): void => {
                         value === 'true' || value === '1';
                     break;
                 case DATADOG_BAGGAGE_HEADER:
-                    // Apply Baggage Header only if pre-processed by Datadog
+                    // Apply Baggage Header only if pre-processed by OpenObserve
                     return originalXhrSetRequestHeader.apply(this, [
                         BAGGAGE_HEADER_KEY,
                         value

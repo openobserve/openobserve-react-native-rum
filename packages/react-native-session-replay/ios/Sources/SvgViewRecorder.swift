@@ -6,9 +6,9 @@
 
 import Foundation
 @_spi(Internal)
-import DatadogSessionReplay
-import DatadogInternal
-import DatadogSDKReactNative
+import OpenObserveSessionReplay
+import OpenObserveInternal
+import OpenObserveSDKReactNative
 import UIKit
 import React
 

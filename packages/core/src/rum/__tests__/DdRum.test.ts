@@ -10,7 +10,7 @@ import type { GestureResponderEvent } from 'react-native';
 
 import { InternalLog } from '../../InternalLog';
 import { SdkVerbosity } from '../../config/types';
-import { BufferSingleton } from '../../sdk/DatadogProvider/Buffer/BufferSingleton';
+import { BufferSingleton } from '../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { NativeDdSdk } from '../../sdk/OoSdkInternal';
 import { GlobalState } from '../../sdk/GlobalState/GlobalState';
 import { ErrorSource } from '../../types';
@@ -26,8 +26,8 @@ import {
     setCachedSessionId,
     setCachedUserId
 } from '../helper';
-import { DatadogTracingContext } from '../instrumentation/resourceTracking/distributedTracing/DatadogTracingContext';
-import { DatadogTracingIdentifier } from '../instrumentation/resourceTracking/distributedTracing/DatadogTracingIdentifier';
+import { OpenObserveTracingContext } from '../instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
+import { OpenObserveTracingIdentifier } from '../instrumentation/resourceTracking/distributedTracing/OpenObserveTracingIdentifier';
 import { TracingIdFormat } from '../instrumentation/resourceTracking/distributedTracing/TracingIdentifier';
 import { TracingIdentifierUtils } from '../instrumentation/resourceTracking/distributedTracing/__tests__/__utils__/TracingIdentifierUtils';
 import type { FirstPartyHost } from '../types';
@@ -474,12 +474,12 @@ describe('OoRum', () => {
                     expect(TracingIdFormat).toBeDefined();
                 });
 
-                it('exposes DatadogTracingIdentifier enum', () => {
-                    expect(DatadogTracingIdentifier).toBeDefined();
+                it('exposes OpenObserveTracingIdentifier enum', () => {
+                    expect(OpenObserveTracingIdentifier).toBeDefined();
                 });
 
-                it('exposes DatadogTracingContext class', () => {
-                    expect(DatadogTracingContext).toBeDefined();
+                it('exposes OpenObserveTracingContext class', () => {
+                    expect(OpenObserveTracingContext).toBeDefined();
                 });
             });
 
@@ -539,7 +539,7 @@ describe('OoRum', () => {
 
                         const headers = tracingContext.getHeadersForRequestAsArray();
                         expect(headers).toHaveLength(5);
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );
@@ -685,7 +685,7 @@ describe('OoRum', () => {
 
                         expect(headers).toHaveLength(11);
 
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );
@@ -756,7 +756,7 @@ describe('OoRum', () => {
 
                         expect(headers).toHaveLength(11);
 
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );
@@ -858,7 +858,7 @@ describe('OoRum', () => {
 
                         const headers = tracingContext.getHeadersForRequestAsArray();
                         expect(headers).toHaveLength(5);
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );
@@ -971,7 +971,7 @@ describe('OoRum', () => {
 
                         expect(headers).toHaveLength(11);
 
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );
@@ -1141,7 +1141,7 @@ describe('OoRum', () => {
 
                         expect(headers).toHaveLength(11);
 
-                        TracingContextUtils.verifyDatadogHeaders(
+                        TracingContextUtils.verifyOpenObserveHeaders(
                             headers,
                             tracingSamplingRate === 100
                         );

@@ -16,7 +16,7 @@ export type OoSdkType = {
     readonly attributeEncoders: AttributeEncoder<any>[];
 
     /**
-     * Initializes Datadog's features.
+     * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
     initialize(configuration: OoSdkNativeConfiguration): Promise<void>;

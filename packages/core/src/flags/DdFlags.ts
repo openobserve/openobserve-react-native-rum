@@ -12,7 +12,7 @@ import { getGlobalInstance } from '../utils/singletonUtils';
 import { FlagsClient } from './FlagsClient';
 import type { OoFlagsType, FlagsConfiguration } from './types';
 
-const FLAGS_MODULE = 'com.datadog.reactnative.flags';
+const FLAGS_MODULE = 'com.openobserve.reactnative.flags';
 
 /**
  * Implementation class for {@link OoFlagsType}. Please see the interface for documentation.
@@ -40,7 +40,7 @@ class OoFlagsWrapper implements OoFlagsType {
     getClient = (clientName: string = 'default'): FlagsClient => {
         if (!this.isFeatureEnabled) {
             InternalLog.log(
-                '`OoFlags.getClient()` called before Datadog Flags feature have been enabled. Client will fall back to serving default flag values.',
+                '`OoFlags.getClient()` called before OpenObserve Flags feature have been enabled. Client will fall back to serving default flag values.',
                 SdkVerbosity.ERROR
             );
         }

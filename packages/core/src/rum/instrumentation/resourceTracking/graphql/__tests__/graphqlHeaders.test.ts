@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { isDatadogCustomHeader } from '../../headers';
+import { isOpenObserveCustomHeader } from '../../headers';
 import {
     DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
     DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
@@ -17,6 +17,6 @@ describe('GraphQL custom headers', () => {
         DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
         DATADOG_GRAPH_QL_VARIABLES_HEADER
     ])('%s matches the custom header pattern', header => {
-        expect(isDatadogCustomHeader(header)).toBeTruthy();
+        expect(isOpenObserveCustomHeader(header)).toBeTruthy();
     });
 });

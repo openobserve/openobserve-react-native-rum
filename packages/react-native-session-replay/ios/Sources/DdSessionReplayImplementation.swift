@@ -5,10 +5,10 @@
  */
 
 import Foundation
-@_spi(Internal) import DatadogSessionReplay
-import DatadogCore
-import DatadogInternal
-import DatadogSDKReactNative
+@_spi(Internal) import OpenObserveSessionReplay
+import OpenObserveCore
+import OpenObserveInternal
+import OpenObserveSDKReactNative
 import React
 
 internal struct SVGData: Codable {
@@ -158,23 +158,23 @@ public class OoSessionReplayImplementation: NSObject {
 internal protocol SessionReplayProtocol {
     func enable(
         with configuration: SessionReplay.Configuration,
-        in core: DatadogCoreProtocol
+        in core: OpenObserveCoreProtocol
     )
     
-    func startRecording(in core: DatadogCoreProtocol)
-    func stopRecording(in core: DatadogCoreProtocol)
+    func startRecording(in core: OpenObserveCoreProtocol)
+    func stopRecording(in core: OpenObserveCoreProtocol)
 }
 
 internal class NativeSessionReplay: SessionReplayProtocol {
-    func enable(with configuration: DatadogSessionReplay.SessionReplay.Configuration, in core: DatadogCoreProtocol) {
+    func enable(with configuration: OpenObserveSessionReplay.SessionReplay.Configuration, in core: OpenObserveCoreProtocol) {
         SessionReplay.enable(with: configuration, in: core)
     }
     
-    func startRecording(in core: any DatadogInternal.DatadogCoreProtocol) {
+    func startRecording(in core: any OpenObserveInternal.OpenObserveCoreProtocol) {
         SessionReplay.startRecording(in: core)
     }
     
-    func stopRecording(in core: any DatadogInternal.DatadogCoreProtocol) {
+    func stopRecording(in core: any OpenObserveInternal.OpenObserveCoreProtocol) {
         SessionReplay.stopRecording(in: core)
     }
 }

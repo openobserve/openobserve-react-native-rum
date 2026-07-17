@@ -10,7 +10,7 @@ import type { ResourceEventMapper } from '../rum/eventMappers/resourceEventMappe
 import type { FirstPartyHost } from '../rum/types';
 import { PropagatorType } from '../rum/types';
 
-import { DatadogProviderConfiguration } from './DatadogProviderConfiguration';
+import { OpenObserveProviderConfiguration } from './OpenObserveProviderConfiguration';
 import type { JsonConfiguration } from './FileBasedConfiguration.type';
 import { CORE_DEFAULTS } from './features/CoreConfiguration';
 import { LogsConfiguration } from './features/LogsConfiguration';
@@ -41,7 +41,7 @@ const removeUndefinedEntries = <T extends Record<string, any>>(
     ) as Partial<T>;
 };
 
-export class FileBasedConfiguration extends DatadogProviderConfiguration {
+export class FileBasedConfiguration extends OpenObserveProviderConfiguration {
     constructor(params?: {
         configuration?: unknown;
         errorEventMapper?: ErrorEventMapper;
@@ -122,11 +122,11 @@ const resolveJSONConfiguration = (
     userSpecifiedConfiguration: unknown
 ): Record<string, any> => {
     if (typeof userSpecifiedConfiguration !== 'object') {
-        console.error(`Failed to parse the Datadog configuration file you provided.
-Your configuration must validate the node_modules/@openobserve/mobile-react-native/datadog-configuration.schema.json JSON schema.
+        console.error(`Failed to parse the OpenObserve configuration file you provided.
+Your configuration must validate the node_modules/@openobserve/mobile-react-native/openobserve-configuration.schema.json JSON schema.
 You can use VSCode to check your configuration by adding the following line to your JSON file:
 {
-    "$schema": "./node_modules/@openobserve/mobile-react-native/datadog-configuration.schema.json",
+    "$schema": "./node_modules/@openobserve/mobile-react-native/openobserve-configuration.schema.json",
 }`);
 
         return {};
@@ -239,7 +239,7 @@ const buildFirstPartyHosts = (
             propagatorTypes: propagatorTypes.map(formatPropagatorType)
         }));
     } catch (error) {
-        console.error(`Failed to parse the first party hosts from the Datadog configuration file you provided:
+        console.error(`Failed to parse the first party hosts from the OpenObserve configuration file you provided:
 ${(error as any).message}
 The first party hosts will not be set for this session.
 `);

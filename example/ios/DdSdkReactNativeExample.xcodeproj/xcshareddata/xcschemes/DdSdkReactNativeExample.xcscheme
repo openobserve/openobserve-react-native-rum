@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2A33BB144CDB0164109965D17F0CF8F0"
-               BuildableName = "DatadogSDKReactNative-Unit-Tests.xctest"
-               BlueprintName = "DatadogSDKReactNative-Unit-Tests"
+               BuildableName = "OpenObserveSDKReactNative-Unit-Tests.xctest"
+               BlueprintName = "OpenObserveSDKReactNative-Unit-Tests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2312344E8E106B03F5D8124589E7D8C3"
-               BuildableName = "DatadogSDKReactNativeSessionReplay-Unit-Tests.xctest"
-               BlueprintName = "DatadogSDKReactNativeSessionReplay-Unit-Tests"
+               BuildableName = "OpenObserveSDKReactNativeSessionReplay-Unit-Tests.xctest"
+               BlueprintName = "OpenObserveSDKReactNativeSessionReplay-Unit-Tests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -53,8 +53,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "78809F2595CEAB87DE2759AB2D8ACC1A"
-               BuildableName = "DatadogSDKReactNativeWebView-Unit-Tests.xctest"
-               BlueprintName = "DatadogSDKReactNativeWebView-Unit-Tests"
+               BuildableName = "OpenObserveSDKReactNativeWebView-Unit-Tests.xctest"
+               BlueprintName = "OpenObserveSDKReactNativeWebView-Unit-Tests"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
          </TestableReference>

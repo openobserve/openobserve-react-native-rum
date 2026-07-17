@@ -14,7 +14,7 @@ import {
     getDebugIdFromBundleSource,
     injectDebugIdInCodeAndSourceMap
 } from '../plugin/debugIdHelper';
-import { createDatadogMetroSerializer } from '../plugin/metroSerializer';
+import { createOpenObserveMetroSerializer } from '../plugin/metroSerializer';
 import type { MetroSerializerOutput } from '../plugin/types/metroTypes';
 import { convertSerializerOutput } from '../plugin/utils';
 
@@ -26,14 +26,14 @@ import {
 const DEBUG_ID_CODE_SNIPPET =
     'var _datadogDebugIds,_datadogDebugIdMeta;void 0===_datadogDebugIds&&(_datadogDebugIds={});try{var stack=(new Error).stack;stack&&(_datadogDebugIds[stack]="__datadog_debug_id_placeholder__",_datadogDebugIdMeta="datadog-debug-id-__datadog_debug_id_placeholder__")}catch(e){}';
 
-describe('Datadog Metro Plugin', () => {
+describe('OpenObserve Metro Plugin', () => {
     afterEach(() => {
         jest.resetModules();
     });
 
-    describe('Datadog Metro Serializer', () => {
+    describe('OpenObserve Metro Serializer', () => {
         test('skips debug ID injection for web platform builds', async () => {
-            const serializer = createDatadogMetroSerializer();
+            const serializer = createOpenObserveMetroSerializer();
             const args = mockSerializerArgsForEmptyModule();
             // Set platform to 'web'
             (args[2] as any).transformOptions.platform = 'web';
@@ -46,7 +46,7 @@ describe('Datadog Metro Plugin', () => {
         });
 
         test('skips debug ID injection for modulesOnly bundles (lazy/split chunks)', async () => {
-            const serializer = createDatadogMetroSerializer();
+            const serializer = createOpenObserveMetroSerializer();
             const mainBundleArgs = mockSerializerArgsForEmptyModule();
             const mainBundle = await serializer(...mainBundleArgs);
             const { code: mainCode } = await convertSerializerOutput(
@@ -70,7 +70,7 @@ describe('Datadog Metro Plugin', () => {
             const expectedDebugId = createDebugIdFromString(
                 codeSnippetHash.digest('hex')
             );
-            const serializer = createDatadogMetroSerializer();
+            const serializer = createOpenObserveMetroSerializer();
 
             const bundle = await serializer(
                 ...mockSerializerArgsForEmptyModule()
@@ -102,7 +102,7 @@ describe('Datadog Metro Plugin', () => {
             const expectedDebugId = createDebugIdFromString(
                 codeSnippetHash.digest('hex')
             );
-            const serializer = createDatadogMetroSerializer();
+            const serializer = createOpenObserveMetroSerializer();
 
             const bundle = await serializer(
                 ...mockSerializerArgsForSourceMappingURLModule()

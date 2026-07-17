@@ -243,7 +243,7 @@ function getNamedFunctionNode(
  * @param state - Plugin state, with `memoization` map.
  * @param fName - The variable name bound to the memoized value.
  * @param fNode - The variable declarator or function declaration of the memoized symbol.
- * @param argsObject - Datadog-specific args object (ddValues/options).
+ * @param argsObject - OpenObserve-specific args object (ddValues/options).
  * @param mode - Optional handler mode; when `'delayed'`, wrapper invocation is deferred.
  * @returns `true` if considered memoized (wrapped or intentionally skipped), else `false`.
  */
@@ -397,7 +397,7 @@ function handleMemoization(
  * @param expression - The original handler expression (arrow fn or identifier/member).
  * @param expressionParams - Parameters of the original function, if known.
  * @param returnExpression - Expression to execute when not using the RUM wrapper (fallback).
- * @param argsObject - Datadog-specific args object (ddValues/options).
+ * @param argsObject - OpenObserve-specific args object (ddValues/options).
  * @param mode - Optional handler mode; when `'delayed'`, wrapper invocation is deferred.
  * @returns A JSXExpressionContainer that evaluates to the wrapped handler arrow function.
  */
@@ -443,7 +443,7 @@ function getActionWrapperNode(
  * @param expression - Original handler expression (arrow/name/member).
  * @param expressionParams - Original handler parameters, if known. If null, uses `...args`.
  * @param returnExpression - Fallback: direct call (or the function itself in delayed mode).
- * @param argsObject - Datadog-specific args object (ddValues/options).
+ * @param argsObject - OpenObserve-specific args object (ddValues/options).
  * @param mode - Optional handler mode; when `'delayed'`, wrapper invocation is deferred.
  * @returns An ArrowFunctionExpression that implements the described behavior.
  */

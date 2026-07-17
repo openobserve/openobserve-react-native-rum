@@ -6,15 +6,15 @@
 
 import Foundation
 import React
-import DatadogCore
-import DatadogSDKReactNative
-import DatadogInternal
+import OpenObserveCore
+import OpenObserveSDKReactNative
+import OpenObserveInternal
 
 @objc
 public class OoInternalTestingImplementation: NSObject {
     @objc
     public func clearData(resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
-        let coreProxy = CoreRegistry.default as! DatadogCoreProxy
+        let coreProxy = CoreRegistry.default as! OpenObserveCoreProxy
         coreProxy.waitAndDeleteEvents(ofFeature: "rum")
         coreProxy.waitAndDeleteEvents(ofFeature: "logging")
         coreProxy.waitAndDeleteEvents(ofFeature: "tracing")
@@ -26,7 +26,7 @@ public class OoInternalTestingImplementation: NSObject {
     @objc
     public func getAllEvents(feature: String, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
         do {
-            let coreProxy = CoreRegistry.default as! DatadogCoreProxy
+            let coreProxy = CoreRegistry.default as! OpenObserveCoreProxy
             let events = coreProxy.waitAndReturnEventsData(ofFeature: feature)
             let data = try JSONSerialization.data(withJSONObject: events, options: .prettyPrinted)
             resolve(String(data: data, encoding: String.Encoding.utf8) ?? "")
@@ -39,8 +39,8 @@ public class OoInternalTestingImplementation: NSObject {
     
     @objc
     public func enable(resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in
-            let proxiedCore = DatadogCoreProxy(core: core)
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in
+            let proxiedCore = OpenObserveCoreProxy(core: core)
             CoreRegistry.unregisterDefault()
             CoreRegistry.register(default: proxiedCore)
         })
@@ -52,8 +52,8 @@ public class OoInternalTestingImplementation: NSObject {
 public class OoInternalTestingNativeInitialization: NSObject {
     @objc
     public func enableFromNative() -> Void {
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in
-            let proxiedCore = DatadogCoreProxy(core: core)
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in
+            let proxiedCore = OpenObserveCoreProxy(core: core)
             CoreRegistry.unregisterDefault()
             CoreRegistry.register(default: proxiedCore)
         })

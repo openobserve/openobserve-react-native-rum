@@ -76,7 +76,7 @@ describe('Babel plugin: web platform', () => {
             configFile: false,
             caller: { name: 'metro', platform: 'web' }
         })?.code;
-        // Should not inject Datadog imports or wrappers
+        // Should not inject OpenObserve imports or wrappers
         expect(output).not.toContain('OoBabelInteractionTracking');
         expect(output).not.toContain('__DD_RN_BABEL_PLUGIN_ENABLED__');
         expect(output).not.toContain('@openobserve/mobile-react-native');

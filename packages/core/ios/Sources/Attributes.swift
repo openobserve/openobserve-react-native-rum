@@ -8,7 +8,7 @@
 import Foundation
 
 /// Internal attributes, passed to the iOS SDK.
-/// Keep in sync with https://github.com/DataDog/dd-sdk-ios/blob/develop/Sources/Datadog/Core/Attributes/Attributes.swift.
+/// Keep in sync with https://github.com/DataDog/dd-sdk-ios/blob/develop/Sources/OpenObserve/Core/Attributes/Attributes.swift.
 internal struct CrossPlatformAttributes {
     /// Custom app version passed from CP SDK. Used for all events issued by the SDK (both coming from cross-platform SDK and produced internally, like RUM long tasks).
     /// It should replace the default native `version` read from `Info.plist`.

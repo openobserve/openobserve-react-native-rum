@@ -8,7 +8,7 @@ import { getGlobalInstance } from '../utils/singletonUtils';
 import { OoSdkWrapper } from './OoSdkInternal';
 import type { OoSdkType } from './OoSdkInternal';
 
-const CORE_MODULE = 'com.datadog.reactnative.core';
+const CORE_MODULE = 'com.openobserve.reactnative.core';
 export const OoSdk = getGlobalInstance(
     CORE_MODULE,
     () => new OoSdkWrapper()

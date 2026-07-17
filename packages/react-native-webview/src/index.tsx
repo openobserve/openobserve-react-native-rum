@@ -14,15 +14,15 @@ import {
     wrapJsCodeInTryAndCatch,
     wrapJsCodeWithAllowedHosts
 } from './utils/webview-js-utils';
-import type { DatadogMessageFormat } from './utils/webview-js-utils';
+import type { OpenObserveMessageFormat } from './utils/webview-js-utils';
 
 type Props = WebViewProps & {
     /**
-     * The list of allowed hosts for Datadog WebView tracking.
+     * The list of allowed hosts for OpenObserve WebView tracking.
      */
     allowedHosts?: string[];
     /**
-     * Whether injected User JS Code errors should be logged to Datadog (default: false).
+     * Whether injected User JS Code errors should be logged to OpenObserve (default: false).
      */
     logUserCodeErrors?: boolean;
     /**
@@ -36,7 +36,7 @@ const WebViewComponent = (props: Props, ref: React.Ref<RNWebView<Props>>) => {
 
     const onMessage = useCallback(
         (event: WebViewMessageEvent) => {
-            const handleDatadogMessage = (ddMessage: DatadogMessageFormat) => {
+            const handleOpenObserveMessage = (ddMessage: OpenObserveMessageFormat) => {
                 if (
                     ddMessage.type === 'ERROR' &&
                     ddMessage.message != null &&
@@ -59,7 +59,7 @@ const WebViewComponent = (props: Props, ref: React.Ref<RNWebView<Props>>) => {
             try {
                 const jsonMsg = JSON.parse(message);
                 if (jsonMsg && jsonMsg.source === 'DATADOG') {
-                    handleDatadogMessage(jsonMsg);
+                    handleOpenObserveMessage(jsonMsg);
                 } else {
                     userDefinedOnMessage?.(event);
                 }

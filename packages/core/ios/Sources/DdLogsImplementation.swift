@@ -5,9 +5,9 @@
  */
 
 import Foundation
-import DatadogInternal
-import DatadogLogs
-import DatadogCore
+import OpenObserveInternal
+import OpenObserveLogs
+import OpenObserveCore
 
 @objc
 public class OoLogsImplementation: NSObject {
@@ -23,7 +23,7 @@ public class OoLogsImplementation: NSObject {
     internal init(_ loggerProvider: @escaping () -> LoggerProtocol) {
         self.loggerProvider = loggerProvider
         super.init()
-        DatadogSDKWrapper.shared.addOnSdkInitializedListener { [weak self] _ in
+        OpenObserveSDKWrapper.shared.addOnSdkInitializedListener { [weak self] _ in
             self?.loggerInstance = nil
         }
     }
@@ -31,7 +31,7 @@ public class OoLogsImplementation: NSObject {
     @objc
     public override convenience init() {
         self.init(
-            { DatadogLogs.Logger.create(with: DatadogSDKWrapper.shared.loggerConfiguration) }
+            { OpenObserveLogs.Logger.create(with: OpenObserveSDKWrapper.shared.loggerConfiguration) }
         )
     }
 
@@ -92,7 +92,7 @@ public class OoLogsImplementation: NSObject {
     }
 }
 
-internal extension DatadogLogs.Logger.Configuration {
+internal extension OpenObserveLogs.Logger.Configuration {
     /// Creates a Logger configuration from bridged configuration dictionary.
     ///
     /// - Parameter sdkConfiguration: The configuration from the bridge.

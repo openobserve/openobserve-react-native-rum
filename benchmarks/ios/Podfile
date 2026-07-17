@@ -26,7 +26,7 @@ target 'BenchmarkRunner' do
   )
 
   # OpenTelemetrySdk is needed by the BenchmarkVitals code (metrics exporter, meter provider).
-  # OpenTelemetryApi is already pulled in transitively via DatadogTrace, but OpenTelemetrySdk is not.
+  # OpenTelemetryApi is already pulled in transitively via OpenObserveTrace, but OpenTelemetrySdk is not.
   pod 'OpenTelemetry-Swift-Sdk', '~> 2.3.0'
 
   post_install do |installer|

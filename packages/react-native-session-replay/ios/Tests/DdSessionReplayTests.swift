@@ -5,10 +5,10 @@
  */
 
 import XCTest
-@testable import DatadogSDKReactNativeSessionReplay
-import DatadogSessionReplay
-import DatadogSDKReactNative
-import DatadogInternal
+@testable import OpenObserveSDKReactNativeSessionReplay
+import OpenObserveSessionReplay
+import OpenObserveSDKReactNative
+import OpenObserveInternal
 import React
 
 internal class OoSessionReplayTests: XCTestCase {
@@ -34,8 +34,8 @@ internal class OoSessionReplayTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let mockDatadogCore = MockDatadogCore()
-        CoreRegistry.register(default: mockDatadogCore)
+        let mockOpenObserveCore = MockOpenObserveCore()
+        CoreRegistry.register(default: mockOpenObserveCore)
     }
 
     override func tearDown() {
@@ -177,7 +177,7 @@ private class MockSessionReplay: SessionReplayProtocol {
 
     public var calledMethods = [CalledMethod]()
 
-    func enable(with configuration: SessionReplay.Configuration, in core: DatadogCoreProtocol) {
+    func enable(with configuration: SessionReplay.Configuration, in core: OpenObserveCoreProtocol) {
         calledMethods.append(
             .enable(
                 replaySampleRate: configuration.replaySampleRate,
@@ -191,11 +191,11 @@ private class MockSessionReplay: SessionReplayProtocol {
         )
     }
     
-    func startRecording(in core: any DatadogInternal.DatadogCoreProtocol) {
+    func startRecording(in core: any OpenObserveInternal.OpenObserveCoreProtocol) {
         calledMethods.append(.startRecording)
     }
     
-    func stopRecording(in core: any DatadogInternal.DatadogCoreProtocol) {
+    func stopRecording(in core: any OpenObserveInternal.OpenObserveCoreProtocol) {
         calledMethods.append(.stopRecording)
     }
 }
@@ -208,12 +208,12 @@ private class MockFabricWrapper: RCTFabricWrapper {
     }
 }
 
-private class MockDatadogCore: DatadogCoreProtocol {
+private class MockOpenObserveCore: OpenObserveCoreProtocol {
     func mostRecentModifiedFileAt(before: Date) throws -> Date? {
         return nil
     }
     
-    func scope<T>(for featureType: T.Type) -> any DatadogInternal.FeatureScope where T : DatadogInternal.DatadogFeature {
+    func scope<T>(for featureType: T.Type) -> any OpenObserveInternal.FeatureScope where T : OpenObserveInternal.OpenObserveFeature {
         return NOPFeatureScope()
     }
     
@@ -221,7 +221,7 @@ private class MockDatadogCore: DatadogCoreProtocol {
         return nil
     }
 
-    func register<T>(feature: T) throws where T : DatadogInternal.DatadogFeature {}
-    func send(message: DatadogInternal.FeatureMessage, else fallback: @escaping () -> Void) {}
-    func set<Context>(context: @escaping () -> Context?) where Context : DatadogInternal.AdditionalContext {}
+    func register<T>(feature: T) throws where T : OpenObserveInternal.OpenObserveFeature {}
+    func send(message: OpenObserveInternal.FeatureMessage, else fallback: @escaping () -> Void) {}
+    func set<Context>(context: @escaping () -> Context?) where Context : OpenObserveInternal.AdditionalContext {}
 }

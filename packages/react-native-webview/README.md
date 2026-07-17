@@ -32,7 +32,7 @@ import WebView from '@openobserve/mobile-react-native-webview';
 
 You can use all existing functionalities from `react-native-webview` as the `WebView` component from `@openobserve/mobile-react-native-webview` wraps the `react-native-webview` component.
 
-Provide the list of hosts to be tracked by Datadog inside the web view by using the `allowedHosts` prop of your `WebView` component:
+Provide the list of hosts to be tracked by OpenObserve inside the web view by using the `allowedHosts` prop of your `WebView` component:
 
 ```javascript
 <WebView

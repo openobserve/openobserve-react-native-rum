@@ -5,7 +5,7 @@ First of all, thanks for contributing!
 This document provides some basic guidelines for contributing to this repository.
 To propose improvements, feel free to submit a PR or open an Issue.
 
-**Note:** Datadog requires that all commits within this repository must be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
+**Note:** OpenObserve requires that all commits within this repository must be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
 
 ## Setup your developer Environment
 
@@ -25,7 +25,7 @@ This repository contains 2 main projects:
     * `react-native-apollo-client`: an integration for the [Apollo Client](https://www.apollographql.com/docs/react/integrations/react-native/) library.
     * `react-native-babel-plugin`: a Babel plugin that enriches React Native components with contextual metadata.
     * `react-native-navigation`: an integration for the [react-native-navigation](https://github.com/wix/react-native-navigation) library.
-    * `react-native-session-replay`: client-side React Native module to enable session replay with Datadog.
+    * `react-native-session-replay`: client-side React Native module to enable session replay with OpenObserve.
     * `react-native-webview`: an integration for the [`react-native-webview`](https://github.com/react-native-webview/react-native-webview) library.
     * `react-navigation`: an integration for the [react-navigation](https://github.com/react-navigation/react-navigation) library.
 * Sample app project (in the `example` folder)
@@ -113,15 +113,15 @@ This publishes the packages and also adds updated `gitHead` to the corresponding
 
 #### For iOS, run `make test-for-release`. If it doesn't work, read below
 
-1. `cd path/to/dd-sdk-reactnative && yarn workspace @openobserve/mobile-react-native pack`
+1. `cd path/to/openobserve-react-native-rum && yarn workspace @openobserve/mobile-react-native pack`
     * this creates a tarball from your local & unpublished package
 2. `cd {some other folder} && react-native init SomeAppName --version 0.63.4 && cd SomeAppName`
-3. `npm install --save path/to/dd-sdk-reactnative/packages/core/{tarball that npm pack created}`
+3. `npm install --save path/to/openobserve-react-native-rum/packages/core/{tarball that npm pack created}`
     * this installs the unpublished version of `@openobserve/mobile-react-native` **from your local**
  
 If for some reason `yarn pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
 
-1. `yarn install --save path/to/dd-sdk-reactnative/packages/core`
+1. `yarn install --save path/to/openobserve-react-native-rum/packages/core`
 2. `open node_modules` and remove symlink to `@openobserve/mobile-react-native`
 3. copy the real `@openobserve/mobile-react-native` folder to `node_modules`
     * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @openobserve/mobile-react-native` when you import it in your JS code
@@ -185,11 +185,11 @@ with the details about what you'd like to see. At a minimum, please provide:
 
 ## Found a bug?
 
-For any urgent matters (such as outages) or issues concerning the Datadog service
+For any urgent matters (such as outages) or issues concerning the OpenObserve service
 or UI, contact our support team via https://docs.datadoghq.com/help/ for direct,
 faster assistance.
 
-You may submit bug reports concerning the Datadog SDK for Android by 
+You may submit bug reports concerning the OpenObserve SDK for Android by 
 [opening a Github issue](https://github.com/openobserve/openobserve-react-native-rum/issues/new).
 At a minimum, please provide:
 
@@ -200,7 +200,7 @@ At a minimum, please provide:
  - Errors (with stack traces) or warnings received;
  - Any details you can share about your configuration including:
     - Android API level;
-    - Datadog SDK version;
+    - OpenObserve SDK version;
     - Versions of any other relevant dependencies (OkHttp, …);
     - Your ProGuard configuration;
     - The list of Gradle plugins applied to your project.
