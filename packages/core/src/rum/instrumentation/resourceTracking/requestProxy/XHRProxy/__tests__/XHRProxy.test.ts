@@ -21,18 +21,12 @@ import { XMLHttpRequestMock } from '../../../__tests__/__utils__/XMLHttpRequestM
 import { TracingIdentifierUtils } from '../../../distributedTracing/__tests__/__utils__/TracingIdentifierUtils';
 import { firstPartyHostsRegexMapBuilder } from '../../../distributedTracing/firstPartyHosts';
 import {
-    PARENT_ID_HEADER_KEY,
-    TRACE_ID_HEADER_KEY,
-    SAMPLING_PRIORITY_HEADER_KEY,
     TRACECONTEXT_HEADER_KEY,
     B3_HEADER_KEY,
     B3_MULTI_TRACE_ID_HEADER_KEY,
     B3_MULTI_SPAN_ID_HEADER_KEY,
     B3_MULTI_SAMPLED_HEADER_KEY,
-    ORIGIN_RUM,
-    ORIGIN_HEADER_KEY,
     TRACESTATE_HEADER_KEY,
-    TAGS_HEADER_KEY,
     BAGGAGE_HEADER_KEY,
     TRACKED_BY_HEADER_KEY,
     TRACKED_BY_HEADER_VALUE
@@ -219,44 +213,6 @@ describe('XHRProxy', () => {
     });
 
     describe('request headers', () => {
-        it('adds the span id and trace Id in the request headers when startTracking() + XHR.open() + XHR.send()', async () => {
-            // GIVEN
-            const method = 'GET';
-            const url = 'https://api.example.com/v2/user';
-            xhrProxy.onTrackingStart({
-                tracingSamplingRate: 100,
-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
-                    {
-                        match: 'api.example.com',
-                        propagatorTypes: []
-                    }
-                ])
-            });
-
-            // WHEN
-            const xhr = new XMLHttpRequestMock();
-            xhr.open(method, url);
-            xhr.send();
-            xhr.notifyResponseArrived();
-            xhr.complete(200, 'ok');
-            await flushPromises();
-
-            // THEN
-            const spanId = xhr.requestHeaders.get(PARENT_ID_HEADER_KEY);
-            expect(spanId).toBeDefined();
-            expect(spanId).toMatch(/[1-9].+/);
-            const traceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
-            expect(traceId).toBeDefined();
-            expect(traceId).toMatch(/[1-9].+/);
-
-            expect(traceId !== spanId).toBeTruthy();
-
-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
-                '1'
-            );
-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
-        });
-
         it('does not generate spanId and traceId in request headers when no first party hosts are provided', async () => {
             // GIVEN
             const method = 'GET';
@@ -275,9 +231,11 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
             expect(
-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
+                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toBeUndefined();
+            expect(
+                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
             ).toBeUndefined();
         });
 
@@ -290,11 +248,11 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'google.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'api.example.co',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });
@@ -308,9 +266,11 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
             expect(
-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
+                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toBeUndefined();
+            expect(
+                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
             ).toBeUndefined();
         });
 
@@ -323,7 +283,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });
@@ -337,13 +297,15 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
             expect(
-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
+                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toBeUndefined();
+            expect(
+                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
             ).toBeUndefined();
         });
 
-        it('generates spanId and traceId with 0 sampling priority in request headers when trace is not sampled', async () => {
+        it('generates spanId and traceId with the not-sampled flag in request headers when trace is not sampled', async () => {
             // GIVEN
             const method = 'GET';
             const url = 'https://api.example.com/v2/user';
@@ -352,7 +314,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });
@@ -366,92 +328,16 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(
-                xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)
-            ).not.toBeUndefined();
-            expect(
-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
-            ).not.toBeUndefined();
-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
-                '0'
+            const contextHeader = xhr.requestHeaders.get(
+                TRACECONTEXT_HEADER_KEY
             );
-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
-        });
-
-        it('does not origin as RUM in the request headers when startTracking() + XHR.open() + XHR.send()', async () => {
-            // GIVEN
-            const method = 'GET';
-            const url = 'https://api.example.com/v2/user';
-            xhrProxy.onTrackingStart({
-                tracingSamplingRate: 100,
-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
-            });
-
-            // WHEN
-            const xhr = new XMLHttpRequestMock();
-            xhr.open(method, url);
-            xhr.send();
-            xhr.notifyResponseArrived();
-            xhr.complete(200, 'ok');
-            await flushPromises();
-
-            // THEN
-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBeUndefined();
-        });
-
-        it('forces the agent to keep the request generated trace when startTracking() + XHR.open() + XHR.send()', async () => {
-            // GIVEN
-            const method = 'GET';
-            const url = 'https://api.example.com/v2/user';
-            xhrProxy.onTrackingStart({
-                tracingSamplingRate: 100,
-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
-                    {
-                        match: 'api.example.com',
-                        propagatorTypes: []
-                    }
-                ])
-            });
-
-            // WHEN
-            const xhr = new XMLHttpRequestMock();
-            xhr.open(method, url);
-            xhr.send();
-            xhr.notifyResponseArrived();
-            xhr.complete(200, 'ok');
-            await flushPromises();
-
-            // THEN
-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
-                '1'
+            expect(contextHeader).toMatch(
+                /^00-[0-9a-f]{8}[0]{8}[0-9a-f]{16}-[0-9a-f]{16}-00$/
             );
-        });
 
-        it('forces the agent to discard the request generated trace when startTracking when the request is not traced', async () => {
-            // GIVEN
-            const method = 'GET';
-            const url = 'https://api.example.com/v2/user';
-            xhrProxy.onTrackingStart({
-                tracingSamplingRate: 0,
-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
-                    {
-                        match: 'api.example.com',
-                        propagatorTypes: []
-                    }
-                ])
-            });
-
-            // WHEN
-            const xhr = new XMLHttpRequestMock();
-            xhr.open(method, url);
-            xhr.send();
-            xhr.notifyResponseArrived();
-            xhr.complete(200, 'ok');
-            await flushPromises();
-
-            // THEN
-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
-                '0'
+            const parentValue = contextHeader?.split('-')[2];
+            expect(xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)).toBe(
+                `dd=s:0;o:rum;p:${parentValue}`
             );
         });
 
@@ -462,7 +348,7 @@ describe('XHRProxy', () => {
             const firstPartyHostsRegexMap = firstPartyHostsRegexMapBuilder([
                 {
                     match: 'api.example.com',
-                    propagatorTypes: []
+                    propagatorTypes: [PropagatorType.TRACECONTEXT]
                 }
             ]);
             xhrProxy.onTrackingStart({
@@ -491,13 +377,13 @@ describe('XHRProxy', () => {
             xhrAfterUpdate.complete(200, 'ok');
             await flushPromises();
 
-            // THEN: the pre-update request keeps priority 0, the post-update one is sampled at 100%
+            // THEN: the pre-update request stays not sampled, the post-update one is sampled at 100%
             expect(
-                xhrBeforeUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
-            ).toBe('0');
+                xhrBeforeUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toMatch(/-00$/);
             expect(
-                xhrAfterUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
-            ).toBe('1');
+                xhrAfterUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toMatch(/-01$/);
         });
 
         it('ignores onTrackingUpdate when tracking has not started', () => {
@@ -512,7 +398,7 @@ describe('XHRProxy', () => {
             const xhr = new XMLHttpRequestMock();
             xhr.open('GET', 'https://api.example.com/v2/user');
             expect(
-                xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
+                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
             ).toBeUndefined();
         });
 
@@ -525,7 +411,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });
@@ -616,10 +502,6 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'example.com',
-                        propagatorTypes: []
-                    },
-                    {
-                        match: 'example.com',
                         propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
@@ -662,31 +544,6 @@ describe('XHRProxy', () => {
             );
 
             /* =========================================================================
-             *  Verify that the trace id in the x-datadog-trace-id is a 64 bit decimal.
-             * ========================================================================= */
-
-            // x-datadog-trace-id is a decimal representing the low 64 bits of the 128 bits Trace ID
-            const xOpenObserveTraceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
-
-            expect(
-                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTraceId as string)
-            );
-
-            /* ===============================================================
-             *  Verify that the trace id in x-datadog-tags headers is HEX 16.
-             * =============================================================== */
-
-            // x-datadog-tags is a HEX 16 contains the high 64 bits of the 128 bits Trace ID
-            const xOpenObserveTagsTraceId = xhr.requestHeaders
-                ?.get(TAGS_HEADER_KEY)
-                ?.split('=')[1] as string;
-
-            expect(xOpenObserveTagsTraceId).toMatch(/^[a-f0-9]{16}$/);
-            expect(
-                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTagsTraceId, 16)
-            );
-
-            /* =========================================================================
              *  Verify that the trace id in the b3 header is a 128 bit trace ID (hex).
              * ========================================================================= */
 
@@ -717,10 +574,6 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'example.com',
-                        propagatorTypes: []
-                    },
-                    {
-                        match: 'example.com',
                         propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
@@ -744,39 +597,13 @@ describe('XHRProxy', () => {
 
             // THEN
 
-            // x-datadog-trace-id is just the low 64 bits (DECIMAL)
-            const datadogLowTraceValue = xhr.requestHeaders.get(
-                TRACE_ID_HEADER_KEY
-            );
-
-            // We convert the low 64 bits to HEX
-            const datadogLowTraceValueHex = `${BigInt(
-                datadogLowTraceValue as string
-            )
-                .toString(16)
-                .padStart(16, '0')}`;
-
-            // The high 64 bits are expressed in x-datadog-tags (HEX)
-            const datadogHighTraceValueHex = xhr.requestHeaders
-                ?.get(TAGS_HEADER_KEY)
-                ?.split('=')[1] as string; // High HEX 64 bits
-
-            // We re-compose the full 128 bit trace-id by joining the strings
-            const datadogTraceValue128BitHex = `${datadogHighTraceValueHex}${datadogLowTraceValueHex}`;
-
-            // We then get the decimal value of the trace-id
-            const datadogTraceValue128BitDec = hexToDecimal(
-                datadogTraceValue128BitHex
-            );
-
-            const datadogParentValue = xhr.requestHeaders.get(
-                PARENT_ID_HEADER_KEY
-            );
+            // traceparent carries the full 128 bit trace-id and the parent-id (HEX)
             const contextHeader = xhr.requestHeaders.get(
                 TRACECONTEXT_HEADER_KEY
             );
             const traceContextValue = contextHeader?.split('-')[1] as string;
             const parentContextValue = contextHeader?.split('-')[2] as string;
+
             const b3MultiTraceHeader = xhr.requestHeaders.get(
                 B3_MULTI_TRACE_ID_HEADER_KEY
             ) as string;
@@ -788,18 +615,15 @@ describe('XHRProxy', () => {
             const traceB3Value = b3Header?.split('-')[0] as string;
             const parentB3Value = b3Header?.split('-')[1] as string;
 
-            expect(hexToDecimal(traceContextValue)).toBe(
-                datadogTraceValue128BitDec
-            );
-            expect(hexToDecimal(parentContextValue)).toBe(datadogParentValue);
-            //
-            expect(hexToDecimal(b3MultiTraceHeader)).toBe(
-                datadogTraceValue128BitDec
-            );
-            expect(hexToDecimal(b3MultiParentHeader)).toBe(datadogParentValue);
+            // Every propagator must carry the same trace-id and parent-id
+            const traceValueDec = hexToDecimal(traceContextValue);
+            const parentValueDec = hexToDecimal(parentContextValue);
 
-            expect(hexToDecimal(traceB3Value)).toBe(datadogTraceValue128BitDec);
-            expect(hexToDecimal(parentB3Value)).toBe(datadogParentValue);
+            expect(hexToDecimal(b3MultiTraceHeader)).toBe(traceValueDec);
+            expect(hexToDecimal(b3MultiParentHeader)).toBe(parentValueDec);
+
+            expect(hexToDecimal(traceB3Value)).toBe(traceValueDec);
+            expect(hexToDecimal(parentB3Value)).toBe(parentValueDec);
         });
 
         it('adds tracecontext request headers when the host is instrumented with tracecontext and request is sampled', async () => {
@@ -881,9 +705,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [
-                                                        PropagatorType.TRACECONTEXT
-                        ]
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'example.com',
@@ -917,16 +739,9 @@ describe('XHRProxy', () => {
             expect(
                 xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
             ).not.toBeUndefined();
-            expect(
-                xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)
-            ).not.toBeUndefined();
-            expect(
-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
-            ).not.toBeUndefined();
-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
-                '1'
+            expect(xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)).toMatch(
+                /-01$/
             );
-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
         });
 
         it('adds rum session id to baggage headers when available', async () => {
@@ -938,9 +753,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [
-                                                        PropagatorType.TRACECONTEXT
-                        ]
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'example.com',
@@ -980,9 +793,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [
-                                                        PropagatorType.TRACECONTEXT
-                        ]
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'example.com',
@@ -1017,9 +828,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [
-                                                        PropagatorType.TRACECONTEXT
-                        ]
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'example.com', // <-- no datadog or tracecontext here
@@ -1054,9 +863,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [
-                                                        PropagatorType.TRACECONTEXT
-                        ]
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     },
                     {
                         match: 'example.com',
@@ -1107,7 +914,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });
@@ -1182,7 +989,7 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
                     {
                         match: 'api.example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ])
             });

@@ -9,7 +9,7 @@ import { NativeModules } from 'react-native';
 import { BufferSingleton } from '../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
 import { PropagatorType } from '../../../types';
 import { OoRumResourceTracking } from '../OoRumResourceTracking';
-import { SAMPLING_PRIORITY_HEADER_KEY } from '../distributedTracing/headers';
+import { TRACECONTEXT_HEADER_KEY } from '../distributedTracing/headers';
 
 import { XMLHttpRequestMock } from './__utils__/XMLHttpRequestMock';
 
@@ -124,18 +124,18 @@ describe('OoRumResourceTracking', () => {
                 firstPartyHosts: [
                     {
                         match: 'api.example.com',
-                        propagatorTypes: []
+                        propagatorTypes: [PropagatorType.TRACECONTEXT]
                     }
                 ]
             });
 
-            // pre-update request gets sampling priority '0'
+            // pre-update request is not sampled
             const xhrBeforeUpdate = new XMLHttpRequestMock();
             xhrBeforeUpdate.open('GET', 'https://api.example.com/v2/user');
             xhrBeforeUpdate.send();
             expect(
-                xhrBeforeUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
-            ).toBe('0');
+                xhrBeforeUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toMatch(/-00$/);
 
             // WHEN
             OoRumResourceTracking.updateTrackingContext({
@@ -147,8 +147,8 @@ describe('OoRumResourceTracking', () => {
             xhrAfterUpdate.open('GET', 'https://api.example.com/v2/user');
             xhrAfterUpdate.send();
             expect(
-                xhrAfterUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
-            ).toBe('1');
+                xhrAfterUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+            ).toMatch(/-01$/);
         });
 
         it('is a no-op after tracking has been stopped', async () => {

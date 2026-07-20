@@ -180,9 +180,7 @@ describe('OpenObserveProvider', () => {
                         firstPartyHosts: [
                             {
                                 match: 'api.com',
-                                propagatorTypes: [
-                                                                        PropagatorType.TRACECONTEXT
-                                ]
+                                propagatorTypes: [PropagatorType.TRACECONTEXT]
                             }
                         ]
                     },
@@ -220,7 +218,7 @@ describe('OpenObserveProvider', () => {
             ).toEqual([
                 {
                     match: 'api.com',
-                    propagatorTypes: ['datadog', 'tracecontext']
+                    propagatorTypes: ['tracecontext']
                 }
             ]);
             expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);

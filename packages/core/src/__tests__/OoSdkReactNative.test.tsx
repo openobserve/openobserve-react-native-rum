@@ -620,13 +620,11 @@ describe('OoSdkReactNative', () => {
             configuration.rumConfiguration.firstPartyHosts = [
                 {
                     match: 'api.example.com',
-                    propagatorTypes: [
-                                                PropagatorType.TRACECONTEXT
-                    ]
+                    propagatorTypes: [PropagatorType.TRACECONTEXT]
                 },
                 {
                     match: 'something.fr',
-                    propagatorTypes: []
+                    propagatorTypes: [PropagatorType.B3]
                 }
             ];
 
@@ -649,11 +647,11 @@ describe('OoSdkReactNative', () => {
             ).toEqual([
                 {
                     match: 'api.example.com',
-                    propagatorTypes: ['datadog', 'tracecontext']
+                    propagatorTypes: ['tracecontext']
                 },
                 {
                     match: 'something.fr',
-                    propagatorTypes: ['datadog']
+                    propagatorTypes: ['b3']
                 }
             ]);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
@@ -669,11 +667,11 @@ describe('OoSdkReactNative', () => {
                 firstPartyHosts: [
                     {
                         match: 'api.example.com',
-                        propagatorTypes: ['datadog', 'tracecontext']
+                        propagatorTypes: ['tracecontext']
                     },
                     {
                         match: 'something.fr',
-                        propagatorTypes: ['datadog']
+                        propagatorTypes: ['b3']
                     }
                 ]
             });

@@ -124,8 +124,7 @@ describe('FileBasedConfiguration', () => {
                                 propagatorTypes: [
                                     'B3MULTI',
                                     'TRACECONTEXT',
-                                    'B3',
-                                    'OPENOBSERVE'
+                                    'B3'
                                 ]
                             }
                         ]
@@ -163,7 +162,6 @@ describe('FileBasedConfiguration', () => {
                           "b3multi",
                           "tracecontext",
                           "b3",
-                          "datadog",
                         ],
                       },
                     ],

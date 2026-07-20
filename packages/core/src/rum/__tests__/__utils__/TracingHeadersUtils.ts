@@ -29,45 +29,6 @@ export const verifyRumResourceContext = (
     );
 };
 
-export const verifyOpenObserveHeaders = (
-    headersArray: Header[],
-    isSampled: boolean
-) => {
-    const headers = getHeadersMapFromArray(headersArray);
-
-    // x-datadog-origin
-    const originHeader = headers.get('x-datadog-origin') as string;
-    expect(originHeader).toBeDefined();
-    expect(originHeader).toBe('rum');
-
-    // x-datadog-sampling-priority
-    const samplingPriorityHeader = headers.get(
-        'x-datadog-sampling-priority'
-    ) as string;
-    expect(samplingPriorityHeader).toBeDefined();
-    expect(samplingPriorityHeader).toBe(isSampled ? '1' : '0');
-
-    // x-datadog-trace-id
-    const traceIdHeader = headers.get('x-datadog-trace-id') as string;
-    expect(traceIdHeader).toBeDefined();
-    expect(traceIdHeader).toMatch(/^(?:\d+|\d*\.\d+)$/);
-    expect(TracingIdentifierUtils.isWithin64Bits(traceIdHeader)).toBe(true);
-
-    // x-datadog-parent-id
-    const parentIdHeader = headers.get('x-datadog-parent-id') as string;
-    expect(parentIdHeader).toBeDefined();
-    expect(parentIdHeader).toMatch(/^(?:\d+|\d*\.\d+)$/);
-    expect(TracingIdentifierUtils.isWithin64Bits(parentIdHeader)).toBe(true);
-
-    // x-datadog-tags
-    const tagsHeader = headers.get('x-datadog-tags') as string;
-    expect(tagsHeader).toBeDefined();
-    expect(tagsHeader).toMatch(/^_oo\.p\.tid=[0-9a-fA-F]{16}$/);
-    expect(
-        TracingIdentifierUtils.isWithin64Bits(tagsHeader.split('=')[1])
-    ).toBe(true);
-};
-
 export const verifyTraceContextHeaders = (
     headersArray: Header[],
     isSampled: boolean

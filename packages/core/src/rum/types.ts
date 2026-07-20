@@ -303,7 +303,6 @@ export type ResourceKind =
 
 /**
  * Type of instrumentation on the host.
- * - OPENOBSERVE: OpenObserve’s propagator (`x-datadog-*`)
  * - TRACECONTEXT: W3C Trace Context (`traceparent`)
  * - B3: B3 single header (`b3`)
  * - B3MULTI: B3 multiple headers (`X-B3-*`)

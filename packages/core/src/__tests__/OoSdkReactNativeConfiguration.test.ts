@@ -110,9 +110,7 @@ describe('OoSdkReactNativeConfiguration', () => {
                             firstPartyHosts: [
                                 {
                                     match: 'api.com',
-                                    propagatorTypes: [
-                                                                                PropagatorType.TRACECONTEXT
-                                    ]
+                                    propagatorTypes: [PropagatorType.TRACECONTEXT]
                                 }
                             ],
 
@@ -199,7 +197,6 @@ describe('OoSdkReactNativeConfiguration', () => {
                       {
                         "match": "api.com",
                         "propagatorTypes": [
-                          "datadog",
                           "tracecontext",
                         ],
                       },

@@ -520,40 +520,6 @@ describe('OoRum', () => {
                         const firstPartyHosts: FirstPartyHost[] = [
                             {
                                 match: 'example.com',
-                                propagatorTypes: []
-                            }
-                        ];
-
-                        const tracingContext = OoRum.getTracingContext(
-                            url,
-                            tracingSamplingRate,
-                            firstPartyHosts
-                        );
-
-                        const resourceContext = tracingContext.getRumResourceContext();
-                        expect(Object.keys(resourceContext)).toHaveLength(3);
-
-                        TracingContextUtils.verifyRumResourceContext(
-                            tracingContext
-                        );
-
-                        const headers = tracingContext.getHeadersForRequestAsArray();
-                        expect(headers).toHaveLength(5);
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
-                    }
-                });
-
-                it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
-                    for (let i = 0; i < 100; i++) {
-                        const url = 'https://www.example.com';
-                        const tracingSamplingRate =
-                            Math.random() < 0.5 ? 0 : 100;
-                        const firstPartyHosts: FirstPartyHost[] = [
-                            {
-                                match: 'example.com',
                                 propagatorTypes: [PropagatorType.TRACECONTEXT]
                             }
                         ];
@@ -682,12 +648,7 @@ describe('OoRum', () => {
 
                         const headers = tracingContext.getHeadersForRequestAsArray();
 
-                        expect(headers).toHaveLength(11);
-
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
+                        expect(headers).toHaveLength(6);
 
                         TracingContextUtils.verifyTraceContextHeaders(
                             headers,
@@ -752,12 +713,7 @@ describe('OoRum', () => {
                             }
                         );
 
-                        expect(headers).toHaveLength(11);
-
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
+                        expect(headers).toHaveLength(6);
 
                         TracingContextUtils.verifyTraceContextHeaders(
                             headers,
@@ -836,32 +792,6 @@ describe('OoRum', () => {
             });
 
             describe('OoRum.getTracingContextForPropagators', () => {
-                it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
-                    for (let i = 0; i < 100; i++) {
-                        const tracingSamplingRate =
-                            Math.random() < 0.5 ? 0 : 100;
-
-                        const tracingContext = OoRum.getTracingContextForPropagators(
-                            [],
-                            tracingSamplingRate
-                        );
-
-                        const resourceContext = tracingContext.getRumResourceContext();
-                        expect(Object.keys(resourceContext)).toHaveLength(3);
-
-                        TracingContextUtils.verifyRumResourceContext(
-                            tracingContext
-                        );
-
-                        const headers = tracingContext.getHeadersForRequestAsArray();
-                        expect(headers).toHaveLength(5);
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
-                    }
-                });
-
                 it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
                     for (let i = 0; i < 100; i++) {
                         const tracingSamplingRate =
@@ -965,12 +895,7 @@ describe('OoRum', () => {
 
                         const headers = tracingContext.getHeadersForRequestAsArray();
 
-                        expect(headers).toHaveLength(11);
-
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
+                        expect(headers).toHaveLength(6);
 
                         TracingContextUtils.verifyTraceContextHeaders(
                             headers,
@@ -1130,12 +1055,7 @@ describe('OoRum', () => {
                             }
                         );
 
-                        expect(headers).toHaveLength(11);
-
-                        TracingContextUtils.verifyOpenObserveHeaders(
-                            headers,
-                            tracingSamplingRate === 100
-                        );
+                        expect(headers).toHaveLength(6);
 
                         TracingContextUtils.verifyTraceContextHeaders(
                             headers,
@@ -1884,7 +1804,6 @@ describe('OoRum', () => {
              * - asTracingHeaderType (iOS)
              * so that it uses the new values
              */
-            expect().toBe('datadog');
             expect(PropagatorType.B3).toBe('b3');
             expect(PropagatorType.B3MULTI).toBe('b3multi');
             expect(PropagatorType.TRACECONTEXT).toBe('tracecontext');
