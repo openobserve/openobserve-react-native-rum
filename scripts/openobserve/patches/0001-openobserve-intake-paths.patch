@@ -1,7 +1,107 @@
-diff --git b/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt a/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
-index 38f056aa..566a0842 100644
---- b/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
-+++ a/packages/core/android/src/main/kotlin/com/datadog/reactnative/DdSdkNativeInitialization.kt
+diff --git b/example-new-architecture/package.json a/example-new-architecture/package.json
+index f41a939a..617c915b 100644
+--- b/example-new-architecture/package.json
++++ a/example-new-architecture/package.json
+@@ -8,9 +8,9 @@
+     "start": "react-native start"
+   },
+   "dependencies": {
++    "@openfeature/react-sdk": "^1.1.0",
+     "@openobserve/mobile-react-native": "workspace:packages/core",
+     "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature",
+-    "@openfeature/react-sdk": "^1.1.0",
+     "react": "18.3.1",
+     "react-native": "0.76.9"
+   },
+diff --git b/example/package.json a/example/package.json
+index 02f258e1..eabe1b52 100644
+--- b/example/package.json
++++ a/example/package.json
+@@ -10,13 +10,13 @@
+         "postinstall": "patch-package"
+     },
+     "dependencies": {
++        "@openfeature/react-sdk": "^1.2.1",
+         "@openobserve/mobile-react-native": "workspace:packages/core",
+         "@openobserve/mobile-react-native-navigation": "workspace:packages/react-native-navigation",
+         "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature",
+         "@openobserve/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay",
+         "@openobserve/mobile-react-native-webview": "workspace:packages/react-native-webview",
+         "@openobserve/mobile-react-navigation": "workspace:packages/react-navigation",
+-        "@openfeature/react-sdk": "^1.2.1",
+         "@react-native-async-storage/async-storage": "^2.1.2",
+         "@react-native-community/cli": "15.0.1",
+         "@react-native-community/cli-platform-android": "15.0.1",
+diff --git b/packages/codepush/package.json a/packages/codepush/package.json
+index b876efd9..e4d668f6 100644
+--- b/packages/codepush/package.json
++++ a/packages/codepush/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-code-push",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with Appcenter Codepush and OpenObserve",
+     "keywords": [
+         "datadog",
+@@ -38,7 +38,7 @@
+         "prepare": "rm -rf lib && yarn bob build"
+     },
+     "devDependencies": {
+-        "@openobserve/mobile-react-native": "workspace:3.5.3",
++        "@openobserve/mobile-react-native": "workspace:0.1.0-alpha.2",
+         "@testing-library/react-native": "7.0.2",
+         "react-native-builder-bob": "0.26.0",
+         "react-native-code-push": "7.1.0"
+diff --git b/packages/codepush/src/__tests__/index.test.tsx a/packages/codepush/src/__tests__/index.test.tsx
+index e1b58f84..a932549d 100644
+--- b/packages/codepush/src/__tests__/index.test.tsx
++++ a/packages/codepush/src/__tests__/index.test.tsx
+@@ -301,7 +301,7 @@ describe('AppCenter Codepush integration', () => {
+                     firstPartyHosts: [
+                         {
+                             match: 'example.com',
+-                            propagatorTypes: [PropagatorType.DATADOG]
++                            propagatorTypes: []
+                         }
+                     ]
+                 },
+@@ -340,7 +340,7 @@ describe('AppCenter Codepush integration', () => {
+                     firstPartyHosts: [
+                         {
+                             match: 'example.com',
+-                            propagatorTypes: [PropagatorType.DATADOG]
++                            propagatorTypes: []
+                         }
+                     ]
+                 },
+diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
+index 6f9fded3..87eac64f 100644
+--- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
++++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
+@@ -238,8 +238,8 @@ internal fun List<JSONFirstPartyHost>.asFirstPartyHosts(): Map<String, Set<Traci
+      * Adapts the data format from the React Native SDK configuration to match with the Android
+      * SDK configuration. For example:
+      *
+-     * RN config: [{ match: "example.com", propagatorTypes: [DATADOG, B3] }] Android config: {
+-     * "example.com": [DATADOG, B3] }
++     * RN config: [{ match: "example.com", propagatorTypes: [TRACECONTEXT, B3] }] Android config: {
++     * "example.com": [TRACECONTEXT, B3] }
+      */
+     val firstPartyHostsWithHeaderTypes = mutableMapOf<String, MutableSet<TracingHeaderType>>()
+ 
+@@ -260,7 +260,6 @@ internal fun List<JSONFirstPartyHost>.asFirstPartyHosts(): Map<String, Set<Traci
+ internal fun List<String>.asTracingHeaderTypes(): Set<TracingHeaderType> {
+     return this.mapNotNull {
+         when (it.lowercase(Locale.US)) {
+-            "datadog" -> TracingHeaderType.DATADOG
+             "b3" -> TracingHeaderType.B3
+             "b3multi" -> TracingHeaderType.B3MULTI
+             "tracecontext" -> TracingHeaderType.TRACECONTEXT
+diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
+index 7ec41460..14b07101 100644
+--- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
++++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
 @@ -242,7 +242,10 @@ class OoSdkNativeInitialization internal constructor(
          )
  
@@ -24,17 +124,71 @@ index 38f056aa..566a0842 100644
          }
  
          return configBuilder.build()
-diff --git b/packages/core/ios/Sources/DdSdkNativeInitialization.swift a/packages/core/ios/Sources/DdSdkNativeInitialization.swift
-index 6cd954ef..274f02bf 100644
---- b/packages/core/ios/Sources/DdSdkNativeInitialization.swift
-+++ a/packages/core/ios/Sources/DdSdkNativeInitialization.swift
+diff --git b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
+index 87215d6c..44e31378 100644
+--- b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
++++ a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
+@@ -1861,9 +1861,7 @@ internal class OoSdkTest {
+             Pair(
+                 forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
+                 forge.aSubSetOf(
+-                    setOf(
+-                        TracingHeaderType.DATADOG,
+-                        TracingHeaderType.B3MULTI,
++                    setOf(                        TracingHeaderType.B3MULTI,
+                         TracingHeaderType.TRACECONTEXT,
+                         TracingHeaderType.B3
+                     ),
+@@ -1940,7 +1938,6 @@ internal class OoSdkTest {
+             Pair(
+                 forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
+                 setOf(
+-                    TracingHeaderType.DATADOG
+                 )
+             )
+         }
+@@ -1951,8 +1948,7 @@ internal class OoSdkTest {
+                 mapOf(
+                     "match" to match,
+                     "propagatorTypes" to listOf(
+-                        TracingHeaderType.DATADOG.name.lowercase(Locale.US),
+-                        forge.aString()
++                                                forge.aString()
+                     ).toReadableArray()
+                 ).toReadableMap()
+             )
+@@ -2014,9 +2010,7 @@ internal class OoSdkTest {
+         val tracingHosts = mapOf(
+             Pair(
+                 host,
+-                setOf(
+-                    TracingHeaderType.DATADOG,
+-                    TracingHeaderType.B3
++                setOf(                    TracingHeaderType.B3
+                 )
+             )
+         )
+@@ -2026,8 +2020,7 @@ internal class OoSdkTest {
+             mapOf(
+                 "match" to host,
+                 "propagatorTypes" to listOf(
+-                    TracingHeaderType.DATADOG.name.lowercase(Locale.US)
+-                ).toReadableArray()
++                                    ).toReadableArray()
+             ).toReadableMap()
+         )
+         firstPartyHosts.add(
+diff --git b/packages/core/ios/Sources/OoSdkNativeInitialization.swift a/packages/core/ios/Sources/OoSdkNativeInitialization.swift
+index 4e11dc5e..acf81e64 100644
+--- b/packages/core/ios/Sources/OoSdkNativeInitialization.swift
++++ a/packages/core/ios/Sources/OoSdkNativeInitialization.swift
 @@ -189,7 +189,9 @@ public class OoSdkNativeInitialization: NSObject {
  
          var customRUMEndpointURL: URL? = nil
          if let customEndpoint = rumConfig.customEndpoint, !customEndpoint.isEmpty {
 -            customRUMEndpointURL = URL(string: "\(customEndpoint)/api/v2/rum")
 +            // OpenObserve intake path: {base}/rum -> POST {org endpoint}/rum/v1/{org}/rum.
-+            // (Upstream Datadog used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
++            // (Upstream OpenObserve used "/api/v2/rum"; OpenObserve's RUM intake is "/rum".)
 +            customRUMEndpointURL = URL(string: "\(customEndpoint)/rum")
          }
  
@@ -44,8 +198,2454 @@ index 6cd954ef..274f02bf 100644
          if let customLogsEndpoint = logsConfig.customEndpoint as? NSString {
              if customLogsEndpoint != "" {
 -                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/api/v2/logs" as String)
-+                // OpenObserve intake path: {base}/logs (upstream Datadog used "/api/v2/logs").
++                // OpenObserve intake path: {base}/logs (upstream OpenObserve used "/api/v2/logs").
 +                customLogsEndpointURL = URL(string: "\(customLogsEndpoint)/logs" as String)
              }
          }
  
+diff --git b/packages/core/ios/Sources/RNDdSdkConfiguration.swift a/packages/core/ios/Sources/RNDdSdkConfiguration.swift
+index 5b96c412..7c8dca3f 100644
+--- b/packages/core/ios/Sources/RNDdSdkConfiguration.swift
++++ a/packages/core/ios/Sources/RNDdSdkConfiguration.swift
+@@ -227,8 +227,8 @@ extension NSArray {
+      * Adapts the data format from the React Native SDK configuration to match with the
+      * iOS SDK configuration. For example:
+      *
+-     * RN config: [{ match: "example.com", propagatorTypes: [DATADOG, B3] }]
+-     * iOS config: { "example.com": [DATADOG, B3] }
++     * RN config: [{ match: "example.com", propagatorTypes: [TRACECONTEXT, B3] }]
++     * iOS config: { "example.com": [TRACECONTEXT, B3] }
+      */
+     func asFirstPartyHosts() -> [String: Set<TracingHeaderType>] {
+         return reduce(
+@@ -253,8 +253,6 @@ extension NSArray {
+         return Set(
+             compactMap { headerType in
+                 switch (headerType as? String)?.lowercased() {
+-                case "datadog":
+-                    return TracingHeaderType.datadog
+                 case "b3":
+                     return TracingHeaderType.b3
+                 case "b3multi":
+diff --git b/packages/core/ios/Tests/OoSdkTests.swift a/packages/core/ios/Tests/OoSdkTests.swift
+index 030f2da3..478f774a 100644
+--- b/packages/core/ios/Tests/OoSdkTests.swift
++++ a/packages/core/ios/Tests/OoSdkTests.swift
+@@ -964,7 +964,7 @@ class OoSdkTests: XCTestCase {
+         let rumConfiguration: RumConfiguration = makeDefaultRumConfiguration()
+         rumConfiguration.resourceTraceSampleRate = 66
+         rumConfiguration.firstPartyHosts = ([
+-            ["match": "example.com", "propagatorTypes": ["datadog", "b3"]],
++            ["match": "example.com", "propagatorTypes": ["b3"]],
+             ["match": "datadog.com", "propagatorTypes": ["b3multi", "tracecontext"]],
+         ] as NSArray).asFirstPartyHosts()
+ 
+diff --git b/packages/core/ios/Tests/RNDdSdkConfigurationTests.swift a/packages/core/ios/Tests/RNDdSdkConfigurationTests.swift
+index c66169f6..a6e32bd1 100644
+--- b/packages/core/ios/Tests/RNDdSdkConfigurationTests.swift
++++ a/packages/core/ios/Tests/RNDdSdkConfigurationTests.swift
+@@ -61,7 +61,7 @@ class RNDdSdkConfigurationTests: XCTestCase {
+ 
+     func testBuildFirstPartyHosts() {
+         let firstPartyHosts = [
+-            ["match": "example.com", "propagatorTypes": ["datadog", "b3"]],
++            ["match": "example.com", "propagatorTypes": ["b3"]],
+             ["match": "datadog.com",  "propagatorTypes": ["b3multi", "tracecontext"]]
+         ] as NSArray
+ 
+diff --git b/packages/core/openobserve-configuration.schema.json a/packages/core/openobserve-configuration.schema.json
+index 4bf34edd..b4b56e06 100644
+--- b/packages/core/openobserve-configuration.schema.json
++++ a/packages/core/openobserve-configuration.schema.json
+@@ -146,7 +146,6 @@
+                                     "description": "Type of instrumentation on the host.",
+                                     "type": "string",
+                                     "enum": [
+-                                        "DATADOG",
+                                         "B3",
+                                         "B3MULTI",
+                                         "TRACECONTEXT"
+diff --git b/packages/core/package.json a/packages/core/package.json
+index 234c31e1..3022d6f6 100644
+--- b/packages/core/package.json
++++ a/packages/core/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with OpenObserve",
+     "keywords": [
+         "datadog",
+diff --git b/packages/core/release-content.txt a/packages/core/release-content.txt
+index 94741305..a285aa3a 100644
+--- b/packages/core/release-content.txt
++++ a/packages/core/release-content.txt
+@@ -4,66 +4,66 @@ package/android/build.gradle
+ package/android/detekt.yml
+ package/android/gradle.properties
+ package/android/src/main/AndroidManifest.xml
+-package/android/src/main/kotlin/com/datadog/reactnative/OpenObserveSDKWrapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OpenObserveWrapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoFlagsImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoLogsImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoRumImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkBridgeExt.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkConfiguration.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkConfigurationExt.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkNativeInitialization.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkReactNativePackage.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkSessionStartedListener.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoSdkSynthetics.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoTelemetry.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/OoTraceImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/FrameRateProvider.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/GlobalState.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/JSONFileReader.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/JsThreadExecutor.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/NoOpViewTrackingStrategy.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/ProxyAuthenticator.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/SdkVersion.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/UiThreadExecutor.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/OoFlags.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/OoLogs.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/OoRum.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/OoSdk.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/OoTrace.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/OoFlags.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/OoLogs.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/OoRum.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/OoSdk.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/OoTrace.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoFlagsImplementationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoLogsTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoRumTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoSdkBridgeExtTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoSdkConfigurationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoSdkNativeInitializationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoSdkSessionStartedListenerTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoSdkTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/OoTraceTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/GlobalStateTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/ProxyAuthenticatorTest.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/OoSdkConfigurationExt.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/GenericAssert.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/MapExt.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/MockRumMonitor.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/ReflectUtils.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/RemoveFinalModifierJava.java
+-package/android/src/test/kotlin/com/datadog/tools/unit/TestJsThreadExecutor.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/TestUiThreadExecutor.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/ActionEventForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/BaseConfigurator.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/OoSdkConfigurationForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/PackageInfoForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/ResourceEventForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/TelemetryConfigurationEventForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/Throwable.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/ThrowableForgeryFactory.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OpenObserveSDKWrapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OpenObserveWrapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoFlagsImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoLogsImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoRumImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkBridgeExt.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfiguration.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkReactNativePackage.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkSessionStartedListener.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkSynthetics.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoTelemetry.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/OoTraceImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/FrameRateProvider.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/GlobalState.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/JSONFileReader.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/JsThreadExecutor.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/NoOpViewTrackingStrategy.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/ProxyAuthenticator.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/SdkVersion.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/UiThreadExecutor.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/OoFlags.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/OoLogs.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/OoRum.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/OoSdk.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/OoTrace.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoFlags.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoLogs.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoRum.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoSdk.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoTrace.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoFlagsImplementationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoLogsTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoRumTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkBridgeExtTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkConfigurationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkNativeInitializationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkSessionStartedListenerTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/OoTraceTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/GlobalStateTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/ProxyAuthenticatorTest.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/OoSdkConfigurationExt.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/GenericAssert.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/MapExt.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/MockRumMonitor.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/ReflectUtils.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/RemoveFinalModifierJava.java
++package/android/src/test/kotlin/com/openobserve/tools/unit/TestJsThreadExecutor.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/TestUiThreadExecutor.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/ActionEventForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/BaseConfigurator.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/OoSdkConfigurationForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/PackageInfoForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/ResourceEventForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/TelemetryConfigurationEventForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/Throwable.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/ThrowableForgeryFactory.kt
+ package/android/src/test/resources/input/complete-configuration.json
+ package/android/src/test/resources/input/malformed-configuration.json
+ package/android/src/test/resources/input/minimal-configuration.json
+diff --git b/packages/core/src/__tests__/OoSdkReactNative.test.tsx a/packages/core/src/__tests__/OoSdkReactNative.test.tsx
+index 522728b8..69b0cc98 100644
+--- b/packages/core/src/__tests__/OoSdkReactNative.test.tsx
++++ a/packages/core/src/__tests__/OoSdkReactNative.test.tsx
+@@ -620,14 +620,11 @@ describe('OoSdkReactNative', () => {
+             configuration.rumConfiguration.firstPartyHosts = [
+                 {
+                     match: 'api.example.com',
+-                    propagatorTypes: [
+-                        PropagatorType.DATADOG,
+-                        PropagatorType.TRACECONTEXT
+-                    ]
++                    propagatorTypes: [PropagatorType.TRACECONTEXT]
+                 },
+                 {
+                     match: 'something.fr',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: [PropagatorType.B3]
+                 }
+             ];
+ 
+@@ -650,11 +647,11 @@ describe('OoSdkReactNative', () => {
+             ).toEqual([
+                 {
+                     match: 'api.example.com',
+-                    propagatorTypes: ['datadog', 'tracecontext']
++                    propagatorTypes: ['tracecontext']
+                 },
+                 {
+                     match: 'something.fr',
+-                    propagatorTypes: ['datadog']
++                    propagatorTypes: ['b3']
+                 }
+             ]);
+             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
+@@ -670,11 +667,11 @@ describe('OoSdkReactNative', () => {
+                 firstPartyHosts: [
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: ['datadog', 'tracecontext']
++                        propagatorTypes: ['tracecontext']
+                     },
+                     {
+                         match: 'something.fr',
+-                        propagatorTypes: ['datadog']
++                        propagatorTypes: ['b3']
+                     }
+                 ]
+             });
+diff --git b/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts a/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
+index 07919ba3..c4cc9cbb 100644
+--- b/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
++++ a/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
+@@ -110,10 +110,7 @@ describe('OoSdkReactNativeConfiguration', () => {
+                             firstPartyHosts: [
+                                 {
+                                     match: 'api.com',
+-                                    propagatorTypes: [
+-                                        PropagatorType.DATADOG,
+-                                        PropagatorType.TRACECONTEXT
+-                                    ]
++                                    propagatorTypes: [PropagatorType.TRACECONTEXT]
+                                 }
+                             ],
+ 
+@@ -200,7 +197,6 @@ describe('OoSdkReactNativeConfiguration', () => {
+                       {
+                         "match": "api.com",
+                         "propagatorTypes": [
+-                          "datadog",
+                           "tracecontext",
+                         ],
+                       },
+diff --git b/packages/core/src/config/FileBasedConfiguration.ts a/packages/core/src/config/FileBasedConfiguration.ts
+index 26343561..7b491f14 100644
+--- b/packages/core/src/config/FileBasedConfiguration.ts
++++ a/packages/core/src/config/FileBasedConfiguration.ts
+@@ -257,9 +257,9 @@ export const formatPropagatorType = (
+         case 'b3multi': {
+             return PropagatorType.B3MULTI;
+         }
+-        case 'datadog': {
+-            return PropagatorType.DATADOG;
+-        }
++        // openobserve: the upstream-proprietary propagator was removed (see PropagatorType).
++        // A config file naming it now throws the default "Failed to parse propagator type"
++        // error rather than silently selecting a propagator the native SDKs no longer have.
+         case 'tracecontext': {
+             return PropagatorType.TRACECONTEXT;
+         }
+diff --git b/packages/core/src/config/__tests__/FileBasedConfiguration.test.ts a/packages/core/src/config/__tests__/FileBasedConfiguration.test.ts
+index c57af753..e9608aa5 100644
+--- b/packages/core/src/config/__tests__/FileBasedConfiguration.test.ts
++++ a/packages/core/src/config/__tests__/FileBasedConfiguration.test.ts
+@@ -124,8 +124,7 @@ describe('FileBasedConfiguration', () => {
+                                 propagatorTypes: [
+                                     'B3MULTI',
+                                     'TRACECONTEXT',
+-                                    'B3',
+-                                    'DATADOG'
++                                    'B3'
+                                 ]
+                             }
+                         ]
+@@ -163,7 +162,6 @@ describe('FileBasedConfiguration', () => {
+                           "b3multi",
+                           "tracecontext",
+                           "b3",
+-                          "datadog",
+                         ],
+                       },
+                     ],
+diff --git b/packages/core/src/rum/__tests__/OoRum.test.ts a/packages/core/src/rum/__tests__/OoRum.test.ts
+index ea21fde4..c3e8531a 100644
+--- b/packages/core/src/rum/__tests__/OoRum.test.ts
++++ a/packages/core/src/rum/__tests__/OoRum.test.ts
+@@ -512,40 +512,6 @@ describe('OoRum', () => {
+             });
+ 
+             describe('OoRum.getTracingContext', () => {
+-                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
+-                    for (let i = 0; i < 100; i++) {
+-                        const url = 'https://www.example.com';
+-                        const tracingSamplingRate =
+-                            Math.random() < 0.5 ? 0 : 100;
+-                        const firstPartyHosts: FirstPartyHost[] = [
+-                            {
+-                                match: 'example.com',
+-                                propagatorTypes: [PropagatorType.DATADOG]
+-                            }
+-                        ];
+-
+-                        const tracingContext = OoRum.getTracingContext(
+-                            url,
+-                            tracingSamplingRate,
+-                            firstPartyHosts
+-                        );
+-
+-                        const resourceContext = tracingContext.getRumResourceContext();
+-                        expect(Object.keys(resourceContext)).toHaveLength(3);
+-
+-                        TracingContextUtils.verifyRumResourceContext(
+-                            tracingContext
+-                        );
+-
+-                        const headers = tracingContext.getHeadersForRequestAsArray();
+-                        expect(headers).toHaveLength(5);
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
+-                    }
+-                });
+-
+                 it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
+                     for (let i = 0; i < 100; i++) {
+                         const url = 'https://www.example.com';
+@@ -660,8 +626,7 @@ describe('OoRum', () => {
+                             {
+                                 match: 'example.com',
+                                 propagatorTypes: [
+-                                    PropagatorType.DATADOG,
+-                                    PropagatorType.TRACECONTEXT,
++                                                                        PropagatorType.TRACECONTEXT,
+                                     PropagatorType.B3,
+                                     PropagatorType.B3MULTI
+                                 ]
+@@ -683,12 +648,7 @@ describe('OoRum', () => {
+ 
+                         const headers = tracingContext.getHeadersForRequestAsArray();
+ 
+-                        expect(headers).toHaveLength(11);
+-
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
++                        expect(headers).toHaveLength(6);
+ 
+                         TracingContextUtils.verifyTraceContextHeaders(
+                             headers,
+@@ -716,8 +676,7 @@ describe('OoRum', () => {
+                             {
+                                 match: 'example.com',
+                                 propagatorTypes: [
+-                                    PropagatorType.DATADOG,
+-                                    PropagatorType.TRACECONTEXT,
++                                                                        PropagatorType.TRACECONTEXT,
+                                     PropagatorType.B3,
+                                     PropagatorType.B3MULTI
+                                 ]
+@@ -754,12 +713,7 @@ describe('OoRum', () => {
+                             }
+                         );
+ 
+-                        expect(headers).toHaveLength(11);
+-
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
++                        expect(headers).toHaveLength(6);
+ 
+                         TracingContextUtils.verifyTraceContextHeaders(
+                             headers,
+@@ -784,8 +738,7 @@ describe('OoRum', () => {
+                         {
+                             match: 'example.com',
+                             propagatorTypes: [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3,
+                                 PropagatorType.B3MULTI
+                             ]
+@@ -839,32 +792,6 @@ describe('OoRum', () => {
+             });
+ 
+             describe('OoRum.getTracingContextForPropagators', () => {
+-                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
+-                    for (let i = 0; i < 100; i++) {
+-                        const tracingSamplingRate =
+-                            Math.random() < 0.5 ? 0 : 100;
+-
+-                        const tracingContext = OoRum.getTracingContextForPropagators(
+-                            [PropagatorType.DATADOG],
+-                            tracingSamplingRate
+-                        );
+-
+-                        const resourceContext = tracingContext.getRumResourceContext();
+-                        expect(Object.keys(resourceContext)).toHaveLength(3);
+-
+-                        TracingContextUtils.verifyRumResourceContext(
+-                            tracingContext
+-                        );
+-
+-                        const headers = tracingContext.getHeadersForRequestAsArray();
+-                        expect(headers).toHaveLength(5);
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
+-                    }
+-                });
+-
+                 it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
+                     for (let i = 0; i < 100; i++) {
+                         const tracingSamplingRate =
+@@ -952,8 +879,7 @@ describe('OoRum', () => {
+ 
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3MULTI,
+                                 PropagatorType.B3
+                             ],
+@@ -969,12 +895,7 @@ describe('OoRum', () => {
+ 
+                         const headers = tracingContext.getHeadersForRequestAsArray();
+ 
+-                        expect(headers).toHaveLength(11);
+-
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
++                        expect(headers).toHaveLength(6);
+ 
+                         TracingContextUtils.verifyTraceContextHeaders(
+                             headers,
+@@ -1000,8 +921,7 @@ describe('OoRum', () => {
+                         setCachedSessionId(randomSessionId);
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3MULTI,
+                                 PropagatorType.B3
+                             ],
+@@ -1026,8 +946,7 @@ describe('OoRum', () => {
+                         setCachedUserId(randomUserId);
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3MULTI,
+                                 PropagatorType.B3
+                             ],
+@@ -1052,8 +971,7 @@ describe('OoRum', () => {
+                         setCachedAccountId(randomAccountId);
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3MULTI,
+                                 PropagatorType.B3
+                             ],
+@@ -1082,8 +1000,7 @@ describe('OoRum', () => {
+                         setCachedAccountId(randomAccountId);
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3MULTI,
+                                 PropagatorType.B3
+                             ],
+@@ -1107,8 +1024,7 @@ describe('OoRum', () => {
+                             Math.random() < 0.5 ? 0 : 100;
+                         const tracingContext = OoRum.getTracingContextForPropagators(
+                             [
+-                                PropagatorType.DATADOG,
+-                                PropagatorType.TRACECONTEXT,
++                                                                PropagatorType.TRACECONTEXT,
+                                 PropagatorType.B3,
+                                 PropagatorType.B3MULTI
+                             ],
+@@ -1139,12 +1055,7 @@ describe('OoRum', () => {
+                             }
+                         );
+ 
+-                        expect(headers).toHaveLength(11);
+-
+-                        TracingContextUtils.verifyOpenObserveHeaders(
+-                            headers,
+-                            tracingSamplingRate === 100
+-                        );
++                        expect(headers).toHaveLength(6);
+ 
+                         TracingContextUtils.verifyTraceContextHeaders(
+                             headers,
+@@ -1893,7 +1804,6 @@ describe('OoRum', () => {
+              * - asTracingHeaderType (iOS)
+              * so that it uses the new values
+              */
+-            expect(PropagatorType.DATADOG).toBe('datadog');
+             expect(PropagatorType.B3).toBe('b3');
+             expect(PropagatorType.B3MULTI).toBe('b3multi');
+             expect(PropagatorType.TRACECONTEXT).toBe('tracecontext');
+diff --git b/packages/core/src/rum/__tests__/__utils__/TracingHeadersUtils.ts a/packages/core/src/rum/__tests__/__utils__/TracingHeadersUtils.ts
+index 9629b5b2..d5477d4a 100644
+--- b/packages/core/src/rum/__tests__/__utils__/TracingHeadersUtils.ts
++++ a/packages/core/src/rum/__tests__/__utils__/TracingHeadersUtils.ts
+@@ -29,45 +29,6 @@ export const verifyRumResourceContext = (
+     );
+ };
+ 
+-export const verifyOpenObserveHeaders = (
+-    headersArray: Header[],
+-    isSampled: boolean
+-) => {
+-    const headers = getHeadersMapFromArray(headersArray);
+-
+-    // x-datadog-origin
+-    const originHeader = headers.get('x-datadog-origin') as string;
+-    expect(originHeader).toBeDefined();
+-    expect(originHeader).toBe('rum');
+-
+-    // x-datadog-sampling-priority
+-    const samplingPriorityHeader = headers.get(
+-        'x-datadog-sampling-priority'
+-    ) as string;
+-    expect(samplingPriorityHeader).toBeDefined();
+-    expect(samplingPriorityHeader).toBe(isSampled ? '1' : '0');
+-
+-    // x-datadog-trace-id
+-    const traceIdHeader = headers.get('x-datadog-trace-id') as string;
+-    expect(traceIdHeader).toBeDefined();
+-    expect(traceIdHeader).toMatch(/^(?:\d+|\d*\.\d+)$/);
+-    expect(TracingIdentifierUtils.isWithin64Bits(traceIdHeader)).toBe(true);
+-
+-    // x-datadog-parent-id
+-    const parentIdHeader = headers.get('x-datadog-parent-id') as string;
+-    expect(parentIdHeader).toBeDefined();
+-    expect(parentIdHeader).toMatch(/^(?:\d+|\d*\.\d+)$/);
+-    expect(TracingIdentifierUtils.isWithin64Bits(parentIdHeader)).toBe(true);
+-
+-    // x-datadog-tags
+-    const tagsHeader = headers.get('x-datadog-tags') as string;
+-    expect(tagsHeader).toBeDefined();
+-    expect(tagsHeader).toMatch(/^_oo\.p\.tid=[0-9a-fA-F]{16}$/);
+-    expect(
+-        TracingIdentifierUtils.isWithin64Bits(tagsHeader.split('=')[1])
+-    ).toBe(true);
+-};
+-
+ export const verifyTraceContextHeaders = (
+     headersArray: Header[],
+     isSampled: boolean
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
+index b80efa96..01880b04 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
+@@ -9,7 +9,7 @@ import { NativeModules } from 'react-native';
+ import { BufferSingleton } from '../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
+ import { PropagatorType } from '../../../types';
+ import { OoRumResourceTracking } from '../OoRumResourceTracking';
+-import { SAMPLING_PRIORITY_HEADER_KEY } from '../distributedTracing/headers';
++import { TRACECONTEXT_HEADER_KEY } from '../distributedTracing/headers';
+ 
+ import { XMLHttpRequestMock } from './__utils__/XMLHttpRequestMock';
+ 
+@@ -46,7 +46,7 @@ describe('OoRumResourceTracking', () => {
+             firstPartyHosts: [
+                 {
+                     match: 'example.com',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: []
+                 }
+             ]
+         });
+@@ -78,7 +78,7 @@ describe('OoRumResourceTracking', () => {
+             firstPartyHosts: [
+                 {
+                     match: 'example.com',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: []
+                 }
+             ]
+         });
+@@ -124,18 +124,18 @@ describe('OoRumResourceTracking', () => {
+                 firstPartyHosts: [
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ]
+             });
+ 
+-            // pre-update request gets sampling priority '0'
++            // pre-update request is not sampled
+             const xhrBeforeUpdate = new XMLHttpRequestMock();
+             xhrBeforeUpdate.open('GET', 'https://api.example.com/v2/user');
+             xhrBeforeUpdate.send();
+             expect(
+-                xhrBeforeUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
+-            ).toBe('0');
++                xhrBeforeUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toMatch(/-00$/);
+ 
+             // WHEN
+             OoRumResourceTracking.updateTrackingContext({
+@@ -147,8 +147,8 @@ describe('OoRumResourceTracking', () => {
+             xhrAfterUpdate.open('GET', 'https://api.example.com/v2/user');
+             xhrAfterUpdate.send();
+             expect(
+-                xhrAfterUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
+-            ).toBe('1');
++                xhrAfterUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toMatch(/-01$/);
+         });
+ 
+         it('is a no-op after tracking has been stopped', async () => {
+@@ -158,7 +158,7 @@ describe('OoRumResourceTracking', () => {
+                 firstPartyHosts: [
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: []
+                     }
+                 ]
+             });
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/__tests__/firstPartyHosts.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/__tests__/firstPartyHosts.test.ts
+index 69732410..1a5971c6 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/__tests__/firstPartyHosts.test.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/__tests__/firstPartyHosts.test.ts
+@@ -13,10 +13,10 @@ describe('firstPartyHosts', () => {
+             const regexMap = firstPartyHostsRegexMapBuilder([
+                 {
+                     match: 'api.example.com',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: [PropagatorType.TRACECONTEXT]
+                 }
+             ]);
+-            expect(regexMap[0].propagatorType).toBe('datadog');
++            expect(regexMap[0].propagatorType).toBe('tracecontext');
+             expect(regexMap[0].regex.test('api.example.com')).toBe(true);
+             expect(regexMap[0].regex.test('api.myapi.com')).toBe(false);
+         });
+@@ -25,7 +25,7 @@ describe('firstPartyHosts', () => {
+             const regexMap = firstPartyHostsRegexMapBuilder([
+                 {
+                     match: 'api.example.com',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: [PropagatorType.TRACECONTEXT]
+                 }
+             ]);
+             expect(regexMap[0].regex.test('apiiexample.com')).toBe(false);
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/distributedTracingHeaders.ts a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/distributedTracingHeaders.ts
+index 2092d60e..e869deb7 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/distributedTracingHeaders.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/distributedTracingHeaders.ts
+@@ -25,15 +25,8 @@ import {
+     DD_RUM_ACCOUNT_ID_TAG,
+     DD_RUM_SESSION_ID_TAG,
+     DD_RUM_USER_ID_TAG,
+-    DD_TRACE_ID_TAG,
+-    ORIGIN_HEADER_KEY,
+-    ORIGIN_RUM,
+-    PARENT_ID_HEADER_KEY,
+-    SAMPLING_PRIORITY_HEADER_KEY,
+-    TAGS_HEADER_KEY,
+     TRACECONTEXT_HEADER_KEY,
+     TRACESTATE_HEADER_KEY,
+-    TRACE_ID_HEADER_KEY
+ } from './headers';
+ 
+ export const getTracingHeadersFromAttributes = (
+@@ -47,38 +40,12 @@ export const getTracingHeadersFromAttributes = (
+     let hasOpenObserveOrW3CPropagator = false;
+     tracingAttributes.propagatorTypes.forEach(propagator => {
+         switch (propagator) {
+-            case PropagatorType.OPENOBSERVE: {
+-                hasOpenObserveOrW3CPropagator = true;
+-                headers.push(
+-                    {
+-                        header: ORIGIN_HEADER_KEY,
+-                        value: ORIGIN_RUM
+-                    },
+-                    {
+-                        header: SAMPLING_PRIORITY_HEADER_KEY,
+-                        value: tracingAttributes.samplingPriorityHeader
+-                    },
+-                    {
+-                        header: TRACE_ID_HEADER_KEY,
+-                        value: tracingAttributes.traceId.toString(
+-                            TracingIdFormat.lowDecimal
+-                        )
+-                    },
+-                    {
+-                        header: PARENT_ID_HEADER_KEY,
+-                        value: tracingAttributes.spanId.toString(
+-                            TracingIdFormat.decimal
+-                        )
+-                    }
+-                );
+-                headers.push({
+-                    header: TAGS_HEADER_KEY,
+-                    value: `${DD_TRACE_ID_TAG}=${tracingAttributes.traceId.toString(
+-                        TracingIdFormat.paddedHighHex
+-                    )}`
+-                });
+-                break;
+-            }
++            // openobserve: upstream's proprietary propagator emitted x-<vendor>-* headers
++            // straight from JS here — trace-id, parent-id, origin, sampling-priority and tags.
++            // Removed with the case itself (see PropagatorType): those headers are read only by
++            // an upstream-instrumented APM, never by OpenObserve, whose backend speaks W3C
++            // `traceparent`. Both native SDKs dropped it too, so this branch had no counterpart
++            // left to talk to.
+             case PropagatorType.TRACECONTEXT: {
+                 hasOpenObserveOrW3CPropagator = true;
+                 const isSampled =
+@@ -268,7 +235,7 @@ const generateTraceStateHeader = ({
+     const sampled = `s:${isSampled ? '1' : '0'}`;
+     const origin = 'o:rum';
+     const parent = `p:${parentId.toString(TracingIdFormat.paddedHex)}`;
+-    return `dd=${sampled};${origin};${parent}`;
++    return `oo=${sampled};${origin};${parent}`;
+ };
+ 
+ const generateB3Header = ({
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/firstPartyHosts.ts a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/firstPartyHosts.ts
+index 015adfc0..cfb8a54e 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/firstPartyHosts.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/firstPartyHosts.ts
+@@ -23,7 +23,6 @@ export const firstPartyHostsRegexMapBuilder = (
+     firstPartyHosts: FirstPartyHost[]
+ ): RegexMap => {
+     const hostsMap: Record<PropagatorType, string[]> = {
+-        datadog: [],
+         tracecontext: [],
+         b3: [],
+         b3multi: []
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/headers.ts a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/headers.ts
+index f5e4c879..efaabb4b 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/headers.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/distributedTracing/headers.ts
+@@ -5,15 +5,13 @@
+ 
+ /**
+  * OpenObserve headers
++ *
++ * openobserve: the x-<vendor>-{trace-id,parent-id,origin,sampling-priority,tags} constants
++ * were removed with the proprietary propagator (see PropagatorType). They were read only by
++ * an upstream-instrumented APM — never by OpenObserve, whose intake speaks W3C `traceparent`.
+  */
+-export const SAMPLING_PRIORITY_HEADER_KEY = 'x-datadog-sampling-priority';
+-export const ORIGIN_HEADER_KEY = 'x-datadog-origin';
+ export const TRACKED_BY_HEADER_KEY = 'x-openobserve-tracked-by';
+ export const TRACKED_BY_HEADER_VALUE = 'react-native';
+-export const ORIGIN_RUM = 'rum';
+-export const TRACE_ID_HEADER_KEY = 'x-datadog-trace-id';
+-export const PARENT_ID_HEADER_KEY = 'x-datadog-parent-id';
+-export const TAGS_HEADER_KEY = 'x-datadog-tags';
+ export const DD_TRACE_ID_TAG = '_oo.p.tid';
+ export const DD_RUM_SESSION_ID_TAG = 'session.id';
+ export const DD_RUM_USER_ID_TAG = 'user.id';
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts
+index 2d13a73a..38c096d7 100644
+--- b/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts
+@@ -21,18 +21,12 @@ import { XMLHttpRequestMock } from '../../../__tests__/__utils__/XMLHttpRequestM
+ import { TracingIdentifierUtils } from '../../../distributedTracing/__tests__/__utils__/TracingIdentifierUtils';
+ import { firstPartyHostsRegexMapBuilder } from '../../../distributedTracing/firstPartyHosts';
+ import {
+-    PARENT_ID_HEADER_KEY,
+-    TRACE_ID_HEADER_KEY,
+-    SAMPLING_PRIORITY_HEADER_KEY,
+     TRACECONTEXT_HEADER_KEY,
+     B3_HEADER_KEY,
+     B3_MULTI_TRACE_ID_HEADER_KEY,
+     B3_MULTI_SPAN_ID_HEADER_KEY,
+     B3_MULTI_SAMPLED_HEADER_KEY,
+-    ORIGIN_RUM,
+-    ORIGIN_HEADER_KEY,
+     TRACESTATE_HEADER_KEY,
+-    TAGS_HEADER_KEY,
+     BAGGAGE_HEADER_KEY,
+     TRACKED_BY_HEADER_KEY,
+     TRACKED_BY_HEADER_VALUE
+@@ -219,44 +213,6 @@ describe('XHRProxy', () => {
+     });
+ 
+     describe('request headers', () => {
+-        it('adds the span id and trace Id in the request headers when startTracking() + XHR.open() + XHR.send()', async () => {
+-            // GIVEN
+-            const method = 'GET';
+-            const url = 'https://api.example.com/v2/user';
+-            xhrProxy.onTrackingStart({
+-                tracingSamplingRate: 100,
+-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+-                    {
+-                        match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
+-                    }
+-                ])
+-            });
+-
+-            // WHEN
+-            const xhr = new XMLHttpRequestMock();
+-            xhr.open(method, url);
+-            xhr.send();
+-            xhr.notifyResponseArrived();
+-            xhr.complete(200, 'ok');
+-            await flushPromises();
+-
+-            // THEN
+-            const spanId = xhr.requestHeaders.get(PARENT_ID_HEADER_KEY);
+-            expect(spanId).toBeDefined();
+-            expect(spanId).toMatch(/[1-9].+/);
+-            const traceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
+-            expect(traceId).toBeDefined();
+-            expect(traceId).toMatch(/[1-9].+/);
+-
+-            expect(traceId !== spanId).toBeTruthy();
+-
+-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
+-                '1'
+-            );
+-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
+-        });
+-
+         it('does not generate spanId and traceId in request headers when no first party hosts are provided', async () => {
+             // GIVEN
+             const method = 'GET';
+@@ -275,9 +231,11 @@ describe('XHRProxy', () => {
+             await flushPromises();
+ 
+             // THEN
+-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
+             expect(
+-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
++                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toBeUndefined();
++            expect(
++                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
+             ).toBeUndefined();
+         });
+ 
+@@ -290,11 +248,11 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'google.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'api.example.co',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+@@ -308,9 +266,11 @@ describe('XHRProxy', () => {
+             await flushPromises();
+ 
+             // THEN
+-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
+             expect(
+-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
++                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toBeUndefined();
++            expect(
++                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
+             ).toBeUndefined();
+         });
+ 
+@@ -323,7 +283,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+@@ -337,13 +297,15 @@ describe('XHRProxy', () => {
+             await flushPromises();
+ 
+             // THEN
+-            expect(xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)).toBeUndefined();
+             expect(
+-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
++                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toBeUndefined();
++            expect(
++                xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)
+             ).toBeUndefined();
+         });
+ 
+-        it('generates spanId and traceId with 0 sampling priority in request headers when trace is not sampled', async () => {
++        it('generates spanId and traceId with the not-sampled flag in request headers when trace is not sampled', async () => {
+             // GIVEN
+             const method = 'GET';
+             const url = 'https://api.example.com/v2/user';
+@@ -352,7 +314,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+@@ -366,92 +328,16 @@ describe('XHRProxy', () => {
+             await flushPromises();
+ 
+             // THEN
+-            expect(
+-                xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)
+-            ).not.toBeUndefined();
+-            expect(
+-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
+-            ).not.toBeUndefined();
+-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
+-                '0'
++            const contextHeader = xhr.requestHeaders.get(
++                TRACECONTEXT_HEADER_KEY
+             );
+-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
+-        });
+-
+-        it('does not origin as RUM in the request headers when startTracking() + XHR.open() + XHR.send()', async () => {
+-            // GIVEN
+-            const method = 'GET';
+-            const url = 'https://api.example.com/v2/user';
+-            xhrProxy.onTrackingStart({
+-                tracingSamplingRate: 100,
+-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
+-            });
+-
+-            // WHEN
+-            const xhr = new XMLHttpRequestMock();
+-            xhr.open(method, url);
+-            xhr.send();
+-            xhr.notifyResponseArrived();
+-            xhr.complete(200, 'ok');
+-            await flushPromises();
+-
+-            // THEN
+-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBeUndefined();
+-        });
+-
+-        it('forces the agent to keep the request generated trace when startTracking() + XHR.open() + XHR.send()', async () => {
+-            // GIVEN
+-            const method = 'GET';
+-            const url = 'https://api.example.com/v2/user';
+-            xhrProxy.onTrackingStart({
+-                tracingSamplingRate: 100,
+-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+-                    {
+-                        match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
+-                    }
+-                ])
+-            });
+-
+-            // WHEN
+-            const xhr = new XMLHttpRequestMock();
+-            xhr.open(method, url);
+-            xhr.send();
+-            xhr.notifyResponseArrived();
+-            xhr.complete(200, 'ok');
+-            await flushPromises();
+-
+-            // THEN
+-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
+-                '1'
++            expect(contextHeader).toMatch(
++                /^00-[0-9a-f]{8}[0]{8}[0-9a-f]{16}-[0-9a-f]{16}-00$/
+             );
+-        });
+-
+-        it('forces the agent to discard the request generated trace when startTracking when the request is not traced', async () => {
+-            // GIVEN
+-            const method = 'GET';
+-            const url = 'https://api.example.com/v2/user';
+-            xhrProxy.onTrackingStart({
+-                tracingSamplingRate: 0,
+-                firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+-                    {
+-                        match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
+-                    }
+-                ])
+-            });
+ 
+-            // WHEN
+-            const xhr = new XMLHttpRequestMock();
+-            xhr.open(method, url);
+-            xhr.send();
+-            xhr.notifyResponseArrived();
+-            xhr.complete(200, 'ok');
+-            await flushPromises();
+-
+-            // THEN
+-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
+-                '0'
++            const parentValue = contextHeader?.split('-')[2];
++            expect(xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)).toBe(
++                `oo=s:0;o:rum;p:${parentValue}`
+             );
+         });
+ 
+@@ -462,7 +348,7 @@ describe('XHRProxy', () => {
+             const firstPartyHostsRegexMap = firstPartyHostsRegexMapBuilder([
+                 {
+                     match: 'api.example.com',
+-                    propagatorTypes: [PropagatorType.DATADOG]
++                    propagatorTypes: [PropagatorType.TRACECONTEXT]
+                 }
+             ]);
+             xhrProxy.onTrackingStart({
+@@ -491,13 +377,13 @@ describe('XHRProxy', () => {
+             xhrAfterUpdate.complete(200, 'ok');
+             await flushPromises();
+ 
+-            // THEN: the pre-update request keeps priority 0, the post-update one is sampled at 100%
++            // THEN: the pre-update request stays not sampled, the post-update one is sampled at 100%
+             expect(
+-                xhrBeforeUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
+-            ).toBe('0');
++                xhrBeforeUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toMatch(/-00$/);
+             expect(
+-                xhrAfterUpdate.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
+-            ).toBe('1');
++                xhrAfterUpdate.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
++            ).toMatch(/-01$/);
+         });
+ 
+         it('ignores onTrackingUpdate when tracking has not started', () => {
+@@ -512,7 +398,7 @@ describe('XHRProxy', () => {
+             const xhr = new XMLHttpRequestMock();
+             xhr.open('GET', 'https://api.example.com/v2/user');
+             expect(
+-                xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)
++                xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+             ).toBeUndefined();
+         });
+ 
+@@ -525,7 +411,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+@@ -576,7 +462,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'something.fr',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: []
+                     },
+                     {
+                         match: 'example.com',
+@@ -614,10 +500,6 @@ describe('XHRProxy', () => {
+             xhrProxy.onTrackingStart({
+                 tracingSamplingRate: 100,
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+-                    {
+-                        match: 'example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
+-                    },
+                     {
+                         match: 'example.com',
+                         propagatorTypes: [PropagatorType.TRACECONTEXT]
+@@ -661,31 +543,6 @@ describe('XHRProxy', () => {
+                 )
+             );
+ 
+-            /* =========================================================================
+-             *  Verify that the trace id in the x-datadog-trace-id is a 64 bit decimal.
+-             * ========================================================================= */
+-
+-            // x-datadog-trace-id is a decimal representing the low 64 bits of the 128 bits Trace ID
+-            const xOpenObserveTraceId = xhr.requestHeaders.get(TRACE_ID_HEADER_KEY);
+-
+-            expect(
+-                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTraceId as string)
+-            );
+-
+-            /* ===============================================================
+-             *  Verify that the trace id in x-datadog-tags headers is HEX 16.
+-             * =============================================================== */
+-
+-            // x-datadog-tags is a HEX 16 contains the high 64 bits of the 128 bits Trace ID
+-            const xOpenObserveTagsTraceId = xhr.requestHeaders
+-                ?.get(TAGS_HEADER_KEY)
+-                ?.split('=')[1] as string;
+-
+-            expect(xOpenObserveTagsTraceId).toMatch(/^[a-f0-9]{16}$/);
+-            expect(
+-                TracingIdentifierUtils.isWithin64Bits(xOpenObserveTagsTraceId, 16)
+-            );
+-
+             /* =========================================================================
+              *  Verify that the trace id in the b3 header is a 128 bit trace ID (hex).
+              * ========================================================================= */
+@@ -715,10 +572,6 @@ describe('XHRProxy', () => {
+             xhrProxy.onTrackingStart({
+                 tracingSamplingRate: 100,
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+-                    {
+-                        match: 'example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
+-                    },
+                     {
+                         match: 'example.com',
+                         propagatorTypes: [PropagatorType.TRACECONTEXT]
+@@ -744,39 +597,13 @@ describe('XHRProxy', () => {
+ 
+             // THEN
+ 
+-            // x-datadog-trace-id is just the low 64 bits (DECIMAL)
+-            const datadogLowTraceValue = xhr.requestHeaders.get(
+-                TRACE_ID_HEADER_KEY
+-            );
+-
+-            // We convert the low 64 bits to HEX
+-            const datadogLowTraceValueHex = `${BigInt(
+-                datadogLowTraceValue as string
+-            )
+-                .toString(16)
+-                .padStart(16, '0')}`;
+-
+-            // The high 64 bits are expressed in x-datadog-tags (HEX)
+-            const datadogHighTraceValueHex = xhr.requestHeaders
+-                ?.get(TAGS_HEADER_KEY)
+-                ?.split('=')[1] as string; // High HEX 64 bits
+-
+-            // We re-compose the full 128 bit trace-id by joining the strings
+-            const datadogTraceValue128BitHex = `${datadogHighTraceValueHex}${datadogLowTraceValueHex}`;
+-
+-            // We then get the decimal value of the trace-id
+-            const datadogTraceValue128BitDec = hexToDecimal(
+-                datadogTraceValue128BitHex
+-            );
+-
+-            const datadogParentValue = xhr.requestHeaders.get(
+-                PARENT_ID_HEADER_KEY
+-            );
++            // traceparent carries the full 128 bit trace-id and the parent-id (HEX)
+             const contextHeader = xhr.requestHeaders.get(
+                 TRACECONTEXT_HEADER_KEY
+             );
+             const traceContextValue = contextHeader?.split('-')[1] as string;
+             const parentContextValue = contextHeader?.split('-')[2] as string;
++
+             const b3MultiTraceHeader = xhr.requestHeaders.get(
+                 B3_MULTI_TRACE_ID_HEADER_KEY
+             ) as string;
+@@ -788,18 +615,15 @@ describe('XHRProxy', () => {
+             const traceB3Value = b3Header?.split('-')[0] as string;
+             const parentB3Value = b3Header?.split('-')[1] as string;
+ 
+-            expect(hexToDecimal(traceContextValue)).toBe(
+-                datadogTraceValue128BitDec
+-            );
+-            expect(hexToDecimal(parentContextValue)).toBe(datadogParentValue);
+-            //
+-            expect(hexToDecimal(b3MultiTraceHeader)).toBe(
+-                datadogTraceValue128BitDec
+-            );
+-            expect(hexToDecimal(b3MultiParentHeader)).toBe(datadogParentValue);
++            // Every propagator must carry the same trace-id and parent-id
++            const traceValueDec = hexToDecimal(traceContextValue);
++            const parentValueDec = hexToDecimal(parentContextValue);
+ 
+-            expect(hexToDecimal(traceB3Value)).toBe(datadogTraceValue128BitDec);
+-            expect(hexToDecimal(parentB3Value)).toBe(datadogParentValue);
++            expect(hexToDecimal(b3MultiTraceHeader)).toBe(traceValueDec);
++            expect(hexToDecimal(b3MultiParentHeader)).toBe(parentValueDec);
++
++            expect(hexToDecimal(traceB3Value)).toBe(traceValueDec);
++            expect(hexToDecimal(parentB3Value)).toBe(parentValueDec);
+         });
+ 
+         it('adds tracecontext request headers when the host is instrumented with tracecontext and request is sampled', async () => {
+@@ -811,7 +635,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'something.fr',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: []
+                     },
+                     {
+                         match: 'example.com',
+@@ -848,7 +672,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'something.fr',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: []
+                     },
+                     {
+                         match: 'example.com',
+@@ -881,10 +705,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [
+-                            PropagatorType.DATADOG,
+-                            PropagatorType.TRACECONTEXT
+-                        ]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'example.com',
+@@ -918,16 +739,9 @@ describe('XHRProxy', () => {
+             expect(
+                 xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)
+             ).not.toBeUndefined();
+-            expect(
+-                xhr.requestHeaders.get(TRACE_ID_HEADER_KEY)
+-            ).not.toBeUndefined();
+-            expect(
+-                xhr.requestHeaders.get(PARENT_ID_HEADER_KEY)
+-            ).not.toBeUndefined();
+-            expect(xhr.requestHeaders.get(SAMPLING_PRIORITY_HEADER_KEY)).toBe(
+-                '1'
++            expect(xhr.requestHeaders.get(TRACECONTEXT_HEADER_KEY)).toMatch(
++                /-01$/
+             );
+-            expect(xhr.requestHeaders.get(ORIGIN_HEADER_KEY)).toBe(ORIGIN_RUM);
+         });
+ 
+         it('adds rum session id to baggage headers when available', async () => {
+@@ -939,10 +753,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [
+-                            PropagatorType.DATADOG,
+-                            PropagatorType.TRACECONTEXT
+-                        ]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'example.com',
+@@ -982,10 +793,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [
+-                            PropagatorType.DATADOG,
+-                            PropagatorType.TRACECONTEXT
+-                        ]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'example.com',
+@@ -1020,10 +828,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [
+-                            PropagatorType.DATADOG,
+-                            PropagatorType.TRACECONTEXT
+-                        ]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'example.com', // <-- no datadog or tracecontext here
+@@ -1058,10 +863,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [
+-                            PropagatorType.DATADOG,
+-                            PropagatorType.TRACECONTEXT
+-                        ]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     },
+                     {
+                         match: 'example.com',
+@@ -1112,7 +914,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+@@ -1187,7 +989,7 @@ describe('XHRProxy', () => {
+                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([
+                     {
+                         match: 'api.example.com',
+-                        propagatorTypes: [PropagatorType.DATADOG]
++                        propagatorTypes: [PropagatorType.TRACECONTEXT]
+                     }
+                 ])
+             });
+diff --git b/packages/core/src/rum/types.ts a/packages/core/src/rum/types.ts
+index 9bedc08b..9134a2e2 100644
+--- b/packages/core/src/rum/types.ts
++++ a/packages/core/src/rum/types.ts
+@@ -303,13 +303,18 @@ export type ResourceKind =
+ 
+ /**
+  * Type of instrumentation on the host.
+- * - OPENOBSERVE: OpenObserve’s propagator (`x-datadog-*`)
+  * - TRACECONTEXT: W3C Trace Context (`traceparent`)
+  * - B3: B3 single header (`b3`)
+  * - B3MULTI: B3 multiple headers (`X-B3-*`)
+  */
+ export enum PropagatorType {
+-    DATADOG = 'datadog',
++    // openobserve: upstream also offered its own proprietary propagator here, which injected
++    // `x-<vendor>-*` headers. REMOVED, not renamed. Those headers travel to the CUSTOMER's own
++    // backend for trace linking and are read only by an upstream-instrumented APM —
++    // OpenObserve's backend speaks W3C `traceparent` and never parsed them. The native SDKs
++    // dropped it too (iOS removed the propagator outright; Android no longer defaults to it),
++    // so keeping the case here would reference constants that no longer exist and fail to
++    // compile. Use TRACECONTEXT (W3C — what OpenObserve reads) or B3.
+     TRACECONTEXT = 'tracecontext',
+     B3 = 'b3',
+     B3MULTI = 'b3multi'
+diff --git b/packages/core/src/sdk/OpenObserveProvider/__tests__/initialization.test.tsx a/packages/core/src/sdk/OpenObserveProvider/__tests__/initialization.test.tsx
+index 6c267810..4f975a72 100644
+--- b/packages/core/src/sdk/OpenObserveProvider/__tests__/initialization.test.tsx
++++ a/packages/core/src/sdk/OpenObserveProvider/__tests__/initialization.test.tsx
+@@ -223,8 +223,7 @@ describe('OpenObserveProvider', () => {
+                             {
+                                 match: 'api.com',
+                                 propagatorTypes: [
+-                                    PropagatorType.DATADOG,
+-                                    PropagatorType.TRACECONTEXT
++                                                                        PropagatorType.TRACECONTEXT
+                                 ]
+                             }
+                         ]
+diff --git b/packages/core/src/sdk/OpenObserveProvider/__tests__/initializationModes.test.tsx a/packages/core/src/sdk/OpenObserveProvider/__tests__/initializationModes.test.tsx
+index 6ba14ba7..d5429cc8 100644
+--- b/packages/core/src/sdk/OpenObserveProvider/__tests__/initializationModes.test.tsx
++++ a/packages/core/src/sdk/OpenObserveProvider/__tests__/initializationModes.test.tsx
+@@ -180,10 +180,7 @@ describe('OpenObserveProvider', () => {
+                         firstPartyHosts: [
+                             {
+                                 match: 'api.com',
+-                                propagatorTypes: [
+-                                    PropagatorType.DATADOG,
+-                                    PropagatorType.TRACECONTEXT
+-                                ]
++                                propagatorTypes: [PropagatorType.TRACECONTEXT]
+                             }
+                         ]
+                     },
+@@ -221,7 +218,7 @@ describe('OpenObserveProvider', () => {
+             ).toEqual([
+                 {
+                     match: 'api.com',
+-                    propagatorTypes: ['datadog', 'tracecontext']
++                    propagatorTypes: ['tracecontext']
+                 }
+             ]);
+             expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+diff --git b/packages/core/src/version.ts a/packages/core/src/version.ts
+index 80f61d9b..c6cb7cd1 100644
+--- b/packages/core/src/version.ts
++++ a/packages/core/src/version.ts
+@@ -1,2 +1,2 @@
+ // generated by genversion
+-export const version = '3.5.3';
++export const version = '0.1.0-alpha.2';
+diff --git b/packages/internal-testing-tools/package.json a/packages/internal-testing-tools/package.json
+index c4a435e5..7059f217 100644
+--- b/packages/internal-testing-tools/package.json
++++ a/packages/internal-testing-tools/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/react-native-internal-testing-tools",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "Internal tools for testing the OpenObserve React Native SDK.",
+     "keywords": [
+         "datadog",
+diff --git b/packages/internal-testing-tools/src/utils/__tests__/base64.test.ts a/packages/internal-testing-tools/src/utils/__tests__/base64.test.ts
+index 88d3da85..f5c67e3a 100644
+--- b/packages/internal-testing-tools/src/utils/__tests__/base64.test.ts
++++ a/packages/internal-testing-tools/src/utils/__tests__/base64.test.ts
+@@ -10,7 +10,7 @@ describe('base64', () => {
+     describe('decode', () => {
+         it('decodes a base64 string', () => {
+             const input =
+-                'eyJmZWF0dXJlX2ZsYWdzIjp7fSwidmlldyI6eyJlcnJvciI6eyJjb3VudCI6MH0sImNyYXNoIjp7ImNvdW50IjowfSwiYWN0aW9uIjp7ImNvdW50IjowfSwiZnJ1c3RyYXRpb24iOnsiY291bnQiOjB9LCJmcm96ZW5fZnJhbWUiOnsiY291bnQiOjB9LCJ1cmwiOiJDYXRlZ29yaWVzLXFDWDNibk4zbzhSZ29Oam5BSUVuQSIsImlzX3Nsb3dfcmVuZGVyZWQiOmZhbHNlLCJuYW1lIjoiQ2F0ZWdvcmllcyIsImlzX2FjdGl2ZSI6dHJ1ZSwiY3VzdG9tX3RpbWluZ3MiOnt9LCJpZCI6ImU3NzhjNjFhLThkM2UtNGU1ZC1iZjNhLTEzNTUxNGMzNWIxMSIsImxvbmdfdGFzayI6eyJjb3VudCI6MH0sInRpbWVfc3BlbnQiOjEsInJlc291cmNlIjp7ImNvdW50IjowfX0sImJ1aWxkX3ZlcnNpb24iOiIyMiIsInNlcnZpY2UiOiJjb20uZGF0YWRvZy5zaG9waXN0LnJlYWN0LW5hdGl2ZSIsInZlcnNpb24iOiIyMi4yMy4yNiIsInNlc3Npb24iOnsiaWQiOiI4OGU0ZDE1ZC03ZmRhLTQwMTItOWVkOS1hM2UyZGFmNTk0ZjAiLCJ0eXBlIjoidXNlciIsImlzX2FjdGl2ZSI6dHJ1ZX0sImRhdGUiOjE3MDEyNTAxNzIyMDYsIl9kZCI6eyJmb3JtYXRfdmVyc2lvbiI6MiwicmVwbGF5X3N0YXRzIjp7fSwic2Vzc2lvbiI6eyJwbGFuIjoxfSwiY29uZmlndXJhdGlvbiI6eyJzZXNzaW9uX3NhbXBsZV9yYXRlIjoxMDB9LCJkb2N1bWVudF92ZXJzaW9uIjoxfSwiYXBwbGljYXRpb24iOnsiaWQiOiI2NTZhMjNmZi00MjYyLTQ0ZGItOTg5NS1kZjE4YjUzNTA0MTgifSwiY29udGV4dCI6e30sImNvbm5lY3Rpdml0eSI6eyJpbnRlcmZhY2VzIjpbIndpZmkiXSwic3RhdHVzIjoiY29ubmVjdGVkIn0sImRldmljZSI6eyJhcmNoaXRlY3R1cmUiOiJhcm02NGUiLCJ0eXBlIjoibW9iaWxlIiwibW9kZWwiOiJpUGhvbmUxNiwxIFNpbXVsYXRvciIsImJyYW5kIjoiQXBwbGUiLCJuYW1lIjoiaVBob25lIn0sInR5cGUiOiJ2aWV3Iiwib3MiOnsidmVyc2lvbiI6IjE3LjAuMSIsInZlcnNpb25fbWFqb3IiOiIxNyIsImJ1aWxkIjoiMjJHMzIwIiwibmFtZSI6ImlPUyJ9LCJzb3VyY2UiOiJyZWFjdC1uYXRpdmUifQ==';
++                'eyJmZWF0dXJlX2ZsYWdzIjp7fSwidmlldyI6eyJlcnJvciI6eyJjb3VudCI6MH0sImNyYXNoIjp7ImNvdW50IjowfSwiYWN0aW9uIjp7ImNvdW50IjowfSwiZnJ1c3RyYXRpb24iOnsiY291bnQiOjB9LCJmcm96ZW5fZnJhbWUiOnsiY291bnQiOjB9LCJ1cmwiOiJDYXRlZ29yaWVzLXFDWDNibk4zbzhSZ29Oam5BSUVuQSIsImlzX3Nsb3dfcmVuZGVyZWQiOmZhbHNlLCJuYW1lIjoiQ2F0ZWdvcmllcyIsImlzX2FjdGl2ZSI6dHJ1ZSwiY3VzdG9tX3RpbWluZ3MiOnt9LCJpZCI6ImU3NzhjNjFhLThkM2UtNGU1ZC1iZjNhLTEzNTUxNGMzNWIxMSIsImxvbmdfdGFzayI6eyJjb3VudCI6MH0sInRpbWVfc3BlbnQiOjEsInJlc291cmNlIjp7ImNvdW50IjowfX0sImJ1aWxkX3ZlcnNpb24iOiIyMiIsInNlcnZpY2UiOiJjb20ub3Blbm9ic2VydmUuc2hvcGlzdC5yZWFjdC1uYXRpdmUiLCJ2ZXJzaW9uIjoiMjIuMjMuMjYiLCJzZXNzaW9uIjp7ImlkIjoiODhlNGQxNWQtN2ZkYS00MDEyLTllZDktYTNlMmRhZjU5NGYwIiwidHlwZSI6InVzZXIiLCJpc19hY3RpdmUiOnRydWV9LCJkYXRlIjoxNzAxMjUwMTcyMjA2LCJfb28iOnsiZm9ybWF0X3ZlcnNpb24iOjIsInJlcGxheV9zdGF0cyI6e30sInNlc3Npb24iOnsicGxhbiI6MX0sImNvbmZpZ3VyYXRpb24iOnsic2Vzc2lvbl9zYW1wbGVfcmF0ZSI6MTAwfSwiZG9jdW1lbnRfdmVyc2lvbiI6MX0sImFwcGxpY2F0aW9uIjp7ImlkIjoiNjU2YTIzZmYtNDI2Mi00NGRiLTk4OTUtZGYxOGI1MzUwNDE4In0sImNvbnRleHQiOnt9LCJjb25uZWN0aXZpdHkiOnsiaW50ZXJmYWNlcyI6WyJ3aWZpIl0sInN0YXR1cyI6ImNvbm5lY3RlZCJ9LCJkZXZpY2UiOnsiYXJjaGl0ZWN0dXJlIjoiYXJtNjRlIiwidHlwZSI6Im1vYmlsZSIsIm1vZGVsIjoiaVBob25lMTYsMSBTaW11bGF0b3IiLCJicmFuZCI6IkFwcGxlIiwibmFtZSI6ImlQaG9uZSJ9LCJ0eXBlIjoidmlldyIsIm9zIjp7InZlcnNpb24iOiIxNy4wLjEiLCJ2ZXJzaW9uX21ham9yIjoiMTciLCJidWlsZCI6IjIyRzMyMCIsIm5hbWUiOiJpT1MifSwic291cmNlIjoicmVhY3QtbmF0aXZlIn0=';
+ 
+             expect(base64.decode(input)).toMatchInlineSnapshot(
+                 '"{"feature_flags":{},"view":{"error":{"count":0},"crash":{"count":0},"action":{"count":0},"frustration":{"count":0},"frozen_frame":{"count":0},"url":"Categories-qCX3bnN3o8RgoNjnAIEnA","is_slow_rendered":false,"name":"Categories","is_active":true,"custom_timings":{},"id":"e778c61a-8d3e-4e5d-bf3a-135514c35b11","long_task":{"count":0},"time_spent":1,"resource":{"count":0}},"build_version":"22","service":"com.openobserve.shopist.react-native","version":"22.23.26","session":{"id":"88e4d15d-7fda-4012-9ed9-a3e2daf594f0","type":"user","is_active":true},"date":1701250172206,"_oo":{"format_version":2,"replay_stats":{},"session":{"plan":1},"configuration":{"session_sample_rate":100},"document_version":1},"application":{"id":"656a23ff-4262-44db-9895-df18b5350418"},"context":{},"connectivity":{"interfaces":["wifi"],"status":"connected"},"device":{"architecture":"arm64e","type":"mobile","model":"iPhone16,1 Simulator","brand":"Apple","name":"iPhone"},"type":"view","os":{"version":"17.0.1","version_major":"17","build":"22G320","name":"iOS"},"source":"react-native"}"'
+diff --git b/packages/react-native-apollo-client/package.json a/packages/react-native-apollo-client/package.json
+index 0f319b9f..8f161fed 100644
+--- b/packages/react-native-apollo-client/package.json
++++ a/packages/react-native-apollo-client/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-apollo-client",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with Apollo Client and OpenObserve",
+     "keywords": [
+         "datadog",
+diff --git b/packages/react-native-babel-plugin/package.json a/packages/react-native-babel-plugin/package.json
+index 46109d5f..71bec34b 100644
+--- b/packages/react-native-babel-plugin/package.json
++++ a/packages/react-native-babel-plugin/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-babel-plugin",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A Babel plugin that enhances OpenObserve's React Native SDK by automatically enriching React components with contextual metadata.",
+     "keywords": [
+         "babel",
+diff --git b/packages/react-native-navigation/package.json a/packages/react-native-navigation/package.json
+index fbd7250b..88dfcdd4 100644
+--- b/packages/react-native-navigation/package.json
++++ a/packages/react-native-navigation/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-navigation",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with OpenObserve",
+     "keywords": [
+         "datadog",
+@@ -36,7 +36,7 @@
+         "prepare": "rm -rf lib && yarn bob build"
+     },
+     "devDependencies": {
+-        "@openobserve/mobile-react-native": "^3.5.3",
++        "@openobserve/mobile-react-native": "^0.1.0-alpha.2",
+         "@testing-library/react-native": "7.0.2",
+         "react-native-builder-bob": "0.26.0",
+         "react-native-gesture-handler": "1.10.3",
+diff --git b/packages/react-native-openfeature/package.json a/packages/react-native-openfeature/package.json
+index 2e987669..a14b88b5 100644
+--- b/packages/react-native-openfeature/package.json
++++ a/packages/react-native-openfeature/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-openfeature",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to provide OpenFeature integration with OpenObserve Feature Flags",
+     "keywords": [
+         "datadog",
+@@ -38,16 +38,16 @@
+         "prepare": "rm -rf lib && yarn bob build"
+     },
+     "devDependencies": {
+-        "@openobserve/mobile-react-native": "^3.5.3",
+         "@openfeature/core": "^1.9.2",
+         "@openfeature/web-sdk": "^1.7.3",
++        "@openobserve/mobile-react-native": "^0.1.0-alpha.2",
+         "@testing-library/react-native": "7.0.2",
+         "react-native-builder-bob": "0.26.0",
+         "react-native-gesture-handler": "1.10.3"
+     },
+     "peerDependencies": {
+-        "@openobserve/mobile-react-native": "^3.1.0",
+         "@openfeature/web-sdk": "^1.7.3",
++        "@openobserve/mobile-react-native": "^3.1.0",
+         "react": ">=16.13.1",
+         "react-native": ">=0.63.4 <1.0"
+     },
+diff --git b/packages/react-native-session-replay/package.json a/packages/react-native-session-replay/package.json
+index cd626d3c..eb4d1176 100644
+--- b/packages/react-native-session-replay/package.json
++++ a/packages/react-native-session-replay/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-session-replay",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to enable session replay with OpenObserve",
+     "keywords": [
+         "datadog",
+diff --git b/packages/react-native-session-replay/release-content.txt a/packages/react-native-session-replay/release-content.txt
+index 5d5bd404..206d5258 100644
+--- b/packages/react-native-session-replay/release-content.txt
++++ a/packages/react-native-session-replay/release-content.txt
+@@ -5,64 +5,64 @@ package/android/consumer-proguard-rules.pro
+ package/android/detekt.yml
+ package/android/gradle.properties
+ package/android/src/main/AndroidManifest.xml
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplayImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeInternalCallback.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupport.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/SessionReplayPrivacySettings.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/SessionReplaySDKWrapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/SessionReplayWrapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/TextPropertiesResolver.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/extensions/ReactDrawablesExt.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/DefaultMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactEditTextMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactNativeImageViewMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactTextMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactViewGroupMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactViewModalMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/mappers/SvgViewMapper.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/resources/ReactDrawableCopier.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/ColorUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/DrawableUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/ReflectionUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/FabricTextViewUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/LegacyTextViewUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/TextViewUtils.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyView.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplayImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeInternalCallback.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupport.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/SessionReplayPrivacySettings.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/SessionReplaySDKWrapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/SessionReplayWrapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/TextPropertiesResolver.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/extensions/ReactDrawablesExt.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/DefaultMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactEditTextMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactNativeImageViewMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactTextMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactViewGroupMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactViewModalMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/mappers/SvgViewMapper.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/resources/ReactDrawableCopier.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/ColorUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/DrawableUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReflectionUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/FabricTextViewUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/LegacyTextViewUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/TextViewUtils.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyView.kt
+ package/android/src/main/res/values/ids.xml
+-package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplay.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplay.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplay.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplay.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
+ package/android/src/rn69/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
+-package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rn76/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
+-package/android/src/rn76/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rn79/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
+-package/android/src/rn79/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rn80/kotlin/com/datadog/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
+-package/android/src/rn80/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rn83/kotlin/com/datadog/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
+-package/android/src/rn83/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
++package/android/src/rn75/kotlin/com/openobserve/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
++package/android/src/rn75/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
++package/android/src/rn76/kotlin/com/openobserve/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
++package/android/src/rn76/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
++package/android/src/rn79/kotlin/com/openobserve/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
++package/android/src/rn79/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
++package/android/src/rn80/kotlin/com/openobserve/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
++package/android/src/rn80/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
++package/android/src/rn83/kotlin/com/openobserve/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
++package/android/src/rn83/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+ package/android/src/rnlegacy/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
+-package/android/src/rnpost74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
+-package/android/src/rnpre74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplayImplementationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupportTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactViewGroupMapperTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/mappers/SvgViewMapperTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/utils/ColorUtilsTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/utils/DrawableUtilsTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/utils/text/TextViewUtilsTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/GenericAssert.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/MapExt.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/ReflectUtils.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/BaseConfigurator.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/ForgeConfigurator.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/TextWireframeForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/Throwable.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/ThrowableForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/WireframeClipForgeryFactory.kt
++package/android/src/rnpost74/kotlin/com/openobserve/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
++package/android/src/rnpre74/kotlin/com/openobserve/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplayImplementationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupportTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactViewGroupMapperTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/mappers/SvgViewMapperTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/utils/ColorUtilsTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/utils/DrawableUtilsTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/TextViewUtilsTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/GenericAssert.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/MapExt.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/ReflectUtils.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/BaseConfigurator.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/ForgeConfigurator.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/TextWireframeForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/Throwable.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/ThrowableForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/tools/unit/forge/WireframeClipForgeryFactory.kt
+ package/android/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
+ package/assets/assets.bin
+ package/assets/assets.json
+diff --git b/packages/react-native-webview/package.json a/packages/react-native-webview/package.json
+index 24d140ed..021a389f 100644
+--- b/packages/react-native-webview/package.json
++++ a/packages/react-native-webview/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-native-webview",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with react-native-webview and OpenObserve",
+     "keywords": [
+         "datadog",
+diff --git b/packages/react-native-webview/src/__tests__/WebviewOpenObserveInjectedJS.test.tsx a/packages/react-native-webview/src/__tests__/WebviewOpenObserveInjectedJS.test.tsx
+index 9feb45a2..79db7694 100644
+--- b/packages/react-native-webview/src/__tests__/WebviewOpenObserveInjectedJS.test.tsx
++++ a/packages/react-native-webview/src/__tests__/WebviewOpenObserveInjectedJS.test.tsx
+@@ -133,7 +133,7 @@ describe('Webview', () => {
+ catch (error) {
+   const errorMsg = error instanceof Error ? error.message : String(error);
+   window.ReactNativeWebView.postMessage(JSON.stringify({
+-    source: 'DATADOG',
++    source: 'OPENOBSERVE',
+     type: 'ERROR',
+     message: errorMsg
+   }));
+@@ -172,7 +172,7 @@ try{
+ catch (error) {
+   const errorMsg = error instanceof Error ? error.message : String(error);
+   window.ReactNativeWebView.postMessage(JSON.stringify({
+-    source: 'DATADOG',
++    source: 'OPENOBSERVE',
+     type: 'ERROR',
+     message: errorMsg
+   }));
+@@ -200,7 +200,7 @@ catch (error) {
+         // Then
+         expect(postMessageMock).toHaveBeenCalledWith(
+             JSON.stringify({
+-                source: 'DATADOG',
++                source: 'OPENOBSERVE',
+                 type: 'ERROR',
+                 message: 'testInjectedJavaScript is not defined'
+             })
+@@ -225,7 +225,7 @@ catch (error) {
+         // Then
+         expect(postMessageMock).toHaveBeenCalledWith(
+             JSON.stringify({
+-                source: 'DATADOG',
++                source: 'OPENOBSERVE',
+                 type: 'ERROR',
+                 message: 'testInjectedJavaScript is not defined'
+             })
+diff --git b/packages/react-native-webview/src/__tests__/webview-js-utils.test.ts a/packages/react-native-webview/src/__tests__/webview-js-utils.test.ts
+index 11057e69..0a521b71 100644
+--- b/packages/react-native-webview/src/__tests__/webview-js-utils.test.ts
++++ a/packages/react-native-webview/src/__tests__/webview-js-utils.test.ts
+@@ -61,7 +61,7 @@ try{
+ catch (error) {
+   const errorMsg = error instanceof Error ? error.message : String(error);
+   window.ReactNativeWebView.postMessage(JSON.stringify({
+-    source: 'DATADOG',
++    source: 'OPENOBSERVE',
+     type: 'ERROR',
+     message: errorMsg
+   }));
+@@ -92,7 +92,7 @@ catch (error) {
+             catch (error) {
+               const errorMsg = error instanceof Error ? error.message : String(error);
+               window.ReactNativeWebView.postMessage(JSON.stringify({
+-                source: 'DATADOG',
++                source: 'OPENOBSERVE',
+                 type: 'ERROR',
+                 message: errorMsg
+               }));
+@@ -128,7 +128,7 @@ catch (error) {
+             catch (error) {
+               const errorMsg = error instanceof Error ? error.message : String(error);
+               window.ReactNativeWebView.postMessage(JSON.stringify({
+-                source: 'DATADOG',
++                source: 'OPENOBSERVE',
+                 type: 'ERROR',
+                 message: errorMsg
+               }));
+@@ -172,7 +172,7 @@ catch (error) {
+ catch (error) {
+   const errorMsg = error instanceof Error ? error.message : String(error);
+   window.ReactNativeWebView.postMessage(JSON.stringify({
+-    source: 'DATADOG',
++    source: 'OPENOBSERVE',
+     type: 'ERROR',
+     message: errorMsg
+   }));
+diff --git b/packages/react-native-webview/src/index.tsx a/packages/react-native-webview/src/index.tsx
+index 94d9a38b..4beb469c 100644
+--- b/packages/react-native-webview/src/index.tsx
++++ a/packages/react-native-webview/src/index.tsx
+@@ -58,7 +58,7 @@ const WebViewComponent = (props: Props, ref: React.Ref<RNWebView<Props>>) => {
+ 
+             try {
+                 const jsonMsg = JSON.parse(message);
+-                if (jsonMsg && jsonMsg.source === 'DATADOG') {
++                if (jsonMsg && jsonMsg.source === 'OPENOBSERVE') {
+                     handleOpenObserveMessage(jsonMsg);
+                 } else {
+                     userDefinedOnMessage?.(event);
+diff --git b/packages/react-native-webview/src/utils/webview-js-utils.ts a/packages/react-native-webview/src/utils/webview-js-utils.ts
+index 5ba391ad..2d408cd8 100644
+--- b/packages/react-native-webview/src/utils/webview-js-utils.ts
++++ a/packages/react-native-webview/src/utils/webview-js-utils.ts
+@@ -5,7 +5,7 @@
+  */
+ import { NativeDdSdk } from '../ext-specs/NativeDdSdk';
+ 
+-export const OPENOBSERVE_MESSAGE_PREFIX = '[DATADOG]';
++export const OPENOBSERVE_MESSAGE_PREFIX = '[OPENOBSERVE]';
+ 
+ /**
+  * Internal OpenObserve Message Type
+@@ -61,7 +61,7 @@ export function wrapJsCodeInTryAndCatch(
+ catch (error) {
+   const errorMsg = error instanceof Error ? error.message : String(error);
+   window.ReactNativeWebView.postMessage(JSON.stringify({
+-    source: 'DATADOG',
++    source: 'OPENOBSERVE',
+     type: 'ERROR',
+     message: errorMsg
+   }));
+diff --git b/packages/react-navigation/package.json a/packages/react-navigation/package.json
+index cf4af4f6..82857ad0 100644
+--- b/packages/react-navigation/package.json
++++ a/packages/react-navigation/package.json
+@@ -1,6 +1,6 @@
+ {
+     "name": "@openobserve/mobile-react-navigation",
+-    "version": "3.5.3",
++    "version": "0.1.0-alpha.2",
+     "description": "A client-side React Native module to interact with OpenObserve",
+     "keywords": [
+         "datadog",
+@@ -36,7 +36,7 @@
+         "prepare": "rm -rf lib && yarn bob build"
+     },
+     "devDependencies": {
+-        "@openobserve/mobile-react-native": "^3.5.3",
++        "@openobserve/mobile-react-native": "^0.1.0-alpha.2",
+         "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8",
+         "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2",
+         "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2",
+diff --git b/yarn.lock a/yarn.lock
+index de7a4bb7..7cee23a4 100644
+--- b/yarn.lock
++++ a/yarn.lock
+@@ -2729,169 +2729,6 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@datadog/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client"
+-  dependencies:
+-    "@apollo/client": ^3.13.9
+-    "@testing-library/react-native": 7.0.2
+-    graphql: ^16.13.2
+-    react-native-builder-bob: 0.26.0
+-  peerDependencies:
+-    "@apollo/client": ">=3.13.9"
+-    "@datadog/mobile-react-native": ^3.0.0
+-    graphql: ">=16.13.2"
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin"
+-  dependencies:
+-    "@babel/cli": ^7.28.6
+-    "@babel/core": ^7.27.7
+-    "@babel/generator": ^7.28.6
+-    "@babel/helper-module-imports": ^7.27.1
+-    "@babel/helper-plugin-utils": ^7.27.1
+-    "@babel/parser": ^7.28.6
+-    "@babel/preset-env": ^7.29.2
+-    "@babel/preset-react": ^7.28.5
+-    "@babel/preset-typescript": ^7.28.5
+-    "@babel/traverse": ^7.28.6
+-    "@babel/types": ^7.27.7
+-    "@swc/core": ^1.13.21
+-    "@swc/jest": ^0.2.38
+-    "@types/jest": ^30.0.0
+-    fast-glob: ^3.3.3
+-    jest: ^29.7.0
+-    react-native-builder-bob: 0.26.0
+-    svgo: ^4.0.1
+-    tsc-alias: ^1.8.16
+-    typescript: 5.9.3
+-    uuid: ^8.3.2
+-  peerDependencies:
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  bin:
+-    datadog-generate-sr-assets: ./lib/commonjs/cli/generate-sr-assets.js
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-code-push@workspace:packages/codepush":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-code-push@workspace:packages/codepush"
+-  dependencies:
+-    "@datadog/mobile-react-native": "workspace:3.5.3"
+-    "@testing-library/react-native": 7.0.2
+-    react-native-builder-bob: 0.26.0
+-    react-native-code-push: 7.1.0
+-  peerDependencies:
+-    "@datadog/mobile-react-native": ^3.0.0
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-    react-native-code-push: ">=2.0.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-navigation@workspace:packages/react-native-navigation":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-navigation@workspace:packages/react-native-navigation"
+-  dependencies:
+-    "@datadog/mobile-react-native": ^3.5.3
+-    "@testing-library/react-native": 7.0.2
+-    react-native-builder-bob: 0.26.0
+-    react-native-gesture-handler: 1.10.3
+-    react-native-navigation: 7.31.1
+-    remx: 3.x.x
+-  peerDependencies:
+-    "@datadog/mobile-react-native": ^3.0.0
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-    react-native-navigation: ^7.5.0
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-openfeature@workspace:packages/react-native-openfeature":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-openfeature@workspace:packages/react-native-openfeature"
+-  dependencies:
+-    "@datadog/mobile-react-native": ^3.5.3
+-    "@openfeature/core": ^1.9.2
+-    "@openfeature/web-sdk": ^1.7.3
+-    "@testing-library/react-native": 7.0.2
+-    react-native-builder-bob: 0.26.0
+-    react-native-gesture-handler: 1.10.3
+-  peerDependencies:
+-    "@datadog/mobile-react-native": ^3.1.0
+-    "@openfeature/web-sdk": ^1.7.3
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-session-replay@workspace:packages/react-native-session-replay":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-session-replay@workspace:packages/react-native-session-replay"
+-  dependencies:
+-    "@testing-library/react-native": 7.0.2
+-    chokidar: ^4.0.3
+-    react-native-builder-bob: 0.26.0
+-  peerDependencies:
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native-webview@workspace:packages/react-native-webview":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native-webview@workspace:packages/react-native-webview"
+-  dependencies:
+-    "@testing-library/react-native": 7.0.2
+-    react-native-builder-bob: 0.26.0
+-    react-native-webview: ^13.12.2
+-  peerDependencies:
+-    "@datadog/mobile-react-native": ^3.0.0
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-    react-native-webview: ">=11.0.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-native@^3.5.3, @datadog/mobile-react-native@workspace:3.5.3, @datadog/mobile-react-native@workspace:packages/core":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-native@workspace:packages/core"
+-  dependencies:
+-    "@testing-library/react-native": 7.0.2
+-    big-integer: ^1.6.52
+-    react-native-builder-bob: 0.26.0
+-  peerDependencies:
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+-"@datadog/mobile-react-navigation@workspace:packages/react-navigation":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/mobile-react-navigation@workspace:packages/react-navigation"
+-  dependencies:
+-    "@datadog/mobile-react-native": ^3.5.3
+-    "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8"
+-    "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2"
+-    "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2"
+-    "@react-navigation/stack-v6": "npm:@react-navigation/stack@6.2.1"
+-    "@testing-library/react-native": 7.0.2
+-    react-native-builder-bob: 0.26.0
+-    react-native-gesture-handler: 1.10.3
+-    react-native-safe-area-context: 3.1.9
+-  peerDependencies:
+-    "@datadog/mobile-react-native": ^3.0.0
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+ "@datadog/native-appsec@npm:8.5.2":
+   version: 8.5.2
+   resolution: "@datadog/native-appsec@npm:8.5.2"
+@@ -2937,21 +2774,6 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@datadog/react-native-internal-testing-tools@workspace:packages/internal-testing-tools":
+-  version: 0.0.0-use.local
+-  resolution: "@datadog/react-native-internal-testing-tools@workspace:packages/internal-testing-tools"
+-  dependencies:
+-    "@testing-library/react-native": 7.0.2
+-    "@types/lodash.isequal": ^4.5.8
+-    lodash.isequal: ^4.5.0
+-    react-native-builder-bob: 0.26.0
+-    rum-events-format: "DataDog/rum-events-format#workspace=rum-events-format"
+-  peerDependencies:
+-    react: ">=16.13.1"
+-    react-native: ">=0.63.4 <1.0"
+-  languageName: unknown
+-  linkType: soft
+-
+ "@datadog/sketches-js@npm:^2.1.1":
+   version: 2.1.1
+   resolution: "@datadog/sketches-js@npm:2.1.1"
+@@ -4488,6 +4310,184 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@openobserve/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client"
++  dependencies:
++    "@apollo/client": ^3.13.9
++    "@testing-library/react-native": 7.0.2
++    graphql: ^16.13.2
++    react-native-builder-bob: 0.26.0
++  peerDependencies:
++    "@apollo/client": ">=3.13.9"
++    "@openobserve/mobile-react-native": ^3.0.0
++    graphql: ">=16.13.2"
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin"
++  dependencies:
++    "@babel/cli": ^7.28.6
++    "@babel/core": ^7.27.7
++    "@babel/generator": ^7.28.6
++    "@babel/helper-module-imports": ^7.27.1
++    "@babel/helper-plugin-utils": ^7.27.1
++    "@babel/parser": ^7.28.6
++    "@babel/preset-env": ^7.29.2
++    "@babel/preset-react": ^7.28.5
++    "@babel/preset-typescript": ^7.28.5
++    "@babel/traverse": ^7.28.6
++    "@babel/types": ^7.27.7
++    "@swc/core": ^1.13.21
++    "@swc/jest": ^0.2.38
++    "@types/jest": ^30.0.0
++    fast-glob: ^3.3.3
++    jest: ^29.7.0
++    react-native-builder-bob: 0.26.0
++    svgo: ^4.0.1
++    tsc-alias: ^1.8.16
++    typescript: 5.9.3
++    uuid: ^8.3.2
++  peerDependencies:
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  bin:
++    openobserve-generate-sr-assets: ./lib/commonjs/cli/generate-sr-assets.js
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-code-push@workspace:packages/codepush":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-code-push@workspace:packages/codepush"
++  dependencies:
++    "@openobserve/mobile-react-native": "workspace:0.1.0-alpha.2"
++    "@testing-library/react-native": 7.0.2
++    react-native-builder-bob: 0.26.0
++    react-native-code-push: 7.1.0
++  peerDependencies:
++    "@openobserve/mobile-react-native": ^3.0.0
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++    react-native-code-push: ">=2.0.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-navigation@workspace:packages/react-native-navigation":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-navigation@workspace:packages/react-native-navigation"
++  dependencies:
++    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
++    "@testing-library/react-native": 7.0.2
++    react-native-builder-bob: 0.26.0
++    react-native-gesture-handler: 1.10.3
++    react-native-navigation: 7.31.1
++    remx: 3.x.x
++  peerDependencies:
++    "@openobserve/mobile-react-native": ^3.0.0
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++    react-native-navigation: ^7.5.0
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-openfeature@workspace:packages/react-native-openfeature":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-openfeature@workspace:packages/react-native-openfeature"
++  dependencies:
++    "@openfeature/core": ^1.9.2
++    "@openfeature/web-sdk": ^1.7.3
++    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
++    "@testing-library/react-native": 7.0.2
++    react-native-builder-bob: 0.26.0
++    react-native-gesture-handler: 1.10.3
++  peerDependencies:
++    "@openfeature/web-sdk": ^1.7.3
++    "@openobserve/mobile-react-native": ^3.1.0
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-session-replay@workspace:packages/react-native-session-replay":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-session-replay@workspace:packages/react-native-session-replay"
++  dependencies:
++    "@testing-library/react-native": 7.0.2
++    chokidar: ^4.0.3
++    react-native-builder-bob: 0.26.0
++  peerDependencies:
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native-webview@workspace:packages/react-native-webview":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native-webview@workspace:packages/react-native-webview"
++  dependencies:
++    "@testing-library/react-native": 7.0.2
++    react-native-builder-bob: 0.26.0
++    react-native-webview: ^13.12.2
++  peerDependencies:
++    "@openobserve/mobile-react-native": ^3.0.0
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++    react-native-webview: ">=11.0.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-native@^0.1.0-alpha.2, @openobserve/mobile-react-native@workspace:0.1.0-alpha.2, @openobserve/mobile-react-native@workspace:packages/core":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-native@workspace:packages/core"
++  dependencies:
++    "@testing-library/react-native": 7.0.2
++    big-integer: ^1.6.52
++    react-native-builder-bob: 0.26.0
++  peerDependencies:
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/mobile-react-navigation@workspace:packages/react-navigation":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/mobile-react-navigation@workspace:packages/react-navigation"
++  dependencies:
++    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
++    "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8"
++    "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2"
++    "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2"
++    "@react-navigation/stack-v6": "npm:@react-navigation/stack@6.2.1"
++    "@testing-library/react-native": 7.0.2
++    react-native-builder-bob: 0.26.0
++    react-native-gesture-handler: 1.10.3
++    react-native-safe-area-context: 3.1.9
++  peerDependencies:
++    "@openobserve/mobile-react-native": ^3.0.0
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
++"@openobserve/react-native-internal-testing-tools@workspace:packages/internal-testing-tools":
++  version: 0.0.0-use.local
++  resolution: "@openobserve/react-native-internal-testing-tools@workspace:packages/internal-testing-tools"
++  dependencies:
++    "@testing-library/react-native": 7.0.2
++    "@types/lodash.isequal": ^4.5.8
++    lodash.isequal: ^4.5.0
++    react-native-builder-bob: 0.26.0
++    rum-events-format: "DataDog/rum-events-format#workspace=rum-events-format"
++  peerDependencies:
++    react: ">=16.13.1"
++    react-native: ">=0.63.4 <1.0"
++  languageName: unknown
++  linkType: soft
++
+ "@opentelemetry/api@npm:>=1.0.0 <1.9.0":
+   version: 1.8.0
+   resolution: "@opentelemetry/api@npm:1.8.0"
+@@ -6663,16 +6663,28 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"DdSdkReactNativeExample@workspace:example-new-architecture":
++"JSONStream@npm:^1.3.5":
++  version: 1.3.5
++  resolution: "JSONStream@npm:1.3.5"
++  dependencies:
++    jsonparse: ^1.2.0
++    through: ">=2.2.7 <3"
++  bin:
++    JSONStream: ./bin.js
++  checksum: 2605fa124260c61bad38bb65eba30d2f72216a78e94d0ab19b11b4e0327d572b8d530c0c9cc3b0764f727ad26d39e00bf7ebad57781ca6368394d73169c59e46
++  languageName: node
++  linkType: hard
++
++"OoSdkReactNativeExample@workspace:example-new-architecture":
+   version: 0.0.0-use.local
+-  resolution: "DdSdkReactNativeExample@workspace:example-new-architecture"
++  resolution: "OoSdkReactNativeExample@workspace:example-new-architecture"
+   dependencies:
+     "@babel/core": ^7.25.2
+     "@babel/preset-env": ^7.25.3
+     "@babel/runtime": ^7.26.10
+-    "@datadog/mobile-react-native": "workspace:packages/core"
+-    "@datadog/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
+     "@openfeature/react-sdk": ^1.1.0
++    "@openobserve/mobile-react-native": "workspace:packages/core"
++    "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
+     "@react-native-community/cli": 15.0.1
+     "@react-native-community/cli-platform-android": 15.0.1
+     "@react-native-community/cli-platform-ios": 15.0.1
+@@ -6693,18 +6705,6 @@ __metadata:
+   languageName: unknown
+   linkType: soft
+ 
+-"JSONStream@npm:^1.3.5":
+-  version: 1.3.5
+-  resolution: "JSONStream@npm:1.3.5"
+-  dependencies:
+-    jsonparse: ^1.2.0
+-    through: ">=2.2.7 <3"
+-  bin:
+-    JSONStream: ./bin.js
+-  checksum: 2605fa124260c61bad38bb65eba30d2f72216a78e94d0ab19b11b4e0327d572b8d530c0c9cc3b0764f727ad26d39e00bf7ebad57781ca6368394d73169c59e46
+-  languageName: node
+-  linkType: hard
+-
+ "abbrev@npm:^3.0.0":
+   version: 3.0.1
+   resolution: "abbrev@npm:3.0.1"
+@@ -7462,10 +7462,10 @@ __metadata:
+     "@babel/preset-env": 7.25.3
+     "@babel/runtime": ^7.26.10
+     "@datadog/datadog-ci": 5.11.0
+-    "@datadog/mobile-react-native": "workspace:packages/core"
+-    "@datadog/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
+-    "@datadog/mobile-react-native-webview": "workspace:packages/react-native-webview"
+-    "@datadog/mobile-react-navigation": "workspace:packages/react-navigation"
++    "@openobserve/mobile-react-native": "workspace:packages/core"
++    "@openobserve/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
++    "@openobserve/mobile-react-native-webview": "workspace:packages/react-native-webview"
++    "@openobserve/mobile-react-navigation": "workspace:packages/react-navigation"
+     "@react-native-community/cli": 15.0.1
+     "@react-native-community/cli-platform-android": 15.0.1
+     "@react-native-community/cli-platform-ios": 15.0.1
+@@ -8718,95 +8718,6 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"dd-sdk-reactnative-example@workspace:example":
+-  version: 0.0.0-use.local
+-  resolution: "dd-sdk-reactnative-example@workspace:example"
+-  dependencies:
+-    "@babel/core": ^7.25.9
+-    "@babel/preset-env": ^7.25.9
+-    "@babel/runtime": ^7.29.2
+-    "@datadog/datadog-ci": 5.13.1
+-    "@datadog/mobile-react-native": "workspace:packages/core"
+-    "@datadog/mobile-react-native-navigation": "workspace:packages/react-native-navigation"
+-    "@datadog/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
+-    "@datadog/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
+-    "@datadog/mobile-react-native-webview": "workspace:packages/react-native-webview"
+-    "@datadog/mobile-react-navigation": "workspace:packages/react-navigation"
+-    "@openfeature/react-sdk": ^1.2.1
+-    "@react-native-async-storage/async-storage": ^2.1.2
+-    "@react-native-community/cli": 15.0.1
+-    "@react-native-community/cli-platform-android": 15.0.1
+-    "@react-native-community/cli-platform-ios": 15.0.1
+-    "@react-native/babel-preset": 0.76.9
+-    "@react-native/eslint-config": 0.76.9
+-    "@react-native/metro-config": 0.76.9
+-    "@react-native/typescript-config": 0.76.9
+-    "@react-navigation/bottom-tabs": ^6.3.1
+-    "@react-navigation/native": ^6.1.18
+-    "@react-navigation/stack": ^6.2.1
+-    "@rnx-kit/metro-resolver-symlinks": ^0.1.36
+-    axios: 1.15.1
+-    babel-plugin-module-resolver: ^4.0.0
+-    patch-package: ^8.0.1
+-    postinstall-postinstall: ^2.1.0
+-    react: 18.3.1
+-    react-native: 0.76.9
+-    react-native-crash-tester: 0.2.3
+-    react-native-gesture-handler: 2.24.0
+-    react-native-navigation: 8.0.0-snapshot.1658
+-    react-native-safe-area-context: 5.1.0
+-    react-native-screens: 4.5.0
+-    react-native-webview: 13.14.2
+-  languageName: unknown
+-  linkType: soft
+-
+-"dd-sdk-reactnative@workspace:.":
+-  version: 0.0.0-use.local
+-  resolution: "dd-sdk-reactnative@workspace:."
+-  dependencies:
+-    "@babel/core": ^7.25.2
+-    "@babel/plugin-transform-runtime": ^7.25.0
+-    "@babel/preset-env": ^7.25.3
+-    "@babel/runtime": ^7.26.10
+-    "@react-native/babel-preset": 0.76.9
+-    "@react-native/eslint-config": 0.76.9
+-    "@react-native/metro-config": 0.76.9
+-    "@react-native/typescript-config": 0.76.9
+-    "@testing-library/react-native": 7.0.2
+-    "@types/jest": ^29.5.0
+-    "@types/react": ^18.2.6
+-    "@types/react-native": 0.71.0
+-    "@types/react-test-renderer": 18.0.0
+-    "@typescript-eslint/eslint-plugin": 5.61.0
+-    "@typescript-eslint/parser": 5.61.0
+-    dd-trace: ^5.28.0
+-    eslint: ^8.19.0
+-    eslint-config-prettier: 6.0.0
+-    eslint-plugin-arca: 0.15.0
+-    eslint-plugin-import: 2.29.1
+-    eslint-plugin-prettier: 4.0.0
+-    eslint-plugin-react: 7.22.0
+-    eslint-plugin-react-hooks: 4.3.0
+-    eslint-plugin-react-native: 3.10.0
+-    genversion: 3.0.2
+-    jest: ^29.7.0
+-    lerna: 9.0.7
+-    metro: ^0.83.1
+-    pod-install: 0.1.14
+-    prettier: 2.2.0
+-    react: 18.3.1
+-    react-native: 0.76.9
+-    react-native-builder-bob: 0.26.0
+-    react-native-gradle-plugin: ^0.71.19
+-    react-native-webview: 13.12.2
+-    react-test-renderer: 18.3.1
+-    typescript: 5.0.4
+-  peerDependencies:
+-    react: "*"
+-    react-native: "*"
+-  languageName: unknown
+-  linkType: soft
+-
+ "dd-trace@npm:^5.28.0":
+   version: 5.56.0
+   resolution: "dd-trace@npm:5.56.0"
+@@ -15191,6 +15102,95 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"openobserve-react-native-rum-example@workspace:example":
++  version: 0.0.0-use.local
++  resolution: "openobserve-react-native-rum-example@workspace:example"
++  dependencies:
++    "@babel/core": ^7.25.9
++    "@babel/preset-env": ^7.25.9
++    "@babel/runtime": ^7.29.2
++    "@datadog/datadog-ci": 5.13.1
++    "@openfeature/react-sdk": ^1.2.1
++    "@openobserve/mobile-react-native": "workspace:packages/core"
++    "@openobserve/mobile-react-native-navigation": "workspace:packages/react-native-navigation"
++    "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
++    "@openobserve/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
++    "@openobserve/mobile-react-native-webview": "workspace:packages/react-native-webview"
++    "@openobserve/mobile-react-navigation": "workspace:packages/react-navigation"
++    "@react-native-async-storage/async-storage": ^2.1.2
++    "@react-native-community/cli": 15.0.1
++    "@react-native-community/cli-platform-android": 15.0.1
++    "@react-native-community/cli-platform-ios": 15.0.1
++    "@react-native/babel-preset": 0.76.9
++    "@react-native/eslint-config": 0.76.9
++    "@react-native/metro-config": 0.76.9
++    "@react-native/typescript-config": 0.76.9
++    "@react-navigation/bottom-tabs": ^6.3.1
++    "@react-navigation/native": ^6.1.18
++    "@react-navigation/stack": ^6.2.1
++    "@rnx-kit/metro-resolver-symlinks": ^0.1.36
++    axios: 1.15.1
++    babel-plugin-module-resolver: ^4.0.0
++    patch-package: ^8.0.1
++    postinstall-postinstall: ^2.1.0
++    react: 18.3.1
++    react-native: 0.76.9
++    react-native-crash-tester: 0.2.3
++    react-native-gesture-handler: 2.24.0
++    react-native-navigation: 8.0.0-snapshot.1658
++    react-native-safe-area-context: 5.1.0
++    react-native-screens: 4.5.0
++    react-native-webview: 13.14.2
++  languageName: unknown
++  linkType: soft
++
++"openobserve-react-native-rum@workspace:.":
++  version: 0.0.0-use.local
++  resolution: "openobserve-react-native-rum@workspace:."
++  dependencies:
++    "@babel/core": ^7.25.2
++    "@babel/plugin-transform-runtime": ^7.25.0
++    "@babel/preset-env": ^7.25.3
++    "@babel/runtime": ^7.26.10
++    "@react-native/babel-preset": 0.76.9
++    "@react-native/eslint-config": 0.76.9
++    "@react-native/metro-config": 0.76.9
++    "@react-native/typescript-config": 0.76.9
++    "@testing-library/react-native": 7.0.2
++    "@types/jest": ^29.5.0
++    "@types/react": ^18.2.6
++    "@types/react-native": 0.71.0
++    "@types/react-test-renderer": 18.0.0
++    "@typescript-eslint/eslint-plugin": 5.61.0
++    "@typescript-eslint/parser": 5.61.0
++    dd-trace: ^5.28.0
++    eslint: ^8.19.0
++    eslint-config-prettier: 6.0.0
++    eslint-plugin-arca: 0.15.0
++    eslint-plugin-import: 2.29.1
++    eslint-plugin-prettier: 4.0.0
++    eslint-plugin-react: 7.22.0
++    eslint-plugin-react-hooks: 4.3.0
++    eslint-plugin-react-native: 3.10.0
++    genversion: 3.0.2
++    jest: ^29.7.0
++    lerna: 9.0.7
++    metro: ^0.83.1
++    pod-install: 0.1.14
++    prettier: 2.2.0
++    react: 18.3.1
++    react-native: 0.76.9
++    react-native-builder-bob: 0.26.0
++    react-native-gradle-plugin: ^0.71.19
++    react-native-webview: 13.12.2
++    react-test-renderer: 18.3.1
++    typescript: 5.0.4
++  peerDependencies:
++    react: "*"
++    react-native: "*"
++  languageName: unknown
++  linkType: soft
++
+ "opentracing@npm:>=0.12.1":
+   version: 0.14.7
+   resolution: "opentracing@npm:0.14.7"

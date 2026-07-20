@@ -165,6 +165,16 @@
       "literal": "\"dd=\"",
       "to": "\"oo=\"",
       "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+    },
+    {
+      "literal": "'dd='",
+      "to": "'oo='",
+      "why": "The same W3C tracestate vendor key as it appears in COMMENTS documenting the wire format (single-quoted in Java prose, parenthesised in Javadoc). The double-quoted \"dd=\" rule reaches the CODE constant but not these, so without them a synced tree carries comments that describe a wire format it no longer emits."
+    },
+    {
+      "literal": "(dd=)",
+      "to": "(oo=)",
+      "why": "The same W3C tracestate vendor key as it appears in COMMENTS documenting the wire format (single-quoted in Java prose, parenthesised in Javadoc). The double-quoted \"dd=\" rule reaches the CODE constant but not these, so without them a synced tree carries comments that describe a wire format it no longer emits."
     }
   ],
   "deferredRules": {
