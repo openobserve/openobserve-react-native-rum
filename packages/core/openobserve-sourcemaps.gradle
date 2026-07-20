@@ -160,7 +160,7 @@ private def getOpenObserveCiExecPath(reactConfig) {
     def nodeExecutable = Os.isFamily(Os.FAMILY_WINDOWS) ? 'node.exe' : 'node'
     def nodeScript = '''
     const path = require('path');
-    const modulePath = require.resolve('@openobserve/datadog-ci/package.json');
+    const modulePath = require.resolve('@datadog/datadog-ci/package.json');
     const nodeModulesDir = path.resolve(path.dirname(modulePath), '../../');
     const datadogCiExec = path.join(nodeModulesDir, '.bin', 'datadog-ci');
     console.log(datadogCiExec);

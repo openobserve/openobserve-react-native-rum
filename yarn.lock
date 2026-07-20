@@ -2729,169 +2729,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@datadog/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client"
-  dependencies:
-    "@apollo/client": ^3.13.9
-    "@testing-library/react-native": 7.0.2
-    graphql: ^16.13.2
-    react-native-builder-bob: 0.26.0
-  peerDependencies:
-    "@apollo/client": ">=3.13.9"
-    "@datadog/mobile-react-native": ^3.0.0
-    graphql: ">=16.13.2"
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin"
-  dependencies:
-    "@babel/cli": ^7.28.6
-    "@babel/core": ^7.27.7
-    "@babel/generator": ^7.28.6
-    "@babel/helper-module-imports": ^7.27.1
-    "@babel/helper-plugin-utils": ^7.27.1
-    "@babel/parser": ^7.28.6
-    "@babel/preset-env": ^7.29.2
-    "@babel/preset-react": ^7.28.5
-    "@babel/preset-typescript": ^7.28.5
-    "@babel/traverse": ^7.28.6
-    "@babel/types": ^7.27.7
-    "@swc/core": ^1.13.21
-    "@swc/jest": ^0.2.38
-    "@types/jest": ^30.0.0
-    fast-glob: ^3.3.3
-    jest: ^29.7.0
-    react-native-builder-bob: 0.26.0
-    svgo: ^4.0.1
-    tsc-alias: ^1.8.16
-    typescript: 5.9.3
-    uuid: ^8.3.2
-  peerDependencies:
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  bin:
-    datadog-generate-sr-assets: ./lib/commonjs/cli/generate-sr-assets.js
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-code-push@workspace:packages/codepush":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-code-push@workspace:packages/codepush"
-  dependencies:
-    "@datadog/mobile-react-native": "workspace:3.5.3"
-    "@testing-library/react-native": 7.0.2
-    react-native-builder-bob: 0.26.0
-    react-native-code-push: 7.1.0
-  peerDependencies:
-    "@datadog/mobile-react-native": ^3.0.0
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-    react-native-code-push: ">=2.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-navigation@workspace:packages/react-native-navigation":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-navigation@workspace:packages/react-native-navigation"
-  dependencies:
-    "@datadog/mobile-react-native": ^3.5.3
-    "@testing-library/react-native": 7.0.2
-    react-native-builder-bob: 0.26.0
-    react-native-gesture-handler: 1.10.3
-    react-native-navigation: 7.31.1
-    remx: 3.x.x
-  peerDependencies:
-    "@datadog/mobile-react-native": ^3.0.0
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-    react-native-navigation: ^7.5.0
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-openfeature@workspace:packages/react-native-openfeature":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-openfeature@workspace:packages/react-native-openfeature"
-  dependencies:
-    "@datadog/mobile-react-native": ^3.5.3
-    "@openfeature/core": ^1.9.2
-    "@openfeature/web-sdk": ^1.7.3
-    "@testing-library/react-native": 7.0.2
-    react-native-builder-bob: 0.26.0
-    react-native-gesture-handler: 1.10.3
-  peerDependencies:
-    "@datadog/mobile-react-native": ^3.1.0
-    "@openfeature/web-sdk": ^1.7.3
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-session-replay@workspace:packages/react-native-session-replay":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-session-replay@workspace:packages/react-native-session-replay"
-  dependencies:
-    "@testing-library/react-native": 7.0.2
-    chokidar: ^4.0.3
-    react-native-builder-bob: 0.26.0
-  peerDependencies:
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native-webview@workspace:packages/react-native-webview":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native-webview@workspace:packages/react-native-webview"
-  dependencies:
-    "@testing-library/react-native": 7.0.2
-    react-native-builder-bob: 0.26.0
-    react-native-webview: ^13.12.2
-  peerDependencies:
-    "@datadog/mobile-react-native": ^3.0.0
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-    react-native-webview: ">=11.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-native@^3.5.3, @datadog/mobile-react-native@workspace:3.5.3, @datadog/mobile-react-native@workspace:packages/core":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-native@workspace:packages/core"
-  dependencies:
-    "@testing-library/react-native": 7.0.2
-    big-integer: ^1.6.52
-    react-native-builder-bob: 0.26.0
-  peerDependencies:
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
-
-"@datadog/mobile-react-navigation@workspace:packages/react-navigation":
-  version: 0.0.0-use.local
-  resolution: "@datadog/mobile-react-navigation@workspace:packages/react-navigation"
-  dependencies:
-    "@datadog/mobile-react-native": ^3.5.3
-    "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8"
-    "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2"
-    "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2"
-    "@react-navigation/stack-v6": "npm:@react-navigation/stack@6.2.1"
-    "@testing-library/react-native": 7.0.2
-    react-native-builder-bob: 0.26.0
-    react-native-gesture-handler: 1.10.3
-    react-native-safe-area-context: 3.1.9
-  peerDependencies:
-    "@datadog/mobile-react-native": ^3.0.0
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
-
 "@datadog/native-appsec@npm:8.5.2":
   version: 8.5.2
   resolution: "@datadog/native-appsec@npm:8.5.2"
@@ -2936,21 +2773,6 @@ __metadata:
   checksum: 8cd6ef1f04b0f966f3e133b9d04eb7d487c29a16f5a258e4653f2308af931f0c9adffa3160166d636bb98d9931ebd02b11322ef9ca0f94a81f21e1e2eac30da8
   languageName: node
   linkType: hard
-
-"@datadog/react-native-internal-testing-tools@workspace:packages/internal-testing-tools":
-  version: 0.0.0-use.local
-  resolution: "@datadog/react-native-internal-testing-tools@workspace:packages/internal-testing-tools"
-  dependencies:
-    "@testing-library/react-native": 7.0.2
-    "@types/lodash.isequal": ^4.5.8
-    lodash.isequal: ^4.5.0
-    react-native-builder-bob: 0.26.0
-    rum-events-format: "DataDog/rum-events-format#workspace=rum-events-format"
-  peerDependencies:
-    react: ">=16.13.1"
-    react-native: ">=0.63.4 <1.0"
-  languageName: unknown
-  linkType: soft
 
 "@datadog/sketches-js@npm:^2.1.1":
   version: 2.1.1
@@ -4487,6 +4309,184 @@ __metadata:
   checksum: 291524da1592e177af76c155998b54829d2258ccfccc3996785a441f8ca1cef3b311484f107dd8bdcc3fe2acfeef661f770d9cd33a9988c60ebcd9c530fc1857
   languageName: node
   linkType: hard
+
+"@openobserve/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-apollo-client@workspace:packages/react-native-apollo-client"
+  dependencies:
+    "@apollo/client": ^3.13.9
+    "@testing-library/react-native": 7.0.2
+    graphql: ^16.13.2
+    react-native-builder-bob: 0.26.0
+  peerDependencies:
+    "@apollo/client": ">=3.13.9"
+    "@openobserve/mobile-react-native": ^3.0.0
+    graphql: ">=16.13.2"
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-babel-plugin@workspace:packages/react-native-babel-plugin"
+  dependencies:
+    "@babel/cli": ^7.28.6
+    "@babel/core": ^7.27.7
+    "@babel/generator": ^7.28.6
+    "@babel/helper-module-imports": ^7.27.1
+    "@babel/helper-plugin-utils": ^7.27.1
+    "@babel/parser": ^7.28.6
+    "@babel/preset-env": ^7.29.2
+    "@babel/preset-react": ^7.28.5
+    "@babel/preset-typescript": ^7.28.5
+    "@babel/traverse": ^7.28.6
+    "@babel/types": ^7.27.7
+    "@swc/core": ^1.13.21
+    "@swc/jest": ^0.2.38
+    "@types/jest": ^30.0.0
+    fast-glob: ^3.3.3
+    jest: ^29.7.0
+    react-native-builder-bob: 0.26.0
+    svgo: ^4.0.1
+    tsc-alias: ^1.8.16
+    typescript: 5.9.3
+    uuid: ^8.3.2
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  bin:
+    openobserve-generate-sr-assets: ./lib/commonjs/cli/generate-sr-assets.js
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-code-push@workspace:packages/codepush":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-code-push@workspace:packages/codepush"
+  dependencies:
+    "@openobserve/mobile-react-native": "workspace:0.1.0-alpha.2"
+    "@testing-library/react-native": 7.0.2
+    react-native-builder-bob: 0.26.0
+    react-native-code-push: 7.1.0
+  peerDependencies:
+    "@openobserve/mobile-react-native": ^3.0.0
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+    react-native-code-push: ">=2.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-navigation@workspace:packages/react-native-navigation":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-navigation@workspace:packages/react-native-navigation"
+  dependencies:
+    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
+    "@testing-library/react-native": 7.0.2
+    react-native-builder-bob: 0.26.0
+    react-native-gesture-handler: 1.10.3
+    react-native-navigation: 7.31.1
+    remx: 3.x.x
+  peerDependencies:
+    "@openobserve/mobile-react-native": ^3.0.0
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+    react-native-navigation: ^7.5.0
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-openfeature@workspace:packages/react-native-openfeature":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-openfeature@workspace:packages/react-native-openfeature"
+  dependencies:
+    "@openfeature/core": ^1.9.2
+    "@openfeature/web-sdk": ^1.7.3
+    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
+    "@testing-library/react-native": 7.0.2
+    react-native-builder-bob: 0.26.0
+    react-native-gesture-handler: 1.10.3
+  peerDependencies:
+    "@openfeature/web-sdk": ^1.7.3
+    "@openobserve/mobile-react-native": ^3.1.0
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-session-replay@workspace:packages/react-native-session-replay":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-session-replay@workspace:packages/react-native-session-replay"
+  dependencies:
+    "@testing-library/react-native": 7.0.2
+    chokidar: ^4.0.3
+    react-native-builder-bob: 0.26.0
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native-webview@workspace:packages/react-native-webview":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native-webview@workspace:packages/react-native-webview"
+  dependencies:
+    "@testing-library/react-native": 7.0.2
+    react-native-builder-bob: 0.26.0
+    react-native-webview: ^13.12.2
+  peerDependencies:
+    "@openobserve/mobile-react-native": ^3.0.0
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+    react-native-webview: ">=11.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-native@^0.1.0-alpha.2, @openobserve/mobile-react-native@workspace:0.1.0-alpha.2, @openobserve/mobile-react-native@workspace:packages/core":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-native@workspace:packages/core"
+  dependencies:
+    "@testing-library/react-native": 7.0.2
+    big-integer: ^1.6.52
+    react-native-builder-bob: 0.26.0
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/mobile-react-navigation@workspace:packages/react-navigation":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/mobile-react-navigation@workspace:packages/react-navigation"
+  dependencies:
+    "@openobserve/mobile-react-native": ^0.1.0-alpha.2
+    "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8"
+    "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2"
+    "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2"
+    "@react-navigation/stack-v6": "npm:@react-navigation/stack@6.2.1"
+    "@testing-library/react-native": 7.0.2
+    react-native-builder-bob: 0.26.0
+    react-native-gesture-handler: 1.10.3
+    react-native-safe-area-context: 3.1.9
+  peerDependencies:
+    "@openobserve/mobile-react-native": ^3.0.0
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
+
+"@openobserve/react-native-internal-testing-tools@workspace:packages/internal-testing-tools":
+  version: 0.0.0-use.local
+  resolution: "@openobserve/react-native-internal-testing-tools@workspace:packages/internal-testing-tools"
+  dependencies:
+    "@testing-library/react-native": 7.0.2
+    "@types/lodash.isequal": ^4.5.8
+    lodash.isequal: ^4.5.0
+    react-native-builder-bob: 0.26.0
+    rum-events-format: "DataDog/rum-events-format#workspace=rum-events-format"
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.4 <1.0"
+  languageName: unknown
+  linkType: soft
 
 "@opentelemetry/api@npm:>=1.0.0 <1.9.0":
   version: 1.8.0
@@ -6663,16 +6663,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"DdSdkReactNativeExample@workspace:example-new-architecture":
+"JSONStream@npm:^1.3.5":
+  version: 1.3.5
+  resolution: "JSONStream@npm:1.3.5"
+  dependencies:
+    jsonparse: ^1.2.0
+    through: ">=2.2.7 <3"
+  bin:
+    JSONStream: ./bin.js
+  checksum: 2605fa124260c61bad38bb65eba30d2f72216a78e94d0ab19b11b4e0327d572b8d530c0c9cc3b0764f727ad26d39e00bf7ebad57781ca6368394d73169c59e46
+  languageName: node
+  linkType: hard
+
+"OoSdkReactNativeExample@workspace:example-new-architecture":
   version: 0.0.0-use.local
-  resolution: "DdSdkReactNativeExample@workspace:example-new-architecture"
+  resolution: "OoSdkReactNativeExample@workspace:example-new-architecture"
   dependencies:
     "@babel/core": ^7.25.2
     "@babel/preset-env": ^7.25.3
     "@babel/runtime": ^7.26.10
-    "@datadog/mobile-react-native": "workspace:packages/core"
-    "@datadog/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
     "@openfeature/react-sdk": ^1.1.0
+    "@openobserve/mobile-react-native": "workspace:packages/core"
+    "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
     "@react-native-community/cli": 15.0.1
     "@react-native-community/cli-platform-android": 15.0.1
     "@react-native-community/cli-platform-ios": 15.0.1
@@ -6692,18 +6704,6 @@ __metadata:
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
-
-"JSONStream@npm:^1.3.5":
-  version: 1.3.5
-  resolution: "JSONStream@npm:1.3.5"
-  dependencies:
-    jsonparse: ^1.2.0
-    through: ">=2.2.7 <3"
-  bin:
-    JSONStream: ./bin.js
-  checksum: 2605fa124260c61bad38bb65eba30d2f72216a78e94d0ab19b11b4e0327d572b8d530c0c9cc3b0764f727ad26d39e00bf7ebad57781ca6368394d73169c59e46
-  languageName: node
-  linkType: hard
 
 "abbrev@npm:^3.0.0":
   version: 3.0.1
@@ -7462,10 +7462,10 @@ __metadata:
     "@babel/preset-env": 7.25.3
     "@babel/runtime": ^7.26.10
     "@datadog/datadog-ci": 5.11.0
-    "@datadog/mobile-react-native": "workspace:packages/core"
-    "@datadog/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
-    "@datadog/mobile-react-native-webview": "workspace:packages/react-native-webview"
-    "@datadog/mobile-react-navigation": "workspace:packages/react-navigation"
+    "@openobserve/mobile-react-native": "workspace:packages/core"
+    "@openobserve/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
+    "@openobserve/mobile-react-native-webview": "workspace:packages/react-native-webview"
+    "@openobserve/mobile-react-navigation": "workspace:packages/react-navigation"
     "@react-native-community/cli": 15.0.1
     "@react-native-community/cli-platform-android": 15.0.1
     "@react-native-community/cli-platform-ios": 15.0.1
@@ -8717,95 +8717,6 @@ __metadata:
   checksum: f716794cb4289945ee3297b80d1f0568099ee99653a6c439f6141960d38debac21dbaadcd37ce95f127411b7e3bf1d45986f7e36fcc0abc01745a2a1cbe63713
   languageName: node
   linkType: hard
-
-"dd-sdk-reactnative-example@workspace:example":
-  version: 0.0.0-use.local
-  resolution: "dd-sdk-reactnative-example@workspace:example"
-  dependencies:
-    "@babel/core": ^7.25.9
-    "@babel/preset-env": ^7.25.9
-    "@babel/runtime": ^7.29.2
-    "@datadog/datadog-ci": 5.13.1
-    "@datadog/mobile-react-native": "workspace:packages/core"
-    "@datadog/mobile-react-native-navigation": "workspace:packages/react-native-navigation"
-    "@datadog/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
-    "@datadog/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
-    "@datadog/mobile-react-native-webview": "workspace:packages/react-native-webview"
-    "@datadog/mobile-react-navigation": "workspace:packages/react-navigation"
-    "@openfeature/react-sdk": ^1.2.1
-    "@react-native-async-storage/async-storage": ^2.1.2
-    "@react-native-community/cli": 15.0.1
-    "@react-native-community/cli-platform-android": 15.0.1
-    "@react-native-community/cli-platform-ios": 15.0.1
-    "@react-native/babel-preset": 0.76.9
-    "@react-native/eslint-config": 0.76.9
-    "@react-native/metro-config": 0.76.9
-    "@react-native/typescript-config": 0.76.9
-    "@react-navigation/bottom-tabs": ^6.3.1
-    "@react-navigation/native": ^6.1.18
-    "@react-navigation/stack": ^6.2.1
-    "@rnx-kit/metro-resolver-symlinks": ^0.1.36
-    axios: 1.15.1
-    babel-plugin-module-resolver: ^4.0.0
-    patch-package: ^8.0.1
-    postinstall-postinstall: ^2.1.0
-    react: 18.3.1
-    react-native: 0.76.9
-    react-native-crash-tester: 0.2.3
-    react-native-gesture-handler: 2.24.0
-    react-native-navigation: 8.0.0-snapshot.1658
-    react-native-safe-area-context: 5.1.0
-    react-native-screens: 4.5.0
-    react-native-webview: 13.14.2
-  languageName: unknown
-  linkType: soft
-
-"dd-sdk-reactnative@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "dd-sdk-reactnative@workspace:."
-  dependencies:
-    "@babel/core": ^7.25.2
-    "@babel/plugin-transform-runtime": ^7.25.0
-    "@babel/preset-env": ^7.25.3
-    "@babel/runtime": ^7.26.10
-    "@react-native/babel-preset": 0.76.9
-    "@react-native/eslint-config": 0.76.9
-    "@react-native/metro-config": 0.76.9
-    "@react-native/typescript-config": 0.76.9
-    "@testing-library/react-native": 7.0.2
-    "@types/jest": ^29.5.0
-    "@types/react": ^18.2.6
-    "@types/react-native": 0.71.0
-    "@types/react-test-renderer": 18.0.0
-    "@typescript-eslint/eslint-plugin": 5.61.0
-    "@typescript-eslint/parser": 5.61.0
-    dd-trace: ^5.28.0
-    eslint: ^8.19.0
-    eslint-config-prettier: 6.0.0
-    eslint-plugin-arca: 0.15.0
-    eslint-plugin-import: 2.29.1
-    eslint-plugin-prettier: 4.0.0
-    eslint-plugin-react: 7.22.0
-    eslint-plugin-react-hooks: 4.3.0
-    eslint-plugin-react-native: 3.10.0
-    genversion: 3.0.2
-    jest: ^29.7.0
-    lerna: 9.0.7
-    metro: ^0.83.1
-    pod-install: 0.1.14
-    prettier: 2.2.0
-    react: 18.3.1
-    react-native: 0.76.9
-    react-native-builder-bob: 0.26.0
-    react-native-gradle-plugin: ^0.71.19
-    react-native-webview: 13.12.2
-    react-test-renderer: 18.3.1
-    typescript: 5.0.4
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  languageName: unknown
-  linkType: soft
 
 "dd-trace@npm:^5.28.0":
   version: 5.56.0
@@ -15190,6 +15101,95 @@ __metadata:
   checksum: 6388bfff21b40cb9bd8f913f9130d107f2ed4724ea81a8fd29798ee322b361ca31fa2cdfb491a5c31e43a3996cfe9566741238c7a741ada8d7af1cb78d85cf26
   languageName: node
   linkType: hard
+
+"openobserve-react-native-rum-example@workspace:example":
+  version: 0.0.0-use.local
+  resolution: "openobserve-react-native-rum-example@workspace:example"
+  dependencies:
+    "@babel/core": ^7.25.9
+    "@babel/preset-env": ^7.25.9
+    "@babel/runtime": ^7.29.2
+    "@datadog/datadog-ci": 5.13.1
+    "@openfeature/react-sdk": ^1.2.1
+    "@openobserve/mobile-react-native": "workspace:packages/core"
+    "@openobserve/mobile-react-native-navigation": "workspace:packages/react-native-navigation"
+    "@openobserve/mobile-react-native-openfeature": "workspace:packages/react-native-openfeature"
+    "@openobserve/mobile-react-native-session-replay": "workspace:packages/react-native-session-replay"
+    "@openobserve/mobile-react-native-webview": "workspace:packages/react-native-webview"
+    "@openobserve/mobile-react-navigation": "workspace:packages/react-navigation"
+    "@react-native-async-storage/async-storage": ^2.1.2
+    "@react-native-community/cli": 15.0.1
+    "@react-native-community/cli-platform-android": 15.0.1
+    "@react-native-community/cli-platform-ios": 15.0.1
+    "@react-native/babel-preset": 0.76.9
+    "@react-native/eslint-config": 0.76.9
+    "@react-native/metro-config": 0.76.9
+    "@react-native/typescript-config": 0.76.9
+    "@react-navigation/bottom-tabs": ^6.3.1
+    "@react-navigation/native": ^6.1.18
+    "@react-navigation/stack": ^6.2.1
+    "@rnx-kit/metro-resolver-symlinks": ^0.1.36
+    axios: 1.15.1
+    babel-plugin-module-resolver: ^4.0.0
+    patch-package: ^8.0.1
+    postinstall-postinstall: ^2.1.0
+    react: 18.3.1
+    react-native: 0.76.9
+    react-native-crash-tester: 0.2.3
+    react-native-gesture-handler: 2.24.0
+    react-native-navigation: 8.0.0-snapshot.1658
+    react-native-safe-area-context: 5.1.0
+    react-native-screens: 4.5.0
+    react-native-webview: 13.14.2
+  languageName: unknown
+  linkType: soft
+
+"openobserve-react-native-rum@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "openobserve-react-native-rum@workspace:."
+  dependencies:
+    "@babel/core": ^7.25.2
+    "@babel/plugin-transform-runtime": ^7.25.0
+    "@babel/preset-env": ^7.25.3
+    "@babel/runtime": ^7.26.10
+    "@react-native/babel-preset": 0.76.9
+    "@react-native/eslint-config": 0.76.9
+    "@react-native/metro-config": 0.76.9
+    "@react-native/typescript-config": 0.76.9
+    "@testing-library/react-native": 7.0.2
+    "@types/jest": ^29.5.0
+    "@types/react": ^18.2.6
+    "@types/react-native": 0.71.0
+    "@types/react-test-renderer": 18.0.0
+    "@typescript-eslint/eslint-plugin": 5.61.0
+    "@typescript-eslint/parser": 5.61.0
+    dd-trace: ^5.28.0
+    eslint: ^8.19.0
+    eslint-config-prettier: 6.0.0
+    eslint-plugin-arca: 0.15.0
+    eslint-plugin-import: 2.29.1
+    eslint-plugin-prettier: 4.0.0
+    eslint-plugin-react: 7.22.0
+    eslint-plugin-react-hooks: 4.3.0
+    eslint-plugin-react-native: 3.10.0
+    genversion: 3.0.2
+    jest: ^29.7.0
+    lerna: 9.0.7
+    metro: ^0.83.1
+    pod-install: 0.1.14
+    prettier: 2.2.0
+    react: 18.3.1
+    react-native: 0.76.9
+    react-native-builder-bob: 0.26.0
+    react-native-gradle-plugin: ^0.71.19
+    react-native-webview: 13.12.2
+    react-test-renderer: 18.3.1
+    typescript: 5.0.4
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  languageName: unknown
+  linkType: soft
 
 "opentracing@npm:>=0.12.1":
   version: 0.14.7

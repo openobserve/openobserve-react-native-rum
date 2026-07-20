@@ -32,14 +32,14 @@
       "why": "expo config plugin package name (must precede the generic 'datadog' rules)"
     },
     {
-      "literal": "@datadog/datadog-ci",
-      "to": "@datadog/datadog-ci",
-      "why": "GUARD \u2014 must precede the '@datadog/' rule. datadog-ci is an EXTERNAL, upstream-published npm package (@datadog/datadog-ci -> 200). The broad '@datadog/' -> '@openobserve/' rule rewrote it to @openobserve/datadog-ci, which has never existed (404), breaking `yarn install` in benchmarks/ and example/. Same class as the Gradle-plugin and swift-testing over-renames (doc 08 3.4): never blanket-rename a coordinate someone else publishes. Identity mapping so the later rule cannot reach it."
-    },
-    {
       "literal": "datadog-generate-sr-assets",
       "to": "openobserve-generate-sr-assets",
       "why": "SHIPPED: the `bin` name declared by @openobserve/mobile-react-native-babel-plugin, a PUBLISHED package. Consumers installing it get a `datadog-generate-sr-assets` executable on PATH. Lowercase, so no other rule matches it."
+    },
+    {
+      "literal": "@datadog/datadog-ci",
+      "to": "@@OO_KEEP_EXTERNAL_DD_CI@@",
+      "why": "GUARD part 1 of 2. datadog-ci is an EXTERNAL npm package published by the upstream vendor (@datadog/datadog-ci -> 200; @openobserve/datadog-ci has never existed -> 404). An IDENTITY mapping does not protect it: rebrand.mjs applies rules SEQUENTIALLY per line, so the later '@datadog/' rule fires anyway and `yarn install` dies with a 404. Swap it to a sentinel here, restore it after the broad rule has run. Same class as the Gradle-plugin and swift-testing over-renames (doc 08 3.4)."
     },
     {
       "literal": "@datadog/",
@@ -145,6 +145,11 @@
       "literal": "ddsource",
       "to": "oosource",
       "why": "identifier only; the value '_oo.source' is unchanged and matches the iOS SDK's own oosource rename."
+    },
+    {
+      "literal": "@@OO_KEEP_EXTERNAL_DD_CI@@",
+      "to": "@datadog/datadog-ci",
+      "why": "GUARD part 2 of 2 \u2014 restores the external coordinate once the broad '@datadog/' rule can no longer reach it. Must stay LAST."
     }
   ],
   "deferredRules": {
