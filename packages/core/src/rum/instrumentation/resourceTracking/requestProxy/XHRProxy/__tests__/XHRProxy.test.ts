@@ -337,7 +337,7 @@ describe('XHRProxy', () => {
 
             const parentValue = contextHeader?.split('-')[2];
             expect(xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)).toBe(
-                `dd=s:0;o:rum;p:${parentValue}`
+                `oo=s:0;o:rum;p:${parentValue}`
             );
         });
 
@@ -490,7 +490,7 @@ describe('XHRProxy', () => {
             // Parent value of the context header is the 3rd part of it
             const parentValue = contextHeader?.split('-')[2];
             const stateHeader = xhr.requestHeaders.get(TRACESTATE_HEADER_KEY);
-            expect(stateHeader).toBe(`dd=s:1;o:rum;p:${parentValue}`);
+            expect(stateHeader).toBe(`oo=s:1;o:rum;p:${parentValue}`);
         });
 
         it('adds correct trace IDs headers for all propagatorTypes', async () => {

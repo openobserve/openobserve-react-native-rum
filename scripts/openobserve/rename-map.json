@@ -150,6 +150,21 @@
       "literal": "@@OO_KEEP_EXTERNAL_DD_CI@@",
       "to": "@datadog/datadog-ci",
       "why": "GUARD part 2 of 2 \u2014 restores the external coordinate once the broad '@datadog/' rule can no longer reach it. Must stay LAST."
+    },
+    {
+      "literal": "dd=s:",
+      "to": "oo=s:",
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+    },
+    {
+      "literal": "dd=p:",
+      "to": "oo=p:",
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+    },
+    {
+      "literal": "\"dd=\"",
+      "to": "\"oo=\"",
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     }
   ],
   "deferredRules": {

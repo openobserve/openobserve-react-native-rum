@@ -61,12 +61,12 @@ if [ -n "$META_HITS" ]; then
 fi
 
 # --- 3. CONTENT ---------------------------------------------------------------
-# `datadog\.pool` / `datadog\.<label>\.<tld>` catch HOSTNAMES: every other pattern needs an
+# `\bdd=s:|\bdd=p:|datadog\.pool` / `datadog\.<label>\.<tld>` catch HOSTNAMES: every other pattern needs an
 # uppercase letter or the `hq` suffix, so a bare lowercase hostname label matches none of
 # them — which is how the upstream NTP pool shipped in the native alpha1s.
 # `@datadog/datadog-ci` is EXTERNAL and legitimately referenced (dev workspaces only).
 HITS=$(echo "$PATHS" | xargs grep -nE \
-  'com\.datadog|com/datadog|com\.datadoghq|\bDatadog[A-Za-z]|\bDATADOG|datad0g|ddog-gov|\bddtags\b|\bddsource\b|DD-API-KEY|datadog\.pool|datadog\.[a-z]+\.(org|com|net)|datadog-(configuration|sourcemaps|generate)' \
+  'com\.datadog|com/datadog|com\.datadoghq|\bDatadog[A-Za-z]|\bDATADOG|datad0g|ddog-gov|\bddtags\b|\bddsource\b|DD-API-KEY|\bdd=s:|\bdd=p:|datadog\.pool|datadog\.[a-z]+\.(org|com|net)|datadog-(configuration|sourcemaps|generate)' \
   2>/dev/null \
   | grep -viE 'developed at Datadog|Copyright .*Datadog|licensed under|@datadog/datadog-ci' || true)
 if [ -n "$HITS" ]; then
