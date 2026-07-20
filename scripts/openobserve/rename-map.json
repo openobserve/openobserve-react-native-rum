@@ -68,12 +68,12 @@
     },
     {
       "regex": "(ai\\.openobserve:oo-sdk-android-[a-z0-9-]+):[0-9][0-9A-Za-z.-]*",
-      "to": "$1:0.1.0-alpha2",
+      "to": "$1:0.1.0-alpha3",
       "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:oo-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:oo-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released."
     },
     {
       "regex": "(dependency '(?:OpenObserve[A-Za-z]+)', ')[0-9][0-9A-Za-z.-]*(')",
-      "to": "$10.1.0-alpha.2$2",
+      "to": "$10.1.0-alpha.3$2",
       "why": "RE-PIN (STEP 4): same for the CocoaPods deps \u2014 the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
     },
     {

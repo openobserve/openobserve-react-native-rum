@@ -23,8 +23,8 @@ Pod::Spec.new do |s|
   end
 
   # /!\ Remember to keep the version in sync with OpenObserveSDKReactNative.podspec
-  s.dependency 'OpenObserveWebViewTracking', '0.1.0-alpha.2'
-  s.dependency 'OpenObserveInternal', '0.1.0-alpha.2'
+  s.dependency 'OpenObserveWebViewTracking', '0.1.0-alpha.3'
+  s.dependency 'OpenObserveInternal', '0.1.0-alpha.3'
   s.dependency 'OpenObserveSDKReactNative'
 
   s.test_spec 'Tests' do |test_spec|

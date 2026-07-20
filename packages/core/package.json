@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native",
-    "version": "0.1.0-alpha.2",
+    "version": "0.1.0-alpha.3",
     "description": "A client-side React Native module to interact with OpenObserve",
     "keywords": [
         "datadog",
