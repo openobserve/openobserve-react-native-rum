@@ -516,7 +516,7 @@ describe('XHRProxy', () => {
             ).toBeUndefined();
         });
 
-        it('adds the x-datadog-tracked-by header for first party host requests', async () => {
+        it('adds the x-openobserve-tracked-by header for first party host requests', async () => {
             // GIVEN
             const method = 'GET';
             const url = 'https://api.example.com/v2/user';
@@ -544,7 +544,7 @@ describe('XHRProxy', () => {
             );
         });
 
-        it('adds the x-datadog-tracked-by header for non-first party host requests', async () => {
+        it('adds the x-openobserve-tracked-by header for non-first party host requests', async () => {
             // GIVEN
             const method = 'GET';
             const url = 'https://api.example.com/v2/user';

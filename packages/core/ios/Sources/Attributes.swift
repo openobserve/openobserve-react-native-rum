@@ -125,7 +125,7 @@ internal struct InternalConfigurationAttributes {
     static let versionSuffix = "_oo.version_suffix"
     
     /// Header key set by the JS layer to indicate the request origin.
-    static let trackedByHeaderKey = "x-datadog-tracked-by"
+    static let trackedByHeaderKey = "x-openobserve-tracked-by"
     /// Header value set by the JS layer to indicate the request was tracked by React Native.
     static let trackedByHeaderValue = "react-native"
 

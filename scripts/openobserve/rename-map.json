@@ -75,6 +75,76 @@
       "regex": "(dependency '(?:OpenObserve[A-Za-z]+)', ')[0-9][0-9A-Za-z.-]*(')",
       "to": "$10.1.0-alpha.2$2",
       "why": "RE-PIN (STEP 4): same for the CocoaPods deps \u2014 the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
+    },
+    {
+      "literal": "x-datadog-tracked-by",
+      "to": "x-openobserve-tracked-by",
+      "why": "LIVE WIRE HEADER: XHRProxy sets this on every intercepted request to stop the native layer double-counting. Verified read by NOTHING \u2014 not the iOS SDK, not the Android SDK, not the OpenObserve backend \u2014 so renaming is safe. The GraphQL headers next to it are deliberately NOT renamed: their values are already _oo-custom-header-* and the natives read exactly that."
+    },
+    {
+      "literal": "DATADOG_MESSAGE_PREFIX",
+      "to": "OPENOBSERVE_MESSAGE_PREFIX",
+      "why": "identifier for the console prefix below."
+    },
+    {
+      "literal": "'DATADOG:'",
+      "to": "'OPENOBSERVE:'",
+      "why": "SHIPPED + USER-VISIBLE: prefixed EVERY console line the SDK printed. A developer integrating the SDK saw `DATADOG: ...` in their logs."
+    },
+    {
+      "literal": "DATADOG: ",
+      "to": "OPENOBSERVE: ",
+      "why": "the same prefix inside template literals and test expectations."
+    },
+    {
+      "literal": "[DATADOG METRO PLUGIN]",
+      "to": "[OPENOBSERVE METRO PLUGIN]",
+      "why": "SHIPPED: metro plugin build output."
+    },
+    {
+      "literal": "DATADOG_CUSTOM_HEADER_PREFIX",
+      "to": "OPENOBSERVE_CUSTOM_HEADER_PREFIX",
+      "why": "identifier only \u2014 the VALUE '_oo-custom-header' must not change (Android reads it)."
+    },
+    {
+      "literal": "DATADOG_GRAPH_QL_",
+      "to": "OPENOBSERVE_GRAPH_QL_",
+      "why": "identifier only \u2014 same reason."
+    },
+    {
+      "literal": "DATADOG_BAGGAGE_HEADER",
+      "to": "OPENOBSERVE_BAGGAGE_HEADER",
+      "why": "identifier only."
+    },
+    {
+      "literal": "DATADOG_PROVIDER_STATE_MODULE",
+      "to": "OPENOBSERVE_PROVIDER_STATE_MODULE",
+      "why": "identifier."
+    },
+    {
+      "literal": "DATADOG_SOURCEMAPS_DRY_RUN",
+      "to": "OPENOBSERVE_SOURCEMAPS_DRY_RUN",
+      "why": "USER-FACING env var name."
+    },
+    {
+      "literal": "DATADOG_CI_EXEC",
+      "to": "OPENOBSERVE_CI_EXEC",
+      "why": "USER-FACING env var name. Points AT the external datadog-ci tool, whose own name is left alone."
+    },
+    {
+      "literal": "DATADOG_REACT_NATIVE_PATH",
+      "to": "OPENOBSERVE_REACT_NATIVE_PATH",
+      "why": "USER-FACING env var name."
+    },
+    {
+      "literal": "DATADOG_RELEASE_VERSION",
+      "to": "OPENOBSERVE_RELEASE_VERSION",
+      "why": "USER-FACING env var name."
+    },
+    {
+      "literal": "ddsource",
+      "to": "oosource",
+      "why": "identifier only; the value '_oo.source' is unchanged and matches the iOS SDK's own oosource rename."
     }
   ],
   "deferredRules": {

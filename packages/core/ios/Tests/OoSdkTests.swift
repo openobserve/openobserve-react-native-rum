@@ -1579,7 +1579,7 @@ class OoSdkTests: XCTestCase {
             ddConfig.urlSessionTracking?.resourceAttributesProvider
         )
 
-        // Request with x-datadog-tracked-by header should be marked for dropping
+        // Request with x-openobserve-tracked-by header should be marked for dropping
         let trackedRequest = URLRequest.mockWith(headerFields: [InternalConfigurationAttributes.trackedByHeaderKey: InternalConfigurationAttributes.trackedByHeaderValue])
         let trackedAttributes = resourceAttributesProvider(trackedRequest, nil, nil, nil)
         XCTAssertNotNil(trackedAttributes)
