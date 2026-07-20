@@ -133,7 +133,7 @@ describe('Webview', () => {
 catch (error) {
   const errorMsg = error instanceof Error ? error.message : String(error);
   window.ReactNativeWebView.postMessage(JSON.stringify({
-    source: 'DATADOG',
+    source: 'OPENOBSERVE',
     type: 'ERROR',
     message: errorMsg
   }));
@@ -172,7 +172,7 @@ try{
 catch (error) {
   const errorMsg = error instanceof Error ? error.message : String(error);
   window.ReactNativeWebView.postMessage(JSON.stringify({
-    source: 'DATADOG',
+    source: 'OPENOBSERVE',
     type: 'ERROR',
     message: errorMsg
   }));
@@ -200,7 +200,7 @@ catch (error) {
         // Then
         expect(postMessageMock).toHaveBeenCalledWith(
             JSON.stringify({
-                source: 'DATADOG',
+                source: 'OPENOBSERVE',
                 type: 'ERROR',
                 message: 'testInjectedJavaScript is not defined'
             })
@@ -225,7 +225,7 @@ catch (error) {
         // Then
         expect(postMessageMock).toHaveBeenCalledWith(
             JSON.stringify({
-                source: 'DATADOG',
+                source: 'OPENOBSERVE',
                 type: 'ERROR',
                 message: 'testInjectedJavaScript is not defined'
             })

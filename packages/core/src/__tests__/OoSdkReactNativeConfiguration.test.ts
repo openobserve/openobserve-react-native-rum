@@ -111,8 +111,7 @@ describe('OoSdkReactNativeConfiguration', () => {
                                 {
                                     match: 'api.com',
                                     propagatorTypes: [
-                                        PropagatorType.DATADOG,
-                                        PropagatorType.TRACECONTEXT
+                                                                                PropagatorType.TRACECONTEXT
                                     ]
                                 }
                             ],

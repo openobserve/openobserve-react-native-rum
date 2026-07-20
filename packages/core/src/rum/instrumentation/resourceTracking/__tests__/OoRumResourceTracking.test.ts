@@ -46,7 +46,7 @@ describe('OoRumResourceTracking', () => {
             firstPartyHosts: [
                 {
                     match: 'example.com',
-                    propagatorTypes: [PropagatorType.DATADOG]
+                    propagatorTypes: []
                 }
             ]
         });
@@ -78,7 +78,7 @@ describe('OoRumResourceTracking', () => {
             firstPartyHosts: [
                 {
                     match: 'example.com',
-                    propagatorTypes: [PropagatorType.DATADOG]
+                    propagatorTypes: []
                 }
             ]
         });
@@ -124,7 +124,7 @@ describe('OoRumResourceTracking', () => {
                 firstPartyHosts: [
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [PropagatorType.DATADOG]
+                        propagatorTypes: []
                     }
                 ]
             });
@@ -158,7 +158,7 @@ describe('OoRumResourceTracking', () => {
                 firstPartyHosts: [
                     {
                         match: 'api.example.com',
-                        propagatorTypes: [PropagatorType.DATADOG]
+                        propagatorTypes: []
                     }
                 ]
             });

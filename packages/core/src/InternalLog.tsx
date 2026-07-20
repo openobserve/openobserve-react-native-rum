@@ -7,7 +7,7 @@
 import { SdkVerbosity } from './config/types/SdkVerbosity';
 import { getGlobalInstance } from './utils/singletonUtils';
 
-export const DATADOG_MESSAGE_PREFIX = 'DATADOG:';
+export const OPENOBSERVE_MESSAGE_PREFIX = 'OPENOBSERVE:';
 
 const INTERNAL_LOG_MODULE = 'com.openobserve.reactnative.internal_log';
 
@@ -35,7 +35,7 @@ class _InternalLog {
         if (allowedLevel === undefined || requiredLevel === undefined) {
             return;
         }
-        const prefixedMessage = `${DATADOG_MESSAGE_PREFIX} ${message}`;
+        const prefixedMessage = `${OPENOBSERVE_MESSAGE_PREFIX} ${message}`;
         if (verbosity === SdkVerbosity.ERROR && requiredLevel >= allowedLevel) {
             console.error(prefixedMessage);
         }

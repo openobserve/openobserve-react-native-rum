@@ -964,7 +964,7 @@ class OoSdkTests: XCTestCase {
         let rumConfiguration: RumConfiguration = makeDefaultRumConfiguration()
         rumConfiguration.resourceTraceSampleRate = 66
         rumConfiguration.firstPartyHosts = ([
-            ["match": "example.com", "propagatorTypes": ["datadog", "b3"]],
+            ["match": "example.com", "propagatorTypes": ["b3"]],
             ["match": "datadog.com", "propagatorTypes": ["b3multi", "tracecontext"]],
         ] as NSArray).asFirstPartyHosts()
 

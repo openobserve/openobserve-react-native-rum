@@ -88,7 +88,7 @@ export const createOpenObserveMetroSerializer = (
         const debugId = getDebugIdFromBundleSource(code);
         if (!debugId) {
             throw new Error(
-                '[DATADOG METRO PLUGIN] Debug ID was not found in the bundle. Call `options.datadogBundleCallback` if you are using a custom serializer.'
+                '[OPENOBSERVE METRO PLUGIN] Debug ID was not found in the bundle. Call `options.datadogBundleCallback` if you are using a custom serializer.'
             );
         }
 

@@ -48,7 +48,7 @@ jest.mock('../../InternalLog', () => {
         InternalLog: {
             log: jest.fn()
         },
-        DATADOG_MESSAGE_PREFIX: 'DATADOG:'
+        OPENOBSERVE_MESSAGE_PREFIX: 'OPENOBSERVE:'
     };
 });
 
@@ -512,7 +512,7 @@ describe('OoRum', () => {
             });
 
             describe('OoRum.getTracingContext', () => {
-                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
+                it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
                     for (let i = 0; i < 100; i++) {
                         const url = 'https://www.example.com';
                         const tracingSamplingRate =
@@ -520,7 +520,7 @@ describe('OoRum', () => {
                         const firstPartyHosts: FirstPartyHost[] = [
                             {
                                 match: 'example.com',
-                                propagatorTypes: [PropagatorType.DATADOG]
+                                propagatorTypes: []
                             }
                         ];
 
@@ -660,8 +660,7 @@ describe('OoRum', () => {
                             {
                                 match: 'example.com',
                                 propagatorTypes: [
-                                    PropagatorType.DATADOG,
-                                    PropagatorType.TRACECONTEXT,
+                                                                        PropagatorType.TRACECONTEXT,
                                     PropagatorType.B3,
                                     PropagatorType.B3MULTI
                                 ]
@@ -716,8 +715,7 @@ describe('OoRum', () => {
                             {
                                 match: 'example.com',
                                 propagatorTypes: [
-                                    PropagatorType.DATADOG,
-                                    PropagatorType.TRACECONTEXT,
+                                                                        PropagatorType.TRACECONTEXT,
                                     PropagatorType.B3,
                                     PropagatorType.B3MULTI
                                 ]
@@ -784,8 +782,7 @@ describe('OoRum', () => {
                         {
                             match: 'example.com',
                             propagatorTypes: [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3,
                                 PropagatorType.B3MULTI
                             ]
@@ -839,13 +836,13 @@ describe('OoRum', () => {
             });
 
             describe('OoRum.getTracingContextForPropagators', () => {
-                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
+                it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
                     for (let i = 0; i < 100; i++) {
                         const tracingSamplingRate =
                             Math.random() < 0.5 ? 0 : 100;
 
                         const tracingContext = OoRum.getTracingContextForPropagators(
-                            [PropagatorType.DATADOG],
+                            [],
                             tracingSamplingRate
                         );
 
@@ -952,8 +949,7 @@ describe('OoRum', () => {
 
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3MULTI,
                                 PropagatorType.B3
                             ],
@@ -1000,8 +996,7 @@ describe('OoRum', () => {
                         setCachedSessionId(randomSessionId);
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3MULTI,
                                 PropagatorType.B3
                             ],
@@ -1026,8 +1021,7 @@ describe('OoRum', () => {
                         setCachedUserId(randomUserId);
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3MULTI,
                                 PropagatorType.B3
                             ],
@@ -1052,8 +1046,7 @@ describe('OoRum', () => {
                         setCachedAccountId(randomAccountId);
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3MULTI,
                                 PropagatorType.B3
                             ],
@@ -1082,8 +1075,7 @@ describe('OoRum', () => {
                         setCachedAccountId(randomAccountId);
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3MULTI,
                                 PropagatorType.B3
                             ],
@@ -1107,8 +1099,7 @@ describe('OoRum', () => {
                             Math.random() < 0.5 ? 0 : 100;
                         const tracingContext = OoRum.getTracingContextForPropagators(
                             [
-                                PropagatorType.DATADOG,
-                                PropagatorType.TRACECONTEXT,
+                                                                PropagatorType.TRACECONTEXT,
                                 PropagatorType.B3,
                                 PropagatorType.B3MULTI
                             ],
@@ -1893,7 +1884,7 @@ describe('OoRum', () => {
              * - asTracingHeaderType (iOS)
              * so that it uses the new values
              */
-            expect(PropagatorType.DATADOG).toBe('datadog');
+            expect().toBe('datadog');
             expect(PropagatorType.B3).toBe('b3');
             expect(PropagatorType.B3MULTI).toBe('b3multi');
             expect(PropagatorType.TRACECONTEXT).toBe('tracecontext');

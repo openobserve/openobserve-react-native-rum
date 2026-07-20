@@ -61,7 +61,7 @@ try{
 catch (error) {
   const errorMsg = error instanceof Error ? error.message : String(error);
   window.ReactNativeWebView.postMessage(JSON.stringify({
-    source: 'DATADOG',
+    source: 'OPENOBSERVE',
     type: 'ERROR',
     message: errorMsg
   }));
@@ -92,7 +92,7 @@ catch (error) {
             catch (error) {
               const errorMsg = error instanceof Error ? error.message : String(error);
               window.ReactNativeWebView.postMessage(JSON.stringify({
-                source: 'DATADOG',
+                source: 'OPENOBSERVE',
                 type: 'ERROR',
                 message: errorMsg
               }));
@@ -128,7 +128,7 @@ catch (error) {
             catch (error) {
               const errorMsg = error instanceof Error ? error.message : String(error);
               window.ReactNativeWebView.postMessage(JSON.stringify({
-                source: 'DATADOG',
+                source: 'OPENOBSERVE',
                 type: 'ERROR',
                 message: errorMsg
               }));
@@ -172,7 +172,7 @@ catch (error) {
 catch (error) {
   const errorMsg = error instanceof Error ? error.message : String(error);
   window.ReactNativeWebView.postMessage(JSON.stringify({
-    source: 'DATADOG',
+    source: 'OPENOBSERVE',
     type: 'ERROR',
     message: errorMsg
   }));

@@ -6,16 +6,16 @@
 
 import { isOpenObserveCustomHeader } from '../../headers';
 import {
-    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-    DATADOG_GRAPH_QL_VARIABLES_HEADER
+    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+    OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER
 } from '../graphqlHeaders';
 
 describe('GraphQL custom headers', () => {
     it.each([
-        DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-        DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-        DATADOG_GRAPH_QL_VARIABLES_HEADER
+        OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+        OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+        OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER
     ])('%s matches the custom header pattern', header => {
         expect(isOpenObserveCustomHeader(header)).toBeTruthy();
     });

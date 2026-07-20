@@ -5,7 +5,7 @@
  */
 import { getGlobalInstance } from '../../utils/singletonUtils';
 
-const DATADOG_PROVIDER_STATE_MODULE =
+const OPENOBSERVE_PROVIDER_STATE_MODULE =
     'com.openobserve.reactnative.rum.datadog_provider_state';
 
 class _OpenObserveProviderState {
@@ -25,6 +25,6 @@ class _OpenObserveProviderState {
 }
 
 export const OpenObserveProviderState = getGlobalInstance(
-    DATADOG_PROVIDER_STATE_MODULE,
+    OPENOBSERVE_PROVIDER_STATE_MODULE,
     () => new _OpenObserveProviderState()
 );

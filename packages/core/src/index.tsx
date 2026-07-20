@@ -49,11 +49,11 @@ import {
     TracingIdType
 } from './rum/instrumentation/resourceTracking/distributedTracing/TracingIdentifier';
 import {
-    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-    DATADOG_GRAPH_QL_VARIABLES_HEADER,
-    DATADOG_GRAPH_QL_PAYLOAD_HEADER,
-    DATADOG_GRAPH_QL_ERROR_HEADER
+    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+    OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER,
+    OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER,
+    OPENOBSERVE_GRAPH_QL_ERROR_HEADER
 } from './rum/instrumentation/resourceTracking/graphql/graphqlHeaders';
 import type { FirstPartyHost } from './rum/types';
 import { PropagatorType, RumActionType } from './rum/types';
@@ -95,11 +95,11 @@ export {
     BatchProcessingLevel,
     TimeProvider,
     DefaultTimeProvider,
-    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-    DATADOG_GRAPH_QL_VARIABLES_HEADER,
-    DATADOG_GRAPH_QL_PAYLOAD_HEADER,
-    DATADOG_GRAPH_QL_ERROR_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+    OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER,
+    OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER,
+    OPENOBSERVE_GRAPH_QL_ERROR_HEADER,
     TracingIdType,
     TracingIdFormat,
     OpenObserveTracingIdentifier,

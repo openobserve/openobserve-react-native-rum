@@ -21,14 +21,14 @@ import {
     TRACKED_BY_HEADER_VALUE
 } from '../../distributedTracing/headers';
 import {
-    DATADOG_GRAPH_QL_ERROR_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-    DATADOG_GRAPH_QL_PAYLOAD_HEADER,
-    DATADOG_GRAPH_QL_VARIABLES_HEADER
+    OPENOBSERVE_GRAPH_QL_ERROR_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+    OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER,
+    OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER
 } from '../../graphql/graphqlHeaders';
 import { extractGraphQLErrors } from '../../graphql/graphqlUtils';
-import { DATADOG_BAGGAGE_HEADER, isOpenObserveCustomHeader } from '../../headers';
+import { OPENOBSERVE_BAGGAGE_HEADER, isOpenObserveCustomHeader } from '../../headers';
 import type { RequestProxyOptions } from '../interfaces/RequestProxy';
 import { RequestProxy } from '../interfaces/RequestProxy';
 import type { OoRumResourceGraphqlAttributes } from '../interfaces/RumResource';
@@ -176,7 +176,7 @@ const proxySend = (providers: XHRProxyProviders): void => {
                 this._datadog_xhr.baggageHeaderEntries
             );
             if (baggageHeader) {
-                this.setRequestHeader(DATADOG_BAGGAGE_HEADER, baggageHeader);
+                this.setRequestHeader(OPENOBSERVE_BAGGAGE_HEADER, baggageHeader);
             }
 
             this.setRequestHeader(
@@ -293,23 +293,23 @@ const proxySetRequestHeader = (providers: XHRProxyProviders): void => {
         const key = header.toLowerCase();
         if (isOpenObserveCustomHeader(key)) {
             switch (key) {
-                case DATADOG_GRAPH_QL_OPERATION_NAME_HEADER:
+                case OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER:
                     this._datadog_xhr.graphql.operationName = value;
                     break;
-                case DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER:
+                case OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER:
                     this._datadog_xhr.graphql.operationType = value;
                     break;
-                case DATADOG_GRAPH_QL_VARIABLES_HEADER:
+                case OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER:
                     this._datadog_xhr.graphql.variables = value;
                     break;
-                case DATADOG_GRAPH_QL_PAYLOAD_HEADER:
+                case OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER:
                     this._datadog_xhr.graphql.payload = value;
                     break;
-                case DATADOG_GRAPH_QL_ERROR_HEADER:
+                case OPENOBSERVE_GRAPH_QL_ERROR_HEADER:
                     this._datadog_xhr.graphql.trackErrors =
                         value === 'true' || value === '1';
                     break;
-                case DATADOG_BAGGAGE_HEADER:
+                case OPENOBSERVE_BAGGAGE_HEADER:
                     // Apply Baggage Header only if pre-processed by OpenObserve
                     return originalXhrSetRequestHeader.apply(this, [
                         BAGGAGE_HEADER_KEY,

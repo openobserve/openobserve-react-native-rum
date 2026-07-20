@@ -25,15 +25,8 @@ import {
     DD_RUM_ACCOUNT_ID_TAG,
     DD_RUM_SESSION_ID_TAG,
     DD_RUM_USER_ID_TAG,
-    DD_TRACE_ID_TAG,
-    ORIGIN_HEADER_KEY,
-    ORIGIN_RUM,
-    PARENT_ID_HEADER_KEY,
-    SAMPLING_PRIORITY_HEADER_KEY,
-    TAGS_HEADER_KEY,
     TRACECONTEXT_HEADER_KEY,
     TRACESTATE_HEADER_KEY,
-    TRACE_ID_HEADER_KEY
 } from './headers';
 
 export const getTracingHeadersFromAttributes = (
@@ -47,38 +40,12 @@ export const getTracingHeadersFromAttributes = (
     let hasOpenObserveOrW3CPropagator = false;
     tracingAttributes.propagatorTypes.forEach(propagator => {
         switch (propagator) {
-            case PropagatorType.DATADOG: {
-                hasOpenObserveOrW3CPropagator = true;
-                headers.push(
-                    {
-                        header: ORIGIN_HEADER_KEY,
-                        value: ORIGIN_RUM
-                    },
-                    {
-                        header: SAMPLING_PRIORITY_HEADER_KEY,
-                        value: tracingAttributes.samplingPriorityHeader
-                    },
-                    {
-                        header: TRACE_ID_HEADER_KEY,
-                        value: tracingAttributes.traceId.toString(
-                            TracingIdFormat.lowDecimal
-                        )
-                    },
-                    {
-                        header: PARENT_ID_HEADER_KEY,
-                        value: tracingAttributes.spanId.toString(
-                            TracingIdFormat.decimal
-                        )
-                    }
-                );
-                headers.push({
-                    header: TAGS_HEADER_KEY,
-                    value: `${DD_TRACE_ID_TAG}=${tracingAttributes.traceId.toString(
-                        TracingIdFormat.paddedHighHex
-                    )}`
-                });
-                break;
-            }
+            // openobserve: upstream's proprietary propagator emitted x-<vendor>-* headers
+            // straight from JS here — trace-id, parent-id, origin, sampling-priority and tags.
+            // Removed with the case itself (see PropagatorType): those headers are read only by
+            // an upstream-instrumented APM, never by OpenObserve, whose backend speaks W3C
+            // `traceparent`. Both native SDKs dropped it too, so this branch had no counterpart
+            // left to talk to.
             case PropagatorType.TRACECONTEXT: {
                 hasOpenObserveOrW3CPropagator = true;
                 const isSampled =

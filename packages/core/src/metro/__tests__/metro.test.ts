@@ -316,7 +316,7 @@ describe('OpenObserve Metro Plugin', () => {
             // THEN
             expect(check).toBe(true);
             expect(warnSpy).toHaveBeenCalledWith(
-                '[DATADOG METRO PLUGIN] The debug ID found in the file does not match the calculated debug ID.'
+                '[OPENOBSERVE METRO PLUGIN] The debug ID found in the file does not match the calculated debug ID.'
             );
         });
 

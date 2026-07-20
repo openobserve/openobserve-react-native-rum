@@ -15,7 +15,7 @@ jest.mock('../../InternalLog', () => {
         InternalLog: {
             log: jest.fn()
         },
-        DATADOG_MESSAGE_PREFIX: 'DATADOG:'
+        OPENOBSERVE_MESSAGE_PREFIX: 'OPENOBSERVE:'
     };
 });
 

@@ -160,9 +160,22 @@ let fileMoves = 0
 for (const rule of fileRenames) {
   for (const f of tracked()) {
     const base = path.basename(f)
-    if (!base.includes(rule.token)) continue
     if ((rule.skip || []).some((s) => f.includes(s))) continue
-    const to = path.join(path.dirname(f), base.split(rule.token).join(rule.to))
+    let next
+    if (rule.regex) {
+      // A regex rule must mirror the CONTENT rule's boundary semantics exactly. The content
+      // rule is /\bDd([A-Z][A-Za-z0-9]*)/ -> Oo$1, which renames DdLogs but NOT NativeDdFlags
+      // (no word boundary before Dd). A plain substring rename would move NativeDdFlags.ts
+      // while its content still says NativeDdFlags — swapping one broken state for another.
+      const re = new RegExp(rule.regex)
+      if (!re.test(base)) continue
+      next = base.replace(new RegExp(rule.regex, 'g'), rule.to)
+    } else {
+      if (!base.includes(rule.token)) continue
+      next = base.split(rule.token).join(rule.to)
+    }
+    if (next === base) continue
+    const to = path.join(path.dirname(f), next)
     fileMoves++
     if (process.argv.includes('--list')) console.log(`  ${f} -> ${to}`)
     if (!CHECK) git(['mv', f, to])

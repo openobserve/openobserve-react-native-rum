@@ -227,8 +227,8 @@ extension NSArray {
      * Adapts the data format from the React Native SDK configuration to match with the
      * iOS SDK configuration. For example:
      *
-     * RN config: [{ match: "example.com", propagatorTypes: [DATADOG, B3] }]
-     * iOS config: { "example.com": [DATADOG, B3] }
+     * RN config: [{ match: "example.com", propagatorTypes: [TRACECONTEXT, B3] }]
+     * iOS config: { "example.com": [TRACECONTEXT, B3] }
      */
     func asFirstPartyHosts() -> [String: Set<TracingHeaderType>] {
         return reduce(
@@ -253,8 +253,6 @@ extension NSArray {
         return Set(
             compactMap { headerType in
                 switch (headerType as? String)?.lowercased() {
-                case "datadog":
-                    return TracingHeaderType.datadog
                 case "b3":
                     return TracingHeaderType.b3
                 case "b3multi":
@@ -294,7 +292,7 @@ extension Dictionary where Key == String, Value == AnyObject {
         }
 
         let additionalConfiguration: NSDictionary = [
-            CrossPlatformAttributes.ddsource: "react-native",
+            CrossPlatformAttributes.oosource: "react-native",
             CrossPlatformAttributes.sdkVersion: SdkVersion,
         ]
 

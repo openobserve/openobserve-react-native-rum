@@ -58,7 +58,7 @@ const WebViewComponent = (props: Props, ref: React.Ref<RNWebView<Props>>) => {
 
             try {
                 const jsonMsg = JSON.parse(message);
-                if (jsonMsg && jsonMsg.source === 'DATADOG') {
+                if (jsonMsg && jsonMsg.source === 'OPENOBSERVE') {
                     handleOpenObserveMessage(jsonMsg);
                 } else {
                     userDefinedOnMessage?.(event);

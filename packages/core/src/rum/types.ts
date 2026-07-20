@@ -303,13 +303,19 @@ export type ResourceKind =
 
 /**
  * Type of instrumentation on the host.
- * - DATADOG: OpenObserve’s propagator (`x-datadog-*`)
+ * - OPENOBSERVE: OpenObserve’s propagator (`x-datadog-*`)
  * - TRACECONTEXT: W3C Trace Context (`traceparent`)
  * - B3: B3 single header (`b3`)
  * - B3MULTI: B3 multiple headers (`X-B3-*`)
  */
 export enum PropagatorType {
-    DATADOG = 'datadog',
+    // openobserve: upstream also offered its own proprietary propagator here, which injected
+    // `x-<vendor>-*` headers. REMOVED, not renamed. Those headers travel to the CUSTOMER's own
+    // backend for trace linking and are read only by an upstream-instrumented APM —
+    // OpenObserve's backend speaks W3C `traceparent` and never parsed them. The native SDKs
+    // dropped it too (iOS removed the propagator outright; Android no longer defaults to it),
+    // so keeping the case here would reference constants that no longer exist and fail to
+    // compile. Use TRACECONTEXT (W3C — what OpenObserve reads) or B3.
     TRACECONTEXT = 'tracecontext',
     B3 = 'b3',
     B3MULTI = 'b3multi'

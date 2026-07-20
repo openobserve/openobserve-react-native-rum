@@ -64,7 +64,7 @@ jest.spyOn(NativeModules.OoFlags, 'setEvaluationContext').mockResolvedValue({
 jest.mock('../../InternalLog', () => {
     return {
         InternalLog: { log: jest.fn() },
-        DATADOG_MESSAGE_PREFIX: 'DATADOG:'
+        OPENOBSERVE_MESSAGE_PREFIX: 'OPENOBSERVE:'
     };
 });
 

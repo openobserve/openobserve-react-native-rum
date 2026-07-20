@@ -6,11 +6,11 @@
 
 import { ApolloLink } from '@apollo/client';
 import {
-    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER,
-    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER,
-    DATADOG_GRAPH_QL_VARIABLES_HEADER,
-    DATADOG_GRAPH_QL_PAYLOAD_HEADER,
-    DATADOG_GRAPH_QL_ERROR_HEADER
+    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER,
+    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER,
+    OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER,
+    OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER,
+    OPENOBSERVE_GRAPH_QL_ERROR_HEADER
 } from '@openobserve/mobile-react-native';
 
 import {
@@ -47,24 +47,24 @@ export class OpenObserveLink extends ApolloLink {
                 };
 
                 newHeaders[
-                    DATADOG_GRAPH_QL_OPERATION_TYPE_HEADER
+                    OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER
                 ] = operationType;
 
                 newHeaders[
-                    DATADOG_GRAPH_QL_OPERATION_NAME_HEADER
+                    OPENOBSERVE_GRAPH_QL_OPERATION_NAME_HEADER
                 ] = operationName;
 
                 if (formattedVariables) {
                     newHeaders[
-                        DATADOG_GRAPH_QL_VARIABLES_HEADER
+                        OPENOBSERVE_GRAPH_QL_VARIABLES_HEADER
                     ] = formattedVariables;
                 }
 
                 if (payload) {
-                    newHeaders[DATADOG_GRAPH_QL_PAYLOAD_HEADER] = payload;
+                    newHeaders[OPENOBSERVE_GRAPH_QL_PAYLOAD_HEADER] = payload;
                 }
 
-                newHeaders[DATADOG_GRAPH_QL_ERROR_HEADER] = this.trackErrors
+                newHeaders[OPENOBSERVE_GRAPH_QL_ERROR_HEADER] = this.trackErrors
                     ? 'true'
                     : 'false';
 

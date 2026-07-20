@@ -12,7 +12,7 @@ interface InjectedExecOps {
 }
 
 def isDryRun = (
-    System.getenv("DATADOG_SOURCEMAPS_DRY_RUN")?.toBoolean() ?:
+    System.getenv("OPENOBSERVE_SOURCEMAPS_DRY_RUN")?.toBoolean() ?:
     (project.hasProperty("datadogSourcemapsDryRun") && project.property("datadogSourcemapsDryRun") == "true")
 )
 
@@ -142,18 +142,18 @@ private def copyDebugId(String packagerSourceMapPath, String jsSourceMapPath, Fi
 
 /**
  * We use a function here to resolve the datadog-ci executable path.
- * If DATADOG_CI_EXEC env variable is defined, it will be returned (if valid).
+ * If OPENOBSERVE_CI_EXEC env variable is defined, it will be returned (if valid).
  */
 private def getOpenObserveCiExecPath(reactConfig) {
     def defaultPath = "${reactConfig.root}/node_modules/.bin/datadog-ci"
 
     // Try to retrieve the path from ENV variable
-    def envPath = System.getenv('DATADOG_CI_EXEC')
+    def envPath = System.getenv('OPENOBSERVE_CI_EXEC')
     if (envPath != null) {
         if (isValidOpenObserveCiExec(envPath)) {
             return envPath
         } else {
-            println("WARNING: Ignoring DATADOG_CI_EXEC as it does not point to a valid datadog-ci executable")
+            println("WARNING: Ignoring OPENOBSERVE_CI_EXEC as it does not point to a valid datadog-ci executable")
         }
     }
 
@@ -193,18 +193,18 @@ private def getOpenObserveCiExecPath(reactConfig) {
 
 /**
  * We use a function here to resolve the OpenObserve React Native package path.
- * If DATADOG_REACT_NATIVE_PATH env variable is defined, it will be returned (if valid).
+ * If OPENOBSERVE_REACT_NATIVE_PATH env variable is defined, it will be returned (if valid).
  */
 private def getOpenObserveReactNativePath(File workingDirectory) {
     def defaultPath = "${workingDirectory.absolutePath}/node_modules/@openobserve/mobile-react-native"
 
     // Try to retrieve the path from ENV variable
-    def envPath = System.getenv('DATADOG_REACT_NATIVE_PATH')
+    def envPath = System.getenv('OPENOBSERVE_REACT_NATIVE_PATH')
     if (envPath != null) {
         if (isValidOpenObservePackagePath(envPath)) {
             return envPath
         } else {
-            println("WARNING: Ignoring DATADOG_REACT_NATIVE_PATH as it does not point to a valid @openobserve/mobile-react-native package (${envPath})")
+            println("WARNING: Ignoring OPENOBSERVE_REACT_NATIVE_PATH as it does not point to a valid @openobserve/mobile-react-native package (${envPath})")
         }
     }
 
@@ -397,7 +397,7 @@ private def getServiceName(variant) {
 }
 
 private def getVersionName(variant) {
-    def envVersionName = System.getenv('DATADOG_RELEASE_VERSION')
+    def envVersionName = System.getenv('OPENOBSERVE_RELEASE_VERSION')
     if (envVersionName != null) {
         return envVersionName;
     }

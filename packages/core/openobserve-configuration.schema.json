@@ -146,7 +146,6 @@
                                     "description": "Type of instrumentation on the host.",
                                     "type": "string",
                                     "enum": [
-                                        "DATADOG",
                                         "B3",
                                         "B3MULTI",
                                         "TRACECONTEXT"

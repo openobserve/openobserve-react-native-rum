@@ -621,13 +621,12 @@ describe('OoSdkReactNative', () => {
                 {
                     match: 'api.example.com',
                     propagatorTypes: [
-                        PropagatorType.DATADOG,
-                        PropagatorType.TRACECONTEXT
+                                                PropagatorType.TRACECONTEXT
                     ]
                 },
                 {
                     match: 'something.fr',
-                    propagatorTypes: [PropagatorType.DATADOG]
+                    propagatorTypes: []
                 }
             ];
 

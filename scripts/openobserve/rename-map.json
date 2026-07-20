@@ -98,6 +98,11 @@
   ],
   "fileRenames": [
     {
+      "regex": "^Dd(?=[A-Z])",
+      "to": "Oo",
+      "why": "PRE-EXISTING BREAKAGE, not introduced by STEP 4: the content rule \\bDd([A-Z][A-Za-z0-9]*) -> Oo$1 renamed every IMPORT to Oo* while 103 FILES stayed Dd*, so `import { OoSdkReactNative } from './OoSdkReactNative'` pointed at DdSdkReactNative.tsx. The fork has not type-checked since the original rebrand. Anchored ^Dd(?=[A-Z]) to mirror the content rule's word boundary EXACTLY: it moves DdLogs.ts but never NativeDdFlags.ts, whose content legitimately keeps NativeDd (no boundary before Dd there). A plain substring rename would move those too and swap one broken state for another."
+    },
+    {
       "token": "Datadog",
       "to": "OpenObserve",
       "why": "Class-name FILES whose basename still carries the upstream token although the class inside was rebranded (DatadogSDKWrapper.kt -> OpenObserveSDKWrapper.kt), plus the bridge podspecs (DatadogSDKReactNative.podspec). Those podspecs are NOT published to trunk (404) \u2014 they are resolved by :path via autolinking from node_modules \u2014 so renaming them is safe as long as the Podfile references move with them, which the broad content rule below handles."

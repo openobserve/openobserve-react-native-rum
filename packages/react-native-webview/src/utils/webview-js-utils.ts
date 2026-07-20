@@ -5,7 +5,7 @@
  */
 import { NativeDdSdk } from '../ext-specs/NativeDdSdk';
 
-export const DATADOG_MESSAGE_PREFIX = '[DATADOG]';
+export const OPENOBSERVE_MESSAGE_PREFIX = '[OPENOBSERVE]';
 
 /**
  * Internal OpenObserve Message Type
@@ -61,7 +61,7 @@ export function wrapJsCodeInTryAndCatch(
 catch (error) {
   const errorMsg = error instanceof Error ? error.message : String(error);
   window.ReactNativeWebView.postMessage(JSON.stringify({
-    source: 'DATADOG',
+    source: 'OPENOBSERVE',
     type: 'ERROR',
     message: errorMsg
   }));

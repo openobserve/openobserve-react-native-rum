@@ -61,7 +61,7 @@ class RNDdSdkConfigurationTests: XCTestCase {
 
     func testBuildFirstPartyHosts() {
         let firstPartyHosts = [
-            ["match": "example.com", "propagatorTypes": ["datadog", "b3"]],
+            ["match": "example.com", "propagatorTypes": ["b3"]],
             ["match": "datadog.com",  "propagatorTypes": ["b3multi", "tracecontext"]]
         ] as NSArray
 

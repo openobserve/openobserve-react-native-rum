@@ -99,10 +99,10 @@ describe('FileBasedConfiguration', () => {
             expect(config).not.toBeUndefined();
             expect(warnSpy).toHaveBeenCalledTimes(2);
             expect(warnSpy).toHaveBeenCalledWith(
-                'DATADOG: Warning - Malformed json configuration file - `clientToken`, `env` and `trackingConsent` are mandatory Core SDK properties.'
+                'OPENOBSERVE: Warning - Malformed json configuration file - `clientToken`, `env` and `trackingConsent` are mandatory Core SDK properties.'
             );
             expect(warnSpy).toHaveBeenCalledWith(
-                'DATADOG: Warning - Malformed RUM File Configuration - `applicationId` is undefined.'
+                'OPENOBSERVE: Warning - Malformed RUM File Configuration - `applicationId` is undefined.'
             );
         });
 
@@ -125,7 +125,7 @@ describe('FileBasedConfiguration', () => {
                                     'B3MULTI',
                                     'TRACECONTEXT',
                                     'B3',
-                                    'DATADOG'
+                                    'OPENOBSERVE'
                                 ]
                             }
                         ]

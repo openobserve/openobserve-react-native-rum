@@ -238,8 +238,8 @@ internal fun List<JSONFirstPartyHost>.asFirstPartyHosts(): Map<String, Set<Traci
      * Adapts the data format from the React Native SDK configuration to match with the Android
      * SDK configuration. For example:
      *
-     * RN config: [{ match: "example.com", propagatorTypes: [DATADOG, B3] }] Android config: {
-     * "example.com": [DATADOG, B3] }
+     * RN config: [{ match: "example.com", propagatorTypes: [TRACECONTEXT, B3] }] Android config: {
+     * "example.com": [TRACECONTEXT, B3] }
      */
     val firstPartyHostsWithHeaderTypes = mutableMapOf<String, MutableSet<TracingHeaderType>>()
 
@@ -260,7 +260,6 @@ internal fun List<JSONFirstPartyHost>.asFirstPartyHosts(): Map<String, Set<Traci
 internal fun List<String>.asTracingHeaderTypes(): Set<TracingHeaderType> {
     return this.mapNotNull {
         when (it.lowercase(Locale.US)) {
-            "datadog" -> TracingHeaderType.DATADOG
             "b3" -> TracingHeaderType.B3
             "b3multi" -> TracingHeaderType.B3MULTI
             "tracecontext" -> TracingHeaderType.TRACECONTEXT

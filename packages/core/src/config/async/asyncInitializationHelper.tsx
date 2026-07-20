@@ -34,7 +34,7 @@ export const buildConfigurationFromPartialConfiguration = (
         );
     } else {
         console.warn(
-            'DATADOG: Warning - Malformed RUM Configuration - `applicationId` is undefined'
+            'OPENOBSERVE: Warning - Malformed RUM Configuration - `applicationId` is undefined'
         );
         coreConfiguration.rumConfiguration = undefined;
     }

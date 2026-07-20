@@ -5,15 +5,13 @@
 
 /**
  * OpenObserve headers
+ *
+ * openobserve: the x-<vendor>-{trace-id,parent-id,origin,sampling-priority,tags} constants
+ * were removed with the proprietary propagator (see PropagatorType). They were read only by
+ * an upstream-instrumented APM — never by OpenObserve, whose intake speaks W3C `traceparent`.
  */
-export const SAMPLING_PRIORITY_HEADER_KEY = 'x-datadog-sampling-priority';
-export const ORIGIN_HEADER_KEY = 'x-datadog-origin';
-export const TRACKED_BY_HEADER_KEY = 'x-datadog-tracked-by';
+export const TRACKED_BY_HEADER_KEY = 'x-openobserve-tracked-by';
 export const TRACKED_BY_HEADER_VALUE = 'react-native';
-export const ORIGIN_RUM = 'rum';
-export const TRACE_ID_HEADER_KEY = 'x-datadog-trace-id';
-export const PARENT_ID_HEADER_KEY = 'x-datadog-parent-id';
-export const TAGS_HEADER_KEY = 'x-datadog-tags';
 export const DD_TRACE_ID_TAG = '_oo.p.tid';
 export const DD_RUM_SESSION_ID_TAG = 'session.id';
 export const DD_RUM_USER_ID_TAG = 'user.id';

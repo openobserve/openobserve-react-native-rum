@@ -246,7 +246,7 @@ const writeDebugIdToFile = (debugId: string): void => {
         writeFileSync(debugIdFilePath, debugId, 'utf8');
     } catch (error) {
         console.warn(
-            '[DATADOG METRO PLUGIN] Failed to write Debug ID to file:',
+            '[OPENOBSERVE METRO PLUGIN] Failed to write Debug ID to file:',
             error
         );
     }
@@ -266,7 +266,7 @@ export const _isDebugIdInBundle = (
 
     if (match[2] !== debugId) {
         console.warn(
-            '[DATADOG METRO PLUGIN] The debug ID found in the file does not match the calculated debug ID.'
+            '[OPENOBSERVE METRO PLUGIN] The debug ID found in the file does not match the calculated debug ID.'
         );
     }
 

@@ -1861,9 +1861,7 @@ internal class OoSdkTest {
             Pair(
                 forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
                 forge.aSubSetOf(
-                    setOf(
-                        TracingHeaderType.DATADOG,
-                        TracingHeaderType.B3MULTI,
+                    setOf(                        TracingHeaderType.B3MULTI,
                         TracingHeaderType.TRACECONTEXT,
                         TracingHeaderType.B3
                     ),
@@ -1940,7 +1938,6 @@ internal class OoSdkTest {
             Pair(
                 forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
                 setOf(
-                    TracingHeaderType.DATADOG
                 )
             )
         }
@@ -1951,8 +1948,7 @@ internal class OoSdkTest {
                 mapOf(
                     "match" to match,
                     "propagatorTypes" to listOf(
-                        TracingHeaderType.DATADOG.name.lowercase(Locale.US),
-                        forge.aString()
+                                                forge.aString()
                     ).toReadableArray()
                 ).toReadableMap()
             )
@@ -2014,9 +2010,7 @@ internal class OoSdkTest {
         val tracingHosts = mapOf(
             Pair(
                 host,
-                setOf(
-                    TracingHeaderType.DATADOG,
-                    TracingHeaderType.B3
+                setOf(                    TracingHeaderType.B3
                 )
             )
         )
@@ -2026,8 +2020,7 @@ internal class OoSdkTest {
             mapOf(
                 "match" to host,
                 "propagatorTypes" to listOf(
-                    TracingHeaderType.DATADOG.name.lowercase(Locale.US)
-                ).toReadableArray()
+                                    ).toReadableArray()
             ).toReadableMap()
         )
         firstPartyHosts.add(

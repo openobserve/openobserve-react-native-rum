@@ -21,9 +21,9 @@ internal struct CrossPlatformAttributes {
     static let sdkVersion: String = "_oo.sdk_version"
 
     /// Custom SDK `source` passed from bridge SDK. Used for all events issued by the SDK (both coming from cross-platform SDK and produced internally, like RUM long tasks).
-    /// It should replace the default native `ddsource` value (`"ios"`).
+    /// It should replace the default native `oosource` value (`"ios"`).
     /// Expects `String` value.
-    static let ddsource: String = "_oo.source"
+    static let oosource: String = "_oo.source"
 
     /// Event timestamp passed from bridge SDK. Used for all RUM events issued by cross platform SDK.
     /// It should replace event time obtained from `DateProvider` to ensure that events are not skewed due to time difference in native and cross-platform SDKs.

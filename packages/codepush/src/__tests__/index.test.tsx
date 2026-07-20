@@ -301,7 +301,7 @@ describe('AppCenter Codepush integration', () => {
                     firstPartyHosts: [
                         {
                             match: 'example.com',
-                            propagatorTypes: [PropagatorType.DATADOG]
+                            propagatorTypes: []
                         }
                     ]
                 },
@@ -340,7 +340,7 @@ describe('AppCenter Codepush integration', () => {
                     firstPartyHosts: [
                         {
                             match: 'example.com',
-                            propagatorTypes: [PropagatorType.DATADOG]
+                            propagatorTypes: []
                         }
                     ]
                 },

@@ -63,7 +63,7 @@ export class FileBasedConfiguration extends OpenObserveProviderConfiguration {
             trackingConsent === undefined
         ) {
             console.warn(
-                'DATADOG: Warning - Malformed json configuration file - `clientToken`, `env` and `trackingConsent` are mandatory Core SDK properties.'
+                'OPENOBSERVE: Warning - Malformed json configuration file - `clientToken`, `env` and `trackingConsent` are mandatory Core SDK properties.'
             );
         }
 
@@ -94,7 +94,7 @@ export class FileBasedConfiguration extends OpenObserveProviderConfiguration {
                     params?.actionEventMapper ?? RUM_DEFAULTS.actionEventMapper;
             } else {
                 console.warn(
-                    'DATADOG: Warning - Malformed RUM File Configuration - `applicationId` is undefined.'
+                    'OPENOBSERVE: Warning - Malformed RUM File Configuration - `applicationId` is undefined.'
                 );
                 this.rumConfiguration = undefined;
             }
@@ -257,9 +257,9 @@ export const formatPropagatorType = (
         case 'b3multi': {
             return PropagatorType.B3MULTI;
         }
-        case 'datadog': {
-            return PropagatorType.DATADOG;
-        }
+        // openobserve: the upstream-proprietary propagator was removed (see PropagatorType).
+        // A config file naming it now throws the default "Failed to parse propagator type"
+        // error rather than silently selecting a propagator the native SDKs no longer have.
         case 'tracecontext': {
             return PropagatorType.TRACECONTEXT;
         }
@@ -333,7 +333,7 @@ const buildBatchSize = (batchSize: string | undefined): BatchSize => {
             return BatchSize.SMALL;
         default:
             console.warn(
-                `DATADOG: Warning - Malformed json configuration file - invalid batchSize: ${batchSize}. The default value will be used: ${CORE_DEFAULTS.batchSize}.`
+                `OPENOBSERVE: Warning - Malformed json configuration file - invalid batchSize: ${batchSize}. The default value will be used: ${CORE_DEFAULTS.batchSize}.`
             );
             return CORE_DEFAULTS.batchSize;
     }
@@ -355,7 +355,7 @@ const buildBatchProcessingLevel = (
             return BatchProcessingLevel.LOW;
         default:
             console.warn(
-                `DATADOG: Warning - Malformed json configuration file - invalid batchProcessingLevel: ${batchProcessingLevel}. The default value will be used: ${CORE_DEFAULTS.batchProcessingLevel}.`
+                `OPENOBSERVE: Warning - Malformed json configuration file - invalid batchProcessingLevel: ${batchProcessingLevel}. The default value will be used: ${CORE_DEFAULTS.batchProcessingLevel}.`
             );
             return CORE_DEFAULTS.batchProcessingLevel;
     }
@@ -377,7 +377,7 @@ const buildUploadFrequency = (
             return UploadFrequency.RARE;
         default:
             console.warn(
-                `DATADOG: Warning - Malformed json configuration file - invalid uploadFrequency: ${uploadFrequency}. The default value will be used: ${CORE_DEFAULTS.uploadFrequency}.`
+                `OPENOBSERVE: Warning - Malformed json configuration file - invalid uploadFrequency: ${uploadFrequency}. The default value will be used: ${CORE_DEFAULTS.uploadFrequency}.`
             );
             return CORE_DEFAULTS.uploadFrequency;
     }
@@ -404,7 +404,7 @@ const buildProxyType = (proxyType: string): ProxyType | undefined => {
             return ProxyType.SOCKS;
         default:
             console.warn(
-                `DATADOG: Warning - Malformed json configuration file - invalid proxy type '${proxyType}' for proxyConfiguration.`
+                `OPENOBSERVE: Warning - Malformed json configuration file - invalid proxy type '${proxyType}' for proxyConfiguration.`
             );
             return undefined;
     }
@@ -427,7 +427,7 @@ const buildProxyConfiguration = (
     const type = buildProxyType(rawType);
     if (type === undefined || address === undefined || port === undefined) {
         console.warn(
-            `DATADOG: Warning - Malformed json configuration file - invalid proxyConfiguration: ${proxyConfigurationToString(
+            `OPENOBSERVE: Warning - Malformed json configuration file - invalid proxyConfiguration: ${proxyConfigurationToString(
                 proxyConfiguration
             )}. The default value will be used: ${
                 CORE_DEFAULTS.proxyConfiguration
@@ -457,7 +457,7 @@ const buildVitalsUpdateFrequency = (
             return VitalsUpdateFrequency.NEVER;
         default:
             console.warn(
-                `DATADOG: Warning - Malformed json configuration file - invalid vitalsUpdateFrequency: ${vitalsUpdateFrequency} for rumConfiguration. The default value will be used: ${RUM_DEFAULTS.vitalsUpdateFrequency}`
+                `OPENOBSERVE: Warning - Malformed json configuration file - invalid vitalsUpdateFrequency: ${vitalsUpdateFrequency} for rumConfiguration. The default value will be used: ${RUM_DEFAULTS.vitalsUpdateFrequency}`
             );
             return RUM_DEFAULTS.vitalsUpdateFrequency;
     }
