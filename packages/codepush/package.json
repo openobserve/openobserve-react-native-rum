@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native-code-push",
-    "version": "0.1.0-alpha.3",
+    "version": "0.1.0-alpha.4",
     "description": "A client-side React Native module to interact with Appcenter Codepush and OpenObserve",
     "keywords": [
         "datadog",
@@ -38,13 +38,13 @@
         "prepare": "rm -rf lib && yarn bob build"
     },
     "devDependencies": {
-        "@openobserve/mobile-react-native": "workspace:0.1.0-alpha.3",
+        "@openobserve/mobile-react-native": "workspace:0.1.0-alpha.4",
         "@testing-library/react-native": "7.0.2",
         "react-native-builder-bob": "0.26.0",
         "react-native-code-push": "7.1.0"
     },
     "peerDependencies": {
-        "@openobserve/mobile-react-native": "^3.0.0",
+        "@openobserve/mobile-react-native": ">=0.1.0-alpha.3",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0",
         "react-native-code-push": ">=2.0.0"

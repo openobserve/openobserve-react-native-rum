@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native-webview",
-    "version": "0.1.0-alpha.3",
+    "version": "0.1.0-alpha.4",
     "description": "A client-side React Native module to interact with react-native-webview and OpenObserve",
     "keywords": [
         "datadog",
@@ -52,7 +52,7 @@
         "react-native-webview": "^13.12.2"
     },
     "peerDependencies": {
-        "@openobserve/mobile-react-native": "^3.0.0",
+        "@openobserve/mobile-react-native": ">=0.1.0-alpha.3",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0",
         "react-native-webview": ">=11.0.0"

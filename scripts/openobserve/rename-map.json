@@ -175,6 +175,11 @@
       "literal": "(dd=)",
       "to": "(oo=)",
       "why": "The same W3C tracestate vendor key as it appears in COMMENTS documenting the wire format (single-quoted in Java prose, parenthesised in Javadoc). The double-quoted \"dd=\" rule reaches the CODE constant but not these, so without them a synced tree carries comments that describe a wire format it no longer emits."
+    },
+    {
+      "regex": "(\"@openobserve/mobile-react-native\": )\"\\\\^3\\\\.[0-9.]+\"",
+      "to": "$1\">=0.1.0-alpha.3\"",
+      "why": "Upstream's peer range on its own core package. The @datadog/ -> @openobserve/ rule renames the KEY but leaves the upstream VERSION, producing a peer on @openobserve/mobile-react-native@^3.0.0 \u2014 a version this fork will never publish. That shipped in alpha3 across SIX packages and broke plain `npm install` for every consumer (ETARGET; they needed --legacy-peer-deps). >=0.1.0-alpha.3 is also a floor with meaning: alpha.1/alpha.2 still emit upstream identity on the wire, so a satellite should not pair with them. Enforced by scripts/openobserve/check-internal-deps.sh."
     }
   ],
   "deferredRules": {
