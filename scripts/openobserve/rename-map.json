@@ -1,15 +1,15 @@
 {
-  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' \u2014 see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
+  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' — see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
   "rules": [
     {
       "literal": "datadog-sourcemaps",
       "to": "openobserve-sourcemaps",
-      "why": "SHIPPED + PUBLIC: consumers apply this by path \u2014 `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-sourcemaps.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
+      "why": "SHIPPED + PUBLIC: consumers apply this by path — `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-sourcemaps.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
     },
     {
       "literal": "datadog-configuration",
       "to": "openobserve-configuration",
-      "why": "SHIPPED + PUBLIC: consumers apply this by path \u2014 `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-configuration.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
+      "why": "SHIPPED + PUBLIC: consumers apply this by path — `apply from: \".../node_modules/@openobserve/mobile-react-native/datadog-configuration.gradle\"`. A datadog-* filename in the path a user pastes into their own build.gradle is the most visible leak there is. Specific literal, never a broad `datadog-` rule, which would rewrite the EXTERNAL datadog-ci CLI."
     },
     {
       "literal": "com.datadog.",
@@ -24,7 +24,7 @@
     {
       "literal": "dd-sdk-reactnative",
       "to": "openobserve-react-native-rum",
-      "why": "The bare upstream repo/package slug \u2014 the monorepo root package name (private, ships nowhere) plus docs, CI and scripts. MUST come after the DataDog/dd-sdk-reactnative URL rule, or that rule's input is destroyed and you get the nonsense `DataDog/openobserve-react-native-rum`. NOTICE keeps the upstream name deliberately and is excluded via keep-ours."
+      "why": "The bare upstream repo/package slug — the monorepo root package name (private, ships nowhere) plus docs, CI and scripts. MUST come after the DataDog/dd-sdk-reactnative URL rule, or that rule's input is destroyed and you get the nonsense `DataDog/openobserve-react-native-rum`. NOTICE keeps the upstream name deliberately and is excluded via keep-ours."
     },
     {
       "literal": "expo-datadog",
@@ -64,22 +64,22 @@
     {
       "literal": "com.datadoghq:dd-sdk-android",
       "to": "ai.openobserve:oo-sdk-android",
-      "why": "ACTIVATED at STEP 4 (alpha2 natives are published). Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay)"
+      "why": "ACTIVATED at STEP 4 (alpha2 natives are published). Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay) GATED ON PUBLISH — the Android fork has renamed its coordinate to ai.openobserve:o2-sdk-android-* (matching the browser-sdk's o2- spelling), but nothing is published under o2- yet. These pins must keep naming oo-sdk-android-* until the o2- artifacts are live on Maven Central, because a pin is a reference to something that has to actually resolve — flipping it early breaks Gradle for every consumer and buys nothing. At publish time: change both the 'to' and the 'regex' here from oo-sdk-android to o2-sdk-android, re-run the codemod, and bump the version target in the same edit."
     },
     {
       "regex": "(ai\\.openobserve:oo-sdk-android-[a-z0-9-]+):[0-9][0-9A-Za-z.-]*",
       "to": "$1:0.1.0-alpha3",
-      "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:oo-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:oo-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released."
+      "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:oo-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:oo-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released. GATED ON PUBLISH — the Android fork has renamed its coordinate to ai.openobserve:o2-sdk-android-* (matching the browser-sdk's o2- spelling), but nothing is published under o2- yet. These pins must keep naming oo-sdk-android-* until the o2- artifacts are live on Maven Central, because a pin is a reference to something that has to actually resolve — flipping it early breaks Gradle for every consumer and buys nothing. At publish time: change both the 'to' and the 'regex' here from oo-sdk-android to o2-sdk-android, re-run the codemod, and bump the version target in the same edit."
     },
     {
       "regex": "(dependency '(?:OpenObserve[A-Za-z]+)', ')[0-9][0-9A-Za-z.-]*(')",
       "to": "$10.1.0-alpha.3$2",
-      "why": "RE-PIN (STEP 4): same for the CocoaPods deps \u2014 the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
+      "why": "RE-PIN (STEP 4): same for the CocoaPods deps — the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
     },
     {
       "literal": "x-datadog-tracked-by",
       "to": "x-openobserve-tracked-by",
-      "why": "LIVE WIRE HEADER: XHRProxy sets this on every intercepted request to stop the native layer double-counting. Verified read by NOTHING \u2014 not the iOS SDK, not the Android SDK, not the OpenObserve backend \u2014 so renaming is safe. The GraphQL headers next to it are deliberately NOT renamed: their values are already _oo-custom-header-* and the natives read exactly that."
+      "why": "LIVE WIRE HEADER: XHRProxy sets this on every intercepted request to stop the native layer double-counting. Verified read by NOTHING — not the iOS SDK, not the Android SDK, not the OpenObserve backend — so renaming is safe. The GraphQL headers next to it are deliberately NOT renamed: their values are already _oo-custom-header-* and the natives read exactly that."
     },
     {
       "literal": "DATADOG_MESSAGE_PREFIX",
@@ -104,12 +104,12 @@
     {
       "literal": "DATADOG_CUSTOM_HEADER_PREFIX",
       "to": "OPENOBSERVE_CUSTOM_HEADER_PREFIX",
-      "why": "identifier only \u2014 the VALUE '_oo-custom-header' must not change (Android reads it)."
+      "why": "identifier only — the VALUE '_oo-custom-header' must not change (Android reads it)."
     },
     {
       "literal": "DATADOG_GRAPH_QL_",
       "to": "OPENOBSERVE_GRAPH_QL_",
-      "why": "identifier only \u2014 same reason."
+      "why": "identifier only — same reason."
     },
     {
       "literal": "DATADOG_BAGGAGE_HEADER",
@@ -149,22 +149,22 @@
     {
       "literal": "@@OO_KEEP_EXTERNAL_DD_CI@@",
       "to": "@datadog/datadog-ci",
-      "why": "GUARD part 2 of 2 \u2014 restores the external coordinate once the broad '@datadog/' rule can no longer reach it. Must stay LAST."
+      "why": "GUARD part 2 of 2 — restores the external coordinate once the broad '@datadog/' rule can no longer reach it. Must stay LAST."
     },
     {
       "literal": "dd=s:",
       "to": "oo=s:",
-      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "dd=p:",
       "to": "oo=p:",
-      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "\"dd=\"",
       "to": "\"oo=\"",
-      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator \u2014 so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
+      "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "'dd='",
@@ -179,26 +179,26 @@
     {
       "regex": "(\"@openobserve/mobile-react-native\": )\"\\\\^3\\\\.[0-9.]+\"",
       "to": "$1\">=0.1.0-alpha.3\"",
-      "why": "Upstream's peer range on its own core package. The @datadog/ -> @openobserve/ rule renames the KEY but leaves the upstream VERSION, producing a peer on @openobserve/mobile-react-native@^3.0.0 \u2014 a version this fork will never publish. That shipped in alpha3 across SIX packages and broke plain `npm install` for every consumer (ETARGET; they needed --legacy-peer-deps). >=0.1.0-alpha.3 is also a floor with meaning: alpha.1/alpha.2 still emit upstream identity on the wire, so a satellite should not pair with them. Enforced by scripts/openobserve/check-internal-deps.sh."
+      "why": "Upstream's peer range on its own core package. The @datadog/ -> @openobserve/ rule renames the KEY but leaves the upstream VERSION, producing a peer on @openobserve/mobile-react-native@^3.0.0 — a version this fork will never publish. That shipped in alpha3 across SIX packages and broke plain `npm install` for every consumer (ETARGET; they needed --legacy-peer-deps). >=0.1.0-alpha.3 is also a floor with meaning: alpha.1/alpha.2 still emit upstream identity on the wire, so a satellite should not pair with them. Enforced by scripts/openobserve/check-internal-deps.sh."
     }
   ],
   "deferredRules": {
-    "comment": "EMPTY \u2014 activated in STEP 4 once ai.openobserve:oo-sdk-android-* 0.1.0-alpha2 and the OpenObserve* pods 0.1.0-alpha.2 were live on Maven Central / CocoaPods trunk. Kept as a key so the mechanism (and the reason it existed) stays discoverable: before the native forks were published, renaming the coordinates would have broken `pod install` and Gradle resolution.",
+    "comment": "EMPTY — activated in STEP 4 once ai.openobserve:oo-sdk-android-* 0.1.0-alpha2 and the OpenObserve* pods 0.1.0-alpha.2 were live on Maven Central / CocoaPods trunk. Kept as a key so the mechanism (and the reason it existed) stays discoverable: before the native forks were published, renaming the coordinates would have broken `pod install` and Gradle resolution.",
     "rules": []
   },
   "intentionallyNotRebranded": {
     "comment": "Left alone on purpose.",
     "items": [
-      "ddsource / ddtags query params and tags \u2014 wire protocol to the intake; handled by the backend (doc 02), not renamed client-side to avoid breaking ingest.",
-      "DD-API-KEY header \u2014 auth rename to oo-api-key is coupled to the doc 02 header-auth backend change (design \u00a76); the native core emits it, so it is a native-fork concern, not a JS rename.",
-      "Cosmetic 'Datadog' mentions in prose/comments/links to docs.datadoghq.com \u2014 not identity-critical; handled in a later docs pass."
+      "ddsource / ddtags query params and tags — wire protocol to the intake; handled by the backend (doc 02), not renamed client-side to avoid breaking ingest.",
+      "DD-API-KEY header — auth rename to oo-api-key is coupled to the doc 02 header-auth backend change (design §6); the native core emits it, so it is a native-fork concern, not a JS rename.",
+      "Cosmetic 'Datadog' mentions in prose/comments/links to docs.datadoghq.com — not identity-critical; handled in a later docs pass."
     ]
   },
   "pathRenames": [
     {
       "from": "com/datadog",
       "to": "com/openobserve",
-      "why": "The Android bridge's Java package: packages/core/android/src/main/kotlin/com/datadog/reactnative/** (184 files). It SHIPS inside the published npm tarball, so the directory name reaches every consumer even though the file CONTENT was rebranded. RN's codemod had no path-rename phase at all \u2014 Android and iOS have had one since day one \u2014 so these survived every run. Content rules cannot express a rename; only `git mv` can."
+      "why": "The Android bridge's Java package: packages/core/android/src/main/kotlin/com/datadog/reactnative/** (184 files). It SHIPS inside the published npm tarball, so the directory name reaches every consumer even though the file CONTENT was rebranded. RN's codemod had no path-rename phase at all — Android and iOS have had one since day one — so these survived every run. Content rules cannot express a rename; only `git mv` can."
     }
   ],
   "fileRenames": [
@@ -210,7 +210,7 @@
     {
       "token": "Datadog",
       "to": "OpenObserve",
-      "why": "Class-name FILES whose basename still carries the upstream token although the class inside was rebranded (DatadogSDKWrapper.kt -> OpenObserveSDKWrapper.kt), plus the bridge podspecs (DatadogSDKReactNative.podspec). Those podspecs are NOT published to trunk (404) \u2014 they are resolved by :path via autolinking from node_modules \u2014 so renaming them is safe as long as the Podfile references move with them, which the broad content rule below handles."
+      "why": "Class-name FILES whose basename still carries the upstream token although the class inside was rebranded (DatadogSDKWrapper.kt -> OpenObserveSDKWrapper.kt), plus the bridge podspecs (DatadogSDKReactNative.podspec). Those podspecs are NOT published to trunk (404) — they are resolved by :path via autolinking from node_modules — so renaming them is safe as long as the Podfile references move with them, which the broad content rule below handles."
     },
     {
       "token": "datadog-configuration",
@@ -232,7 +232,7 @@
     {
       "token": "Datadog",
       "to": "OpenObserve",
-      "why": "DIRECTORIES whose basename carries the token at any depth \u2014 src/sdk/DatadogProvider, DatadogRumResource, DatadogEventEmitter, DatadogInternalBridge, and the packages/*/ios/*.xcodeproj bundles. pathRenames only matches the fixed slash-path com/datadog and cannot see these. They SHIP in the npm tarball, and the earlier pass renamed the FILES inside while stranding the directory (DatadogEventEmitter/OpenObserveEventEmitter.tsx). The .xcodeproj bundles are dev-only and referenced only by :path from the example Podfiles, which the content rules rewrite in the same run."
+      "why": "DIRECTORIES whose basename carries the token at any depth — src/sdk/DatadogProvider, DatadogRumResource, DatadogEventEmitter, DatadogInternalBridge, and the packages/*/ios/*.xcodeproj bundles. pathRenames only matches the fixed slash-path com/datadog and cannot see these. They SHIP in the npm tarball, and the earlier pass renamed the FILES inside while stranding the directory (DatadogEventEmitter/OpenObserveEventEmitter.tsx). The .xcodeproj bundles are dev-only and referenced only by :path from the example Podfiles, which the content rules rewrite in the same run."
     }
   ]
 }
