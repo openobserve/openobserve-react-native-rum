@@ -19,15 +19,15 @@ Pod::Spec.new do |s|
   s.dependency "React-Core"
 
   # /!\ Remember to keep the versions in sync with OpenObserveSDKReactNativeSessionReplay.podspec
-  s.dependency 'OpenObserveCore', '0.1.0-alpha.3'
-  s.dependency 'OpenObserveLogs', '0.1.0-alpha.3'
-  s.dependency 'OpenObserveTrace', '0.1.0-alpha.3'
-  s.dependency 'OpenObserveRUM', '0.1.0-alpha.3'
-  s.dependency 'OpenObserveCrashReporting', '0.1.0-alpha.3'
-  s.dependency 'OpenObserveFlags', '0.1.0-alpha.3'
+  s.dependency 'OpenObserveCore', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveLogs', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveTrace', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveRUM', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveCrashReporting', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveFlags', '0.1.0-alpha.4'
 
   # OpenObserveWebViewTracking is not available for tvOS
-  s.ios.dependency 'OpenObserveWebViewTracking', '0.1.0-alpha.3'
+  s.ios.dependency 'OpenObserveWebViewTracking', '0.1.0-alpha.4'
 
   s.test_spec 'Tests' do |test_spec|
     test_spec.source_files = 'ios/Tests/**/*.{swift,json}'

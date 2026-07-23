@@ -129,7 +129,7 @@ dependencies {
 
     // Benchmark tools from dd-sdk-android are used for vitals recording
     // Remember to bump this alongside the main dd-sdk-android dependencies
-    implementation("ai.openobserve:oo-sdk-android-benchmark-internal:0.1.0-alpha2")
+    implementation("ai.openobserve:o2-sdk-android-benchmark-internal:0.1.0-alpha4")
     // Required for compile-time access to OpenObserve.getInstance() required by BenchmarkVitalsModuleImpl
-    implementation("ai.openobserve:oo-sdk-android-core:0.1.0-alpha2")
+    implementation("ai.openobserve:o2-sdk-android-core:0.1.0-alpha4")
 }

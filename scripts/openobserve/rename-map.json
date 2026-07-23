@@ -63,17 +63,17 @@
     },
     {
       "literal": "com.datadoghq:dd-sdk-android",
-      "to": "ai.openobserve:oo-sdk-android",
-      "why": "ACTIVATED at STEP 4 (alpha2 natives are published). Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay) GATED ON PUBLISH — the Android fork has renamed its coordinate to ai.openobserve:o2-sdk-android-* (matching the browser-sdk's o2- spelling), but nothing is published under o2- yet. These pins must keep naming oo-sdk-android-* until the o2- artifacts are live on Maven Central, because a pin is a reference to something that has to actually resolve — flipping it early breaks Gradle for every consumer and buys nothing. At publish time: change both the 'to' and the 'regex' here from oo-sdk-android to o2-sdk-android, re-run the codemod, and bump the version target in the same edit."
+      "to": "ai.openobserve:o2-sdk-android",
+      "why": "ACTIVATED at STEP 4 (alpha2 natives are published). Android native core Maven coordinates (-core, -rum, -logs, -okhttp, -ndk, -session-replay) UN-GATED: ai.openobserve:o2-sdk-android-* 0.1.0-alpha4 is live on Maven Central (pom+aar verified 200 for every module this fork pins), so the coordinate now resolves."
     },
     {
-      "regex": "(ai\\.openobserve:oo-sdk-android-[a-z0-9-]+):[0-9][0-9A-Za-z.-]*",
-      "to": "$1:0.1.0-alpha3",
-      "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:oo-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:oo-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released. GATED ON PUBLISH — the Android fork has renamed its coordinate to ai.openobserve:o2-sdk-android-* (matching the browser-sdk's o2- spelling), but nothing is published under o2- yet. These pins must keep naming oo-sdk-android-* until the o2- artifacts are live on Maven Central, because a pin is a reference to something that has to actually resolve — flipping it early breaks Gradle for every consumer and buys nothing. At publish time: change both the 'to' and the 'regex' here from oo-sdk-android to o2-sdk-android, re-run the codemod, and bump the version target in the same edit."
+      "regex": "(ai\\.openobserve:o2-sdk-android-[a-z0-9-]+):[0-9][0-9A-Za-z.-]*",
+      "to": "$1:0.1.0-alpha4",
+      "why": "RE-PIN (STEP 4): the coordinate rule renames com.datadoghq:dd-sdk-android-* -> ai.openobserve:o2-sdk-android-* but leaves UPSTREAM's version, and ai.openobserve:o2-sdk-android-rum:3.10.0 does not exist (we publish 0.1.0-alpha2). Matches ANY version deliberately: pinning upstream's exact 3.10.0 would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing. Update the target when the natives are re-released. UN-GATED and re-pointed to 0.1.0-alpha4. Matches ANY version deliberately: pinning upstream's exact version would silently stop matching the day upstream bumps, leaving a coordinate that resolves to nothing."
     },
     {
       "regex": "(dependency '(?:OpenObserve[A-Za-z]+)', ')[0-9][0-9A-Za-z.-]*(')",
-      "to": "$10.1.0-alpha.3$2",
+      "to": "$10.1.0-alpha.4$2",
       "why": "RE-PIN (STEP 4): same for the CocoaPods deps — the Datadog* -> OpenObserve* rule leaves upstream's 3.11.0, but we publish 0.1.0-alpha.2 (note the dot before the number; the Android format has none). Matches any version for the same reason."
     },
     {
