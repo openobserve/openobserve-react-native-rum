@@ -86,7 +86,7 @@ fi
 extract_and_validate_version podspec_files[@] "dependency 'OpenObserve.*' *, *'" "s/.*dependency *'OpenObserve.*, *'\([0-9.]*\).*/\1/" "iOS" ios_version
 
 # Get Android version
-extract_and_validate_version build_gradle_files[@] "ai.openobserve:oo-sdk-android" 's/.*:\([0-9.]*\).*/\1/' "Android" android_version
+extract_and_validate_version build_gradle_files[@] "ai.openobserve:o2-sdk-android" 's/.*:\([0-9.]*\).*/\1/' "Android" android_version
 
 # Check if NATIVE_SDK_VERSIONS.md exists, create it otherwise
 if [ ! -f "NATIVE_SDK_VERSIONS.md" ]; then
