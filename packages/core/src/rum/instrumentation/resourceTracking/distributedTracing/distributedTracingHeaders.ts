@@ -235,7 +235,7 @@ const generateTraceStateHeader = ({
     const sampled = `s:${isSampled ? '1' : '0'}`;
     const origin = 'o:rum';
     const parent = `p:${parentId.toString(TracingIdFormat.paddedHex)}`;
-    return `oo=${sampled};${origin};${parent}`;
+    return `o2=${sampled};${origin};${parent}`;
 };
 
 const generateB3Header = ({
