@@ -103,10 +103,10 @@ internal class OoSdkNativeInitializationTest {
         assertThat(configuration.batchSize).isEqualTo("SMALL")
         assertThat(configuration.verbosity).isEqualTo("WARN")
         assertThat(configuration.service).isEqualTo("my.app")
-        assertThat(configuration.additionalConfiguration?.get("_oo.source")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_o2.source")).isEqualTo(
             "react-native"
         )
-        assertThat(configuration.additionalConfiguration?.get("_oo.sdk_version")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_o2.sdk_version")).isEqualTo(
             SDK_VERSION
         )
         assertThat(configuration.rumConfiguration?.applicationId).isEqualTo("fake-app-id")
@@ -169,10 +169,10 @@ internal class OoSdkNativeInitializationTest {
         assertThat(configuration.uploadFrequency).isEqualTo("AVERAGE")
         assertThat(configuration.batchSize).isEqualTo("MEDIUM")
         assertThat(configuration.trackingConsent).isEqualTo("GRANTED")
-        assertThat(configuration.additionalConfiguration?.get("_oo.source")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_o2.source")).isEqualTo(
             "react-native"
         )
-        assertThat(configuration.additionalConfiguration?.get("_oo.sdk_version")).isEqualTo(
+        assertThat(configuration.additionalConfiguration?.get("_o2.sdk_version")).isEqualTo(
             SDK_VERSION
         )
         assertThat(configuration.configurationForTelemetry).isNull()

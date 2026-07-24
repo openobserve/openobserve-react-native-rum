@@ -13,116 +13,116 @@ internal struct CrossPlatformAttributes {
     /// Custom app version passed from CP SDK. Used for all events issued by the SDK (both coming from cross-platform SDK and produced internally, like RUM long tasks).
     /// It should replace the default native `version` read from `Info.plist`.
     /// Expects `String` value (semantic version).
-    static let version: String = "_oo.version"
+    static let version: String = "_o2.version"
 
     /// Custom SDK version passed from bridge SDK. Used for all events issued by the SDK (both coming from cross-platform SDK and produced internally, like RUM long tasks).
     /// It should replace the default native `sdkVersion`.
     /// Expects `String` value (semantic version).
-    static let sdkVersion: String = "_oo.sdk_version"
+    static let sdkVersion: String = "_o2.sdk_version"
 
     /// Custom SDK `source` passed from bridge SDK. Used for all events issued by the SDK (both coming from cross-platform SDK and produced internally, like RUM long tasks).
-    /// It should replace the default native `oosource` value (`"ios"`).
+    /// It should replace the default native `o2source` value (`"ios"`).
     /// Expects `String` value.
-    static let oosource: String = "_oo.source"
+    static let o2source: String = "_o2.source"
 
     /// Event timestamp passed from bridge SDK. Used for all RUM events issued by cross platform SDK.
     /// It should replace event time obtained from `DateProvider` to ensure that events are not skewed due to time difference in native and cross-platform SDKs.
     /// Expects `Int64` value (milliseconds).
-    static let timestampInMilliseconds = "_oo.timestamp"
+    static let timestampInMilliseconds = "_o2.timestamp"
 
     /// Custom "source type" of the error passed from bridge SDK. Used in RUM errors reported by cross platform SDK.
     /// It names the language or platform of the RUM error stack trace, so the SCI backend knows how to symbolicate it.
     /// Expects `String` value.
-    static let errorSourceType = "_oo.error.source_type"
+    static let errorSourceType = "_o2.error.source_type"
 
     /// Custom attribute of the error passed from bridge SDK. Used in RUM errors reported by cross platform SDK.
     /// It flags the error has being fatal for the host application.
     /// Expects `Bool` value.
-    static let errorIsCrash = "_oo.error.is_crash"
+    static let errorIsCrash = "_o2.error.is_crash"
 
     /// Trace ID passed from bridge SDK. Used in RUM resources created by cross platform SDK.
     /// When cross-platform SDK injects tracing headers to intercepted resource, we pass tracing information through this attribute
     /// and send it within the RUM resource, so the RUM backend can issue corresponding APM span on behalf of the mobile app.
     /// Expects `String` value.
-    static let traceID = "_oo.trace_id"
+    static let traceID = "_o2.trace_id"
 
     /// Span ID passed from bridge SDK. Used in RUM resources created by cross platform SDK.
     /// When cross-platform SDK injects tracing headers to intercepted resource, we pass tracing information through this attribute
     /// and send it within the RUM resource, so the RUM backend can issue corresponding APM span on behalf of the mobile app.
     /// Expects `String` value.
-    static let spanID = "_oo.span_id"
+    static let spanID = "_o2.span_id"
 
     /// Custom attribute passed when starting GraphQL RUM resources from a cross platform SDK.
     /// It sets the GraphQL operation name if it was defined by the developer.
     /// Expects `String` value.
-    static let graphqlOperationName = "_oo.graphql.operation_name"
+    static let graphqlOperationName = "_o2.graphql.operation_name"
 
     /// Custom attribute passed when starting GraphQL RUM resources from a cross platform SDK.
     /// It sets the GraphQL operation type.
     /// Expects `String` value of either `query`, `mutation` or `subscription`.
-    static let graphqlOperationType = "_oo.graphql.operation_type"
+    static let graphqlOperationType = "_o2.graphql.operation_type"
 
     /// Custom attribute passed when starting GraphQL RUM resources from a cross platform SDK.
     /// It sets the GraphQL operation string (for example, the query, mutation, or subscription) when it is specified.
     /// Expects `String` value.
-    static let graphqlPayload = "_oo.graphql.payload"
+    static let graphqlPayload = "_o2.graphql.payload"
 
     /// Custom attribute passed when starting GraphQL RUM resources from a cross platform SDK.
     /// It sets the GraphQL variables as a JSON string if they were defined by the developer.
     /// Expects `String` value.
-    static let graphqlVariables = "_oo.graphql.variables"
+    static let graphqlVariables = "_o2.graphql.variables"
 
     /// Custom attribute passed when completing GraphQL RUM resources that contain errors in the response.
     /// It sets the GraphQL errors from the response body as a JSON string.
     /// Expects `String` value.
-    static let graphqlErrors = "_oo.graphql.errors"
+    static let graphqlErrors = "_o2.graphql.errors"
 }
 
 /// Internal attributes used to configure the proxy.
 internal struct ProxyAttributes {
     /// Expects `String?` value.
-    static let address = "_oo.proxy.address"
+    static let address = "_o2.proxy.address"
     
     /// Expects `String?` value
-    static let username = "_oo.proxy.username"
+    static let username = "_o2.proxy.username"
     
     /// Expects `String?` value
-    static let password = "_oo.proxy.password"
+    static let password = "_o2.proxy.password"
     
     /// Expects `String?` value
-    static let type = "_oo.proxy.type"
+    static let type = "_o2.proxy.type"
     
     /// Expects `String?` or `Int?` value
-    static let port = "_oo.proxy.port"
+    static let port = "_o2.proxy.port"
 }
 
 /// Internal attributes used by the bridge only, passed from the javascript.
 internal struct InternalConfigurationAttributes {
     /// Enables native view tracking.
     /// Expects `Bool?` value
-    static let nativeViewTracking = "_oo.native_view_tracking"
+    static let nativeViewTracking = "_o2.native_view_tracking"
     
     /// Enables native interaction tracking.
     /// Expects `Bool?` value
-    static let nativeInteractionTracking = "_oo.native_interaction_tracking"
+    static let nativeInteractionTracking = "_o2.native_interaction_tracking"
 
     /// Enable overriding the service name.
     /// Expects `String?` value
-    static let serviceName = "_oo.service_name"
+    static let serviceName = "_o2.service_name"
     
     /// Specify first party hosts for distributed tracing.
     /// Even if the requests are intercepted at the javascript level, we have to pass this parameter to make sure the headers are
     /// correctly set when sending the traces to the intake.
     /// Expects `[String]?` value
-    static let firstPartyHosts = "_oo.first_party_hosts"
+    static let firstPartyHosts = "_o2.first_party_hosts"
     
     /// Specify native SDK verbosity
     /// Expects `NSString?` value
-    static let sdkVerbosity = "_oo.sdk_verbosity"
+    static let sdkVerbosity = "_o2.sdk_verbosity"
     
     /// Specify version suffix.
     /// Expects `NSString?` value
-    static let versionSuffix = "_oo.version_suffix"
+    static let versionSuffix = "_o2.version_suffix"
     
     /// Header key set by the JS layer to indicate the request origin.
     static let trackedByHeaderKey = "x-openobserve-tracked-by"
@@ -132,10 +132,10 @@ internal struct InternalConfigurationAttributes {
     /// Custom attribute of the resource passed from bridge SDK.
     /// It flags the resource as dropped by the user so it can be dropped in the resource mapper.
     /// Expects `Bool` value.
-    static let dropResource = "_oo.resource.drop_resource"
+    static let dropResource = "_o2.resource.drop_resource"
 
     /// Custom attribute of the action passed from bridge SDK.
     /// It flags the action as dropped by the user so it can be dropped in the action mapper.
     /// Expects `Bool` value.
-    static let dropAction = "_oo.action.drop_action"
+    static let dropAction = "_o2.action.drop_action"
 }

@@ -2866,7 +2866,7 @@ internal class OoSdkTest {
         val rumConfigCaptor = argumentCaptor<RumConfiguration>()
         val logsConfigCaptor = argumentCaptor<LogsConfiguration>()
         val traceConfigCaptor = argumentCaptor<TraceConfiguration>()
-        resourceEvent.context?.additionalProperties?.put("_oo.resource.drop_resource", true)
+        resourceEvent.context?.additionalProperties?.put("_o2.resource.drop_resource", true)
 
         val rumMock = org.mockito.Mockito.mockStatic(Rum::class.java)
         val traceMock = org.mockito.Mockito.mockStatic(Trace::class.java)
@@ -2961,7 +2961,7 @@ internal class OoSdkTest {
         val rumConfigCaptor = argumentCaptor<RumConfiguration>()
         val logsConfigCaptor = argumentCaptor<LogsConfiguration>()
         val traceConfigCaptor = argumentCaptor<TraceConfiguration>()
-        actionEvent.context?.additionalProperties?.put("_oo.action.drop_action", true)
+        actionEvent.context?.additionalProperties?.put("_o2.action.drop_action", true)
 
         val rumMock = org.mockito.Mockito.mockStatic(Rum::class.java)
         val traceMock = org.mockito.Mockito.mockStatic(Trace::class.java)

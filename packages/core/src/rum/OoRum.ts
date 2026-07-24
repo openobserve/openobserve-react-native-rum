@@ -289,7 +289,7 @@ class OoRumWrapper implements OoRumType {
         });
         if (!mappedEvent) {
             /**
-             * To drop the resource we call `stopResource` and pass the `_oo.drop_resource` attribute in the context.
+             * To drop the resource we call `stopResource` and pass the `_o2.drop_resource` attribute in the context.
              * It will be picked up by the resource mappers we implement on the native side that will drop the resource.
              * This ensures we don't have any "started" resource left in memory on the native side.
              */
@@ -300,7 +300,7 @@ class OoRumWrapper implements OoRumType {
                     kind,
                     size,
                     {
-                        '_oo.resource.drop_resource': true
+                        '_o2.resource.drop_resource': true
                     },
                     timestampMs
                 )
@@ -539,7 +539,7 @@ class OoRumWrapper implements OoRumType {
                     type,
                     name,
                     {
-                        '_oo.action.drop_action': true
+                        '_o2.action.drop_action': true
                     },
                     timestampMs
                 )

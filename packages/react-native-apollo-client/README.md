@@ -96,26 +96,26 @@ datadogConfiguration.resourceEventMapper = event => {
     const context = event.context as Record<string, string>;
 
     // Redact sensitive variables
-    if (context['_oo.graphql.variables']) {
-        const variables = JSON.parse(context['_oo.graphql.variables']);
+    if (context['_o2.graphql.variables']) {
+        const variables = JSON.parse(context['_o2.graphql.variables']);
         if (variables.password) {
             variables.password = '***';
         }
-        context['_oo.graphql.variables'] = JSON.stringify(variables);
+        context['_o2.graphql.variables'] = JSON.stringify(variables);
     }
 
     // Drop the payload entirely for a specific operation
-    if (context['_oo.graphql.operation_name'] === 'TestOperation') {
-        delete context['_oo.graphql.payload'];
+    if (context['_o2.graphql.operation_name'] === 'TestOperation') {
+        delete context['_o2.graphql.payload'];
     }
 
     // Redact error messages
-    if (context['_oo.graphql.errors']) {
-        const errors = JSON.parse(context['_oo.graphql.errors']);
+    if (context['_o2.graphql.errors']) {
+        const errors = JSON.parse(context['_o2.graphql.errors']);
         for (const error of errors) {
             error.message = error.message.replace(/email=\S+/g, 'email=***');
         }
-        context['_oo.graphql.errors'] = JSON.stringify(errors);
+        context['_o2.graphql.errors'] = JSON.stringify(errors);
     }
 
     return event;

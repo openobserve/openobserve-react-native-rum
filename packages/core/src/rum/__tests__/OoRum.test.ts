@@ -1262,7 +1262,7 @@ describe('OoRum', () => {
                     'stacktrace',
                     {
                         ...context,
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1289,7 +1289,7 @@ describe('OoRum', () => {
                     ErrorSource.CUSTOM,
                     'stacktrace',
                     {
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1317,7 +1317,7 @@ describe('OoRum', () => {
                     'stacktrace',
                     {
                         context,
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     },
                     expect.anything(),
                     ''
@@ -1417,7 +1417,7 @@ describe('OoRum', () => {
                 stacktrace
             );
             const context = NativeModules.OoRum.addError.mock.calls[0][3];
-            expect(context['_oo.error.source_type']).toStrictEqual(
+            expect(context['_o2.error.source_type']).toStrictEqual(
                 'react-native'
             );
         });
@@ -1446,7 +1446,7 @@ describe('OoRum', () => {
                 stacktrace
             );
             const context = NativeModules.OoRum.addError.mock.calls[0][3];
-            expect(context['_oo.error.source_type']).toStrictEqual(
+            expect(context['_o2.error.source_type']).toStrictEqual(
                 'react-native'
             );
             expect(NativeModules.OoRum.addError.mock.calls[0][5]).toBe(
@@ -1476,7 +1476,7 @@ describe('OoRum', () => {
                 stacktrace
             );
             const context = NativeModules.OoRum.addError.mock.calls[0][3];
-            expect(context['_oo.error.source_type']).toStrictEqual(
+            expect(context['_o2.error.source_type']).toStrictEqual(
                 'react-native'
             );
             expect(context['foo']).toStrictEqual('bar');
@@ -1503,7 +1503,7 @@ describe('OoRum', () => {
                 'CUSTOM',
                 'stack',
                 {
-                    '_oo.error.source_type': 'react-native',
+                    '_o2.error.source_type': 'react-native',
                     isFatal: true
                 },
                 456,
@@ -1541,7 +1541,7 @@ describe('OoRum', () => {
                 'CUSTOM',
                 'stack',
                 {
-                    '_oo.error.source_type': 'react-native',
+                    '_o2.error.source_type': 'react-native',
                     isFatal: true
                 },
                 456,
@@ -1612,7 +1612,7 @@ describe('OoRum', () => {
                 200,
                 'xhr',
                 302,
-                { '_oo.resource.drop_resource': true },
+                { '_o2.resource.drop_resource': true },
                 245
             );
         });
@@ -1745,7 +1745,7 @@ describe('OoRum', () => {
             expect(NativeModules.OoRum.stopAction).toHaveBeenCalledWith(
                 'CUSTOM',
                 'Click on button',
-                { '_oo.action.drop_action': true },
+                { '_o2.action.drop_action': true },
                 234
             );
         });

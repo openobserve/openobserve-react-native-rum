@@ -520,7 +520,7 @@ class OoSdkTests: XCTestCase {
 
     func testBuildConfigurationWithVersionSuffix() {
         let configuration: OoSdkConfiguration = .mockAny(additionalConfiguration: [
-            "_oo.version_suffix": ":codepush-3"
+            "_o2.version_suffix": ":codepush-3"
         ])
 
         let ddConfig = OoSdkNativeInitialization().buildSDKConfiguration(
@@ -529,7 +529,7 @@ class OoSdkTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            ddConfig.additionalConfiguration["_oo.version"] as! String, "1.2.3:codepush-3")
+            ddConfig.additionalConfiguration["_o2.version"] as! String, "1.2.3:codepush-3")
     }
 
     func testBuildConfigurationFrustrationTrackingEnabledByDefault() {

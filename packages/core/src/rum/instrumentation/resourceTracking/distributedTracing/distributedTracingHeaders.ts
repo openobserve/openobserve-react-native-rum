@@ -186,19 +186,19 @@ const getTracingContextForAttributes = (
 
     const spanId = tracingAttributes.spanId;
     if (spanId) {
-        resourceContext['_oo.span_id'] = spanId.toString(
+        resourceContext['_o2.span_id'] = spanId.toString(
             TracingIdFormat.decimal
         );
     }
 
     const traceId = tracingAttributes.traceId;
     if (traceId) {
-        resourceContext['_oo.trace_id'] = traceId.toString(
+        resourceContext['_o2.trace_id'] = traceId.toString(
             TracingIdFormat.paddedHex
         );
     }
 
-    resourceContext['_oo.rule_psr'] = tracingSamplingRate / 100;
+    resourceContext['_o2.rule_psr'] = tracingSamplingRate / 100;
 
     return new OpenObserveTracingContext(
         requestHeaders,

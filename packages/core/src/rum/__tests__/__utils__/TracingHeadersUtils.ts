@@ -17,8 +17,8 @@ export const verifyRumResourceContext = (
 ) => {
     const rumResourceContext =
         resourceContext ?? tracingContext.getRumResourceContext();
-    const traceId = rumResourceContext['_oo.trace_id'];
-    const spanId = rumResourceContext['_oo.span_id'];
+    const traceId = rumResourceContext['_o2.trace_id'];
+    const spanId = rumResourceContext['_o2.span_id'];
 
     expect(traceId).toBe(
         tracingContext.traceId?.toString(TracingIdFormat.paddedHex)
@@ -56,7 +56,7 @@ export const verifyTraceContextHeaders = (
     const flags = traceParentParts[3];
     expect(flags).toBe(isSampled ? '01' : '00');
 
-    // tracestate (example: oo=s:1;o:rum;p:b69743e07c0f3fb5)
+    // tracestate (example: o2=s:1;o:rum;p:b69743e07c0f3fb5)
     const traceStateHeader = headers.get('tracestate') as string;
     expect(traceStateHeader).toBeDefined();
 

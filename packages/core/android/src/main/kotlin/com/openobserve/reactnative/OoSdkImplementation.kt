@@ -418,11 +418,11 @@ class OoSdkImplementation(
     // endregion
     internal companion object {
         internal const val DEFAULT_APP_VERSION = "?"
-        internal const val DD_VERSION = "_oo.version"
-        internal const val DD_VERSION_SUFFIX = "_oo.version_suffix"
-        internal const val DD_NEEDS_CLEAR_TEXT_HTTP = "_oo.needsClearTextHttp"
-        internal const val DD_DROP_RESOURCE = "_oo.resource.drop_resource"
-        internal const val DD_DROP_ACTION = "_oo.action.drop_action"
+        internal const val DD_VERSION = "_o2.version"
+        internal const val DD_VERSION_SUFFIX = "_o2.version_suffix"
+        internal const val DD_NEEDS_CLEAR_TEXT_HTTP = "_o2.needsClearTextHttp"
+        internal const val DD_DROP_RESOURCE = "_o2.resource.drop_resource"
+        internal const val DD_DROP_ACTION = "_o2.action.drop_action"
         internal const val MONITOR_JS_ERROR_MESSAGE = "Error monitoring JS refresh rate"
         internal const val PACKAGE_INFO_NOT_FOUND_ERROR_MESSAGE = "Error getting package info"
         internal const val DEFAULT_REFRESH_HZ = 60.0

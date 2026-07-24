@@ -71,8 +71,8 @@ export class OoRumErrorTracking {
         const message = getErrorMessage(error);
         const stacktrace = getErrorStackTrace(error);
         this.reportError(message, ErrorSource.SOURCE, stacktrace, {
-            '_oo.error.is_crash': isFatal,
-            '_oo.error.raw': errorEncoder.encode(error)
+            '_o2.error.is_crash': isFatal,
+            '_o2.error.raw': errorEncoder.encode(error)
         }).then(async () => {
             OoRumErrorTracking.isInDefaultErrorHandler = true;
             try {

@@ -423,7 +423,7 @@ internal class OoRumTest {
         )
 
         // Then
-        updatedContext["_oo.error.fingerprint"] = "custom-error-fingerprint"
+        updatedContext["_o2.error.fingerprint"] = "custom-error-fingerprint"
         verify(mockRumMonitor).addErrorWithStacktrace(message, source, stackTrace, updatedContext)
     }
 

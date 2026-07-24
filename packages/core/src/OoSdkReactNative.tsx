@@ -49,12 +49,12 @@ import { version as sdkVersion } from './version';
  * This class initializes the OpenObserve SDK, and sets up communication with the server.
  */
 export class OoSdkReactNative {
-    private static readonly DD_SOURCE_KEY = '_oo.source';
-    private static readonly DD_SDK_VERSION = '_oo.sdk_version';
-    private static readonly DD_VERSION = '_oo.version';
-    private static readonly DD_VERSION_SUFFIX = '_oo.version_suffix';
+    private static readonly DD_SOURCE_KEY = '_o2.source';
+    private static readonly DD_SDK_VERSION = '_o2.sdk_version';
+    private static readonly DD_VERSION = '_o2.version';
+    private static readonly DD_VERSION_SUFFIX = '_o2.version_suffix';
     private static readonly DD_REACT_NATIVE_VERSION =
-        '_oo.react_native_version';
+        '_o2.react_native_version';
 
     private static wasAutoInstrumented = false;
     private static features?: AutoInstrumentationConfiguration;

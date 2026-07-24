@@ -20,7 +20,7 @@ import { isPlainObject, warn } from './utils';
  *    - Fallback to { context: givenValue } if a primitive is passed
  *    - Apply built-in and consumer encoders to all values
  *    - Drop values of unsupported types
- * - Internal SDK attributes (starting with '_oo.') are preserved as-is without flattening
+ * - Internal SDK attributes (starting with '_o2.') are preserved as-is without flattening
  */
 export function encodeAttributes(input: unknown): Record<string, Encodable> {
     const result: Record<string, Encodable> = {};
@@ -28,9 +28,9 @@ export function encodeAttributes(input: unknown): Record<string, Encodable> {
     const context: EncodeContext = { numOfAttributes: 0 };
     if (isPlainObject(input)) {
         for (const [k, v] of Object.entries(input)) {
-            // Internal SDK attributes (starting with '_oo.') should not be flattened
+            // Internal SDK attributes (starting with '_o2.') should not be flattened
             // as they have a specific structure expected by the native SDK
-            if (k.startsWith('_oo.')) {
+            if (k.startsWith('_o2.')) {
                 result[k] = v as Encodable;
                 context.numOfAttributes++;
             } else {

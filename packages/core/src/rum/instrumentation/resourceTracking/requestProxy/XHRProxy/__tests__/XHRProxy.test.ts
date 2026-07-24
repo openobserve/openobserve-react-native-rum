@@ -337,7 +337,7 @@ describe('XHRProxy', () => {
 
             const parentValue = contextHeader?.split('-')[2];
             expect(xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)).toBe(
-                `oo=s:0;o:rum;p:${parentValue}`
+                `o2=s:0;o:rum;p:${parentValue}`
             );
         });
 
@@ -490,7 +490,7 @@ describe('XHRProxy', () => {
             // Parent value of the context header is the 3rd part of it
             const parentValue = contextHeader?.split('-')[2];
             const stateHeader = xhr.requestHeaders.get(TRACESTATE_HEADER_KEY);
-            expect(stateHeader).toBe(`oo=s:1;o:rum;p:${parentValue}`);
+            expect(stateHeader).toBe(`o2=s:1;o:rum;p:${parentValue}`);
         });
 
         it('adds correct trace IDs headers for all propagatorTypes', async () => {
@@ -929,17 +929,17 @@ describe('XHRProxy', () => {
 
             // THEN
             const spanId =
-                OoNativeRum.startResource.mock.calls[0][3]['_oo.span_id'];
+                OoNativeRum.startResource.mock.calls[0][3]['_o2.span_id'];
             expect(spanId).toBeDefined();
             expect(spanId).toMatch(/[1-9].+/);
 
             const traceId =
-                OoNativeRum.startResource.mock.calls[0][3]['_oo.trace_id'];
+                OoNativeRum.startResource.mock.calls[0][3]['_o2.trace_id'];
             expect(traceId).toBeDefined();
             expect(traceId).toMatch(/[1-9].+/);
 
             const rulePsr =
-                OoNativeRum.startResource.mock.calls[0][3]['_oo.rule_psr'];
+                OoNativeRum.startResource.mock.calls[0][3]['_o2.rule_psr'];
             expect(rulePsr).toBe(1);
 
             // Check traceId and spanId are different
@@ -969,9 +969,9 @@ describe('XHRProxy', () => {
                 expect.anything(),
                 expect.anything(),
                 expect.objectContaining({
-                    '_oo.trace_id': expect.any(String),
-                    '_oo.span_id': expect.any(String),
-                    '_oo.rule_psr': expect.any(Number)
+                    '_o2.trace_id': expect.any(String),
+                    '_o2.span_id': expect.any(String),
+                    '_o2.rule_psr': expect.any(Number)
                 }),
                 expect.anything()
             );
@@ -1009,9 +1009,9 @@ describe('XHRProxy', () => {
                 expect.anything(),
                 expect.anything(),
                 expect.objectContaining({
-                    '_oo.trace_id': expect.any(String),
-                    '_oo.span_id': expect.any(String),
-                    '_oo.rule_psr': expect.any(Number)
+                    '_o2.trace_id': expect.any(String),
+                    '_o2.span_id': expect.any(String),
+                    '_o2.rule_psr': expect.any(Number)
                 }),
                 expect.anything()
             );
@@ -1047,7 +1047,7 @@ describe('XHRProxy', () => {
 
             // THEN
             const timings = OoNativeRum.stopResource.mock.calls[0][4];
-            const resourceTimings = timings['_oo.resource_timings'];
+            const resourceTimings = timings['_o2.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
 
@@ -1096,7 +1096,7 @@ describe('XHRProxy', () => {
 
             // THEN
             const timings = OoNativeRum.stopResource.mock.calls[0][4];
-            const resourceTimings = timings['_oo.resource_timings'];
+            const resourceTimings = timings['_o2.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
 
@@ -1140,7 +1140,7 @@ describe('XHRProxy', () => {
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            expect(attributes['_oo.resource_timings']).toBeUndefined();
+            expect(attributes['_o2.resource_timings']).toBeUndefined();
         });
 
         it('attaches the XMLHttpRequest object containing response to the event mapper', async () => {
@@ -1415,9 +1415,9 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
-            expect(attributes['_oo.graphql.operation_name']).toEqual('cats');
-            expect(attributes['_oo.graphql.variables']).toEqual('{}');
+            expect(attributes['_o2.graphql.operation_type']).toEqual('query');
+            expect(attributes['_o2.graphql.operation_name']).toEqual('cats');
+            expect(attributes['_o2.graphql.variables']).toEqual('{}');
 
             expect(
                 xhr.requestHeaders.get(OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1453,9 +1453,9 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
-            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_oo.graphql.variables']).not.toBeDefined();
+            expect(attributes['_o2.graphql.operation_type']).toEqual('query');
+            expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_o2.graphql.variables']).not.toBeDefined();
 
             expect(
                 xhr.requestHeaders.get(OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1492,9 +1492,9 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.operation_type']).not.toBeDefined();
-            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_oo.graphql.variables']).not.toBeDefined();
+            expect(attributes['_o2.graphql.operation_type']).not.toBeDefined();
+            expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_o2.graphql.variables']).not.toBeDefined();
 
             expect(
                 xhr.requestHeaders.get(OPENOBSERVE_GRAPH_QL_OPERATION_TYPE_HEADER)
@@ -1516,15 +1516,15 @@ describe('XHRProxy', () => {
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
             });
             OoRum.registerResourceEventMapper(event => {
-                if ((event.context as any)['_oo.graphql.variables']) {
+                if ((event.context as any)['_o2.graphql.variables']) {
                     const variables = JSON.parse(
-                        (event.context as any)['_oo.graphql.variables']
+                        (event.context as any)['_o2.graphql.variables']
                     );
                     if (variables.password) {
                         variables.password = '***';
                     }
                     (event.context as any)[
-                        '_oo.graphql.variables'
+                        '_o2.graphql.variables'
                     ] = JSON.stringify(variables);
                 }
 
@@ -1549,9 +1549,9 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.operation_type']).toBe('query');
-            expect(attributes['_oo.graphql.operation_name']).not.toBeDefined();
-            expect(attributes['_oo.graphql.variables']).toBe(
+            expect(attributes['_o2.graphql.operation_type']).toBe('query');
+            expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
+            expect(attributes['_o2.graphql.variables']).toBe(
                 '{"password":"***"}'
             );
         });
@@ -1604,11 +1604,11 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
-            expect(attributes['_oo.graphql.operation_name']).toEqual('GetUser');
-            expect(attributes['_oo.graphql.errors']).toBeDefined();
+            expect(attributes['_o2.graphql.operation_type']).toEqual('query');
+            expect(attributes['_o2.graphql.operation_name']).toEqual('GetUser');
+            expect(attributes['_o2.graphql.errors']).toBeDefined();
 
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors).toHaveLength(1);
 
             expect(errors[0]).toEqual({
@@ -1659,7 +1659,7 @@ describe('XHRProxy', () => {
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0]).toEqual({
                 message: 'Invalid query',
                 code: 'GRAPHQL_VALIDATION_FAILED'
@@ -1708,7 +1708,7 @@ describe('XHRProxy', () => {
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors).toHaveLength(2);
             expect(errors[0]).toEqual({
                 message: 'Insufficient permissions',
@@ -1757,7 +1757,7 @@ describe('XHRProxy', () => {
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0]).toEqual({
                 message: 'Internal server error'
             });
@@ -1789,7 +1789,7 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
         it('does not extract errors when trackErrors is false', async () => {
@@ -1827,9 +1827,9 @@ describe('XHRProxy', () => {
 
             // THEN - errors should NOT be extracted
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
-            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
+            expect(attributes['_o2.graphql.operation_type']).toEqual('query');
         });
 
         it('does not extract errors when trackErrors header is missing', async () => {
@@ -1867,9 +1867,9 @@ describe('XHRProxy', () => {
 
             // THEN - errors should NOT be extracted
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
-            expect(attributes['_oo.graphql.operation_type']).toEqual('query');
+            expect(attributes['_o2.graphql.operation_type']).toEqual('query');
         });
 
         it('handles invalid JSON response gracefully', async () => {
@@ -1899,7 +1899,7 @@ describe('XHRProxy', () => {
 
             // THEN - should not crash and should not set errors attribute
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
         it('handles GraphQL response with empty errors array', async () => {
@@ -1932,7 +1932,7 @@ describe('XHRProxy', () => {
 
             // THEN - empty array should not set errors attribute
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
         it('handles GraphQL response without errors field', async () => {
@@ -1964,7 +1964,7 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            expect(attributes['_oo.graphql.errors']).toBeUndefined();
+            expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
         it('prefers extensions.code over legacy top-level code', async () => {
@@ -2006,7 +2006,7 @@ describe('XHRProxy', () => {
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
 
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0].code).toEqual('EXTENSIONS_CODE');
         });
 
@@ -2045,7 +2045,7 @@ describe('XHRProxy', () => {
 
             // THEN
             const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-            const errors = JSON.parse(attributes['_oo.graphql.errors']);
+            const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0].path).toEqual(['items', 0, 'name', 'first']);
         });
 
@@ -2105,7 +2105,7 @@ describe('XHRProxy', () => {
 
                 // AND - OpenObserve successfully extracted filtered errors
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_oo.graphql.errors']);
+                const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'User not found',
@@ -2172,7 +2172,7 @@ describe('XHRProxy', () => {
 
                 // AND - OpenObserve successfully extracted filtered errors (extensions filtered out)
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_oo.graphql.errors']);
+                const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'Access denied',
@@ -2243,7 +2243,7 @@ describe('XHRProxy', () => {
 
                 // AND - OpenObserve successfully extracted filtered errors
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_oo.graphql.errors']);
+                const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
                     message: 'Server error',
@@ -2324,7 +2324,7 @@ describe('XHRProxy', () => {
 
                 // AND - OpenObserve got filtered errors (no extensions details)
                 const attributes = OoNativeRum.stopResource.mock.calls[0][4];
-                const errors = JSON.parse(attributes['_oo.graphql.errors']);
+                const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(2);
                 expect(errors[0]).toEqual({
                     message: 'Posts not found',

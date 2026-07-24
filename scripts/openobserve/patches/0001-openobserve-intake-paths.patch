@@ -793,7 +793,7 @@ index 9629b5b2..d5477d4a 100644
 -    // x-datadog-tags
 -    const tagsHeader = headers.get('x-datadog-tags') as string;
 -    expect(tagsHeader).toBeDefined();
--    expect(tagsHeader).toMatch(/^_oo\.p\.tid=[0-9a-fA-F]{16}$/);
+-    expect(tagsHeader).toMatch(/^_o2\.p\.tid=[0-9a-fA-F]{16}$/);
 -    expect(
 -        TracingIdentifierUtils.isWithin64Bits(tagsHeader.split('=')[1])
 -    ).toBe(true);
@@ -1009,7 +1009,7 @@ index f5e4c879..efaabb4b 100644
 -export const TRACE_ID_HEADER_KEY = 'x-datadog-trace-id';
 -export const PARENT_ID_HEADER_KEY = 'x-datadog-parent-id';
 -export const TAGS_HEADER_KEY = 'x-datadog-tags';
- export const DD_TRACE_ID_TAG = '_oo.p.tid';
+ export const DD_TRACE_ID_TAG = '_o2.p.tid';
  export const DD_RUM_SESSION_ID_TAG = 'session.id';
  export const DD_RUM_USER_ID_TAG = 'user.id';
 diff --git b/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/requestProxy/XHRProxy/__tests__/XHRProxy.test.ts
@@ -1255,7 +1255,7 @@ index 2d13a73a..38c096d7 100644
 -                '0'
 +            const parentValue = contextHeader?.split('-')[2];
 +            expect(xhr.requestHeaders.get(TRACESTATE_HEADER_KEY)).toBe(
-+                `oo=s:0;o:rum;p:${parentValue}`
++                `o2=s:0;o:rum;p:${parentValue}`
              );
          });
  
@@ -1648,7 +1648,7 @@ index 88d3da85..f5c67e3a 100644
 +                'eyJmZWF0dXJlX2ZsYWdzIjp7fSwidmlldyI6eyJlcnJvciI6eyJjb3VudCI6MH0sImNyYXNoIjp7ImNvdW50IjowfSwiYWN0aW9uIjp7ImNvdW50IjowfSwiZnJ1c3RyYXRpb24iOnsiY291bnQiOjB9LCJmcm96ZW5fZnJhbWUiOnsiY291bnQiOjB9LCJ1cmwiOiJDYXRlZ29yaWVzLXFDWDNibk4zbzhSZ29Oam5BSUVuQSIsImlzX3Nsb3dfcmVuZGVyZWQiOmZhbHNlLCJuYW1lIjoiQ2F0ZWdvcmllcyIsImlzX2FjdGl2ZSI6dHJ1ZSwiY3VzdG9tX3RpbWluZ3MiOnt9LCJpZCI6ImU3NzhjNjFhLThkM2UtNGU1ZC1iZjNhLTEzNTUxNGMzNWIxMSIsImxvbmdfdGFzayI6eyJjb3VudCI6MH0sInRpbWVfc3BlbnQiOjEsInJlc291cmNlIjp7ImNvdW50IjowfX0sImJ1aWxkX3ZlcnNpb24iOiIyMiIsInNlcnZpY2UiOiJjb20ub3Blbm9ic2VydmUuc2hvcGlzdC5yZWFjdC1uYXRpdmUiLCJ2ZXJzaW9uIjoiMjIuMjMuMjYiLCJzZXNzaW9uIjp7ImlkIjoiODhlNGQxNWQtN2ZkYS00MDEyLTllZDktYTNlMmRhZjU5NGYwIiwidHlwZSI6InVzZXIiLCJpc19hY3RpdmUiOnRydWV9LCJkYXRlIjoxNzAxMjUwMTcyMjA2LCJfb28iOnsiZm9ybWF0X3ZlcnNpb24iOjIsInJlcGxheV9zdGF0cyI6e30sInNlc3Npb24iOnsicGxhbiI6MX0sImNvbmZpZ3VyYXRpb24iOnsic2Vzc2lvbl9zYW1wbGVfcmF0ZSI6MTAwfSwiZG9jdW1lbnRfdmVyc2lvbiI6MX0sImFwcGxpY2F0aW9uIjp7ImlkIjoiNjU2YTIzZmYtNDI2Mi00NGRiLTk4OTUtZGYxOGI1MzUwNDE4In0sImNvbnRleHQiOnt9LCJjb25uZWN0aXZpdHkiOnsiaW50ZXJmYWNlcyI6WyJ3aWZpIl0sInN0YXR1cyI6ImNvbm5lY3RlZCJ9LCJkZXZpY2UiOnsiYXJjaGl0ZWN0dXJlIjoiYXJtNjRlIiwidHlwZSI6Im1vYmlsZSIsIm1vZGVsIjoiaVBob25lMTYsMSBTaW11bGF0b3IiLCJicmFuZCI6IkFwcGxlIiwibmFtZSI6ImlQaG9uZSJ9LCJ0eXBlIjoidmlldyIsIm9zIjp7InZlcnNpb24iOiIxNy4wLjEiLCJ2ZXJzaW9uX21ham9yIjoiMTciLCJidWlsZCI6IjIyRzMyMCIsIm5hbWUiOiJpT1MifSwic291cmNlIjoicmVhY3QtbmF0aXZlIn0=';
  
              expect(base64.decode(input)).toMatchInlineSnapshot(
-                 '"{"feature_flags":{},"view":{"error":{"count":0},"crash":{"count":0},"action":{"count":0},"frustration":{"count":0},"frozen_frame":{"count":0},"url":"Categories-qCX3bnN3o8RgoNjnAIEnA","is_slow_rendered":false,"name":"Categories","is_active":true,"custom_timings":{},"id":"e778c61a-8d3e-4e5d-bf3a-135514c35b11","long_task":{"count":0},"time_spent":1,"resource":{"count":0}},"build_version":"22","service":"com.openobserve.shopist.react-native","version":"22.23.26","session":{"id":"88e4d15d-7fda-4012-9ed9-a3e2daf594f0","type":"user","is_active":true},"date":1701250172206,"_oo":{"format_version":2,"replay_stats":{},"session":{"plan":1},"configuration":{"session_sample_rate":100},"document_version":1},"application":{"id":"656a23ff-4262-44db-9895-df18b5350418"},"context":{},"connectivity":{"interfaces":["wifi"],"status":"connected"},"device":{"architecture":"arm64e","type":"mobile","model":"iPhone16,1 Simulator","brand":"Apple","name":"iPhone"},"type":"view","os":{"version":"17.0.1","version_major":"17","build":"22G320","name":"iOS"},"source":"react-native"}"'
+                 '"{"feature_flags":{},"view":{"error":{"count":0},"crash":{"count":0},"action":{"count":0},"frustration":{"count":0},"frozen_frame":{"count":0},"url":"Categories-qCX3bnN3o8RgoNjnAIEnA","is_slow_rendered":false,"name":"Categories","is_active":true,"custom_timings":{},"id":"e778c61a-8d3e-4e5d-bf3a-135514c35b11","long_task":{"count":0},"time_spent":1,"resource":{"count":0}},"build_version":"22","service":"com.openobserve.shopist.react-native","version":"22.23.26","session":{"id":"88e4d15d-7fda-4012-9ed9-a3e2daf594f0","type":"user","is_active":true},"date":1701250172206,"_o2":{"format_version":2,"replay_stats":{},"session":{"plan":1},"configuration":{"session_sample_rate":100},"document_version":1},"application":{"id":"656a23ff-4262-44db-9895-df18b5350418"},"context":{},"connectivity":{"interfaces":["wifi"],"status":"connected"},"device":{"architecture":"arm64e","type":"mobile","model":"iPhone16,1 Simulator","brand":"Apple","name":"iPhone"},"type":"view","os":{"version":"17.0.1","version_major":"17","build":"22G320","name":"iOS"},"source":"react-native"}"'
 diff --git b/packages/react-native-apollo-client/package.json a/packages/react-native-apollo-client/package.json
 index ea0e78e7..99ed02ba 100644
 --- b/packages/react-native-apollo-client/package.json

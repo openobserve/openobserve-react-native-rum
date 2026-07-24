@@ -39,8 +39,8 @@ class OoSdk(
                 if (currentActivity != null) {
                     val intent = currentActivity.intent
                     val extras = intent.extras
-                    OoSdkSynthetics.testId = extras?.getString("_oo.synthetics.test_id")
-                    OoSdkSynthetics.resultId = extras?.getString("_oo.synthetics.result_id")
+                    OoSdkSynthetics.testId = extras?.getString("_o2.synthetics.test_id")
+                    OoSdkSynthetics.resultId = extras?.getString("_o2.synthetics.result_id")
                 }
 
                 OoSdkSessionStartedListener.getInstance().setReactContext(reactContext)

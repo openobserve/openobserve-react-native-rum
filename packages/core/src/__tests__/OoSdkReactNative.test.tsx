@@ -132,9 +132,9 @@ describe('OoSdkReactNative', () => {
             ).toBe(true);
 
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
         });
 
@@ -169,9 +169,9 @@ describe('OoSdkReactNative', () => {
                 TrackingConsent.GRANTED
             );
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
 
             expect(GlobalState.isInitialized).toBe(false);
@@ -218,9 +218,9 @@ describe('OoSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.trackingConsent).toBe(fakeConsent);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
         });
 
@@ -254,9 +254,9 @@ describe('OoSdkReactNative', () => {
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
         });
 
@@ -318,9 +318,9 @@ describe('OoSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_oo.react_native_version': reactNativeVersion,
-                    '_oo.source': 'react-native',
-                    '_oo.sdk_version': sdkVersion
+                    '_o2.react_native_version': reactNativeVersion,
+                    '_o2.source': 'react-native',
+                    '_o2.sdk_version': sdkVersion
                 });
                 expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
             } finally {
@@ -471,8 +471,8 @@ describe('OoSdkReactNative', () => {
                 .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_oo.version': string;
-                })['_oo.version']
+                    '_o2.version': string;
+                })['_o2.version']
             ).toBe('2.0.0');
         });
 
@@ -496,13 +496,13 @@ describe('OoSdkReactNative', () => {
                 .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_oo.version': string;
-                })['_oo.version']
+                    '_o2.version': string;
+                })['_o2.version']
             ).toBeUndefined();
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_oo.version_suffix': string;
-                })['_oo.version_suffix']
+                    '_o2.version_suffix': string;
+                })['_o2.version_suffix']
             ).toBe('-codepush-3');
         });
 
@@ -527,13 +527,13 @@ describe('OoSdkReactNative', () => {
                 .calls[0][0] as OoSdkNativeConfiguration;
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_oo.version': string;
-                })['_oo.version']
+                    '_o2.version': string;
+                })['_o2.version']
             ).toBe('2.0.0-codepush-3');
             expect(
                 (ddSdkConfiguration.additionalConfiguration as {
-                    '_oo.version_suffix': string;
-                })['_oo.version_suffix']
+                    '_o2.version_suffix': string;
+                })['_o2.version_suffix']
             ).toBeUndefined();
         });
 
@@ -593,9 +593,9 @@ describe('OoSdkReactNative', () => {
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(
                 OoRumUserInteractionTracking.startTracking
@@ -655,9 +655,9 @@ describe('OoSdkReactNative', () => {
                 }
             ]);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumResourceTracking.startTracking).toHaveBeenCalledTimes(
                 1
@@ -708,9 +708,9 @@ describe('OoSdkReactNative', () => {
             );
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
@@ -788,7 +788,7 @@ describe('OoSdkReactNative', () => {
                 'CUSTOM',
                 'stack',
                 {
-                    '_oo.error.source_type': 'react-native'
+                    '_o2.error.source_type': 'react-native'
                 },
                 456,
                 ''
@@ -924,9 +924,9 @@ describe('OoSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.service).toBe(fakeService);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
@@ -964,9 +964,9 @@ describe('OoSdkReactNative', () => {
             expect(ddSdkConfiguration.env).toBe(fakeEnvName);
             expect(ddSdkConfiguration.verbosity).toBe(SdkVerbosity.DEBUG);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
@@ -1006,9 +1006,9 @@ describe('OoSdkReactNative', () => {
                 ddSdkConfiguration.rumConfiguration?.nativeViewTracking
             ).toBe(true);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
@@ -1048,9 +1048,9 @@ describe('OoSdkReactNative', () => {
                 ddSdkConfiguration.rumConfiguration?.nativeInteractionTracking
             ).toBe(true);
             expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-                '_oo.react_native_version': reactNativeVersion,
-                '_oo.source': 'react-native',
-                '_oo.sdk_version': sdkVersion
+                '_o2.react_native_version': reactNativeVersion,
+                '_o2.source': 'react-native',
+                '_o2.sdk_version': sdkVersion
             });
             expect(OoRumErrorTracking.startTracking).toHaveBeenCalledTimes(1);
         });
@@ -1420,9 +1420,9 @@ describe('OoSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_oo.react_native_version': reactNativeVersion,
-                    '_oo.source': 'react-native',
-                    '_oo.sdk_version': sdkVersion
+                    '_o2.react_native_version': reactNativeVersion,
+                    '_o2.source': 'react-native',
+                    '_o2.sdk_version': sdkVersion
                 });
             });
         }
@@ -1487,9 +1487,9 @@ describe('OoSdkReactNative', () => {
                 expect(
                     ddSdkConfiguration.additionalConfiguration
                 ).toStrictEqual({
-                    '_oo.react_native_version': reactNativeVersion,
-                    '_oo.source': 'react-native',
-                    '_oo.sdk_version': sdkVersion
+                    '_o2.react_native_version': reactNativeVersion,
+                    '_o2.source': 'react-native',
+                    '_o2.sdk_version': sdkVersion
                 });
             });
         }

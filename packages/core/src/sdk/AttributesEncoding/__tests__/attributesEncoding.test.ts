@@ -410,10 +410,10 @@ describe('encodeAttributes', () => {
         expect(limitWarnings).toHaveLength(1);
     });
 
-    describe('internal SDK attributes (_oo. prefix)', () => {
-        it('preserves nested structure of _oo. attributes without flattening', () => {
+    describe('internal SDK attributes (_o2. prefix)', () => {
+        it('preserves nested structure of _o2. attributes without flattening', () => {
             const input = {
-                '_oo.resource_timings': {
+                '_o2.resource_timings': {
                     firstByte: { duration: 123, startTime: 456 },
                     download: { duration: 789, startTime: 101112 }
                 },
@@ -422,8 +422,8 @@ describe('encodeAttributes', () => {
 
             const result = encodeAttributes(input);
 
-            // _oo. attribute should be preserved as-is
-            expect(result['_oo.resource_timings']).toEqual({
+            // _o2. attribute should be preserved as-is
+            expect(result['_o2.resource_timings']).toEqual({
                 firstByte: { duration: 123, startTime: 456 },
                 download: { duration: 789, startTime: 101112 }
             });
@@ -432,12 +432,12 @@ describe('encodeAttributes', () => {
             expect(result.normalAttribute).toBe('value');
         });
 
-        it('preserves multiple _oo. attributes', () => {
+        it('preserves multiple _o2. attributes', () => {
             const input = {
-                '_oo.graphql.operation_type': 'query',
-                '_oo.graphql.operation_name': 'GetUser',
-                '_oo.graphql.variables': '{}',
-                '_oo.resource_timings': {
+                '_o2.graphql.operation_type': 'query',
+                '_o2.graphql.operation_name': 'GetUser',
+                '_o2.graphql.variables': '{}',
+                '_o2.resource_timings': {
                     firstByte: { duration: 56845703 }
                 },
                 textAttribute: { nested: 'value' }
@@ -445,11 +445,11 @@ describe('encodeAttributes', () => {
 
             const result = encodeAttributes(input);
 
-            // All _oo. attributes should be preserved as-is
-            expect(result['_oo.graphql.operation_type']).toBe('query');
-            expect(result['_oo.graphql.operation_name']).toBe('GetUser');
-            expect(result['_oo.graphql.variables']).toBe('{}');
-            expect(result['_oo.resource_timings']).toEqual({
+            // All _o2. attributes should be preserved as-is
+            expect(result['_o2.graphql.operation_type']).toBe('query');
+            expect(result['_o2.graphql.operation_name']).toBe('GetUser');
+            expect(result['_o2.graphql.variables']).toBe('{}');
+            expect(result['_o2.resource_timings']).toEqual({
                 firstByte: { duration: 56845703 }
             });
 
@@ -458,9 +458,9 @@ describe('encodeAttributes', () => {
             expect(result.textAttribute).toBeUndefined();
         });
 
-        it('does not flatten _oo. attributes even with deeply nested objects', () => {
+        it('does not flatten _o2. attributes even with deeply nested objects', () => {
             const input = {
-                '_oo.custom': {
+                '_o2.custom': {
                     level1: {
                         level2: {
                             level3: {
@@ -474,7 +474,7 @@ describe('encodeAttributes', () => {
             const result = encodeAttributes(input);
 
             // Should preserve the entire nested structure
-            expect(result['_oo.custom']).toEqual({
+            expect(result['_o2.custom']).toEqual({
                 level1: {
                     level2: {
                         level3: {
@@ -486,14 +486,14 @@ describe('encodeAttributes', () => {
 
             // Should NOT have flattened keys
             expect(
-                result['_oo.custom.level1.level2.level3.value']
+                result['_o2.custom.level1.level2.level3.value']
             ).toBeUndefined();
         });
 
-        it('mixes _oo. attributes and other attributes correctly', () => {
+        it('mixes _o2. attributes and other attributes correctly', () => {
             const input = {
-                '_oo.span_id': '123',
-                '_oo.trace_id': '456',
+                '_o2.span_id': '123',
+                '_o2.trace_id': '456',
                 user: {
                     name: 'John',
                     profile: {
@@ -504,9 +504,9 @@ describe('encodeAttributes', () => {
 
             const result = encodeAttributes(input);
 
-            // _oo. attributes preserved
-            expect(result['_oo.span_id']).toBe('123');
-            expect(result['_oo.trace_id']).toBe('456');
+            // _o2. attributes preserved
+            expect(result['_o2.span_id']).toBe('123');
+            expect(result['_o2.trace_id']).toBe('456');
 
             // Other attributes flattened
             expect(result['user.name']).toBe('John');

@@ -38,13 +38,13 @@ const formatResourceStartContext = (
 ): Record<string, string | number> => {
     const attributes: Record<string, string | number> = {};
     if (tracingAttributes.samplingPriorityHeader !== '0') {
-        attributes['_oo.span_id'] = tracingAttributes.spanId.toString(
+        attributes['_o2.span_id'] = tracingAttributes.spanId.toString(
             TracingIdFormat.decimal
         );
-        attributes['_oo.trace_id'] = tracingAttributes.traceId.toString(
+        attributes['_o2.trace_id'] = tracingAttributes.traceId.toString(
             TracingIdFormat.paddedHex
         );
-        attributes['_oo.rule_psr'] = tracingAttributes.rulePsr;
+        attributes['_o2.rule_psr'] = tracingAttributes.rulePsr;
     }
 
     return attributes;
@@ -57,7 +57,7 @@ const formatResourceStopContext = (
     const attributes: Record<string, unknown> = {};
 
     if (timings.responseStartTime !== undefined) {
-        attributes['_oo.resource_timings'] = createTimings(
+        attributes['_o2.resource_timings'] = createTimings(
             timings.startTime,
             timings.responseStartTime,
             timings.stopTime
@@ -65,22 +65,22 @@ const formatResourceStopContext = (
     }
 
     if (graphqlAttributes?.operationType) {
-        attributes['_oo.graphql.operation_type'] =
+        attributes['_o2.graphql.operation_type'] =
             graphqlAttributes.operationType;
         if (graphqlAttributes.operationName) {
-            attributes['_oo.graphql.operation_name'] =
+            attributes['_o2.graphql.operation_name'] =
                 graphqlAttributes.operationName;
         }
         if (graphqlAttributes.variables) {
-            attributes['_oo.graphql.variables'] = graphqlAttributes.variables;
+            attributes['_o2.graphql.variables'] = graphqlAttributes.variables;
         }
 
         if (graphqlAttributes.payload) {
-            attributes['_oo.graphql.payload'] = graphqlAttributes.payload;
+            attributes['_o2.graphql.payload'] = graphqlAttributes.payload;
         }
 
         if (graphqlAttributes.errors) {
-            attributes['_oo.graphql.errors'] = JSON.stringify(
+            attributes['_o2.graphql.errors'] = JSON.stringify(
                 graphqlAttributes.errors
             );
         }

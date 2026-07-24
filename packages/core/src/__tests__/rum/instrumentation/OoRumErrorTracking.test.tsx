@@ -65,14 +65,14 @@ it('M intercept and send a RUM event W onGlobalError() {no message}', async () =
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: 'Error',
                 message: 'Unknown Error',
                 cause: undefined,
                 stack: 'doSomething() at ./path/to/file.js:67:3'
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -99,14 +99,14 @@ it('M intercept and send a RUM event W onGlobalError() {empty stack trace}', asy
         'SOURCE',
         '',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 cause: undefined,
                 stack: ''
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -131,14 +131,14 @@ it('M intercept and send a RUM event W onGlobalError() {Error object}', async ()
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -170,14 +170,14 @@ it('M intercept and send a RUM event W onGlobalError() {CustomError object}', as
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -210,9 +210,9 @@ it('M intercept and send a RUM event W onGlobalError() {with source file info}',
         'SOURCE',
         'at ./path/to/file.js:1038:57',
         {
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native',
-            '_oo.error.raw': {
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native',
+            '_o2.error.raw': {
                 sourceURL: './path/to/file.js',
                 line: 1038,
                 column: 57,
@@ -252,7 +252,7 @@ it('M intercept and send a RUM event W onGlobalError() {with component stack}', 
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 message: 'Something bad happened',
                 name: 'Error',
                 stack: [
@@ -262,8 +262,8 @@ it('M intercept and send a RUM event W onGlobalError() {with component stack}', 
                 ].join(','),
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -299,7 +299,7 @@ it('M intercept and send a RUM event W onGlobalError() {with stack and component
         'SOURCE',
         'example() at ./path/to/file.js:77:2,test() at ./path/to/index.js:22:3',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 message: 'Something bad happened',
                 name: 'Error',
                 stack: [
@@ -313,8 +313,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stack and component
                 ],
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -346,7 +346,7 @@ it('M intercept and send a RUM event W onGlobalError() {with stack}', async () =
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 cause: undefined,
@@ -356,8 +356,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stack}', async () =
                     'root() at ./path/to/index.js:10:1'
                 ].join(',')
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -389,7 +389,7 @@ it('M intercept and send a RUM event W onGlobalError() {with stacktrace}', async
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: 'Error',
                 message: 'Something bad happened',
                 stack: [
@@ -399,8 +399,8 @@ it('M intercept and send a RUM event W onGlobalError() {with stacktrace}', async
                 ].join(','),
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -438,7 +438,7 @@ it('M not report error in console handler W onGlobalError() {with console report
         'SOURCE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: 'Error',
                 cause: undefined,
                 message: 'Something bad happened',
@@ -448,8 +448,8 @@ it('M not report error in console handler W onGlobalError() {with console report
                     'root() at ./path/to/index.js:10:1'
                 ].join(',')
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -481,7 +481,7 @@ it('M intercept and send a RUM event W onConsole() {Error with source file info}
         'CONSOLE',
         'at ./path/to/file.js:1038:57',
         {
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -513,7 +513,7 @@ it('M intercept and send a RUM event W onConsole() {Error with component stack}'
         'CONSOLE',
         'doSomething() at ./path/to/file.js:67:3,nestedCall() at ./path/to/file.js:1064:9,root() at ./path/to/index.js:10:1',
         {
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -537,7 +537,7 @@ it('M intercept and send a RUM event W onConsole() {message only}', async () => 
         'CONSOLE',
         '',
         {
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -568,7 +568,7 @@ it('M intercept and send a RUM event W onConsole() {Error with source file and n
         'CONSOLE',
         'at ./path/to/file.js:1038:57',
         {
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -608,7 +608,7 @@ describe.each([
             'CONSOLE',
             '',
             {
-                '_oo.error.source_type': 'react-native'
+                '_o2.error.source_type': 'react-native'
             },
             expect.any(Number),
             ''
@@ -635,14 +635,14 @@ it('M intercept and send a RUM event W on error() {called from RNErrorHandler}',
         'SOURCE',
         expect.stringContaining('Error: Something bad happened'),
         {
-            '_oo.error.raw': {
+            '_o2.error.raw': {
                 name: error.name,
                 message: error.message,
                 stack: error.stack,
                 cause: undefined
             },
-            '_oo.error.is_crash': is_fatal,
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.is_crash': is_fatal,
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''
@@ -670,7 +670,7 @@ it('M intercept and send a RUM event W onConsole() {called from RNErrorHandler}'
         'CONSOLE',
         '',
         {
-            '_oo.error.source_type': 'react-native'
+            '_o2.error.source_type': 'react-native'
         },
         expect.any(Number),
         ''

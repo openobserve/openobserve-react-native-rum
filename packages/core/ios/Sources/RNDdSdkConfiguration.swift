@@ -292,7 +292,7 @@ extension Dictionary where Key == String, Value == AnyObject {
         }
 
         let additionalConfiguration: NSDictionary = [
-            CrossPlatformAttributes.oosource: "react-native",
+            CrossPlatformAttributes.o2source: "react-native",
             CrossPlatformAttributes.sdkVersion: SdkVersion,
         ]
 

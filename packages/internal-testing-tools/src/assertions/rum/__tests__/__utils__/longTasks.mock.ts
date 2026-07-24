@@ -33,7 +33,7 @@ export const mockRumLongTask = ({
             id: '',
             url: ''
         },
-        _oo: {
+        _o2: {
             format_version: 2
         }
     } as RumLongTaskEvent;

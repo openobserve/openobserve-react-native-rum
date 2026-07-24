@@ -10,25 +10,25 @@ export const OoAttributes = {
      * language or platform of the RUM error stack trace, so the SCI backend
      * knows how to symbolize it. Expects {@link String} value.
      */
-    errorSourceType: '_oo.error.source_type',
+    errorSourceType: '_o2.error.source_type',
 
     /**
      * Custom fingerprint to an error.
      * Expects {@link String} value.
      */
-    errorFingerprint: '_oo.error.fingerprint',
+    errorFingerprint: '_o2.error.fingerprint',
 
     /**
      * Debug ID attached to a log or a RUM event.
      * The Debug ID establishes a unique connection between a bundle and its corresponding sourcemap.
      * Expects {@link String} value.
      */
-    debugId: '_oo.debug_id',
+    debugId: '_o2.debug_id',
 
     /**
      * Custom attribute passed when completing GraphQL RUM resources that contain errors in the response.
      * It sets the GraphQL errors from the response body as JSON string.
      * Expects {@link String} value (JSON serialized errors array).
      */
-    graphqlErrors: '_oo.graphql.errors'
+    graphqlErrors: '_o2.graphql.errors'
 };

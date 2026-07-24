@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-export const OPENOBSERVE_CUSTOM_HEADER_PREFIX = '_oo-custom-header';
+export const OPENOBSERVE_CUSTOM_HEADER_PREFIX = '_o2-custom-header';
 export const OPENOBSERVE_BAGGAGE_HEADER = `${OPENOBSERVE_CUSTOM_HEADER_PREFIX}-baggage`;
 
 export const isOpenObserveCustomHeader = (header: string) => {

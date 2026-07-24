@@ -76,9 +76,9 @@ internal extension RUMFeatureOperationFailureReason {
 
 @objc
 public class OoRumImplementation: NSObject {
-    internal static let timestampKey = "_oo.timestamp"
-    internal static let fingerprintKey = "_oo.error.fingerprint"
-    internal static let resourceTimingsKey = "_oo.resource_timings"
+    internal static let timestampKey = "_o2.timestamp"
+    internal static let fingerprintKey = "_o2.error.fingerprint"
+    internal static let resourceTimingsKey = "_o2.resource_timings"
 
     internal static let fetchTimingKey = "fetch"
     internal static let redirectTimingKey = "redirect"

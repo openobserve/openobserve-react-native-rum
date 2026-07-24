@@ -59,7 +59,7 @@ internal class OoRumTests: XCTestCase {
     }
 
     func testInternalTimestampKeyValue() {
-        let key = "_oo.timestamp"
+        let key = "_o2.timestamp"
         
         XCTAssertEqual(OoRumImplementation.timestampKey, OpenObserveInternal.CrossPlatformAttributes.timestampInMilliseconds)
         XCTAssertEqual(OoRumImplementation.timestampKey, OpenObserveSDKReactNative.CrossPlatformAttributes.timestampInMilliseconds)
@@ -298,7 +298,7 @@ internal class OoRumTests: XCTestCase {
     func testStopResourceWithExternalTimings() throws {
         let context: NSDictionary = [
             "foo": 123,
-            "_oo.resource_timings": [
+            "_o2.resource_timings": [
                 "fetch": [
                     "startTime": 0,
                     "duration": 13

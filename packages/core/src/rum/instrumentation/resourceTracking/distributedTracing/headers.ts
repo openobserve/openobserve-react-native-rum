@@ -12,7 +12,7 @@
  */
 export const TRACKED_BY_HEADER_KEY = 'x-openobserve-tracked-by';
 export const TRACKED_BY_HEADER_VALUE = 'react-native';
-export const DD_TRACE_ID_TAG = '_oo.p.tid';
+export const DD_TRACE_ID_TAG = '_o2.p.tid';
 export const DD_RUM_SESSION_ID_TAG = 'session.id';
 export const DD_RUM_USER_ID_TAG = 'user.id';
 export const DD_RUM_ACCOUNT_ID_TAG = 'account.id';

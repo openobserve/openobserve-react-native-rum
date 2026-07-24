@@ -206,8 +206,8 @@ internal fun JSONDdSdkConfiguration.asDdSdkConfiguration(): OoSdkConfiguration {
     }
 
     val baseAdditionalConfig = this.additionalConfiguration?.toMutableMap() ?: mutableMapOf()
-    baseAdditionalConfig["_oo.source"] = "react-native"
-    baseAdditionalConfig["_oo.sdk_version"] = SDK_VERSION
+    baseAdditionalConfig["_o2.source"] = "react-native"
+    baseAdditionalConfig["_o2.sdk_version"] = SDK_VERSION
 
     return OoSdkConfiguration(
         additionalConfiguration = baseAdditionalConfig,

@@ -53,7 +53,7 @@
     },
     {
       "regex": "\\b_dd\\b",
-      "to": "_oo",
+      "to": "_o2",
       "why": "RUM/telemetry event internal namespace field renamed _dd -> _oo (matches the rum-events-format schema fork)."
     },
     {
@@ -143,7 +143,7 @@
     },
     {
       "literal": "ddsource",
-      "to": "oosource",
+      "to": "o2source",
       "why": "identifier only; the value '_oo.source' is unchanged and matches the iOS SDK's own oosource rename."
     },
     {
@@ -153,27 +153,27 @@
     },
     {
       "literal": "dd=s:",
-      "to": "oo=s:",
+      "to": "o2=s:",
       "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "dd=p:",
-      "to": "oo=p:",
+      "to": "o2=p:",
       "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "\"dd=\"",
-      "to": "\"oo=\"",
+      "to": "\"o2=\"",
       "why": "W3C TRACESTATE vendor key. Wire-visible on EVERY traced request, and on the DEFAULT path since tracecontext became the default propagator — so removing the proprietary propagator swapped one upstream identifier on the wire for another. Invisible to every other rule (bare lowercase, no word boundary), which is the same blind spot that shipped the NTP hosts. All three SDKs had to move together or trace linking breaks between them; the backend stores trace_state opaquely and does not parse the key, so nothing server-side is affected."
     },
     {
       "literal": "'dd='",
-      "to": "'oo='",
+      "to": "'o2='",
       "why": "The same W3C tracestate vendor key as it appears in COMMENTS documenting the wire format (single-quoted in Java prose, parenthesised in Javadoc). The double-quoted \"dd=\" rule reaches the CODE constant but not these, so without them a synced tree carries comments that describe a wire format it no longer emits."
     },
     {
       "literal": "(dd=)",
-      "to": "(oo=)",
+      "to": "(o2=)",
       "why": "The same W3C tracestate vendor key as it appears in COMMENTS documenting the wire format (single-quoted in Java prose, parenthesised in Javadoc). The double-quoted \"dd=\" rule reaches the CODE constant but not these, so without them a synced tree carries comments that describe a wire format it no longer emits."
     },
     {

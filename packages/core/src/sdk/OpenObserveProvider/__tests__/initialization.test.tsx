@@ -61,13 +61,13 @@ describe('OpenObserveProvider', () => {
             const receivedConfiguration =
                 NativeModules.OoSdk.initialize.mock.calls[0][0];
             delete receivedConfiguration.additionalConfiguration[
-                '_oo.sdk_version'
+                '_o2.sdk_version'
             ];
             expect(receivedConfiguration).toMatchInlineSnapshot(`
                 OoSdkNativeConfiguration {
                   "additionalConfiguration": {
-                    "_oo.react_native_version": "${reactNativeVersion}",
-                    "_oo.source": "react-native",
+                    "_o2.react_native_version": "${reactNativeVersion}",
+                    "_o2.source": "react-native",
                   },
                   "attributeEncoders": [],
                   "batchProcessingLevel": "MEDIUM",

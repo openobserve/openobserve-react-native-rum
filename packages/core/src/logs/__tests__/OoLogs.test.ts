@@ -70,7 +70,7 @@ describe('OoLogs', () => {
                 undefined,
                 {
                     newContext: 'context',
-                    '_oo.error.source_type': 'react-native'
+                    '_o2.error.source_type': 'react-native'
                 }
             );
             expect(InternalLog.log).toHaveBeenNthCalledWith(
@@ -115,7 +115,7 @@ describe('OoLogs', () => {
                 'new stacktrace',
                 {
                     newContext: 'context',
-                    '_oo.error.source_type': 'react-native'
+                    '_o2.error.source_type': 'react-native'
                 }
             );
         });
@@ -187,8 +187,8 @@ describe('OoLogs', () => {
                 'message',
                 'stacktrace',
                 {
-                    '_oo.error.fingerprint': 'fingerprint',
-                    '_oo.error.source_type': 'react-native'
+                    '_o2.error.fingerprint': 'fingerprint',
+                    '_o2.error.source_type': 'react-native'
                 }
             );
             expect(InternalLog.log).toHaveBeenCalledWith(
@@ -253,8 +253,8 @@ describe('OoLogs', () => {
                 'message',
                 'stacktrace',
                 {
-                    '_oo.error.fingerprint': 'fingerprint',
-                    '_oo.error.source_type': 'react-native'
+                    '_o2.error.fingerprint': 'fingerprint',
+                    '_o2.error.source_type': 'react-native'
                 }
             );
             expect(InternalLog.log).toHaveBeenCalledWith(
@@ -335,7 +335,7 @@ describe('OoLogs', () => {
                     stacktrace,
                     {
                         ...(context || {}),
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     }
                 );
             }
@@ -456,8 +456,8 @@ describe('OoLogs', () => {
                     stacktrace,
                     {
                         ...(context || {}),
-                        '_oo.error.source_type': 'react-native',
-                        '_oo.error.fingerprint': fingerprint
+                        '_o2.error.source_type': 'react-native',
+                        '_o2.error.fingerprint': fingerprint
                     }
                 );
             }
@@ -679,7 +679,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -705,7 +705,7 @@ describe('OoLogs', () => {
                     'stacktrace',
                     {
                         context: [1, 2, 3],
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     }
                 );
             });
@@ -733,7 +733,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -748,7 +748,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { test: '123', '_oo.error.source_type': 'react-native' }
+                    { test: '123', '_o2.error.source_type': 'react-native' }
                 );
             });
         });
@@ -769,7 +769,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -793,7 +793,7 @@ describe('OoLogs', () => {
                     'stacktrace',
                     {
                         context: [1, 2, 3],
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     }
                 );
             });
@@ -821,7 +821,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -836,7 +836,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { test: '123', '_oo.error.source_type': 'react-native' }
+                    { test: '123', '_o2.error.source_type': 'react-native' }
                 );
             });
         });
@@ -857,7 +857,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -881,7 +881,7 @@ describe('OoLogs', () => {
                     'stacktrace',
                     {
                         context: [1, 2, 3],
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     }
                 );
             });
@@ -909,7 +909,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -924,7 +924,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { test: '123', '_oo.error.source_type': 'react-native' }
+                    { test: '123', '_o2.error.source_type': 'react-native' }
                 );
             });
         });
@@ -945,7 +945,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -971,7 +971,7 @@ describe('OoLogs', () => {
                     'stacktrace',
                     {
                         context: [1, 2, 3],
-                        '_oo.error.source_type': 'react-native'
+                        '_o2.error.source_type': 'react-native'
                     }
                 );
             });
@@ -999,7 +999,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { '_oo.error.source_type': 'react-native' }
+                    { '_o2.error.source_type': 'react-native' }
                 );
             });
 
@@ -1014,7 +1014,7 @@ describe('OoLogs', () => {
                     'kind',
                     'message',
                     'stacktrace',
-                    { test: '123', '_oo.error.source_type': 'react-native' }
+                    { test: '123', '_o2.error.source_type': 'react-native' }
                 );
             });
         });
