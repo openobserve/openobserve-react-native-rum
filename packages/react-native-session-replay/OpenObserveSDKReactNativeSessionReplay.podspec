@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.dependency "React-Core"
 
   # /!\ Remember to keep the version in sync with OpenObserveSDKReactNative.podspec
-  s.dependency 'OpenObserveSessionReplay', '0.1.0-alpha.4'
+  s.dependency 'OpenObserveSessionReplay', '0.1.0-alpha.5'
   s.dependency 'OpenObserveSDKReactNative'
 
   s.test_spec 'Tests' do |test_spec|
