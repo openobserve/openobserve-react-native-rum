@@ -199,7 +199,7 @@ dependencies {
   implementation "ai.openobserve:o2-sdk-android-webview:0.1.0-alpha5"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-  implementation project(path: ':datadog_mobile-react-native')
+  implementation project(path: ':openobserve_mobile-react-native')
   implementation project(path: ':react-native-webview')
 
   testImplementation "org.junit.platform:junit-platform-launcher:1.6.2"

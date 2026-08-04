@@ -187,7 +187,7 @@ dependencies {
     api "com.facebook.react:react-android:$reactNativeVersion"
   }
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation project(path: ':datadog_mobile-react-native')
+  implementation project(path: ':openobserve_mobile-react-native')
   implementation "ai.openobserve:o2-sdk-android-core"
   implementation "com.google.code.gson:gson:2.11.0"
 
