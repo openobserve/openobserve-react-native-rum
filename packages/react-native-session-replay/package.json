@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native-session-replay",
-    "version": "0.1.0-alpha.6",
+    "version": "0.1.0-alpha.7",
     "description": "A client-side React Native module to enable session replay with OpenObserve",
     "keywords": [
         "datadog",
