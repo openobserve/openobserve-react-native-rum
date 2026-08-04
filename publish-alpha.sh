@@ -14,14 +14,31 @@
 # the newest alpha -- otherwise new users silently get the oldest one.
 set -euo pipefail
 
-VERSION="${1:-}"
+VERSION=""
 MOVE_LATEST=1
-[ "${2:-}" = "--no-latest" ] && MOVE_LATEST=0
+OTP=""
+
+for arg in "$@"; do
+  case "$arg" in
+    --no-latest) MOVE_LATEST=0 ;;
+    --otp=*)     OTP="${arg#--otp=}" ;;
+    -*)          echo "unknown option: $arg" >&2; exit 1 ;;
+    *)           VERSION="$arg" ;;
+  esac
+done
 
 if [ -z "$VERSION" ]; then
-  echo "usage: $0 <version> [--no-latest]   e.g. $0 0.1.0-alpha.7" >&2
+  echo "usage: $0 <version> [--otp=123456] [--no-latest]" >&2
+  echo "  e.g. $0 0.1.0-alpha.7 --otp=123456" >&2
   exit 1
 fi
+
+# With 2FA set to auth-and-writes, every publish and every dist-tag add needs an
+# OTP. A TOTP code is only valid for ~30s, so one code will not cover all of
+# them -- this script is idempotent (it skips anything already published), so
+# re-run it with a fresh code to pick up where it stopped.
+OTP_ARG=()
+[ -n "$OTP" ] && OTP_ARG=(--otp "$OTP")
 
 TAG="alpha"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -68,7 +85,7 @@ for d in "${DIRS[@]}"; do
   if npm view "$name@$VERSION" version >/dev/null 2>&1; then
     echo "  already published $VERSION — skipping"; continue
   fi
-  ( cd "$d" && npm publish --tag "$TAG" )
+  ( cd "$d" && npm publish --tag "$TAG" "${OTP_ARG[@]}" )
   echo "  published $name@$VERSION"
 done
 
@@ -77,7 +94,7 @@ if [ "$MOVE_LATEST" -eq 1 ]; then
   echo "=== moving \`latest\` -> $VERSION ==="
   for d in "${DIRS[@]}"; do
     name="$(pkg_name "$d")"
-    npm dist-tag add "$name@$VERSION" latest
+    npm dist-tag add "$name@$VERSION" latest "${OTP_ARG[@]}"
   done
 fi
 
