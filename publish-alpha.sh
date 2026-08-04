@@ -37,8 +37,12 @@ fi
 # OTP. A TOTP code is only valid for ~30s, so one code will not cover all of
 # them -- this script is idempotent (it skips anything already published), so
 # re-run it with a fresh code to pick up where it stopped.
-OTP_ARG=()
-[ -n "$OTP" ] && OTP_ARG=(--otp "$OTP")
+#
+# Kept as a plain string, not an array: macOS ships bash 3.2, where expanding an
+# empty array under `set -u` aborts with "unbound variable". The OTP is six
+# digits, so unquoted word-splitting is safe here.
+OTP_ARG=""
+[ -n "$OTP" ] && OTP_ARG="--otp $OTP"
 
 TAG="alpha"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -85,7 +89,7 @@ for d in "${DIRS[@]}"; do
   if npm view "$name@$VERSION" version >/dev/null 2>&1; then
     echo "  already published $VERSION — skipping"; continue
   fi
-  ( cd "$d" && npm publish --tag "$TAG" "${OTP_ARG[@]}" )
+  ( cd "$d" && npm publish --tag "$TAG" $OTP_ARG )
   echo "  published $name@$VERSION"
 done
 
@@ -94,7 +98,7 @@ if [ "$MOVE_LATEST" -eq 1 ]; then
   echo "=== moving \`latest\` -> $VERSION ==="
   for d in "${DIRS[@]}"; do
     name="$(pkg_name "$d")"
-    npm dist-tag add "$name@$VERSION" latest "${OTP_ARG[@]}"
+    npm dist-tag add "$name@$VERSION" latest $OTP_ARG
   done
 fi
 
