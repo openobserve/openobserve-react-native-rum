@@ -13,7 +13,9 @@ sed -i '' -e "s/^let SdkVersion = \".*\"/let SdkVersion = \"$1\"/" packages/core
 sed -i '' -e "s/^internal const val SDK_VERSION = \".*\"/internal const val SDK_VERSION = \"$1\"/" packages/core/android/src/main/kotlin/com/openobserve/reactnative/SdkVersion.kt
 
 # Change version
-yarn run lerna version $1 --ignore-changes --no-git-tag-version --no-push
+# --yes: the version is passed explicitly, so the interactive confirmation is
+# pure friction and hangs the script when run non-interactively.
+yarn run lerna version $1 --ignore-changes --no-git-tag-version --no-push --yes
 yarn prepare
 
 # prepare packages
@@ -41,22 +43,27 @@ yarn workspace @openobserve/react-native-internal-testing-tools pack
 ./check-release-content.sh -p packages/internal-testing-tools/package.tgz > packages/internal-testing-tools/release-content.txt
 
 
-# Update example apps
-(cd example &&
-yarn
-(cd ios && RCT_NEW_ARCH_ENABLED=0 pod install --repo-update)
-)
+# Refresh a sample app's Podfile.lock. CocoaPods is not always installed (and is
+# not needed to publish -- these lockfiles ship with no package), so warn and
+# carry on rather than aborting the whole release under `set -e`.
+pod_install() { # <dir> <RCT_NEW_ARCH_ENABLED>
+  if command -v pod >/dev/null 2>&1; then
+    (cd "$1/ios" && RCT_NEW_ARCH_ENABLED="$2" pod install --repo-update)
+  else
+    echo "WARNING: cocoapods not found — $1/ios/Podfile.lock left at its old version" >&2
+  fi
+}
 
-(cd example-new-architecture &&
-yarn
-(cd ios && RCT_NEW_ARCH_ENABLED=1 pod install --repo-update)
-)
+# Update example apps
+(cd example && yarn)
+pod_install example 0
+
+(cd example-new-architecture && yarn)
+pod_install example-new-architecture 1
 
 # Update benchmark app
-(cd benchmarks &&
-yarn
-(cd ios && pod install --repo-update)
-)
+(cd benchmarks && yarn)
+pod_install benchmarks 0
 
 # Update NATIVE_SDK_VERSIONS.md
 ./update-native-sdk-versions.sh
