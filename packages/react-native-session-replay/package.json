@@ -3,12 +3,12 @@
     "version": "0.1.0-alpha.8",
     "description": "A client-side React Native module to enable session replay with OpenObserve",
     "keywords": [
-        "datadog",
+        "openobserve",
         "react-native",
         "ios",
         "android"
     ],
-    "author": "OpenObserve (https://github.com/DataDog)",
+    "author": "OpenObserve",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {

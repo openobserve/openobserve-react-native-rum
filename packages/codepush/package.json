@@ -3,14 +3,14 @@
     "version": "0.1.0-alpha.8",
     "description": "A client-side React Native module to interact with Appcenter Codepush and OpenObserve",
     "keywords": [
-        "datadog",
+        "openobserve",
         "react-native",
         "ios",
         "android",
         "codepush",
         "appcenter"
     ],
-    "author": "OpenObserve (https://github.com/DataDog)",
+    "author": "OpenObserve",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",

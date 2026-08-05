@@ -6,10 +6,10 @@
         "babel",
         "babel-plugin",
         "plugin",
-        "datadog",
+        "openobserve",
         "react-native"
     ],
-    "author": "OpenObserve (https://github.com/DataDog)",
+    "author": "OpenObserve",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": "https://github.com/openobserve/openobserve-react-native-rum",
     "bugs": {

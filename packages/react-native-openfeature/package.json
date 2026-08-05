@@ -3,14 +3,14 @@
     "version": "0.1.0-alpha.8",
     "description": "A client-side React Native module to provide OpenFeature integration with OpenObserve Feature Flags",
     "keywords": [
-        "datadog",
+        "openobserve",
         "react-native",
         "ios",
         "android",
         "openfeature",
         "feature-flags"
     ],
-    "author": "OpenObserve (https://github.com/DataDog)",
+    "author": "OpenObserve",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",

@@ -3,14 +3,14 @@
     "version": "0.1.0-alpha.8",
     "description": "A client-side React Native module to interact with react-native-webview and OpenObserve",
     "keywords": [
-        "datadog",
+        "openobserve",
         "react-native",
         "ios",
         "android",
         "react-native-webview",
         "webview"
     ],
-    "author": "OpenObserve (https://github.com/DataDog)",
+    "author": "OpenObserve",
     "homepage": "https://github.com/openobserve/openobserve-react-native-rum/packages/react-native-webview#readme",
     "repository": {
         "url": "https://github.com/openobserve/openobserve-react-native-rum",
