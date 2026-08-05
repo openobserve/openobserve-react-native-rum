@@ -5,6 +5,7 @@
  */
 
 @_spi(Internal) import OpenObserveSessionReplay
+import OpenObserveInternal
 import React
 import UIKit
 
@@ -86,10 +87,10 @@ internal struct RCTTextViewWireframesBuilder: SessionReplayNodeWireframesBuilder
         let bottom = 0.0
         let right = 0.0
         return SRContentClip.create(
-            bottom: Int64.ddWithNoOverflow(bottom),
-            left: Int64.ddWithNoOverflow(left),
-            right: Int64.ddWithNoOverflow(right),
-            top: Int64.ddWithNoOverflow(top)
+            bottom: Int64.ooWithNoOverflow(bottom),
+            left: Int64.ooWithNoOverflow(left),
+            right: Int64.ooWithNoOverflow(right),
+            top: Int64.ooWithNoOverflow(top)
         )
     }
 
