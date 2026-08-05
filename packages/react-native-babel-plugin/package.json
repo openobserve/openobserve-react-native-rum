@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native-babel-plugin",
-    "version": "0.1.0-alpha.7",
+    "version": "0.1.0-alpha.8",
     "description": "A Babel plugin that enhances OpenObserve's React Native SDK by automatically enriching React components with contextual metadata.",
     "keywords": [
         "babel",
