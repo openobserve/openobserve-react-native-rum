@@ -20,30 +20,30 @@ PODS:
     - KSCrash/Core
   - KSCrash/ReportingCore (2.5.0):
     - KSCrash/Core
-  - OpenObserveCore (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveCrashReporting (0.1.0-alpha.5):
+  - OpenObserveCore (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveCrashReporting (0.1.0):
     - KSCrash/Filters (= 2.5.0)
     - KSCrash/Recording (= 2.5.0)
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveFlags (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveInternal (0.1.0-alpha.5)
-  - OpenObserveLogs (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveRUM (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveSDKReactNative (0.1.0-alpha.7):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveFlags (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveInternal (0.1.0)
+  - OpenObserveLogs (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveRUM (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveSDKReactNative (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
-    - OpenObserveCore (= 0.1.0-alpha.5)
-    - OpenObserveCrashReporting (= 0.1.0-alpha.5)
-    - OpenObserveFlags (= 0.1.0-alpha.5)
-    - OpenObserveLogs (= 0.1.0-alpha.5)
-    - OpenObserveRUM (= 0.1.0-alpha.5)
-    - OpenObserveTrace (= 0.1.0-alpha.5)
-    - OpenObserveWebViewTracking (= 0.1.0-alpha.5)
+    - OpenObserveCore (= 0.1.0)
+    - OpenObserveCrashReporting (= 0.1.0)
+    - OpenObserveFlags (= 0.1.0)
+    - OpenObserveLogs (= 0.1.0)
+    - OpenObserveRUM (= 0.1.0)
+    - OpenObserveTrace (= 0.1.0)
+    - OpenObserveWebViewTracking (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -61,17 +61,17 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSDKReactNative/Tests (0.1.0-alpha.7):
+  - OpenObserveSDKReactNative/Tests (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
-    - OpenObserveCore (= 0.1.0-alpha.5)
-    - OpenObserveCrashReporting (= 0.1.0-alpha.5)
-    - OpenObserveFlags (= 0.1.0-alpha.5)
-    - OpenObserveLogs (= 0.1.0-alpha.5)
-    - OpenObserveRUM (= 0.1.0-alpha.5)
-    - OpenObserveTrace (= 0.1.0-alpha.5)
-    - OpenObserveWebViewTracking (= 0.1.0-alpha.5)
+    - OpenObserveCore (= 0.1.0)
+    - OpenObserveCrashReporting (= 0.1.0)
+    - OpenObserveFlags (= 0.1.0)
+    - OpenObserveLogs (= 0.1.0)
+    - OpenObserveRUM (= 0.1.0)
+    - OpenObserveTrace (= 0.1.0)
+    - OpenObserveWebViewTracking (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -89,12 +89,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSDKReactNativeSessionReplay (0.1.0-alpha.7):
+  - OpenObserveSDKReactNativeSessionReplay (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
     - OpenObserveSDKReactNative
-    - OpenObserveSessionReplay (= 0.1.0-alpha.5)
+    - OpenObserveSessionReplay (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -112,12 +112,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSDKReactNativeSessionReplay/Tests (0.1.0-alpha.7):
+  - OpenObserveSDKReactNativeSessionReplay/Tests (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
     - OpenObserveSDKReactNative
-    - OpenObserveSessionReplay (= 0.1.0-alpha.5)
+    - OpenObserveSessionReplay (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -136,13 +136,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSDKReactNativeWebView (0.1.0-alpha.7):
+  - OpenObserveSDKReactNativeWebView (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
-    - OpenObserveInternal (= 0.1.0-alpha.5)
+    - OpenObserveInternal (= 0.1.0)
     - OpenObserveSDKReactNative
-    - OpenObserveWebViewTracking (= 0.1.0-alpha.5)
+    - OpenObserveWebViewTracking (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -160,13 +160,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSDKReactNativeWebView/Tests (0.1.0-alpha.7):
+  - OpenObserveSDKReactNativeWebView/Tests (0.1.0-alpha.8):
     - DoubleConversion
     - glog
     - hermes-engine
-    - OpenObserveInternal (= 0.1.0-alpha.5)
+    - OpenObserveInternal (= 0.1.0)
     - OpenObserveSDKReactNative
-    - OpenObserveWebViewTracking (= 0.1.0-alpha.5)
+    - OpenObserveWebViewTracking (= 0.1.0)
     - RCT-Folly (= 2024.10.14.00)
     - RCTRequired
     - RCTTypeSafety
@@ -186,13 +186,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenObserveSessionReplay (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
-  - OpenObserveTrace (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
+  - OpenObserveSessionReplay (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
+  - OpenObserveTrace (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
     - OpenTelemetry-Swift-Api (~> 2.3.0)
-  - OpenObserveWebViewTracking (0.1.0-alpha.5):
-    - OpenObserveInternal (= 0.1.0-alpha.5)
+  - OpenObserveWebViewTracking (0.1.0):
+    - OpenObserveInternal (= 0.1.0)
   - OpenTelemetry-Swift-Api (2.3.0)
   - RCT-Folly (2024.10.14.00):
     - boost
@@ -2244,18 +2244,18 @@ SPEC CHECKSUMS:
   hermes-engine: 9e868dc7be781364296d6ee2f56d0c1a9ef0bb11
   HMSegmentedControl: 34c1f54d822d8308e7b24f5d901ec674dfa31352
   KSCrash: 80e1e24eaefbe5134934ae11ca8d7746586bc2ed
-  OpenObserveCore: 11aa99f2ce1d09e7c2374200f421d4abd2a5bef0
-  OpenObserveCrashReporting: 930c9cde9360d01f9f703f0b9a841fc4e0ea6b47
-  OpenObserveFlags: aa7c5d173184e42770895f0bd33a3fab53cd9311
-  OpenObserveInternal: 9165100e4d4372910c7821781e043b76843fd57d
-  OpenObserveLogs: 5b8d780b89c8cb229e0adc283a74c22acd072d0e
-  OpenObserveRUM: 364051242f469b8e6a124e4bcab5f850c6588b41
-  OpenObserveSDKReactNative: 45a01f5c09709aa5c5dc61a94469210155c25b90
-  OpenObserveSDKReactNativeSessionReplay: 64b8dd22db250ddd7cf9f38ae5acb83cf815ec74
-  OpenObserveSDKReactNativeWebView: 69bd3243c833cc7b3955c801862e24ec52e1c646
-  OpenObserveSessionReplay: e9fbb0afae1829ec04276907e3f3e5daf63b7bad
-  OpenObserveTrace: aa20cc2c2de56209232f719d9f9ee7500ab3e4da
-  OpenObserveWebViewTracking: f5d16a5f65966782a6f85dc017104032771da8d6
+  OpenObserveCore: 7f0bec2d398b2331a99c4ef5aca4f3b1c323877e
+  OpenObserveCrashReporting: eceea42b4f6200e80dddd9d564db5723800229ec
+  OpenObserveFlags: c43948db0db80ba603b79f0fd6bac52a3424c3e9
+  OpenObserveInternal: acea595df12eaf3f0f12c0adae897996e14ddace
+  OpenObserveLogs: 8429fbe2da22e23440b2ea3c7bdcc45e5964471c
+  OpenObserveRUM: afd9978cf063774b836df64ff221179488ac236a
+  OpenObserveSDKReactNative: be27467b5cbe7ec149b58136dd93a7b38d2ea9b5
+  OpenObserveSDKReactNativeSessionReplay: 9d3148b010363bb003a6cf4c8ff625165f5a942d
+  OpenObserveSDKReactNativeWebView: e8bf2a858d59b0965df9ca98db7837ca6c7549fe
+  OpenObserveSessionReplay: 23d7de49ce048640c7ebc25985ca5803f09880f7
+  OpenObserveTrace: 4546a69405ed595f99f653b2c59cd5739a0b4547
+  OpenObserveWebViewTracking: 03ad2b3362dea454274a6b234b0c87fdd3e47d9c
   OpenTelemetry-Swift-Api: 3d77582ab6837a63b65bf7d2eacc57d8f2595edd
   RCT-Folly: ea9d9256ba7f9322ef911169a9f696e5857b9e17
   RCTDeprecation: ebe712bb05077934b16c6bf25228bdec34b64f83
