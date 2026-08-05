@@ -36,15 +36,14 @@ const config = new OoSdkReactNativeConfiguration(
 await OpenObserveCodepush.initialize(config);
 ```
 
-This method sets your reported version to the same value as the one the [`datadog-ci react-native codepush` command][3] uses when uploading your CodePush bundle and source maps.
+This method sets your reported version to the same value your source map upload tooling records for the CodePush bundle.
 
 ## Alternative to `@openobserve/mobile-react-native-code-push`
 
-If you use `datadog-ci react-native upload` to upload your CodePush bundle and source maps with a different format for the version, you can override the reported version in the SDK configuration object by using either:
+If your tooling uploads the CodePush bundle and source maps with a different format for the version, you can override the reported version in the SDK configuration object by using either:
 
 -   `versionSuffix` (recommended) to add a suffix to the commercial version of your app
 -   `version` to completely override the version
 
 [1]: https://github.com/microsoft/react-native-code-push
 [2]: https://github.com/openobserve/openobserve-react-native-rum/tree/main/packages/core
-[3]: https://github.com/DataDog/datadog-ci/tree/master/src/commands/react-native#codepush

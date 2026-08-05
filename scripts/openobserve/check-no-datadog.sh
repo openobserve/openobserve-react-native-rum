@@ -44,12 +44,24 @@ fi
 
 # --- 2. PUBLISHED METADATA ----------------------------------------------------
 # `bin` names land on the consumer's PATH; `name`/`main`/`files` are what npm resolves.
+# The rest is what npm RENDERS on the public package page. Both matter: this gate
+# reported PASS while every package shipped `"keywords": ["datadog"]` (which also put
+# them in npm searches for the upstream) and `"author": "OpenObserve (github.com/DataDog)"`.
+# Two independent blind spots let that through, so both are fixed here:
+#   - the probe read only the resolution fields, never author/keywords;
+#   - `[Dd]atadog` cannot match `DataDog` — the capital D in "Dog" — so even a probed
+#     field would have passed. The match is case-insensitive now.
 META_HITS=""
 for d in $PKG_DIRS; do
   h=$(node -e "
 const d=require('./$d/package.json');
-const probe=JSON.stringify({name:d.name,bin:d.bin,main:d.main,module:d.module,types:d.types,files:d.files});
-const m=probe.match(/[^\"]*[Dd]atadog[^\"]*/g);
+const probe=JSON.stringify({
+  name:d.name, bin:d.bin, main:d.main, module:d.module, types:d.types, files:d.files,
+  author:d.author, contributors:d.contributors, maintainers:d.maintainers,
+  keywords:d.keywords, description:d.description,
+  homepage:d.homepage, repository:d.repository, bugs:d.bugs, funding:d.funding
+});
+const m=probe.match(/[^\"]*datadog[^\"]*/gi);
 if(m) console.log('$d/package.json: '+[...new Set(m)].join(' '));
 " 2>/dev/null || true)
   [ -n "$h" ] && META_HITS="$META_HITS$h\n"
@@ -65,8 +77,11 @@ fi
 # uppercase letter or the `hq` suffix, so a bare lowercase hostname label matches none of
 # them — which is how the upstream NTP pool shipped in the native alpha1s.
 # `@datadog/datadog-ci` is EXTERNAL and legitimately referenced (dev workspaces only).
+# `\bDataDog` is the brand's own capitalisation and is NOT covered by `\bDatadog[A-Za-z]`
+# (capital D in "Dog"). That is how `github.com/DataDog` shipped in every package's author
+# field. It does not touch the Apache-2.0 headers, which spell it "Datadog".
 HITS=$(echo "$PATHS" | xargs grep -nE \
-  'com\.datadog|com/datadog|com\.datadoghq|\bDatadog[A-Za-z]|\bDATADOG|datad0g|ddog-gov|\bddtags\b|\bddsource\b|DD-API-KEY|\bdd=s:|\bdd=p:|datadog\.pool|datadog\.[a-z]+\.(org|com|net)|datadog-(configuration|sourcemaps|generate)' \
+  'com\.datadog|com/datadog|com\.datadoghq|\bDatadog[A-Za-z]|\bDataDog|\bDATADOG|datad0g|ddog-gov|\bddtags\b|\bddsource\b|DD-API-KEY|\bdd=s:|\bdd=p:|datadog\.pool|datadog\.[a-z]+\.(org|com|net)|datadog-(configuration|sourcemaps|generate)' \
   2>/dev/null \
   | grep -viE 'developed at Datadog|Copyright .*Datadog|licensed under|@datadog/datadog-ci' || true)
 if [ -n "$HITS" ]; then
