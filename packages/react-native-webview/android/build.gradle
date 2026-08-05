@@ -196,7 +196,7 @@ dependencies {
     implementation "com.facebook.react:react-android:$reactNativeVersion"
   }
 
-  implementation "ai.openobserve:o2-sdk-android-webview:0.1.0-alpha5"
+  implementation "ai.openobserve:o2-sdk-android-webview:0.1.0"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
   implementation project(path: ':openobserve_mobile-react-native')

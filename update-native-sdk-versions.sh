@@ -83,10 +83,13 @@ else
 fi
 
 # Get iOS version
-extract_and_validate_version podspec_files[@] "dependency 'OpenObserve.*' *, *'" "s/.*dependency *'OpenObserve.*, *'\([0-9.]*\).*/\1/" "iOS" ios_version
+# The capture must not be `[0-9.]*`: that stops at the hyphen, so every prerelease pin was
+# recorded as its release version. '0.1.0-alpha.5' became '0.1.0', which is why the table
+# claimed alpha.7 shipped against native 0.1.0 when it actually pinned alpha.5.
+extract_and_validate_version podspec_files[@] "dependency 'OpenObserve.*' *, *'" "s/.*dependency *'OpenObserve[A-Za-z]*' *, *'\([^']*\)'.*/\1/" "iOS" ios_version
 
-# Get Android version
-extract_and_validate_version build_gradle_files[@] "ai.openobserve:o2-sdk-android" 's/.*:\([0-9.]*\).*/\1/' "Android" android_version
+# Get Android version — same hyphen truncation as above ('0.1.0-alpha5' -> '0.1.0').
+extract_and_validate_version build_gradle_files[@] "ai.openobserve:o2-sdk-android" 's/.*:\([0-9][0-9A-Za-z.-]*\)".*/\1/' "Android" android_version
 
 # Check if NATIVE_SDK_VERSIONS.md exists, create it otherwise
 if [ ! -f "NATIVE_SDK_VERSIONS.md" ]; then
