@@ -1,5 +1,6 @@
 | React Native | iOS Bridge / iOS SDK | Android Bridge / Android SDK |
 |-------------|---------------------|-----------------------------|
+| 0.1.1 | 0.1.0 | 0.1.0 |
 | 0.1.0 | 0.1.0 | 0.1.0 |
 | 0.1.0-alpha.8 | 0.1.0-alpha.5 | 0.1.0-alpha5 |
 | 0.1.0-alpha.7 | 0.1.0-alpha.5 | 0.1.0-alpha5 |
