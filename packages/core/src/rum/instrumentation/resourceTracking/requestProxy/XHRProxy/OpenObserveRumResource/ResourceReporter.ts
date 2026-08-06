@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { OoRum } from '../../../../../OoRum';
+import { O2Rum } from '../../../../../O2Rum';
 import { TracingIdFormat } from '../../../distributedTracing/TracingIdentifier';
 import type { RUMResource } from '../../interfaces/RumResource';
 
@@ -90,7 +90,7 @@ const formatResourceStopContext = (
 };
 
 const reportResource = async (resource: RUMResource) => {
-    await OoRum.startResource(
+    await O2Rum.startResource(
         resource.key,
         resource.request.method,
         resource.request.url,
@@ -98,7 +98,7 @@ const reportResource = async (resource: RUMResource) => {
         resource.timings.startTime
     );
 
-    OoRum.stopResource(
+    O2Rum.stopResource(
         resource.key,
         resource.response.statusCode,
         resource.request.kind,

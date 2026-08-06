@@ -44,7 +44,7 @@ const config = new CoreConfiguration(
 
 ...
 
-await OoSdkReactNative.initialize(config);
+await O2SdkReactNative.initialize(config);
 ```
 
 Or if using the OpenObserveProvider wrapper:

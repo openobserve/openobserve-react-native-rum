@@ -10,7 +10,7 @@ import { AccountInfoSingleton } from '../AccountInfoSingleton/AccountInfoSinglet
 import type { AccountInfo } from '../AccountInfoSingleton/types';
 import { AttributesSingleton } from '../AttributesSingleton/AttributesSingleton';
 import type { Attributes } from '../AttributesSingleton/types';
-import { NativeDdSdk } from '../OoSdkInternal';
+import { NativeDdSdk } from '../O2SdkInternal';
 import { UserInfoSingleton } from '../UserInfoSingleton/UserInfoSingleton';
 import type { UserInfo } from '../UserInfoSingleton/types';
 

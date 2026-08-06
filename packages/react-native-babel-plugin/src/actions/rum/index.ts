@@ -37,8 +37,8 @@ import { handleTapAction } from './tap';
  * Inserts RUM Action Tracking import at the top of the Program.
  *
  * Adds a single import declaration for:
- *   - the action tracking class (e.g., `OoBabelInteractionTracking`)
- *   - the text extraction helper (`__ddExtractText`)
+ *   - the action tracking class (e.g., `O2BabelInteractionTracking`)
+ *   - the text extraction helper (`__o2ExtractText`)
  *
  * @param t      Babel types helper.
  * @param path   Program path to mutate.
@@ -486,12 +486,12 @@ export function setContentAttribute(
             fragmentProps
         ]);
 
-        // () => __ddExtractText(jsxs(Fragment, { children: [...] }), [candidates...])
+        // () => __o2ExtractText(jsxs(Fragment, { children: [...] }), [candidates...])
         const getContentNode = t.arrowFunctionExpression(
             [],
             t.blockStatement([
                 t.returnStatement(
-                    t.callExpression(t.identifier('__ddExtractText'), [
+                    t.callExpression(t.identifier('__o2ExtractText'), [
                         fragment,
                         t.arrayExpression(
                             candidates.map(e => t.cloneNode(e, true))

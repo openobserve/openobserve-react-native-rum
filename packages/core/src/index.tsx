@@ -3,7 +3,7 @@
  * This product includes software developed at Datadog (https://www.datadoghq.com/).
  * Copyright 2016-Present Datadog, Inc.
  */
-import { OoSdkReactNative } from './OoSdkReactNative';
+import { O2SdkReactNative } from './O2SdkReactNative';
 import { InternalLog } from './InternalLog';
 import { OpenObserveProviderConfiguration } from './config/OpenObserveProviderConfiguration';
 import { FileBasedConfiguration } from './config/FileBasedConfiguration';
@@ -30,7 +30,7 @@ import {
     UploadFrequency,
     VitalsUpdateFrequency
 } from './config/types';
-import { OoFlags } from './flags/OoFlags';
+import { O2Flags } from './flags/O2Flags';
 import type { FlagsClient } from './flags/FlagsClient';
 import type {
     FlagsConfiguration,
@@ -38,10 +38,10 @@ import type {
     EvaluationContext,
     PrimitiveValue
 } from './flags/types';
-import { OoLogs } from './logs/OoLogs';
-import { OoRum } from './rum/OoRum';
-import { OoBabelInteractionTracking } from './rum/instrumentation/interactionTracking/OoBabelInteractionTracking';
-import { __ddExtractText } from './rum/instrumentation/interactionTracking/ddBabelUtils';
+import { O2Logs } from './logs/O2Logs';
+import { O2Rum } from './rum/O2Rum';
+import { O2BabelInteractionTracking } from './rum/instrumentation/interactionTracking/O2BabelInteractionTracking';
+import { __o2ExtractText } from './rum/instrumentation/interactionTracking/o2BabelUtils';
 import { OpenObserveTracingContext } from './rum/instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext';
 import { OpenObserveTracingIdentifier } from './rum/instrumentation/resourceTracking/distributedTracing/OpenObserveTracingIdentifier';
 import {
@@ -58,8 +58,8 @@ import {
 import type { FirstPartyHost } from './rum/types';
 import { PropagatorType, RumActionType } from './rum/types';
 import { OpenObserveProvider } from './sdk/OpenObserveProvider/OpenObserveProvider';
-import { OoSdk } from './sdk/OoSdk';
-import { OoTrace } from './trace/OoTrace';
+import { O2Sdk } from './sdk/O2Sdk';
+import { O2Trace } from './trace/O2Trace';
 import { ErrorSource, FeatureOperationFailure } from './types';
 import { DefaultTimeProvider } from './utils/time-provider/DefaultTimeProvider';
 import type { Timestamp } from './utils/time-provider/TimeProvider';
@@ -70,10 +70,10 @@ export {
     OpenObserveProviderConfiguration,
     FileBasedConfiguration,
     InitializationMode,
-    OoLogs,
-    OoFlags,
-    OoTrace,
-    OoRum,
+    O2Logs,
+    O2Flags,
+    O2Trace,
+    O2Rum,
     RumActionType,
     ErrorSource,
     FeatureOperationFailure,
@@ -81,8 +81,8 @@ export {
     RumConfiguration,
     LogsConfiguration,
     TraceConfiguration,
-    OoSdkReactNative,
-    OoSdk,
+    O2SdkReactNative,
+    O2Sdk,
     InternalLog,
     ProxyConfiguration,
     ProxyType,
@@ -104,8 +104,8 @@ export {
     TracingIdFormat,
     OpenObserveTracingIdentifier,
     OpenObserveTracingContext,
-    OoBabelInteractionTracking,
-    __ddExtractText
+    O2BabelInteractionTracking,
+    __o2ExtractText
 };
 export type {
     Timestamp,

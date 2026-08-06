@@ -4,16 +4,16 @@ import MainScreen from './screens/MainScreen';
 import ErrorScreen from './screens/ErrorScreen';
 import AboutScreen from './screens/AboutScreen';
 import {
-    OoRumReactNativeNavigationTracking,
+    O2RumReactNativeNavigationTracking,
     ViewNamePredicate,
     ComponentDidAppearEvent,
     Navigation
 } from '@openobserve/mobile-react-native-navigation';
 
 import styles from './screens/styles';
-import { OoFlags } from '@openobserve/mobile-react-native';
+import { O2Flags } from '@openobserve/mobile-react-native';
 import TraceScreen from './screens/TraceScreen';
-import { NavigationTrackingOptions, ParamsTrackingPredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-native-navigation/src/rum/instrumentation/OoRumReactNativeNavigationTracking';
+import { NavigationTrackingOptions, ParamsTrackingPredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-native-navigation/src/rum/instrumentation/O2RumReactNativeNavigationTracking';
 import { OpenFeatureProvider, useFlag } from '@openfeature/react-sdk';
 
 // === Navigation Tracking custom predicates
@@ -49,7 +49,7 @@ const navigationTrackingOptions: NavigationTrackingOptions = {
 }
 
 function startReactNativeNavigation() {
-    OoRumReactNativeNavigationTracking.startTracking(navigationTrackingOptions);
+    O2RumReactNativeNavigationTracking.startTracking(navigationTrackingOptions);
     registerScreens();
     Navigation.events().registerAppLaunchedListener(async () => {
         Navigation.setRoot({

@@ -7,9 +7,9 @@
 import { fireEvent } from '@testing-library/react-native';
 import { InteractionManager, NativeModules } from 'react-native';
 
-import { OoSdkReactNative } from '../../../OoSdkReactNative';
+import { O2SdkReactNative } from '../../../O2SdkReactNative';
 import { InitializationMode } from '../../../config/types';
-import { OoRumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/OoRumUserInteractionTracking';
+import { O2RumUserInteractionTracking } from '../../../rum/instrumentation/interactionTracking/O2RumUserInteractionTracking';
 import { XMLHttpRequestMock } from '../../../rum/instrumentation/resourceTracking/__tests__/__utils__/XMLHttpRequestMock';
 import { PropagatorType } from '../../../rum/types';
 import { DefaultTimeProvider } from '../../../utils/time-provider/DefaultTimeProvider';
@@ -44,10 +44,10 @@ describe('OpenObserveProvider', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         GlobalState.isInitialized = false;
-        OoSdkReactNative['wasAutoInstrumented'] = false;
+        O2SdkReactNative['wasAutoInstrumented'] = false;
         __internalResetIsInitializedForTesting();
         BufferSingleton.reset();
-        OoRumUserInteractionTracking.stopTracking();
+        O2RumUserInteractionTracking.stopTracking();
         (nowMock as any).mockReturnValue('timestamp_not_specified');
         global.XMLHttpRequest = XMLHttpRequestMock as any;
     });
@@ -57,7 +57,7 @@ describe('OpenObserveProvider', () => {
             const { getByText } = renderWithProvider();
             await flushPromises();
 
-            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
 
             const button = getByText('test button');
             fireEvent(button, 'press', {
@@ -68,7 +68,7 @@ describe('OpenObserveProvider', () => {
                 }
             });
 
-            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Rum.addAction).toHaveBeenCalledTimes(1);
         });
         it('initializes the SDK without waiting for idle callback', async () => {
             const idle = mockIdleCallback();
@@ -79,12 +79,12 @@ describe('OpenObserveProvider', () => {
 
                 await flushPromises();
 
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -100,12 +100,12 @@ describe('OpenObserveProvider', () => {
 
                 const { getByText } = renderWithProvider({ configuration });
                 await flushPromises();
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(0);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
                 const button = getByText('test button');
                 fireEvent(button, 'press', {
                     _targetInst: {
@@ -114,7 +114,7 @@ describe('OpenObserveProvider', () => {
                         }
                     }
                 });
-                expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Rum.addAction).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -128,12 +128,12 @@ describe('OpenObserveProvider', () => {
 
                 renderWithProviderAndAnimation({ configuration });
                 await flushPromises();
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(0);
 
                 idle.flushIdleCallbacks();
                 await flushPromises();
 
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 idle.restore();
             }
@@ -153,12 +153,12 @@ describe('OpenObserveProvider', () => {
                 const handle = InteractionManager.createInteractionHandle();
                 renderWithProvider({ configuration });
                 await flushPromises();
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(0);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(0);
 
                 InteractionManager.clearInteractionHandle(handle);
                 await flushPromises();
 
-                expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+                expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
             } finally {
                 (globalThis as Record<
                     string,
@@ -199,8 +199,8 @@ describe('OpenObserveProvider', () => {
                 }
             });
 
-            expect(NativeModules.OoSdk.initialize).not.toHaveBeenCalled();
-            expect(NativeModules.OoRum.addAction).not.toHaveBeenCalled();
+            expect(NativeModules.O2Sdk.initialize).not.toHaveBeenCalled();
+            expect(NativeModules.O2Rum.addAction).not.toHaveBeenCalled();
 
             await OpenObserveProvider.initialize({
                 clientToken: 'fake-client-token',
@@ -211,9 +211,9 @@ describe('OpenObserveProvider', () => {
             });
             await flushPromises();
 
-            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
             expect(
-                NativeModules.OoSdk.initialize.mock.calls[0][0].rumConfiguration
+                NativeModules.O2Sdk.initialize.mock.calls[0][0].rumConfiguration
                     .firstPartyHosts
             ).toEqual([
                 {
@@ -221,7 +221,7 @@ describe('OpenObserveProvider', () => {
                     propagatorTypes: ['tracecontext']
                 }
             ]);
-            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Rum.addAction).toHaveBeenCalledTimes(1);
         });
     });
 });

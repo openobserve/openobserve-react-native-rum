@@ -15,7 +15,7 @@ import { useIsFocused, useRoute } from '@react-navigation/native';
 import { CommonStyles as styles } from '../../../common/styles';
 import { RunType } from "../../../testSetup/types/testConfig";
 import { instrument } from "../../../testSetup/testUtils";
-import {OoLogs} from '@openobserve/mobile-react-native';
+import {O2Logs} from '@openobserve/mobile-react-native';
 import { Logger } from '../../../testSetup/logger';
 import { LogLevel, PAYLOADS_BY_SIZE, PayloadSize } from '../types';
 import type { LogsHeavyTrafficConfigParams, ImageListProps } from '../types';
@@ -36,7 +36,7 @@ function ImageListScreen(props: ImageListProps): React.JSX.Element {
     useEffect(() => {
         if (props.testConfig?.runType !== RunType.BASELINE) {
             instrument().then(() => {
-                logger.current = OoLogs;
+                logger.current = O2Logs;
                 setReadyToRun(true);
             });
         } else {

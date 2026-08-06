@@ -164,7 +164,7 @@ for (const rule of fileRenames) {
     let next
     if (rule.regex) {
       // A regex rule must mirror the CONTENT rule's boundary semantics exactly. The content
-      // rule is /\bDd([A-Z][A-Za-z0-9]*)/ -> Oo$1, which renames DdLogs but NOT NativeDdFlags
+      // rule is /\bDd([A-Z][A-Za-z0-9]*)/ -> O2$1, which renames DdLogs but NOT NativeDdFlags
       // (no word boundary before Dd). A plain substring rename would move NativeDdFlags.ts
       // while its content still says NativeDdFlags — swapping one broken state for another.
       const re = new RegExp(rule.regex)

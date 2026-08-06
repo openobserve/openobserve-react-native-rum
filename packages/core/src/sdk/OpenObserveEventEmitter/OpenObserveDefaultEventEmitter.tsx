@@ -19,7 +19,7 @@ export class OpenObserveDefaultEventEmitter implements OpenObserveEventEmitter {
     constructor(errorHandler: (err: any) => void) {
         try {
             const ddSdkModule =
-                NativeModules.OoSdk ||
+                NativeModules.O2Sdk ||
                 // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
                 require('../../specs/NativeDdSdk').default;
             this.eventEmitter = this.isNewArchitecture

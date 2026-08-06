@@ -71,7 +71,7 @@ internal class OpenObserveWebViewTest {
 
     @Test
     fun `OpenObserve Core is set once initialized`() {
-        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
+        val manager = O2SdkReactNativeWebViewManager(themedReactContext)
         assertThat(manager.datadogCore).isNull()
 
         OpenObserveSDKWrapperStorage.notifyOnInitializedListeners(datadogCore)
@@ -85,7 +85,7 @@ internal class OpenObserveWebViewTest {
         // =========
         //   Given
         // =========
-        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
+        val manager = O2SdkReactNativeWebViewManager(themedReactContext)
 
         // When first initialized, the WebView manager core should be null
         assertThat(manager.datadogCore).isNull()

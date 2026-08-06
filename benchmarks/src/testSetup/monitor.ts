@@ -5,12 +5,12 @@
  */
 
 import { DefaultTimeProvider, ErrorSource, RumActionType } from "@openobserve/mobile-react-native";
-import type { OoRumType, ResourceKind } from "@openobserve/mobile-react-native/lib/typescript/rum/types";
+import type { O2RumType, ResourceKind } from "@openobserve/mobile-react-native/lib/typescript/rum/types";
 import type { GestureResponderEvent } from "react-native/types";
 
 const timeProvider = new DefaultTimeProvider();
 
-export const Monitor: Pick<OoRumType, 'startView' | 'stopView' | 'addAction' | 'startResource' | 'stopResource' | 'addError'> = {
+export const Monitor: Pick<O2RumType, 'startView' | 'stopView' | 'addAction' | 'startResource' | 'stopResource' | 'addError'> = {
     startView: (
         key: string,
         name: string,

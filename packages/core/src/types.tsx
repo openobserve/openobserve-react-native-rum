@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { OoSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
+import type { O2SdkNativeConfiguration } from './config/features/CoreConfigurationNative';
 
 declare global {
     // eslint-disable-next-line no-var, vars-on-top
@@ -14,12 +14,12 @@ declare global {
 /**
  * The entry point to initialize OpenObserve's features.
  */
-export type OoSdkType = {
+export type O2SdkType = {
     /**
      * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
-    initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
+    initialize(configuration: O2SdkNativeConfiguration): Promise<void>;
 
     /**
      * Sets a specific attribute in the global context attached with all future Logs, Spans and RUM
@@ -96,7 +96,7 @@ export type OoSdkType = {
 /**
  * The entry point to use OpenObserve's Trace feature.
  */
-export type OoTraceType = {
+export type O2TraceType = {
     /**
      * Start a span, and returns a unique identifier for the span.
      * @param operation: The operation name of the span.
@@ -139,7 +139,7 @@ export type AccountInfo = {
     extraInfo?: object;
 };
 
-// OoLogs
+// O2Logs
 
 export type LogStatus = 'debug' | 'info' | 'warn' | 'error';
 
@@ -159,7 +159,7 @@ export type LogEvent = {
 
 export type LogEventMapper = (logEvent: LogEvent) => LogEvent | null;
 
-// OoRum
+// O2Rum
 export enum ErrorSource {
     NETWORK = 'NETWORK',
     SOURCE = 'SOURCE',

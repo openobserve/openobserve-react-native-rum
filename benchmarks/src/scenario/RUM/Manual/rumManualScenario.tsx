@@ -15,7 +15,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { OoRum, ErrorSource, RumActionType } from '@openobserve/mobile-react-native';
+import { O2Rum, ErrorSource, RumActionType } from '@openobserve/mobile-react-native';
 import { RUMEvent} from '../types';
 import type { RUMManualScenarioProps } from '../types';
 import { RunType } from '../../../testSetup/types/testConfig';
@@ -56,7 +56,7 @@ function RUMManualScenario(props: RUMManualScenarioProps): React.JSX.Element {
     useEffect(() => {
         if (props.testConfig?.runType !== RunType.BASELINE) {
             instrument().then(() => {
-                monitor.current = OoRum;
+                monitor.current = O2Rum;
                 monitor.current.startView('rumManualScenarioView', 'rumManual');
             });
         }

@@ -86,7 +86,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "OoInternalTesting",
+        "name": "O2InternalTesting",
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {

@@ -86,7 +86,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "OoSDKReactNativeSessionReplay",
+        "name": "O2SDKReactNativeSessionReplay",
         "type": "all",
         "jsSrcsDir": "./src/specs",
         "android": {

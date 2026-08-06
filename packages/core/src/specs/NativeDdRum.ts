@@ -9,7 +9,7 @@ import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
 
 /**
- * Do not import this Spec directly, use OoNativeRumType instead.
+ * Do not import this Spec directly, use O2NativeRumType instead.
  */
 export interface Spec extends TurboModule {
     readonly getConstants: () => {};
@@ -230,4 +230,4 @@ export interface Spec extends TurboModule {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default TurboModuleRegistry.get<Spec>('OoRum');
+export default TurboModuleRegistry.get<Spec>('O2Rum');

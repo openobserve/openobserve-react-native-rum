@@ -23,12 +23,12 @@ endef
 export ReleaseTestAppPodfile
 
 define SDKUsageJavascript
-import { OoSdkReactNativeConfiguration, OoSdkReactNative, OoLogs, OoRum } from '@openobserve/mobile-react-native';\n
-const config = new OoSdkReactNativeConfiguration("token", "env", "appID");\n
-OoSdkReactNative.initialize(config).then(() => {\n
+import { O2SdkReactNativeConfiguration, O2SdkReactNative, O2Logs, O2Rum } from '@openobserve/mobile-react-native';\n
+const config = new O2SdkReactNativeConfiguration("token", "env", "appID");\n
+O2SdkReactNative.initialize(config).then(() => {\n
   console.log("DD running...");\n
-  OoRum.startView('first', 'App', {}, Date.now());\n
-  OoLogs.info('This is a log sent from react-native', {\n
+  O2Rum.startView('first', 'App', {}, Date.now());\n
+  O2Logs.info('This is a log sent from react-native', {\n
     foo: 42,\n
     bar: 'xyz',\n
   });\n

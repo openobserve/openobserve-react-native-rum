@@ -18,13 +18,13 @@ yarn add @openobserve/mobile-react-native-code-push
 
 ## Initialize the SDK
 
-To initialize the OpenObserve React Native SDK for RUM, use `OpenObserveCodepush.initialize` instead of `OoSdkReactNative.initialize`:
+To initialize the OpenObserve React Native SDK for RUM, use `OpenObserveCodepush.initialize` instead of `O2SdkReactNative.initialize`:
 
 ```js
-import { OoSdkReactNativeConfiguration } from '@openobserve/mobile-react-native';
+import { O2SdkReactNativeConfiguration } from '@openobserve/mobile-react-native';
 import { OpenObserveCodepush } from '@openobserve/mobile-react-native-code-push';
 
-const config = new OoSdkReactNativeConfiguration(
+const config = new O2SdkReactNativeConfiguration(
     '<CLIENT_TOKEN>',
     '<ENVIRONMENT_NAME>',
     '<RUM_APPLICATION_ID>',

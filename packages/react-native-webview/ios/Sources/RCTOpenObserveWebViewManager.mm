@@ -22,7 +22,7 @@
 @implementation RCTOpenObserveWebViewManager { }
 
 // The module is exported to React Native with the name defined here.
-RCT_EXPORT_MODULE(OoReactNativeWebView)
+RCT_EXPORT_MODULE(O2ReactNativeWebView)
 
 // Allowed Hosts (REQUIRED)
 RCT_CUSTOM_VIEW_PROPERTY(allowedHosts, NSArray, RCTOpenObserveWebView)

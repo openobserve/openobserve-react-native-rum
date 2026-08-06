@@ -7,13 +7,13 @@ import AboutScreen from './screens/AboutScreen';
 import TraceScreen from './screens/TraceScreen';
 import style from './screens/styles';
 import { navigationRef } from './NavigationRoot';
-import { OoRumReactNavigationTracking, NavigationTrackingOptions, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
-import { OpenObserveProvider, TrackingConsent, OoFlags } from '@openobserve/mobile-react-native'
+import { O2RumReactNavigationTracking, NavigationTrackingOptions, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
+import { OpenObserveProvider, TrackingConsent, O2Flags } from '@openobserve/mobile-react-native'
 import { OpenObserveOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature, OpenFeatureProvider } from '@openfeature/react-sdk';
 import { Route } from "@react-navigation/native";
 import { NestedNavigator } from './screens/NestedNavigator/NestedNavigator';
-import { getOpenObserveConfig, onOpenObserveInitialization } from './ddUtils';
+import { getOpenObserveConfig, onOpenObserveInitialization } from './o2Utils';
 
 const Tab = createBottomTabNavigator();
 
@@ -72,7 +72,7 @@ const handleOpenObserveInitialization = async () => {
   onOpenObserveInitialization();
 
   // Enable OpenObserve Flags feature.
-  await OoFlags.enable();
+  await O2Flags.enable();
 
   // Set the provider with OpenFeature.
   const provider = new OpenObserveOpenFeatureProvider();
@@ -84,7 +84,7 @@ export default function App() {
     <OpenObserveProvider configuration={configuration} onInitialization={handleOpenObserveInitialization}>
       <OpenFeatureProvider>
         <NavigationContainer ref={navigationRef} onReady={() => {
-          OoRumReactNavigationTracking.startTrackingViews(
+          O2RumReactNavigationTracking.startTrackingViews(
             navigationRef.current,
             navigationTrackingOptions)
         }}>

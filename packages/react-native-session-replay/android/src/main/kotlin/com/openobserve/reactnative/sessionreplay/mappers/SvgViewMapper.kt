@@ -21,7 +21,7 @@ import com.openobserve.android.sessionreplay.utils.DefaultViewIdentifierResolver
 import com.openobserve.android.sessionreplay.utils.DrawableToColorMapper
 import com.openobserve.reactnative.sessionreplay.ReactNativeInternalCallback
 import com.openobserve.reactnative.sessionreplay.utils.DrawableUtils
-import com.openobserve.reactnative.sessionreplay.views.OoPrivacyView
+import com.openobserve.reactnative.sessionreplay.views.O2PrivacyView
 import java.util.Collections
 
 internal open class SvgViewMapper<T: ViewGroup>(
@@ -59,7 +59,7 @@ internal open class SvgViewMapper<T: ViewGroup>(
 
         val wireframes = mutableListOf<MobileSegment.Wireframe>()
 
-        if (view is OoPrivacyView) {
+        if (view is O2PrivacyView) {
             val hash = view.attributes?.get("hash") ?: return listOf(
                 MobileSegment.Wireframe.ShapeWireframe(
                     resolveViewId(view),

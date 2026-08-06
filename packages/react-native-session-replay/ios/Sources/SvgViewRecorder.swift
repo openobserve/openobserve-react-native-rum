@@ -22,8 +22,8 @@ private enum SVGConstants {
 }
 
 private enum PrivacyViewClasses {
-    static let paper = "OoPrivacyView"
-    static let fabric = "OoPrivacyViewFabric"
+    static let paper = "O2PrivacyView"
+    static let fabric = "O2PrivacyViewFabric"
 }
 
 internal struct ReactNativeSVGResource: SessionReplayResource {

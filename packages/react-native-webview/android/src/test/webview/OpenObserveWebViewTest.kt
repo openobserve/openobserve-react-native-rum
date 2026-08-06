@@ -10,7 +10,7 @@ import com.openobserve.android.api.SdkCore
 import com.openobserve.android.core.InternalSdkCore
 import com.openobserve.android.webview.WebViewTracking
 import com.openobserve.reactnative.OpenObserveSDKWrapperStorage
-import com.openobserve.reactnative.webview.OoSdkReactNativeWebViewManager
+import com.openobserve.reactnative.webview.O2SdkReactNativeWebViewManager
 import main.reactnative.tools.unit.GenericAssert.Companion.assertThat
 import com.facebook.react.bridge.JavaOnlyArray
 import com.facebook.react.uimanager.ThemedReactContext
@@ -72,7 +72,7 @@ internal class OpenObserveWebViewTest {
 
     @Test
     fun `OpenObserve Core is set once initialized`() {
-        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
+        val manager = O2SdkReactNativeWebViewManager(themedReactContext)
         assertThat(manager.datadogCore).isNull()
 
         OpenObserveSDKWrapperStorage.notifyOnInitializedListeners(datadogCore)
@@ -86,7 +86,7 @@ internal class OpenObserveWebViewTest {
         // =========
         //   Given
         // =========
-        val manager = OoSdkReactNativeWebViewManager(themedReactContext)
+        val manager = O2SdkReactNativeWebViewManager(themedReactContext)
 
         // When first initialized, the WebView manager core should be null
         assertThat(manager.datadogCore).isNull()

@@ -9,7 +9,7 @@ import type { LogStatus, ErrorSource } from '../types';
 /**
  * The entry point to use OpenObserve's Logs feature.
  */
-export type OoLogsType = {
+export type O2LogsType = {
     /**
      * Send a log with debug level.
      * @param message: The message to send.

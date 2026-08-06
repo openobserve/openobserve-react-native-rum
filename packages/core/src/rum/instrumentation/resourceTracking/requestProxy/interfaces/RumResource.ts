@@ -5,7 +5,7 @@
  */
 
 import type { ResourceKind } from '../../../../types';
-import type { OoRumResourceTracingAttributes } from '../../distributedTracing/distributedTracingAttributes';
+import type { O2RumResourceTracingAttributes } from '../../distributedTracing/distributedTracingAttributes';
 
 export interface RUMResource {
     key: string;
@@ -14,8 +14,8 @@ export interface RUMResource {
         url: string;
         kind: ResourceKind;
     };
-    tracingAttributes: OoRumResourceTracingAttributes;
-    graphqlAttributes?: OoRumResourceGraphqlAttributes;
+    tracingAttributes: O2RumResourceTracingAttributes;
+    graphqlAttributes?: O2RumResourceGraphqlAttributes;
     response: {
         statusCode: number;
         size: number;
@@ -28,17 +28,17 @@ export interface RUMResource {
     resourceContext?: XMLHttpRequest;
 }
 
-export type OoRumResourceGraphqlError = {
+export type O2RumResourceGraphqlError = {
     message: string;
     code?: string;
     locations?: Array<{ line: number; column: number }>;
     path?: Array<string | number>;
 };
 
-export type OoRumResourceGraphqlAttributes = {
+export type O2RumResourceGraphqlAttributes = {
     operationType?: string;
     operationName?: string;
     variables?: string;
     payload?: string;
-    errors?: OoRumResourceGraphqlError[];
+    errors?: O2RumResourceGraphqlError[];
 };

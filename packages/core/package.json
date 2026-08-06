@@ -25,9 +25,9 @@
         "android/gradle.properties",
         "android/src/**",
         "ios/Sources/**",
-        "ios/OoSdkReactNative.xcodeproj/project.xcworkspace/xcsharedata",
-        "ios/OoSdkReactNative.xcodeproj/project.xcworkspace/*.xcworkspacedata",
-        "ios/OoSdkReactNative.xcodeproj/*.pbxproj",
+        "ios/O2SdkReactNative.xcodeproj/project.xcworkspace/xcsharedata",
+        "ios/O2SdkReactNative.xcodeproj/project.xcworkspace/*.xcworkspacedata",
+        "ios/O2SdkReactNative.xcodeproj/*.pbxproj",
         "jest",
         "OpenObserveSDKReactNative.podspec",
         "openobserve-sourcemaps.gradle",
@@ -108,7 +108,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "OoSdkReactNative",
+        "name": "O2SdkReactNative",
         "type": "modules",
         "jsSrcsDir": "./src/specs",
         "android": {

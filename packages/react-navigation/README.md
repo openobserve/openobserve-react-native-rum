@@ -24,7 +24,7 @@ To track changes in navigation as RUM Views, set the `onReady` callback of your 
 
 ```js
 import * as React from 'react';
-import { OoRumReactNavigationTracking, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
+import { O2RumReactNavigationTracking, ParamsTrackingPredicate, ViewNamePredicate, ViewTrackingPredicate } from '@openobserve/mobile-react-navigation';
 import { Route } from "@react-navigation/native";
 
 // Sets a custom name for a tracked view
@@ -66,7 +66,7 @@ function App() {
   return (
     <View>
       <NavigationContainer ref={navigationRef} onReady={() => {
-        OoRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions)
+        O2RumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions)
       }}>
         // …
       </NavigationContainer>
@@ -81,7 +81,7 @@ These predicates are optional, and when not set the default behavior will be use
 - ViewTrackingPredicate - tracks all views on RUM.
 - ParamsTrackingPredicate - does not forward any parameters to RUM.
 
-**Note**: Only one `NavigationContainer` can be tracked at the time. If you need to track another container, stop tracking the previous one first, using `OoRumReactNavigationTracking.stopTrackingViews()`.
+**Note**: Only one `NavigationContainer` can be tracked at the time. If you need to track another container, stop tracking the previous one first, using `O2RumReactNavigationTracking.stopTrackingViews()`.
 
 
 [1]: https://github.com/react-navigation/react-navigation

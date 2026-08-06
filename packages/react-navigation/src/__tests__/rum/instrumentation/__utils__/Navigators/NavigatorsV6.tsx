@@ -10,7 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack-v6';
 import { View, Text, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
-import { OoRumReactNavigationTracking } from '../../../../../rum/instrumentation/OoRumReactNavigationTracking';
+import { O2RumReactNavigationTracking } from '../../../../../rum/instrumentation/O2RumReactNavigationTracking';
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -122,14 +122,14 @@ export function FakeTogglableNavigator(props: {
     const navigationRef = props.navigationRef;
 
     useEffect(() => {
-        OoRumReactNavigationTracking.stopTrackingViews(navigationRef.current);
+        O2RumReactNavigationTracking.stopTrackingViews(navigationRef.current);
     }, [navigationRef, showNavigator]);
 
     return showNavigator ? (
         <NavigationContainer
             ref={navigationRef}
             onReady={() => {
-                OoRumReactNavigationTracking.startTrackingViews(
+                O2RumReactNavigationTracking.startTrackingViews(
                     navigationRef.current
                 );
             }}

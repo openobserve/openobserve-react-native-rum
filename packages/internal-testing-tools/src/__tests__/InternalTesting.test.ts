@@ -9,7 +9,7 @@ import { NativeModules } from 'react-native';
 import { InternalTesting } from '../InternalTesting';
 
 beforeEach(() => {
-    NativeModules.OoInternalTesting.enable.mockClear();
+    NativeModules.O2InternalTesting.enable.mockClear();
 });
 
 describe('InternalTesting', () => {
@@ -18,7 +18,7 @@ describe('InternalTesting', () => {
             InternalTesting.enable();
 
             expect(
-                NativeModules.OoInternalTesting.enable
+                NativeModules.O2InternalTesting.enable
             ).toHaveBeenCalledWith();
         });
     });

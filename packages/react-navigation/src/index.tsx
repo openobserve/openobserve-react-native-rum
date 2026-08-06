@@ -9,10 +9,10 @@ import type {
     ViewNamePredicate,
     ViewTrackingPredicate,
     ParamsTrackingPredicate
-} from './rum/instrumentation/OoRumReactNavigationTracking';
-import { OoRumReactNavigationTracking } from './rum/instrumentation/OoRumReactNavigationTracking';
+} from './rum/instrumentation/O2RumReactNavigationTracking';
+import { O2RumReactNavigationTracking } from './rum/instrumentation/O2RumReactNavigationTracking';
 
-export { OoRumReactNavigationTracking };
+export { O2RumReactNavigationTracking };
 
 export type {
     NavigationTrackingOptions,

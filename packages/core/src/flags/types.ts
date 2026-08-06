@@ -6,19 +6,19 @@
 
 import type { FlagsClient } from './FlagsClient';
 
-export interface OoFlagsType {
+export interface O2FlagsType {
     /**
      * Enables the OpenObserve Flags feature in your application.
      *
      * Call this method after initializing the OpenObserve SDK to enable feature flag evaluation.
-     * This method must be called before creating any `FlagsClient` instances via `OoFlags.getClient()`.
+     * This method must be called before creating any `FlagsClient` instances via `O2Flags.getClient()`.
      *
      * @example
      * ```ts
-     * import { OoSdkReactNativeConfiguration, OoSdkReactNative, OoFlags } from '@openobserve/mobile-react-native';
+     * import { O2SdkReactNativeConfiguration, O2SdkReactNative, O2Flags } from '@openobserve/mobile-react-native';
      *
      * // Initialize the OpenObserve SDK.
-     * await OoSdkReactNative.initialize(...);
+     * await O2SdkReactNative.initialize(...);
      *
      * // Optinal flags configuration object.
      * const flagsConfig = {
@@ -26,10 +26,10 @@ export interface OoFlagsType {
      * };
      *
      * // Enable the feature.
-     * await OoFlags.enable(flagsConfig);
+     * await O2Flags.enable(flagsConfig);
      *
      * // Retrieve the client and access feature flags.
-     * const flagsClient = OoFlags.getClient();
+     * const flagsClient = O2Flags.getClient();
      * const flagValue = await flagsClient.getBooleanValue('new-feature', false);
      * ```
      *
@@ -46,7 +46,7 @@ export interface OoFlagsType {
      *
      * @example
      * ```ts
-     * const flagsClient = OoFlags.getClient();
+     * const flagsClient = O2Flags.getClient();
      *
      * // Set the evaluation context.
      * await flagsClient.setEvaluationContext({

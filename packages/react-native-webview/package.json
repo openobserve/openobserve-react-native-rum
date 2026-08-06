@@ -87,7 +87,7 @@
         ]
     },
     "codegenConfig": {
-        "name": "OoSdkReactNativeWebView",
+        "name": "O2SdkReactNativeWebView",
         "type": "all",
         "jsSrcsDir": "./src/specs",
         "android": {

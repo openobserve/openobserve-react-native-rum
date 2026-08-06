@@ -5,7 +5,7 @@
  */
 
 import * as mock from '../../jest/mock';
-import { OoLogs, OoRum, OoTrace, OoSdkReactNative } from '../index';
+import { O2Logs, O2Rum, O2Trace, O2SdkReactNative } from '../index';
 
 // 🚨 READ THIS FIRST IF THIS TEST IS FAILING
 /*
@@ -22,8 +22,8 @@ import { OoLogs, OoRum, OoTrace, OoSdkReactNative } from '../index';
  */
 
 const privateProperties = {
-    OoTrace: ['nativeTrace'],
-    OoLogs: [
+    O2Trace: ['nativeTrace'],
+    O2Logs: [
         'nativeLogs',
         'logEventMapper',
         'printLogDroppedSdkNotInitialized',
@@ -32,7 +32,7 @@ const privateProperties = {
         'log',
         'logWithError'
     ],
-    OoRum: [
+    O2Rum: [
         'nativeRum',
         'errorEventMapper',
         'resourceEventMapper',
@@ -41,7 +41,7 @@ const privateProperties = {
         'getStopActionNativeCallArgs',
         'currentRumSessionId'
     ],
-    OoSdkReactNative: [
+    O2SdkReactNative: [
         'DD_SOURCE_KEY',
         'DD_SDK_VERSION',
         'DD_VERSION',
@@ -67,7 +67,7 @@ const getPublicPropertiesFromModule = (
 };
 
 describe('official mock', () => {
-    describe.each([{ OoTrace }, { OoLogs }, { OoRum }, { OoSdkReactNative }])(
+    describe.each([{ O2Trace }, { O2Logs }, { O2Rum }, { O2SdkReactNative }])(
         'mocks module: %s',
         moduleObject => {
             // We get the name of the module and the module from our object list

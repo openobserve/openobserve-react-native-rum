@@ -11,10 +11,10 @@ import XCTest
 class ModulesTest: XCTestCase {
 
     func testAllModulesUseSameQueue() {
-        XCTAssertTrue(sharedQueue === OoSdk().methodQueue)
-        XCTAssertTrue(sharedQueue === OoRum().methodQueue)
-        XCTAssertTrue(sharedQueue === OoLogs().methodQueue)
-        XCTAssertTrue(sharedQueue === OoTrace().methodQueue)
+        XCTAssertTrue(sharedQueue === O2Sdk().methodQueue)
+        XCTAssertTrue(sharedQueue === O2Rum().methodQueue)
+        XCTAssertTrue(sharedQueue === O2Logs().methodQueue)
+        XCTAssertTrue(sharedQueue === O2Trace().methodQueue)
     }
 
     func testAllModulesExposeMethodQueueProperly() {
@@ -25,9 +25,9 @@ class ModulesTest: XCTestCase {
         let methodQueueSelector = #selector(getter: RCTModuleData.methodQueue)
 
         // Then
-        XCTAssertTrue(OoSdk().responds(to: methodQueueSelector))
-        XCTAssertTrue(OoRum().responds(to: methodQueueSelector))
-        XCTAssertTrue(OoLogs().responds(to: methodQueueSelector))
-        XCTAssertTrue(OoTrace().responds(to: methodQueueSelector))
+        XCTAssertTrue(O2Sdk().responds(to: methodQueueSelector))
+        XCTAssertTrue(O2Rum().responds(to: methodQueueSelector))
+        XCTAssertTrue(O2Logs().responds(to: methodQueueSelector))
+        XCTAssertTrue(O2Trace().responds(to: methodQueueSelector))
     }
 }

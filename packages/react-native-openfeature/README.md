@@ -29,7 +29,7 @@ yarn add @openobserve/mobile-react-native @openobserve/mobile-react-native-openf
 Use the following example code snippet to initialize the OpenObserve SDK, enable the Feature Flags feature, and set up the OpenFeature provider.
 
 ```tsx
-import { CoreConfiguration, OpenObserveProvider, OoFlags } from '@openobserve/mobile-react-native';
+import { CoreConfiguration, OpenObserveProvider, O2Flags } from '@openobserve/mobile-react-native';
 import { OpenObserveOpenFeatureProvider } from '@openobserve/mobile-react-native-openfeature';
 import { OpenFeature } from '@openfeature/react-sdk';
 
@@ -38,10 +38,10 @@ import { OpenFeature } from '@openfeature/react-sdk';
     const config = new CoreConfiguration(
         // ...
     );
-    await OoSdkReactNative.initialize(config);
+    await O2SdkReactNative.initialize(config);
 
     // Enable OpenObserve Flags feature after the core SDK has been initialized.
-    await OoFlags.enable();
+    await O2Flags.enable();
 
     // Set the OpenObserve provider with OpenFeature.
     const provider = new OpenObserveOpenFeatureProvider();
@@ -53,7 +53,7 @@ import { OpenFeature } from '@openfeature/react-sdk';
 <OpenObserveProvider
     configuration={coreConfiguration}
     onInitialized={async () => {
-        await OoFlags.enable();
+        await O2Flags.enable();
 
         const provider = new OpenObserveOpenFeatureProvider();
         OpenFeature.setProvider(provider);
@@ -65,7 +65,7 @@ import { OpenFeature } from '@openfeature/react-sdk';
 
 After completing this setup, your app is ready for flag evaluation with OpenFeature.
 
-> **Note**: Sending flag evaluation data to OpenObserve is automatically enabled when using the Feature Flags SDK. Provide `rumIntegrationEnabled` and `trackExposures` parameters to the `OoFlags.enable()` call to configure.
+> **Note**: Sending flag evaluation data to OpenObserve is automatically enabled when using the Feature Flags SDK. Provide `rumIntegrationEnabled` and `trackExposures` parameters to the `O2Flags.enable()` call to configure.
 
 ### Using the OpenFeature React SDK
 
