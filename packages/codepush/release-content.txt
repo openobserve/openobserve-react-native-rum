@@ -119,10 +119,10 @@ package/lib/typescript/core/src/rum/instrumentation/interactionTracking/O2RumUse
 package/lib/typescript/core/src/rum/instrumentation/interactionTracking/O2RumUserInteractionTracking.d.ts.map
 package/lib/typescript/core/src/rum/instrumentation/interactionTracking/ShallowObjectEqualityChecker.d.ts
 package/lib/typescript/core/src/rum/instrumentation/interactionTracking/ShallowObjectEqualityChecker.d.ts.map
-package/lib/typescript/core/src/rum/instrumentation/interactionTracking/o2BabelUtils.d.ts
-package/lib/typescript/core/src/rum/instrumentation/interactionTracking/o2BabelUtils.d.ts.map
 package/lib/typescript/core/src/rum/instrumentation/interactionTracking/getJsxRuntime.d.ts
 package/lib/typescript/core/src/rum/instrumentation/interactionTracking/getJsxRuntime.d.ts.map
+package/lib/typescript/core/src/rum/instrumentation/interactionTracking/o2BabelUtils.d.ts
+package/lib/typescript/core/src/rum/instrumentation/interactionTracking/o2BabelUtils.d.ts.map
 package/lib/typescript/core/src/rum/instrumentation/resourceTracking/O2RumResourceTracking.d.ts
 package/lib/typescript/core/src/rum/instrumentation/resourceTracking/O2RumResourceTracking.d.ts.map
 package/lib/typescript/core/src/rum/instrumentation/resourceTracking/distributedTracing/OpenObserveTracingContext.d.ts

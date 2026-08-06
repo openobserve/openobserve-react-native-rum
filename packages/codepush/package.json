@@ -44,7 +44,7 @@
         "react-native-code-push": "7.1.0"
     },
     "peerDependencies": {
-        "@openobserve/mobile-react-native": ">=0.1.0-alpha.3",
+        "@openobserve/mobile-react-native": ">=0.1.1",
         "react": ">=16.13.1",
         "react-native": ">=0.63.4 <1.0",
         "react-native-code-push": ">=2.0.0"
