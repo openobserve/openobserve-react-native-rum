@@ -34,7 +34,7 @@ I had this issue when I run the project from Xcode. It might be related to this 
 We made the change below to fix it:
 
 ```
-// OoSdk.m
+// O2Sdk.m
 // instead of
 #import <React/RCTBridgeModule.h>
 // maybe that:

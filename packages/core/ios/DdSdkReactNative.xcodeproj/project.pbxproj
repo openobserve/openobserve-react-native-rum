@@ -55,9 +55,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		58B511DA1A9E6C8500147676 /* OoSdkReactNative */ = {
+		58B511DA1A9E6C8500147676 /* O2SdkReactNative */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "OoSdkReactNative" */;
+			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "O2SdkReactNative" */;
 			buildPhases = (
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
@@ -67,7 +67,7 @@
 			);
 			dependencies = (
 			);
-			name = OoSdkReactNative;
+			name = O2SdkReactNative;
 			productName = RCTDataManager;
 			productReference = 134814201AA4EA6300B7C361 /* libDdSdkReactNative.a */;
 			productType = "com.apple.product-type.library.static";
@@ -86,7 +86,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "OoSdkReactNative" */;
+			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "O2SdkReactNative" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				58B511DA1A9E6C8500147676 /* OoSdkReactNative */,
+				58B511DA1A9E6C8500147676 /* O2SdkReactNative */,
 			);
 		};
 /* End PBXProject section */
@@ -219,9 +219,9 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OoSdkReactNative;
+				PRODUCT_NAME = O2SdkReactNative;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "OoSdkReactNative-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "O2SdkReactNative-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -238,9 +238,9 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OoSdkReactNative;
+				PRODUCT_NAME = O2SdkReactNative;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "OoSdkReactNative-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "O2SdkReactNative-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -248,7 +248,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "OoSdkReactNative" */ = {
+		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "O2SdkReactNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58B511ED1A9E6C8500147676 /* Debug */,
@@ -257,7 +257,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "OoSdkReactNative" */ = {
+		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "O2SdkReactNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58B511F01A9E6C8500147676 /* Debug */,

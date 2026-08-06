@@ -1,0 +1,54 @@
+/*
+ * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
+ * This product includes software developed at Datadog (https://www.datadoghq.com/).
+ * Copyright 2016-Present Datadog, Inc.
+ */
+
+package com.openobserve.reactnative.sessionreplay
+
+import com.openobserve.reactnative.sessionreplay.views.O2PrivacyViewManager
+import com.facebook.react.BaseReactPackage
+import com.facebook.react.bridge.NativeModule
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.module.model.ReactModuleInfo
+import com.facebook.react.module.model.ReactModuleInfoProvider
+import com.facebook.react.uimanager.ViewManager
+
+/**
+ * Package of native openobserve-react-native-rum native modules.
+ */
+class O2SDKReactNativeSessionReplayPackage : BaseReactPackage() {
+    override fun createViewManagers(
+        reactContext: ReactApplicationContext
+    ): List<ViewManager<*, *>> {
+        return listOf(O2PrivacyViewManager(reactContext))
+    }
+
+    override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
+        return when (name) {
+            O2SessionReplayImplementation.NAME -> O2SessionReplay(reactContext)
+            else -> null
+        }
+    }
+
+    override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
+        return ReactModuleInfoProvider {
+            val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
+            val moduleInfos = listOf(
+                O2SessionReplayImplementation.NAME
+            ).associateWith {
+                ReactModuleInfo(
+                    it,
+                    it,
+                    false, // canOverrideExistingModule
+                    false, // needsEagerInit
+                    true, // hasConstants
+                    false, // isCxxModule
+                    isTurboModule // isTurboModule
+                )
+            }
+
+            moduleInfos
+        }
+    }
+}

@@ -13,7 +13,7 @@ import type { OpenObserveTracingIdentifier } from './instrumentation/resourceTra
 /**
  * The entry point to use OpenObserve's RUM feature.
  */
-export type OoRumType = {
+export type O2RumType = {
     /**
      * Start tracking a RUM View.
      * @param key: The view unique key identifier.
@@ -196,7 +196,7 @@ export type OoRumType = {
      * The returned {@link OpenObserveTracingContext} can be used to retrieve the tracing headers
      * to append to your network request, and the attributes to add to your RUM Resource.
      *
-     * See also `OoRum.getTracingContextForPropagators(...)` if you do not intend to use `firstPartyHosts`.
+     * See also `O2Rum.getTracingContextForPropagators(...)` if you do not intend to use `firstPartyHosts`.
      *
      * @param url The request URL.
      * @param tracingSamplingRate Percentage of tracing integrations for network calls between your app and your backend. Range `0`-`100`.

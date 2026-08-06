@@ -3,13 +3,13 @@ import {
   SdkVerbosity,
   UploadFrequency,
   BatchSize,
-  OoSdkReactNative,
-  OoRum,
+  O2SdkReactNative,
+  O2Rum,
   RumActionType,
-  OoLogs,
-  OoTrace,
+  O2Logs,
+  O2Trace,
   TrackingConsent,
-  OoFlags,
+  O2Flags,
   PropagatorType,
 } from '@openobserve/mobile-react-native';
 import {OpenObserveOpenFeatureProvider} from '@openobserve/mobile-react-native-openfeature';
@@ -70,26 +70,26 @@ import {APPLICATION_ID, CLIENT_TOKEN, ENVIRONMENT} from './ddCredentials';
   config.batchSize = BatchSize.SMALL;
 
   // Initialize the OpenObserve SDK.
-  await OoSdkReactNative.initialize(config);
+  await O2SdkReactNative.initialize(config);
 
   // Enable OpenObserve Flags feature.
-  await OoFlags.enable();
+  await O2Flags.enable();
 
   // Set the provider with OpenFeature.
   const provider = new OpenObserveOpenFeatureProvider();
   OpenFeature.setProvider(provider);
 
   // OpenObserve SDK usage examples.
-  await OoRum.startView('main', 'Main');
+  await O2Rum.startView('main', 'Main');
   setTimeout(async () => {
-    await OoRum.addTiming('one_second');
+    await O2Rum.addTiming('one_second');
   }, 1000);
-  await OoRum.addAction(RumActionType.CUSTOM, 'custom action');
+  await O2Rum.addAction(RumActionType.CUSTOM, 'custom action');
 
-  await OoLogs.info('info log');
+  await O2Logs.info('info log');
 
-  const spanId = await OoTrace.startSpan('test span');
-  await OoTrace.finishSpan(spanId);
+  const spanId = await O2Trace.startSpan('test span');
+  await O2Trace.finishSpan(spanId);
 })();
 
 function AppWithProviders() {

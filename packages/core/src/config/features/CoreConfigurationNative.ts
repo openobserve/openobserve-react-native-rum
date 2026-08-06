@@ -13,7 +13,7 @@ import type { TraceNativeConfiguration } from './TraceConfigurationNative';
 /**
  * A configuration object to initialize OpenObserve's features.
  */
-export class OoSdkNativeConfiguration {
+export class O2SdkNativeConfiguration {
     constructor(
         readonly additionalConfiguration: object,
         readonly clientToken: string,

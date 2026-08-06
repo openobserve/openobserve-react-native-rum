@@ -1,5 +1,5 @@
 {
-  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become Oo). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' — see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
+  "comment": "Ordered rebrand rules applied by rebrand.mjs to every tracked text file of a pristine DataDog/dd-sdk-reactnative tree (base: UPSTREAM_BASE = 3.5.3). Order matters: more specific rules must precede rules that match a substring of them. 'literal' rules are plain string replacement; 'regex' rules are applied with the 'g' flag and may reference capture groups in 'to' ($1). JS and native (Kotlin/Swift/ObjC) files are rebranded together so the native-module bridge names stay consistent (e.g. NativeModules.DdRum <-> @ReactModule(name=\"DdRum\") both become O2). Fork-owned identity files (LICENSE, NOTICE, README, .github, patches, scripts/openobserve, example) are handled by the keep-ours overlay, not here. IMPORTANT: native artifact COORDINATES (com.datadoghq:*, Datadog* pods) are NOT in 'rules' — see 'deferredRules' below; renaming them before the OpenObserve native forks are published breaks the build.",
   "rules": [
     {
       "literal": "datadog-sourcemaps",
@@ -48,13 +48,28 @@
     },
     {
       "regex": "\\bDd([A-Z][A-Za-z0-9]*)",
-      "to": "Oo$1",
-      "why": "all camelCase Dd-prefixed identifiers -> Oo: classes, native module names, view manager names (DdRum->OoRum, DdSdkReactNative->OoSdkReactNative, DdPrivacyView->OoPrivacyView). Word-boundary guarded so it never matches mid-identifier (e.g. myDdRum). Applied to JS + native together to keep the bridge consistent."
+      "to": "O2$1",
+      "why": "all camelCase Dd-prefixed identifiers -> O2: classes, native module names, view manager names (DdRum->O2Rum, DdSdkReactNative->O2SdkReactNative, DdPrivacyView->O2PrivacyView). Word-boundary guarded so it never matches mid-identifier (e.g. myDdRum). Applied to JS + native together to keep the bridge consistent. TARGET IS O2, NOT Oo: `Oo` was the original fork prefix and was retired because it reads as a typo of the product name and carries no brand. The prefix is PUBLIC API (OoRum/O2Rum are exported from @openobserve/mobile-react-native), so this rule's target is a shipped contract -- changing it is a breaking change for consumers, not a cosmetic edit."
     },
     {
       "regex": "\\b_dd\\b",
       "to": "_o2",
       "why": "RUM/telemetry event internal namespace field renamed _dd -> _oo (matches the rum-events-format schema fork)."
+    },
+    {
+      "regex": "\\b__ddExtractText\\b",
+      "to": "__o2ExtractText",
+      "why": "SHIPPED + PUBLIC, and previously MISSED by every rule here. It is exported from packages/core/src/index.tsx AND injected into consumer app code by @openobserve/mobile-react-native-babel-plugin (constants/rum.ts UTILS_FUNCTION_EXTRACT_TEXT), so the token lands in builds we do not control. No existing rule reaches it: `\\bDd([A-Z]...)` is case-sensitive and this is lowercase `dd`; `\\b_dd\\b` cannot match because `_` is a word character, so there is no boundary before `dd` in `__ddExtractText` and none after it either. Same blind spot as check-no-datadog.sh, whose content pattern misses it for exactly the same reason."
+    },
+    {
+      "regex": "\\bddBabelUtils\\b",
+      "to": "o2BabelUtils",
+      "why": "The module defining __o2ExtractText. Lowercase `dd` prefix, so the camelCase Dd rule does not see it, and the filename contains no `datadog` substring so check-no-datadog.sh's PATH check misses it too. Paired with the fileRenames entry below -- content and filename must move together or the import breaks."
+    },
+    {
+      "regex": "\\bddUtils\\b",
+      "to": "o2Utils",
+      "why": "example/src/ddUtils.tsx. The example app is still rebranded in place (its keep-ours.txt entry is commented out pending a fork-owned example), so it flows through these rules and the upstream filename would otherwise return on every sync."
     },
     {
       "literal": "Datadog",
@@ -204,8 +219,18 @@
   "fileRenames": [
     {
       "regex": "^Dd(?=[A-Z])",
-      "to": "Oo",
-      "why": "PRE-EXISTING BREAKAGE, not introduced by STEP 4: the content rule \\bDd([A-Z][A-Za-z0-9]*) -> Oo$1 renamed every IMPORT to Oo* while 103 FILES stayed Dd*, so `import { OoSdkReactNative } from './OoSdkReactNative'` pointed at DdSdkReactNative.tsx. The fork has not type-checked since the original rebrand. Anchored ^Dd(?=[A-Z]) to mirror the content rule's word boundary EXACTLY: it moves DdLogs.ts but never NativeDdFlags.ts, whose content legitimately keeps NativeDd (no boundary before Dd there). A plain substring rename would move those too and swap one broken state for another."
+      "to": "O2",
+      "why": "PRE-EXISTING BREAKAGE, not introduced by STEP 4: the content rule \\bDd([A-Z][A-Za-z0-9]*) -> O2$1 renamed every IMPORT to O2* while 103 FILES stayed Dd*, so `import { O2SdkReactNative } from './O2SdkReactNative'` pointed at DdSdkReactNative.tsx. The fork has not type-checked since the original rebrand. Anchored ^Dd(?=[A-Z]) to mirror the content rule's word boundary EXACTLY: it moves DdLogs.ts but never NativeDdFlags.ts, whose content legitimately keeps NativeDd (no boundary before Dd there). A plain substring rename would move those too and swap one broken state for another."
+    },
+    {
+      "regex": "^ddBabelUtils(?=\\.)",
+      "to": "o2BabelUtils",
+      "why": "Pairs with the ddBabelUtils content rule. The `token` form cannot be used here: a substring match on `dd` would hit unrelated basenames. Anchored + lookahead so it moves ddBabelUtils.ts and its .test.ts sibling and nothing else."
+    },
+    {
+      "regex": "^ddUtils(?=\\.)",
+      "to": "o2Utils",
+      "why": "Pairs with the ddUtils content rule (example/src/ddUtils.tsx). Same anchoring rationale as ddBabelUtils above."
     },
     {
       "token": "Datadog",

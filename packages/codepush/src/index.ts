@@ -6,7 +6,7 @@
 import {
     OpenObserveProvider,
     OpenObserveProviderConfiguration,
-    OoSdkReactNative
+    O2SdkReactNative
 } from '@openobserve/mobile-react-native';
 import type {
     AutoInstrumentationConfiguration,
@@ -18,7 +18,7 @@ import { removeDiscardProperties } from './utils';
 import type { RequiredOrDiscard } from './utils';
 
 /**
- * Use this class instead of OoSdkReactNative to initialize the OpenObserve SDK when using AppCenter CodePush.
+ * Use this class instead of O2SdkReactNative to initialize the OpenObserve SDK when using AppCenter CodePush.
  */
 export const OpenObserveCodepush = {
     async initialize(configuration: CoreConfiguration): Promise<void> {
@@ -26,7 +26,7 @@ export const OpenObserveCodepush = {
         if (codePushUpdateMetadata) {
             configuration.versionSuffix = `codepush.${codePushUpdateMetadata.label}`;
         }
-        return OoSdkReactNative.initialize(configuration);
+        return O2SdkReactNative.initialize(configuration);
     }
 };
 

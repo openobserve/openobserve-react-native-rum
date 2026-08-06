@@ -9,11 +9,11 @@ jest.mock('react-native-code-push', () => ({
 
 jest.mock('@openobserve/mobile-react-native', () => {
     const actualPackage = jest.requireActual('@openobserve/mobile-react-native');
-    actualPackage.OoSdkReactNative.initialize = jest.fn();
-    actualPackage.OoSdkReactNative._enableFeaturesFromOpenObserveProvider = jest.fn();
-    actualPackage.OoSdkReactNative._enableFeaturesFromOpenObserveProviderAsync = jest.fn();
-    actualPackage.OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync = jest.fn();
-    actualPackage.OoSdkReactNative._initializeFromOpenObserveProvider = jest.fn();
+    actualPackage.O2SdkReactNative.initialize = jest.fn();
+    actualPackage.O2SdkReactNative._enableFeaturesFromOpenObserveProvider = jest.fn();
+    actualPackage.O2SdkReactNative._enableFeaturesFromOpenObserveProviderAsync = jest.fn();
+    actualPackage.O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync = jest.fn();
+    actualPackage.O2SdkReactNative._initializeFromOpenObserveProvider = jest.fn();
     return actualPackage;
 });
 
@@ -58,7 +58,7 @@ describe('AppCenter Codepush integration', () => {
             const {
                 CoreConfiguration,
                 RumConfiguration,
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -75,8 +75,8 @@ describe('AppCenter Codepush integration', () => {
 
             await OpenObserveCodepush.initialize(configuration);
 
-            expect(OoSdkReactNative.initialize).toHaveBeenCalledTimes(1);
-            expect(OoSdkReactNative.initialize).toHaveBeenCalledWith(
+            expect(O2SdkReactNative.initialize).toHaveBeenCalledTimes(1);
+            expect(O2SdkReactNative.initialize).toHaveBeenCalledWith(
                 expect.objectContaining({ versionSuffix: 'codepush.v3' })
             );
         });
@@ -87,7 +87,7 @@ describe('AppCenter Codepush integration', () => {
             const {
                 CoreConfiguration,
                 RumConfiguration,
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -104,11 +104,11 @@ describe('AppCenter Codepush integration', () => {
 
             await OpenObserveCodepush.initialize(configuration);
 
-            expect(OoSdkReactNative.initialize).toHaveBeenCalledTimes(1);
+            expect(O2SdkReactNative.initialize).toHaveBeenCalledTimes(1);
             expect(
                 Object.keys(
-                    (OoSdkReactNative.initialize as jest.MockedFunction<
-                        typeof OoSdkReactNative.initialize
+                    (O2SdkReactNative.initialize as jest.MockedFunction<
+                        typeof O2SdkReactNative.initialize
                     >).mock.calls[0]
                 )
             ).not.toContain('versionSuffix');
@@ -127,7 +127,7 @@ describe('AppCenter Codepush integration', () => {
             const {
                 OpenObserveProviderConfiguration,
                 RumConfiguration,
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -148,10 +148,10 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledWith(
                 expect.objectContaining({ versionSuffix: 'codepush.v4' })
             );
@@ -160,7 +160,7 @@ describe('AppCenter Codepush integration', () => {
             const codePush = require('react-native-code-push');
             const { OpenObserveCodepushProvider } = require('..');
             const {
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -175,7 +175,7 @@ describe('AppCenter Codepush integration', () => {
             render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).not.toHaveBeenCalled();
 
             OpenObserveCodepushProvider.initialize({
@@ -186,10 +186,10 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledWith(
                 expect.objectContaining({ versionSuffix: 'codepush.v5' })
             );
@@ -201,7 +201,7 @@ describe('AppCenter Codepush integration', () => {
             const {
                 OpenObserveProviderConfiguration,
                 RumConfiguration,
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -223,12 +223,12 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
                 Object.keys(
-                    (OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
-                        typeof OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                    (O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
+                        typeof O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
                     >).mock.calls[0]
                 )
             ).not.toContain('versionSuffix');
@@ -237,7 +237,7 @@ describe('AppCenter Codepush integration', () => {
             const codePush = require('react-native-code-push');
             const { OpenObserveCodepushProvider } = require('..');
             const {
-                OoSdkReactNative
+                O2SdkReactNative
             } = require('@openobserve/mobile-react-native');
 
             (codePush.getUpdateMetadata as jest.MockedFunction<
@@ -252,7 +252,7 @@ describe('AppCenter Codepush integration', () => {
             render(<OpenObserveCodepushProvider configuration={configuration} />);
             await flushPromises();
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).not.toHaveBeenCalled();
 
             OpenObserveCodepushProvider.initialize({
@@ -265,12 +265,12 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
 
             expect(
-                OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
             ).toHaveBeenCalledTimes(1);
             expect(
                 Object.keys(
-                    (OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
-                        typeof OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
+                    (O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync as jest.MockedFunction<
+                        typeof O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync
                     >).mock.calls[0]
                 )
             ).not.toContain('versionSuffix');
@@ -279,7 +279,7 @@ describe('AppCenter Codepush integration', () => {
         it('initializes the OpenObserveProvider with FileBasedConfiguration & all parameters', async () => {
             const { OpenObserveCodepushProvider } = require('..');
             const {
-                OoSdkReactNative,
+                O2SdkReactNative,
                 PropagatorType,
                 FileBasedConfiguration
             } = require('@openobserve/mobile-react-native');
@@ -318,11 +318,11 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
             await waitFor(() => {
                 expect(
-                    OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                    O2SdkReactNative._enableFeaturesFromOpenObserveProvider
                 ).toHaveBeenCalledTimes(1);
             });
             expect(
-                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                O2SdkReactNative._enableFeaturesFromOpenObserveProvider
             ).toHaveBeenCalledWith({
                 rumConfiguration: {
                     useAccessibilityLabel: true,
@@ -350,7 +350,7 @@ describe('AppCenter Codepush integration', () => {
             });
 
             expect(
-                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                O2SdkReactNative._enableFeaturesFromOpenObserveProvider
             ).not.toHaveBeenCalledWith(
                 expect.objectContaining({
                     clientToken: expect.anything(),
@@ -363,7 +363,7 @@ describe('AppCenter Codepush integration', () => {
         it('initializes the OpenObserveProvider with FileBasedConfiguration & undefined parameters', async () => {
             const { OpenObserveCodepushProvider } = require('..');
             const {
-                OoSdkReactNative,
+                O2SdkReactNative,
                 FileBasedConfiguration
             } = require('@openobserve/mobile-react-native');
 
@@ -384,11 +384,11 @@ describe('AppCenter Codepush integration', () => {
             await flushPromises();
             await waitFor(() => {
                 expect(
-                    OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                    O2SdkReactNative._enableFeaturesFromOpenObserveProvider
                 ).toHaveBeenCalledTimes(1);
             });
             expect(
-                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                O2SdkReactNative._enableFeaturesFromOpenObserveProvider
             ).toHaveBeenCalledWith(
                 expect.objectContaining({
                     rumConfiguration: expect.objectContaining({
@@ -410,7 +410,7 @@ describe('AppCenter Codepush integration', () => {
             );
 
             expect(
-                OoSdkReactNative._enableFeaturesFromOpenObserveProvider
+                O2SdkReactNative._enableFeaturesFromOpenObserveProvider
             ).not.toHaveBeenCalledWith(
                 expect.objectContaining({
                     clientToken: expect.anything(),

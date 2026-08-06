@@ -15,7 +15,7 @@ import com.openobserve.android.sessionreplay.recorder.mapper.TraverseAllChildren
 import com.openobserve.android.sessionreplay.utils.AsyncJobStatusCallback
 import com.openobserve.reactnative.sessionreplay.ReactNativeInternalCallback
 import com.openobserve.reactnative.sessionreplay.utils.DrawableUtils
-import com.openobserve.reactnative.sessionreplay.views.OoPrivacyView
+import com.openobserve.reactnative.sessionreplay.views.O2PrivacyView
 import fr.xgouchet.elmyr.junit5.ForgeExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -35,7 +35,7 @@ import org.mockito.quality.Strictness
 @MockitoSettings(strictness = Strictness.LENIENT)
 internal class SvgViewMapperTest {
 
-    private lateinit var testedMapper: SvgViewMapper<OoPrivacyView>
+    private lateinit var testedMapper: SvgViewMapper<O2PrivacyView>
 
     @Mock
     private lateinit var mockDrawableUtils: DrawableUtils
@@ -44,7 +44,7 @@ internal class SvgViewMapperTest {
     private lateinit var mockInternalCallback: ReactNativeInternalCallback
 
     @Mock
-    private lateinit var mockDdPrivacyView: OoPrivacyView
+    private lateinit var mockDdPrivacyView: O2PrivacyView
 
     @Mock
     private lateinit var mockChildView: View
@@ -79,7 +79,7 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return ShapeWireframe W map() { OoPrivacyView without attributes }`() {
+    fun `M return ShapeWireframe W map() { O2PrivacyView without attributes }`() {
         // Given
         whenever(mockDdPrivacyView.attributes).thenReturn(null)
 
@@ -97,7 +97,7 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return ShapeWireframe W map() { OoPrivacyView with empty attributes map }`() {
+    fun `M return ShapeWireframe W map() { O2PrivacyView with empty attributes map }`() {
         // Given
         whenever(mockDdPrivacyView.attributes).thenReturn(emptyMap())
 
@@ -115,7 +115,7 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return ShapeWireframe and ImageWireframe W map() { OoPrivacyView with SVG hash }`() {
+    fun `M return ShapeWireframe and ImageWireframe W map() { O2PrivacyView with SVG hash }`() {
         // Given
         val hash = "svg-resource-hash"
         val svgBytes = "<svg width=\"32\" height=\"32\"></svg>".toByteArray(Charsets.UTF_8)
@@ -148,7 +148,7 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return empty list W map() { OoPrivacyView with hash but no entry data }`() {
+    fun `M return empty list W map() { O2PrivacyView with hash but no entry data }`() {
         // Given
         val hash = "missing-entry-hash"
         whenever(mockDdPrivacyView.attributes).thenReturn(mapOf("hash" to hash))
@@ -167,7 +167,7 @@ internal class SvgViewMapperTest {
     }
 
     @Test
-    fun `M return empty list W map() { OoPrivacyView with hash but no child view }`() {
+    fun `M return empty list W map() { O2PrivacyView with hash but no child view }`() {
         // Given
         val hash = "no-child-hash"
         val svgBytes = "<svg></svg>".toByteArray(Charsets.UTF_8)

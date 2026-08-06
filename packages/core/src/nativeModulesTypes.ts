@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { OoSdkNativeConfiguration } from './config/features/CoreConfigurationNative';
+import type { O2SdkNativeConfiguration } from './config/features/CoreConfigurationNative';
 import type { Spec as NativeDdFlags } from './specs/NativeDdFlags';
 import type { Spec as NativeDdLogs } from './specs/NativeDdLogs';
 import type { Spec as NativeDdRum } from './specs/NativeDdRum';
@@ -19,27 +19,27 @@ import type { Spec as NativeDdTrace } from './specs/NativeDdTrace';
 /**
  * The entry point to use OpenObserve's Logs feature.
  */
-export type OoNativeLogsType = NativeDdLogs;
+export type O2NativeLogsType = NativeDdLogs;
 
 /**
  * The entry point to use OpenObserve's Trace feature.
  */
-export type OoNativeTraceType = NativeDdTrace;
+export type O2NativeTraceType = NativeDdTrace;
 
 /**
  * The entry point to use OpenObserve's Flags feature.
  */
-export type OoNativeFlagsType = NativeDdFlags;
+export type O2NativeFlagsType = NativeDdFlags;
 
 /**
  * The entry point to initialize OpenObserve's features.
  */
-export interface OoNativeSdkType extends NativeDdSdk {
+export interface O2NativeSdkType extends NativeDdSdk {
     /**
      * Initializes OpenObserve's features.
      * @param configuration: The configuration to use.
      */
-    initialize(configuration: OoSdkNativeConfiguration): Promise<void>;
+    initialize(configuration: O2SdkNativeConfiguration): Promise<void>;
 }
 
 type ActionType = 'TAP' | 'SCROLL' | 'SWIPE' | 'BACK' | 'CUSTOM';
@@ -62,7 +62,7 @@ type ErrorSource = 'NETWORK' | 'SOURCE' | 'CONSOLE' | 'WEBVIEW' | 'CUSTOM';
 /**
  * The entry point to use OpenObserve's RUM feature.
  */
-export interface OoNativeRumType extends NativeDdRum {
+export interface O2NativeRumType extends NativeDdRum {
     /**
      * Start tracking a RUM Action.
      * @param type: The action type (tap, scroll, swipe, back, custom).

@@ -22,7 +22,7 @@ OpenObserveProviderMock.initialize = jest.fn().mockResolvedValue();
 
 module.exports = {
     ...actualOpenObserve,
-    OoSdkReactNative: {
+    O2SdkReactNative: {
         initialize: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -74,7 +74,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    OoLogs: {
+    O2Logs: {
         debug: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -89,7 +89,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    OoTrace: {
+    O2Trace: {
         startSpan: jest
             .fn()
             .mockImplementation(
@@ -100,7 +100,7 @@ module.exports = {
             .mockImplementation(() => new Promise(resolve => resolve()))
     },
 
-    OoRum: {
+    O2Rum: {
         startView: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve())),
@@ -171,7 +171,7 @@ module.exports = {
         generateSpanId: jest.fn().mockReturnValue('mock-span-id')
     },
     OpenObserveProvider: OpenObserveProviderMock,
-    OoSdk: {
+    O2Sdk: {
         initialize: jest
             .fn()
             .mockImplementation(() => new Promise(resolve => resolve()))

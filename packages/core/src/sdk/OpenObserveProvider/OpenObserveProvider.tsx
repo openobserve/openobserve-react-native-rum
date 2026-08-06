@@ -6,7 +6,7 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 
-import { OoSdkReactNative } from '../../OoSdkReactNative';
+import { O2SdkReactNative } from '../../O2SdkReactNative';
 import { InternalLog } from '../../InternalLog';
 import { OpenObserveProviderConfiguration } from '../../config/OpenObserveProviderConfiguration';
 import type { FileBasedConfiguration } from '../../config/FileBasedConfiguration';
@@ -62,7 +62,7 @@ const initializeOpenObserve = async (
     configuration: OpenObserveProviderConfiguration,
     onInitialization?: () => void
 ) => {
-    await OoSdkReactNative._initializeFromOpenObserveProvider(configuration);
+    await O2SdkReactNative._initializeFromOpenObserveProvider(configuration);
     if (onInitialization) {
         try {
             onInitialization();
@@ -89,7 +89,7 @@ export const OpenObserveProvider: React.FC<Props> & StaticProperties = ({
         // the elements rendered in this first render and what happens during
         // the first render.
         if (isConfigurationPartial(configuration)) {
-            OoSdkReactNative._enableFeaturesFromOpenObserveProvider(configuration);
+            O2SdkReactNative._enableFeaturesFromOpenObserveProvider(configuration);
             OpenObserveProvider.onInitialization = onInitialization;
         } else {
             initializeOpenObserve(configuration, onInitialization);
@@ -107,7 +107,7 @@ export const OpenObserveProvider: React.FC<Props> & StaticProperties = ({
 OpenObserveProvider.initialize = async (
     configuration: PartialInitializationConfiguration
 ) => {
-    await OoSdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync(
+    await O2SdkReactNative._initializeFromOpenObserveProviderWithConfigurationAsync(
         configuration
     );
     if (OpenObserveProvider.onInitialization) {

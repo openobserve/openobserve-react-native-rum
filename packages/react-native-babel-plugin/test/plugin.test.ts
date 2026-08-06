@@ -77,7 +77,7 @@ describe('Babel plugin: web platform', () => {
             caller: { name: 'metro', platform: 'web' }
         })?.code;
         // Should not inject OpenObserve imports or wrappers
-        expect(output).not.toContain('OoBabelInteractionTracking');
+        expect(output).not.toContain('O2BabelInteractionTracking');
         expect(output).not.toContain('__DD_RN_BABEL_PLUGIN_ENABLED__');
         expect(output).not.toContain('@openobserve/mobile-react-native');
     });
@@ -108,18 +108,18 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Button } from 'react-native';
             /*#__PURE__*/React.createElement(Button, {
               color: "red",
               onPress: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "Button"
@@ -143,7 +143,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { TextInput } from 'react-native';
             /*#__PURE__*/React.createElement(TextInput, {
               placeholder: "Enter username",
@@ -151,7 +151,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               onChangeText: setUsername,
               style: styles.input,
               onFocus: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {
                   console.log('test');
                 }, "TAP", {
                   "options": {
@@ -159,7 +159,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "TextInput"
@@ -184,7 +184,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { TextInput } from 'react-native';
             /*#__PURE__*/React.createElement(TextInput, {
               placeholder: "Enter username",
@@ -192,13 +192,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               onChangeText: setUsername,
               style: styles.input,
               onFocus: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "TextInput"
@@ -265,18 +265,18 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
             import { TextInput } from 'react-native';
             /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
               onFocus: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "TextInput"
@@ -374,18 +374,18 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input, options);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
             import { TextInput } from './TextInput';
             /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
               onFocus: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "TextInput"
@@ -405,11 +405,11 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: event => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(event => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(event => {
                   console.log('Testing: ', event);
                 }, "TAP", {
                   "options": {
@@ -417,7 +417,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [event],
                   "componentName": "Pressable"
@@ -468,18 +468,18 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input, options);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
             import { TextInput } from './TextInput';
             /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
               onFocus: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => console.log('Focused'), "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "TextInput"
@@ -499,11 +499,11 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: event => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(event => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(event => {
                   console.log('Testing: ', event);
                 }, "TAP", {
                   "options": {
@@ -511,7 +511,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [event],
                   "componentName": "Pressable"
@@ -534,11 +534,11 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: (test1, test2) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction((test1, test2) => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction((test1, test2) => {
                   console.log('Test1: ', test1);
                   console.log('Test2: ', test2);
                 }, "TAP", {
@@ -547,7 +547,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [test1, test2],
                   "componentName": "Pressable"
@@ -571,7 +571,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             const func = event => {
               console.log('Testing: ', event);
@@ -579,13 +579,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
             /*#__PURE__*/React.createElement(Pressable, {
               color: "red",
               onPress: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "Pressable"
@@ -606,7 +606,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             function func3() {
               console.log('Testing 3');
@@ -614,13 +614,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
             /*#__PURE__*/React.createElement(Pressable, {
               color: "red",
               onPress: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(func3, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(func3, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "Pressable"
@@ -641,20 +641,20 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             function a(event, data = 1, ...rest) {
               console.log(event, data, rest);
             }
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(a, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(a, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "Pressable"
@@ -674,14 +674,14 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: _dd_arg0 => {
                 const {
                   nativeEvent
                 } = _dd_arg0;
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(({
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(({
                   nativeEvent
                 }) => {
                   console.log(nativeEvent);
@@ -691,7 +691,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [_dd_arg0],
                   "componentName": "Pressable"
@@ -715,7 +715,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: (_dd_arg0, extra, _dd_arg2, ...rest) => {
@@ -723,7 +723,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                   nativeEvent
                 } = _dd_arg0;
                 const [x, y] = _dd_arg2;
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(({
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(({
                   nativeEvent
                 }, extra, [x, y], ...rest) => {
                   console.log(nativeEvent, extra, x, y, rest);
@@ -733,7 +733,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [_dd_arg0, extra, _dd_arg2, ...rest],
                   "componentName": "Pressable"
@@ -757,11 +757,11 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: (event, context = 'default') => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction((event, context = 'default') => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction((event, context = 'default') => {
                   console.log(event, context);
                 }, "TAP", {
                   "options": {
@@ -769,7 +769,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [event, context],
                   "componentName": "Pressable"
@@ -791,14 +791,14 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             /*#__PURE__*/React.createElement(Pressable, {
               onPress: _dd_arg0 => {
                 const {
                   x = 1
                 } = _dd_arg0;
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(({
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(({
                   x = 1
                 }) => {
                   console.log(x);
@@ -808,7 +808,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [_dd_arg0],
                   "componentName": "Pressable"
@@ -840,7 +840,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             const handler = test => {
               console.log('Testing ', test);
@@ -849,13 +849,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               return /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(handler, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(handler, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -880,19 +880,19 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             function MyComponent() {
               return /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(handler, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(handler, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -917,19 +917,19 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable } from 'react-native';
             function MyComponent() {
               return /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(globalThis.handler, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(globalThis.handler, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -957,20 +957,20 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent(props) {
               return /*#__PURE__*/React.createElement(View, null, /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(props.onPress, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(props.onPress, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -998,7 +998,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent({
@@ -1008,13 +1008,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               return /*#__PURE__*/React.createElement(View, null, /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(onPress, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(onPress, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -1042,7 +1042,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent({
@@ -1052,13 +1052,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               return /*#__PURE__*/React.createElement(View, null, /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => onPress(item.id), "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => onPress(item.id), "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -1092,7 +1092,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Button } from 'react-native';
             class MyClassComponent2 extends Component {
@@ -1108,13 +1108,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                 }, /*#__PURE__*/React.createElement(Button, {
                   title: "Press Me",
                   onPress: (...args) => {
-                    if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => this.handlePress(), "TAP", {
+                    if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => this.handlePress(), "TAP", {
                       "options": {
                         "useContent": true,
                         "useNamePrefix": true
                       },
                       "getContent": () => {
-                        return __ddExtractText(_jsx(_Fragment, {}), ["Press Me"]);
+                        return __o2ExtractText(_jsx(_Fragment, {}), ["Press Me"]);
                       },
                       "handlerArgs": [...args],
                       "componentName": "Button"
@@ -1149,7 +1149,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Button } from 'react-native';
             class MyClassComponent extends Component {
@@ -1165,13 +1165,13 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                 }, /*#__PURE__*/React.createElement(Button, {
                   title: "Press Me",
                   onPress: (...args) => {
-                    if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(this.handlePress, "TAP", {
+                    if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(this.handlePress, "TAP", {
                       "options": {
                         "useContent": true,
                         "useNamePrefix": true
                       },
                       "getContent": () => {
-                        return __ddExtractText(_jsx(_Fragment, {}), ["Press Me"]);
+                        return __o2ExtractText(_jsx(_Fragment, {}), ["Press Me"]);
                       },
                       "handlerArgs": [...args],
                       "componentName": "Button"
@@ -1196,7 +1196,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Button } from 'react-native';
             /*#__PURE__*/React.createElement(Button, {
               "dd-action-name": "test-action-button",
@@ -1204,7 +1204,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
               accessibilityLabel: "accessibility-action-button",
               color: "red",
               onPress: (...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(func, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
@@ -1213,7 +1213,7 @@ describe('Babel plugin: wrap interaction handlers for RUM', () => {
                   "example-button-prop": ["action-name-attr-button"],
                   "accessibilityLabel": ["accessibility-action-button"],
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [...args],
                   "componentName": "Button"
@@ -1256,7 +1256,7 @@ describe('Babel plugin: optional handler guard (undefined handler safety)', () =
         // Arrow functions are always defined so optional chaining is acceptable but not strictly required
         // The key assertion is that the output compiles without crashing
         expect(output).toBeDefined();
-        expect(output).toContain('OoBabelInteractionTracking');
+        expect(output).toContain('O2BabelInteractionTracking');
     });
 });
 
@@ -1282,12 +1282,12 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { useCallback } from 'react';
             import { Pressable } from 'react-native';
             function MyComponent() {
               const handler = useCallback(event => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(event => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(event => {
                   console.log('Testing ', a, b, event);
                   setA(x => x + 1);
                   setB(x => x + 1);
@@ -1297,7 +1297,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [event],
                   "componentName": "Pressable"
@@ -1336,7 +1336,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { useCallback } from 'react';
             import { Pressable } from 'react-native';
             function MyComponent() {
@@ -1348,13 +1348,13 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
               return /*#__PURE__*/React.createElement(Pressable, {
                 color: "red",
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => handler('Test'), "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => handler('Test'), "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx(_Fragment, {}), []);
+                      return __o2ExtractText(_jsx(_Fragment, {}), []);
                     },
                     "handlerArgs": [...args],
                     "componentName": "Pressable"
@@ -1384,12 +1384,12 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { useCallback } from 'react';
             import { Pressable } from 'react-native';
             function MyComponent() {
               const handler = useCallback((...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {
                   console.log('Testing ');
                 }, "TAP", {
                   "options": {
@@ -1397,7 +1397,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [],
                   "componentName": "Pressable"
@@ -1434,12 +1434,12 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx, Fragment as _Fragment2, jsx as _jsx2 } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { useCallback } from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent() {
               const handler = useCallback((...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {
                   console.log('Testing ');
                 }, "TAP", {
                   "options": {
@@ -1447,7 +1447,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [],
                   "componentName": "Pressable"
@@ -1491,7 +1491,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { useCallback } from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent() {
@@ -1501,13 +1501,13 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
                 setB(x => x + 1);
               };
               const handler = useCallback(test => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [test],
                   "componentName": "Pressable"
@@ -1546,7 +1546,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             function MyComponent() {
@@ -1556,13 +1556,13 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
                 setB(x => x + 1);
               };
               const handler = React.useCallback(test => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [test],
                   "componentName": "Pressable"
@@ -1599,7 +1599,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             const funcN = test => {
@@ -1607,13 +1607,13 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
             };
             function MyComponent() {
               const handler = React.useCallback(test => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [test],
                   "componentName": "Pressable"
@@ -1647,7 +1647,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             import { funcN } from '../myFile';
@@ -1684,7 +1684,7 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
         const output = transformCode(input);
         expect(output).toMatchInlineSnapshot(`
             "import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import React from 'react';
             import { View, Pressable } from 'react-native';
             const funcN = () => {
@@ -1692,13 +1692,13 @@ describe('Babel plugin: wrap interaction handlers for RUM ( with memoization )',
             };
             function MyComponent() {
               const handler = React.useMemo((...args) => {
-                if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
+                if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(funcN, "TAP", {
                   "options": {
                     "useContent": true,
                     "useNamePrefix": true
                   },
                   "getContent": () => {
-                    return __ddExtractText(_jsx(_Fragment, {}), []);
+                    return __o2ExtractText(_jsx(_Fragment, {}), []);
                   },
                   "handlerArgs": [],
                   "componentName": "Pressable"
@@ -1852,19 +1852,19 @@ describe('Babel plugin: conditional expressions in getContent children', () => {
         // Both branches of the ternary should be converted
         expect(output).toMatchInlineSnapshot(`
             "import { jsx as _jsx, jsx as _jsx2, Fragment as _Fragment, jsx as _jsx3 } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable, Text } from 'react-native';
             function App() {
               const visible = true;
               return /*#__PURE__*/React.createElement(Pressable, {
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx3(_Fragment, {
+                      return __o2ExtractText(_jsx3(_Fragment, {
                         children: visible ? _jsx(Text, {
                           children: "Visible"
                         }) : _jsx2(Text, {
@@ -1899,19 +1899,19 @@ describe('Babel plugin: conditional expressions in getContent children', () => {
         expect(output).not.toMatch(/<Text>/);
         expect(output).toMatchInlineSnapshot(`
             "import { jsx as _jsx, Fragment as _Fragment, jsx as _jsx2 } from "react/jsx-runtime";
-            import { OoBabelInteractionTracking, __ddExtractText } from "@openobserve/mobile-react-native";
+            import { O2BabelInteractionTracking, __o2ExtractText } from "@openobserve/mobile-react-native";
             import { Pressable, Text } from 'react-native';
             function App() {
               const visible = true;
               return /*#__PURE__*/React.createElement(Pressable, {
                 onPress: (...args) => {
-                  if (OoBabelInteractionTracking.getInstance()) return OoBabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
+                  if (O2BabelInteractionTracking.getInstance()) return O2BabelInteractionTracking.getInstance().wrapRumAction(() => {}, "TAP", {
                     "options": {
                       "useContent": true,
                       "useNamePrefix": true
                     },
                     "getContent": () => {
-                      return __ddExtractText(_jsx2(_Fragment, {
+                      return __o2ExtractText(_jsx2(_Fragment, {
                         children: visible && _jsx(Text, {
                           children: "Hello"
                         })

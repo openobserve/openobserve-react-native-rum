@@ -10,7 +10,7 @@ import { URLHostParser } from '../requestProxy/XHRProxy/URLHostParser';
 import { OpenObserveTracingContext } from './OpenObserveTracingContext';
 import { TracingIdFormat } from './TracingIdentifier';
 import type { TraceId, SpanId } from './TracingIdentifier';
-import type { OoRumResourceTracingAttributes } from './distributedTracingAttributes';
+import type { O2RumResourceTracingAttributes } from './distributedTracingAttributes';
 import {
     generateTracingAttributesWithSampling,
     getTracingAttributes
@@ -30,7 +30,7 @@ import {
 } from './headers';
 
 export const getTracingHeadersFromAttributes = (
-    tracingAttributes: OoRumResourceTracingAttributes
+    tracingAttributes: O2RumResourceTracingAttributes
 ): { header: string; value: string }[] => {
     const headers: { header: string; value: string }[] = [];
     if (tracingAttributes.tracingStrategy === 'DISCARD') {
@@ -178,7 +178,7 @@ export const getTracingContextForPropagators = (
 };
 
 const getTracingContextForAttributes = (
-    tracingAttributes: OoRumResourceTracingAttributes,
+    tracingAttributes: O2RumResourceTracingAttributes,
     tracingSamplingRate: number
 ): OpenObserveTracingContext => {
     const requestHeaders = getTracingHeadersFromAttributes(tracingAttributes);

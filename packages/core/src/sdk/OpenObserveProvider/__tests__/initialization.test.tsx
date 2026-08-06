@@ -8,10 +8,10 @@ import { version as reactNativeVersion } from 'react-native/package.json';
 import { NativeModules } from 'react-native';
 
 import { InitializationMode } from '../../../config/types';
-import { OoLogs } from '../../../logs/OoLogs';
-import { OoRum } from '../../../rum/OoRum';
+import { O2Logs } from '../../../logs/O2Logs';
+import { O2Rum } from '../../../rum/O2Rum';
 import { PropagatorType, RumActionType } from '../../../rum/types';
-import { OoTrace } from '../../../trace/OoTrace';
+import { O2Trace } from '../../../trace/O2Trace';
 import { DefaultTimeProvider } from '../../../utils/time-provider/DefaultTimeProvider';
 import { GlobalState } from '../../GlobalState/GlobalState';
 import { BufferSingleton } from '../Buffer/BufferSingleton';
@@ -55,16 +55,16 @@ describe('OpenObserveProvider', () => {
                 rerenderWithRandomConfig
             } = renderWithProvider();
             getByText('I am a test application');
-            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
 
             // We remove the sdk version from the configuration as it would require to update this snapshot
             const receivedConfiguration =
-                NativeModules.OoSdk.initialize.mock.calls[0][0];
+                NativeModules.O2Sdk.initialize.mock.calls[0][0];
             delete receivedConfiguration.additionalConfiguration[
                 '_o2.sdk_version'
             ];
             expect(receivedConfiguration).toMatchInlineSnapshot(`
-                OoSdkNativeConfiguration {
+                O2SdkNativeConfiguration {
                   "additionalConfiguration": {
                     "_o2.react_native_version": "${reactNativeVersion}",
                     "_o2.source": "react-native",
@@ -124,52 +124,52 @@ describe('OpenObserveProvider', () => {
 
             // Re-render
             rerenderWithRandomConfig();
-            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
         });
 
         it('keeps events in the buffer then executes the buffer once initialization is done', async () => {
             // Given
-            await OoLogs.info('fake_info_log');
-            await OoLogs.debug('fake_debug_log');
-            await OoLogs.warn('fake_wanr_log');
-            await OoLogs.error('fake_error_log');
-            NativeModules.OoTrace.startSpan.mockReturnValueOnce('good_span_id');
+            await O2Logs.info('fake_info_log');
+            await O2Logs.debug('fake_debug_log');
+            await O2Logs.warn('fake_wanr_log');
+            await O2Logs.error('fake_error_log');
+            NativeModules.O2Trace.startSpan.mockReturnValueOnce('good_span_id');
             (nowMock as any).mockReturnValue('good_timestamp');
-            await OoRum.addAction(RumActionType.TAP, 'fakeAction');
+            await O2Rum.addAction(RumActionType.TAP, 'fakeAction');
 
             // When
-            const spanId = await OoTrace.startSpan('fakeOperation');
-            await OoTrace.finishSpan(spanId);
+            const spanId = await O2Trace.startSpan('fakeOperation');
+            await O2Trace.finishSpan(spanId);
             (nowMock as any).mockReturnValue('bad_timestamp');
 
             // Then
-            expect(NativeModules.OoLogs.info).not.toHaveBeenCalled();
-            expect(NativeModules.OoLogs.debug).not.toHaveBeenCalled();
-            expect(NativeModules.OoLogs.warn).not.toHaveBeenCalled();
-            expect(NativeModules.OoLogs.error).not.toHaveBeenCalled();
-            expect(NativeModules.OoRum.addAction).not.toHaveBeenCalled();
-            expect(NativeModules.OoTrace.startSpan).not.toHaveBeenCalled();
-            expect(NativeModules.OoTrace.finishSpan).not.toHaveBeenCalled();
+            expect(NativeModules.O2Logs.info).not.toHaveBeenCalled();
+            expect(NativeModules.O2Logs.debug).not.toHaveBeenCalled();
+            expect(NativeModules.O2Logs.warn).not.toHaveBeenCalled();
+            expect(NativeModules.O2Logs.error).not.toHaveBeenCalled();
+            expect(NativeModules.O2Rum.addAction).not.toHaveBeenCalled();
+            expect(NativeModules.O2Trace.startSpan).not.toHaveBeenCalled();
+            expect(NativeModules.O2Trace.finishSpan).not.toHaveBeenCalled();
 
             // When initialization
             renderWithProvider();
             await flushPromises();
 
             // Then
-            expect(NativeModules.OoSdk.initialize).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoLogs.info).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoLogs.debug).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoLogs.warn).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoLogs.error).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoTrace.startSpan).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoTrace.startSpan).toHaveBeenLastCalledWith(
+            expect(NativeModules.O2Sdk.initialize).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Logs.info).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Logs.debug).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Logs.warn).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Logs.error).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Rum.addAction).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Trace.startSpan).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Trace.startSpan).toHaveBeenLastCalledWith(
                 'fakeOperation',
                 {},
                 'good_timestamp'
             );
-            expect(NativeModules.OoTrace.finishSpan).toHaveBeenCalledTimes(1);
-            expect(NativeModules.OoTrace.finishSpan).toHaveBeenLastCalledWith(
+            expect(NativeModules.O2Trace.finishSpan).toHaveBeenCalledTimes(1);
+            expect(NativeModules.O2Trace.finishSpan).toHaveBeenLastCalledWith(
                 'good_span_id',
                 {},
                 'good_timestamp'

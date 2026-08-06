@@ -2,10 +2,10 @@
 
 ## Change the configuration class
 
-Change your configuration from a `OoSdkReactNativeConfiguration` to a `OpenObserveProviderConfiguration` instance:
+Change your configuration from a `O2SdkReactNativeConfiguration` to a `OpenObserveProviderConfiguration` instance:
 
 ```git
-- const config = new OoSdkReactNativeConfiguration(
+- const config = new O2SdkReactNativeConfiguration(
 + const config = new OpenObserveProviderConfiguration(
 ```
 
@@ -28,9 +28,9 @@ export default function App() {
 }
 ```
 
-## Remove call to OoSdkReactNative.initialize
+## Remove call to O2SdkReactNative.initialize
 
-Remove the call to `OoSdkReactNative.initialize` in your code.
+Remove the call to `O2SdkReactNative.initialize` in your code.
 
 ## Special cases
 

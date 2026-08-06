@@ -4,11 +4,11 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { OoFlags } from '@openobserve/mobile-react-native';
+import { O2Flags } from '@openobserve/mobile-react-native';
 import type {
     FlagDetails,
     FlagsClient,
-    EvaluationContext as OoEvaluationContext
+    EvaluationContext as O2EvaluationContext
 } from '@openobserve/mobile-react-native';
 import { OpenFeatureEventEmitter, ErrorCode } from '@openfeature/web-sdk';
 import type {
@@ -54,7 +54,7 @@ export class OpenObserveOpenFeatureProvider implements Provider {
 
         this.options = options;
 
-        this.flagsClient = OoFlags.getClient(this.options.clientName);
+        this.flagsClient = O2Flags.getClient(this.options.clientName);
     }
 
     async initialize(context: OFEvaluationContext = {}): Promise<void> {
@@ -139,7 +139,7 @@ export class OpenObserveOpenFeatureProvider implements Provider {
     }
 }
 
-const toDdContext = (context: OFEvaluationContext): OoEvaluationContext => {
+const toDdContext = (context: OFEvaluationContext): O2EvaluationContext => {
     const { targetingKey, ...attributes } = context;
 
     // Important ⚠️

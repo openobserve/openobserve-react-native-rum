@@ -13,13 +13,13 @@ import { ResourceReporter } from '../ResourceReporter';
 import { ResourceMockFactory } from './__utils__/ResourceMockFactory';
 
 const resourceMockFactory = new ResourceMockFactory();
-const OoRum = NativeModules.OoRum;
+const O2Rum = NativeModules.O2Rum;
 const flushPromises = () =>
     new Promise(jest.requireActual('timers').setImmediate);
 
 beforeEach(() => {
-    OoRum.startResource.mockClear();
-    OoRum.stopResource.mockClear();
+    O2Rum.startResource.mockClear();
+    O2Rum.stopResource.mockClear();
     BufferSingleton.onInitialization();
 });
 
@@ -33,8 +33,8 @@ describe('Resource reporter', () => {
         resourceReporter.reportResource(resource);
         await flushPromises();
         // THEN
-        expect(OoRum.startResource).toHaveBeenCalledTimes(1);
-        expect(OoRum.stopResource).toHaveBeenCalledTimes(1);
+        expect(O2Rum.startResource).toHaveBeenCalledTimes(1);
+        expect(O2Rum.stopResource).toHaveBeenCalledTimes(1);
     });
 
     it('applies mappers when report resource is called', async () => {
@@ -57,14 +57,14 @@ describe('Resource reporter', () => {
         await flushPromises();
 
         // THEN
-        expect(OoRum.startResource).toHaveBeenCalledWith(
+        expect(O2Rum.startResource).toHaveBeenCalledWith(
             expect.anything(),
             expect.anything(),
             'https://google.com/',
             expect.anything(),
             expect.anything()
         );
-        expect(OoRum.stopResource).toHaveBeenCalledTimes(1);
+        expect(O2Rum.stopResource).toHaveBeenCalledTimes(1);
     });
 
     it('drops the resource when a mapper returns null', async () => {
@@ -80,7 +80,7 @@ describe('Resource reporter', () => {
         await flushPromises();
 
         // THEN
-        expect(OoRum.startResource).not.toHaveBeenCalled();
-        expect(OoRum.stopResource).not.toHaveBeenCalled();
+        expect(O2Rum.startResource).not.toHaveBeenCalled();
+        expect(O2Rum.stopResource).not.toHaveBeenCalled();
     });
 });

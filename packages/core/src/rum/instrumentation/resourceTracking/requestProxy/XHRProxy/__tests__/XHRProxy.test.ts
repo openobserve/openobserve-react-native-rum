@@ -10,7 +10,7 @@ import { Platform, NativeModules } from 'react-native';
 import { InternalLog } from '../../../../../../InternalLog';
 import { SdkVerbosity } from '../../../../../../config/types';
 import { BufferSingleton } from '../../../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
-import { OoRum } from '../../../../../OoRum';
+import { O2Rum } from '../../../../../O2Rum';
 import {
     setCachedSessionId,
     setCachedUserId,
@@ -51,7 +51,7 @@ const mockedInternalLog = (InternalLog as unknown) as {
 };
 jest.spyOn(global.Math, 'random');
 
-const OoNativeRum = NativeModules.OoRum;
+const O2NativeRum = NativeModules.O2Rum;
 
 function randomInt(max: number): number {
     return Math.floor(Math.random() * max);
@@ -66,8 +66,8 @@ const hexToDecimal = (hex: string): string => {
 };
 
 beforeEach(() => {
-    OoNativeRum.startResource.mockClear();
-    OoNativeRum.stopResource.mockClear();
+    O2NativeRum.startResource.mockClear();
+    O2NativeRum.stopResource.mockClear();
     BufferSingleton.onInitialization();
 
     xhrProxy = new XHRProxy({
@@ -93,7 +93,7 @@ afterEach(() => {
     xhrProxy.onTrackingStop();
     (Date.now as jest.MockedFunction<typeof Date.now>).mockClear();
     jest.spyOn(global.Math, 'random').mockRestore();
-    OoRum.unregisterResourceEventMapper();
+    O2Rum.unregisterResourceEventMapper();
 
     setCachedSessionId(undefined as any);
     setCachedUserId(undefined as any);
@@ -120,17 +120,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(O2NativeRum.startResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(O2NativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
-                OoNativeRum.startResource.mock.calls[0][0]
+            expect(O2NativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.stopResource.mock.calls[0][0]).toBe(
+                O2NativeRum.startResource.mock.calls[0][0]
             );
-            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(200);
-            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
+            expect(O2NativeRum.stopResource.mock.calls[0][1]).toBe(200);
+            expect(O2NativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(O2NativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
                 0
             );
 
@@ -157,17 +157,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(O2NativeRum.startResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(O2NativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
-                OoNativeRum.startResource.mock.calls[0][0]
+            expect(O2NativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.stopResource.mock.calls[0][0]).toBe(
+                O2NativeRum.startResource.mock.calls[0][0]
             );
-            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(500);
-            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
+            expect(O2NativeRum.stopResource.mock.calls[0][1]).toBe(500);
+            expect(O2NativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(O2NativeRum.stopResource.mock.calls[0][3]).toBeGreaterThan(
                 0
             );
 
@@ -194,17 +194,17 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(OoNativeRum.startResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.startResource.mock.calls[0][1]).toBe(method);
-            expect(OoNativeRum.startResource.mock.calls[0][2]).toBe(url);
+            expect(O2NativeRum.startResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.startResource.mock.calls[0][1]).toBe(method);
+            expect(O2NativeRum.startResource.mock.calls[0][2]).toBe(url);
 
-            expect(OoNativeRum.stopResource.mock.calls.length).toBe(1);
-            expect(OoNativeRum.stopResource.mock.calls[0][0]).toBe(
-                OoNativeRum.startResource.mock.calls[0][0]
+            expect(O2NativeRum.stopResource.mock.calls.length).toBe(1);
+            expect(O2NativeRum.stopResource.mock.calls[0][0]).toBe(
+                O2NativeRum.startResource.mock.calls[0][0]
             );
-            expect(OoNativeRum.stopResource.mock.calls[0][1]).toBe(0);
-            expect(OoNativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
-            expect(OoNativeRum.stopResource.mock.calls[0][3]).toBe(-1);
+            expect(O2NativeRum.stopResource.mock.calls[0][1]).toBe(0);
+            expect(O2NativeRum.stopResource.mock.calls[0][2]).toBe('xhr');
+            expect(O2NativeRum.stopResource.mock.calls[0][3]).toBe(-1);
 
             expect(xhr.originalOpenCalled).toBe(true);
             expect(xhr.originalSendCalled).toBe(true);
@@ -904,7 +904,7 @@ describe('XHRProxy', () => {
         });
     });
 
-    describe('OoRum.startResource calls', () => {
+    describe('O2Rum.startResource calls', () => {
         it('adds the span id, trace id and rule_psr as resource attributes when startTracking() + XHR.open() + XHR.send()', async () => {
             // GIVEN
             const method = 'GET';
@@ -929,17 +929,17 @@ describe('XHRProxy', () => {
 
             // THEN
             const spanId =
-                OoNativeRum.startResource.mock.calls[0][3]['_o2.span_id'];
+                O2NativeRum.startResource.mock.calls[0][3]['_o2.span_id'];
             expect(spanId).toBeDefined();
             expect(spanId).toMatch(/[1-9].+/);
 
             const traceId =
-                OoNativeRum.startResource.mock.calls[0][3]['_o2.trace_id'];
+                O2NativeRum.startResource.mock.calls[0][3]['_o2.trace_id'];
             expect(traceId).toBeDefined();
             expect(traceId).toMatch(/[1-9].+/);
 
             const rulePsr =
-                OoNativeRum.startResource.mock.calls[0][3]['_o2.rule_psr'];
+                O2NativeRum.startResource.mock.calls[0][3]['_o2.rule_psr'];
             expect(rulePsr).toBe(1);
 
             // Check traceId and spanId are different
@@ -964,7 +964,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(OoNativeRum.startResource).not.toHaveBeenCalledWith(
+            expect(O2NativeRum.startResource).not.toHaveBeenCalledWith(
                 expect.anything(),
                 expect.anything(),
                 expect.anything(),
@@ -975,7 +975,7 @@ describe('XHRProxy', () => {
                 }),
                 expect.anything()
             );
-            expect(OoNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
+            expect(O2NativeRum.startResource.mock.calls[0][3]).toStrictEqual(
                 {}
             );
         });
@@ -1004,7 +1004,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            expect(OoNativeRum.startResource).not.toHaveBeenCalledWith(
+            expect(O2NativeRum.startResource).not.toHaveBeenCalledWith(
                 expect.anything(),
                 expect.anything(),
                 expect.anything(),
@@ -1015,7 +1015,7 @@ describe('XHRProxy', () => {
                 }),
                 expect.anything()
             );
-            expect(OoNativeRum.startResource.mock.calls[0][3]).toStrictEqual(
+            expect(O2NativeRum.startResource.mock.calls[0][3]).toStrictEqual(
                 {}
             );
         });
@@ -1046,7 +1046,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const timings = OoNativeRum.stopResource.mock.calls[0][4];
+            const timings = O2NativeRum.stopResource.mock.calls[0][4];
             const resourceTimings = timings['_o2.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
@@ -1095,7 +1095,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const timings = OoNativeRum.stopResource.mock.calls[0][4];
+            const timings = O2NativeRum.stopResource.mock.calls[0][4];
             const resourceTimings = timings['_o2.resource_timings'];
 
             expect(resourceTimings).toBeDefined();
@@ -1119,7 +1119,7 @@ describe('XHRProxy', () => {
         });
     });
 
-    describe('OoRum.stopResource calls', () => {
+    describe('O2Rum.stopResource calls', () => {
         it('does not generate resource timings when startTracking() + XHR.open() + XHR.send() + XHR.abort() before load started', async () => {
             // GIVEN
             const method = 'GET';
@@ -1138,7 +1138,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             expect(attributes['_o2.resource_timings']).toBeUndefined();
         });
@@ -1151,7 +1151,7 @@ describe('XHRProxy', () => {
                 tracingSamplingRate: 100,
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
             });
-            OoRum.registerResourceEventMapper(event => {
+            O2Rum.registerResourceEventMapper(event => {
                 (event.context as any)['body'] = JSON.parse(
                     event.resourceContext?.response
                 );
@@ -1167,7 +1167,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             expect(attributes['body.body']).toEqual('content');
         });
@@ -1414,7 +1414,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.operation_type']).toEqual('query');
             expect(attributes['_o2.graphql.operation_name']).toEqual('cats');
             expect(attributes['_o2.graphql.variables']).toEqual('{}');
@@ -1452,7 +1452,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.operation_type']).toEqual('query');
             expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
             expect(attributes['_o2.graphql.variables']).not.toBeDefined();
@@ -1491,7 +1491,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.operation_type']).not.toBeDefined();
             expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
             expect(attributes['_o2.graphql.variables']).not.toBeDefined();
@@ -1515,7 +1515,7 @@ describe('XHRProxy', () => {
                 tracingSamplingRate: 100,
                 firstPartyHostsRegexMap: firstPartyHostsRegexMapBuilder([])
             });
-            OoRum.registerResourceEventMapper(event => {
+            O2Rum.registerResourceEventMapper(event => {
                 if ((event.context as any)['_o2.graphql.variables']) {
                     const variables = JSON.parse(
                         (event.context as any)['_o2.graphql.variables']
@@ -1548,7 +1548,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.operation_type']).toBe('query');
             expect(attributes['_o2.graphql.operation_name']).not.toBeDefined();
             expect(attributes['_o2.graphql.variables']).toBe(
@@ -1603,7 +1603,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.operation_type']).toEqual('query');
             expect(attributes['_o2.graphql.operation_name']).toEqual('GetUser');
             expect(attributes['_o2.graphql.errors']).toBeDefined();
@@ -1657,7 +1657,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0]).toEqual({
@@ -1706,7 +1706,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors).toHaveLength(2);
@@ -1755,7 +1755,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0]).toEqual({
@@ -1788,7 +1788,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
@@ -1826,7 +1826,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - errors should NOT be extracted
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
             expect(attributes['_o2.graphql.operation_type']).toEqual('query');
@@ -1866,7 +1866,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - errors should NOT be extracted
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
             // But other GraphQL attributes should still be set
             expect(attributes['_o2.graphql.operation_type']).toEqual('query');
@@ -1898,7 +1898,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - should not crash and should not set errors attribute
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
@@ -1931,7 +1931,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN - empty array should not set errors attribute
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
@@ -1963,7 +1963,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             expect(attributes['_o2.graphql.errors']).toBeUndefined();
         });
 
@@ -2004,7 +2004,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
 
             const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0].code).toEqual('EXTENSIONS_CODE');
@@ -2044,7 +2044,7 @@ describe('XHRProxy', () => {
             await flushPromises();
 
             // THEN
-            const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+            const attributes = O2NativeRum.stopResource.mock.calls[0][4];
             const errors = JSON.parse(attributes['_o2.graphql.errors']);
             expect(errors[0].path).toEqual(['items', 0, 'name', 'first']);
         });
@@ -2104,7 +2104,7 @@ describe('XHRProxy', () => {
                 expect(parsedByApp.errors[0].message).toBe('User not found');
 
                 // AND - OpenObserve successfully extracted filtered errors
-                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const attributes = O2NativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
@@ -2171,7 +2171,7 @@ describe('XHRProxy', () => {
                 );
 
                 // AND - OpenObserve successfully extracted filtered errors (extensions filtered out)
-                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const attributes = O2NativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
@@ -2242,7 +2242,7 @@ describe('XHRProxy', () => {
                 expect(applicationReadBlob.size).toBe(responseBody.length);
 
                 // AND - OpenObserve successfully extracted filtered errors
-                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const attributes = O2NativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(1);
                 expect(errors[0]).toEqual({
@@ -2323,7 +2323,7 @@ describe('XHRProxy', () => {
                 ]);
 
                 // AND - OpenObserve got filtered errors (no extensions details)
-                const attributes = OoNativeRum.stopResource.mock.calls[0][4];
+                const attributes = O2NativeRum.stopResource.mock.calls[0][4];
                 const errors = JSON.parse(attributes['_o2.graphql.errors']);
                 expect(errors).toHaveLength(2);
                 expect(errors[0]).toEqual({

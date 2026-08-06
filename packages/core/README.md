@@ -86,18 +86,18 @@ Because React Native offers a wide range of libraries to create screen navigatio
 
 ```js
 import {
-    OoSdkReactNative,
-    OoSdkReactNativeConfiguration,
-    OoLogs,
-    OoRum
+    O2SdkReactNative,
+    O2SdkReactNativeConfiguration,
+    O2Logs,
+    O2Rum
 } from '@openobserve/mobile-react-native';
 
 // Start a view with a unique view identifier, a custom view url, and an object to attach additional attributes to the view
-OoRum.startView('ViewKey', 'ViewName', Date.now(), {
+O2Rum.startView('ViewKey', 'ViewName', Date.now(), {
     'custom.foo': 'something'
 });
 // Stops a previously started view with the same unique view identifier, and an object to attach additional attributes to the view
-OoRum.stopView('ViewKey', Date.now(), { 'custom.bar': 42 });
+O2Rum.stopView('ViewKey', Date.now(), { 'custom.bar': 42 });
 ```
 
 ## Data Storage

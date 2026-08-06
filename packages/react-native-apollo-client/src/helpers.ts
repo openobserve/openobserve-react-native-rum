@@ -10,7 +10,7 @@
 
 import { version } from '@apollo/client/package.json';
 import type { Operation } from '@apollo/client';
-import { OoSdk } from '@openobserve/mobile-react-native';
+import { O2Sdk } from '@openobserve/mobile-react-native';
 import type { DefinitionNode, OperationDefinitionNode } from 'graphql';
 import { print } from 'graphql';
 
@@ -28,7 +28,7 @@ export const getVariables = (
         try {
             return JSON.stringify(operation.variables);
         } catch (e) {
-            (OoSdk as any)?.telemetryError(
+            (O2Sdk as any)?.telemetryError(
                 _getErrorMessage(
                     ErrorCode.GQL_VARIABLE_RETRIEVAL_ERROR,
                     apolloVersion
@@ -67,7 +67,7 @@ export const getOperationType = (
                 })[0] || null
         );
     } catch (e) {
-        (OoSdk as any)?.telemetryError(
+        (O2Sdk as any)?.telemetryError(
             _getErrorMessage(ErrorCode.GQL_OPERATION_TYPE_ERROR, apolloVersion),
             _getErrorStack(e),
             ErrorCode.GQL_OPERATION_TYPE_ERROR
@@ -90,7 +90,7 @@ export const getPayload = (
 
         return safeTruncate(trimmedQuery, GRAPHQL_PAYLOAD_LIMIT, '...');
     } catch (e) {
-        (OoSdk as any)?.telemetryError(
+        (O2Sdk as any)?.telemetryError(
             _getErrorMessage(
                 ErrorCode.GQL_PAYLOAD_RETRIEVAL_ERROR,
                 apolloVersion

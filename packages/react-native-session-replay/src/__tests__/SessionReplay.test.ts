@@ -22,7 +22,7 @@ function getRandomEnumValue<
 }
 
 beforeEach(() => {
-    NativeModules.OoSessionReplay.enable.mockClear();
+    NativeModules.O2SessionReplay.enable.mockClear();
 });
 
 describe('SessionReplay', () => {
@@ -30,7 +30,7 @@ describe('SessionReplay', () => {
         it('calls native session replay with default configuration', () => {
             SessionReplay.enable();
 
-            expect(NativeModules.OoSessionReplay.enable).toHaveBeenCalledWith(
+            expect(NativeModules.O2SessionReplay.enable).toHaveBeenCalledWith(
                 100,
                 '',
                 'MASK_ALL',
@@ -47,7 +47,7 @@ describe('SessionReplay', () => {
                 customEndpoint: 'https://session-replay.example.com'
             });
 
-            expect(NativeModules.OoSessionReplay.enable).toHaveBeenCalledWith(
+            expect(NativeModules.O2SessionReplay.enable).toHaveBeenCalledWith(
                 100,
                 'https://session-replay.example.com',
                 'MASK_ALL',
@@ -75,7 +75,7 @@ describe('SessionReplay', () => {
                 });
 
                 expect(
-                    NativeModules.OoSessionReplay.enable
+                    NativeModules.O2SessionReplay.enable
                 ).toHaveBeenCalledWith(
                     100,
                     'https://session-replay.example.com',
@@ -94,7 +94,7 @@ describe('SessionReplay', () => {
                 customEndpoint: ''
             });
 
-            expect(NativeModules.OoSessionReplay.enable).toHaveBeenCalledWith(
+            expect(NativeModules.O2SessionReplay.enable).toHaveBeenCalledWith(
                 0,
                 '',
                 'MASK_ALL',

@@ -7,7 +7,7 @@
 /* ----------------------------------------
  * Built-in encoders
  * -------------------------------------- */
-import { OoSdk } from '../OoSdk';
+import { O2Sdk } from '../O2Sdk';
 
 import {
     getErrorMessage,
@@ -48,7 +48,7 @@ export const arrayEncoder: AttributeEncoder<unknown[]> = {
     check: Array.isArray,
     encode: (arr: unknown[]) =>
         arr.map(x =>
-            sanitizeForJson(x, [...OoSdk.attributeEncoders, ...builtInEncoders])
+            sanitizeForJson(x, [...O2Sdk.attributeEncoders, ...builtInEncoders])
         )
 };
 
@@ -74,7 +74,7 @@ export const errorEncoder: AttributeEncoder<any> = {
         // In React Native, some errors have extra fields we want to capture
         if (e && typeof e === 'object') {
             const allEncoders = [
-                ...OoSdk.attributeEncoders,
+                ...O2Sdk.attributeEncoders,
                 ...builtInEncoders
             ];
 
@@ -156,7 +156,7 @@ export const mapEncoder: AttributeEncoder<Map<unknown, unknown>> = {
                 }
 
                 const allEncoders = [
-                    ...OoSdk.attributeEncoders,
+                    ...O2Sdk.attributeEncoders,
                     ...builtInEncoders
                 ];
                 entries.push({

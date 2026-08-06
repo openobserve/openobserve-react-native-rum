@@ -4,10 +4,10 @@ package/android/build.gradle
 package/android/detekt.yml
 package/android/gradle.properties
 package/android/src/main/AndroidManifest.xml
-package/android/src/newarch/com/openobserve/reactnative/webview/OoSdkReactNativeWebViewManager.kt
-package/android/src/newarch/com/openobserve/reactnative/webview/OoSdkReactNativeWebViewPackage.kt
-package/android/src/oldarch/com/openobserve/reactnative/webview/OoSdkReactNativeWebViewManager.kt
-package/android/src/oldarch/com/openobserve/reactnative/webview/OoSdkReactNativeWebViewPackage.kt
+package/android/src/newarch/com/openobserve/reactnative/webview/O2SdkReactNativeWebViewManager.kt
+package/android/src/newarch/com/openobserve/reactnative/webview/O2SdkReactNativeWebViewPackage.kt
+package/android/src/oldarch/com/openobserve/reactnative/webview/O2SdkReactNativeWebViewManager.kt
+package/android/src/oldarch/com/openobserve/reactnative/webview/O2SdkReactNativeWebViewPackage.kt
 package/android/src/test/kotlin/main/com/openobserve/reactnative/tools/unit/GenericAssert.kt
 package/android/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
 package/android/src/test/webview/OpenObserveWebViewTest.kt

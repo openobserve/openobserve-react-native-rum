@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, Text, Button } from 'react-native';
 
 import styles from './styles';
-import { OoTrace, InternalLog, SdkVerbosity } from '@openobserve/mobile-react-native';
+import { O2Trace, InternalLog, SdkVerbosity } from '@openobserve/mobile-react-native';
 
 const TraceScreen = () => {
     const [spanIds, setSpanIds] = useState<string[]>([]);
@@ -16,7 +16,7 @@ const TraceScreen = () => {
             <Button
                 title="Start Span"
                 onPress={async () => {
-                    const newSpanId = await OoTrace.startSpan("span_operation_" +   Math.floor(100 + Math.random() * 900));
+                    const newSpanId = await O2Trace.startSpan("span_operation_" +   Math.floor(100 + Math.random() * 900));
                     InternalLog.log(`SpanId: ${newSpanId}`, SdkVerbosity.DEBUG);
                     spanIds.push(newSpanId);
                     setSpanIds(spanIds);
@@ -27,7 +27,7 @@ const TraceScreen = () => {
                 title="Finish Span"
                 onPress={() => {
                     const lastSpan = spanIds.pop();
-                    lastSpan && OoTrace.finishSpan(lastSpan);
+                    lastSpan && O2Trace.finishSpan(lastSpan);
                     setSpanIds(spanIds)
                 }}
             />

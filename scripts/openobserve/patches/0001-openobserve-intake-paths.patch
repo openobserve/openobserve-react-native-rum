@@ -75,10 +75,10 @@ index e1b58f84..a932549d 100644
                          }
                      ]
                  },
-diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
+diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfigurationExt.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfigurationExt.kt
 index 6f9fded3..87eac64f 100644
---- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
-+++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
+--- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfigurationExt.kt
++++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfigurationExt.kt
 @@ -238,8 +238,8 @@ internal fun List<JSONFirstPartyHost>.asFirstPartyHosts(): Map<String, Set<Traci
       * Adapts the data format from the React Native SDK configuration to match with the Android
       * SDK configuration. For example:
@@ -98,11 +98,11 @@ index 6f9fded3..87eac64f 100644
              "b3" -> TracingHeaderType.B3
              "b3multi" -> TracingHeaderType.B3MULTI
              "tracecontext" -> TracingHeaderType.TRACECONTEXT
-diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
+diff --git b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkNativeInitialization.kt a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkNativeInitialization.kt
 index 7ec41460..14b07101 100644
---- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
-+++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
-@@ -242,7 +242,10 @@ class OoSdkNativeInitialization internal constructor(
+--- b/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkNativeInitialization.kt
++++ a/packages/core/android/src/main/kotlin/com/openobserve/reactnative/O2SdkNativeInitialization.kt
+@@ -242,7 +242,10 @@ class O2SdkNativeInitialization internal constructor(
          )
  
          configuration.rumConfiguration?.customEndpoint?.let {
@@ -114,8 +114,8 @@ index 7ec41460..14b07101 100644
          }
  
          configuration.rumConfiguration?.trackNonFatalAnrs?.let {
-@@ -262,7 +265,8 @@ class OoSdkNativeInitialization internal constructor(
-     private fun buildLogsConfiguration(configuration: OoSdkConfiguration): LogsConfiguration {
+@@ -262,7 +265,8 @@ class O2SdkNativeInitialization internal constructor(
+     private fun buildLogsConfiguration(configuration: O2SdkConfiguration): LogsConfiguration {
          val configBuilder = LogsConfiguration.Builder()
          configuration.logsConfiguration?.customEndpoint?.let {
 -            configBuilder.useCustomEndpoint(it)
@@ -124,11 +124,11 @@ index 7ec41460..14b07101 100644
          }
  
          return configBuilder.build()
-diff --git b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
+diff --git b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/O2SdkTest.kt a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/O2SdkTest.kt
 index 87215d6c..44e31378 100644
---- b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
-+++ a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
-@@ -1861,9 +1861,7 @@ internal class OoSdkTest {
+--- b/packages/core/android/src/test/kotlin/com/openobserve/reactnative/O2SdkTest.kt
++++ a/packages/core/android/src/test/kotlin/com/openobserve/reactnative/O2SdkTest.kt
+@@ -1861,9 +1861,7 @@ internal class O2SdkTest {
              Pair(
                  forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
                  forge.aSubSetOf(
@@ -139,7 +139,7 @@ index 87215d6c..44e31378 100644
                          TracingHeaderType.TRACECONTEXT,
                          TracingHeaderType.B3
                      ),
-@@ -1940,7 +1938,6 @@ internal class OoSdkTest {
+@@ -1940,7 +1938,6 @@ internal class O2SdkTest {
              Pair(
                  forge.aStringMatching("[a-z]+\\.[a-z]{3}"),
                  setOf(
@@ -147,7 +147,7 @@ index 87215d6c..44e31378 100644
                  )
              )
          }
-@@ -1951,8 +1948,7 @@ internal class OoSdkTest {
+@@ -1951,8 +1948,7 @@ internal class O2SdkTest {
                  mapOf(
                      "match" to match,
                      "propagatorTypes" to listOf(
@@ -157,7 +157,7 @@ index 87215d6c..44e31378 100644
                      ).toReadableArray()
                  ).toReadableMap()
              )
-@@ -2014,9 +2010,7 @@ internal class OoSdkTest {
+@@ -2014,9 +2010,7 @@ internal class O2SdkTest {
          val tracingHosts = mapOf(
              Pair(
                  host,
@@ -168,7 +168,7 @@ index 87215d6c..44e31378 100644
                  )
              )
          )
-@@ -2026,8 +2020,7 @@ internal class OoSdkTest {
+@@ -2026,8 +2020,7 @@ internal class O2SdkTest {
              mapOf(
                  "match" to host,
                  "propagatorTypes" to listOf(
@@ -178,11 +178,11 @@ index 87215d6c..44e31378 100644
              ).toReadableMap()
          )
          firstPartyHosts.add(
-diff --git b/packages/core/ios/Sources/OoSdkNativeInitialization.swift a/packages/core/ios/Sources/OoSdkNativeInitialization.swift
+diff --git b/packages/core/ios/Sources/O2SdkNativeInitialization.swift a/packages/core/ios/Sources/O2SdkNativeInitialization.swift
 index 4e11dc5e..acf81e64 100644
---- b/packages/core/ios/Sources/OoSdkNativeInitialization.swift
-+++ a/packages/core/ios/Sources/OoSdkNativeInitialization.swift
-@@ -189,7 +189,9 @@ public class OoSdkNativeInitialization: NSObject {
+--- b/packages/core/ios/Sources/O2SdkNativeInitialization.swift
++++ a/packages/core/ios/Sources/O2SdkNativeInitialization.swift
+@@ -189,7 +189,9 @@ public class O2SdkNativeInitialization: NSObject {
  
          var customRUMEndpointURL: URL? = nil
          if let customEndpoint = rumConfig.customEndpoint, !customEndpoint.isEmpty {
@@ -193,7 +193,7 @@ index 4e11dc5e..acf81e64 100644
          }
  
          var networkSettledResourcePredicate: TimeBasedTNSResourcePredicate? = nil
-@@ -248,7 +250,8 @@ public class OoSdkNativeInitialization: NSObject {
+@@ -248,7 +250,8 @@ public class O2SdkNativeInitialization: NSObject {
          var customLogsEndpointURL: URL? = nil
          if let customLogsEndpoint = logsConfig.customEndpoint as? NSString {
              if customLogsEndpoint != "" {
@@ -227,11 +227,11 @@ index 5b96c412..7c8dca3f 100644
                  case "b3":
                      return TracingHeaderType.b3
                  case "b3multi":
-diff --git b/packages/core/ios/Tests/OoSdkTests.swift a/packages/core/ios/Tests/OoSdkTests.swift
+diff --git b/packages/core/ios/Tests/O2SdkTests.swift a/packages/core/ios/Tests/O2SdkTests.swift
 index 030f2da3..478f774a 100644
---- b/packages/core/ios/Tests/OoSdkTests.swift
-+++ a/packages/core/ios/Tests/OoSdkTests.swift
-@@ -964,7 +964,7 @@ class OoSdkTests: XCTestCase {
+--- b/packages/core/ios/Tests/O2SdkTests.swift
++++ a/packages/core/ios/Tests/O2SdkTests.swift
+@@ -964,7 +964,7 @@ class O2SdkTests: XCTestCase {
          let rumConfiguration: RumConfiguration = makeDefaultRumConfiguration()
          rumConfiguration.resourceTraceSampleRate = 66
          rumConfiguration.firstPartyHosts = ([
@@ -287,19 +287,19 @@ index 94741305..a285aa3a 100644
  package/android/src/main/AndroidManifest.xml
 -package/android/src/main/kotlin/com/datadog/reactnative/OpenObserveSDKWrapper.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/OpenObserveWrapper.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoFlagsImplementation.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoLogsImplementation.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoRumImplementation.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkBridgeExt.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkConfiguration.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkConfigurationExt.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkImplementation.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkNativeInitialization.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkReactNativePackage.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkSessionStartedListener.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoSdkSynthetics.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoTelemetry.kt
--package/android/src/main/kotlin/com/datadog/reactnative/OoTraceImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2FlagsImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2LogsImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2RumImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkBridgeExt.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkConfiguration.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkConfigurationExt.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkNativeInitialization.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkReactNativePackage.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkSessionStartedListener.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2SdkSynthetics.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2Telemetry.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/O2TraceImplementation.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/FrameRateProvider.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/GlobalState.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/JSONFileReader.kt
@@ -308,28 +308,28 @@ index 94741305..a285aa3a 100644
 -package/android/src/main/kotlin/com/datadog/reactnative/ProxyAuthenticator.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/SdkVersion.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/UiThreadExecutor.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/OoFlags.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/OoLogs.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/OoRum.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/OoSdk.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/OoTrace.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/OoFlags.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/OoLogs.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/OoRum.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/OoSdk.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/OoTrace.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoFlagsImplementationTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoLogsTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoRumTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoSdkBridgeExtTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoSdkConfigurationTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoSdkNativeInitializationTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoSdkSessionStartedListenerTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoSdkTest.kt
--package/android/src/test/kotlin/com/datadog/reactnative/OoTraceTest.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/O2Flags.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/O2Logs.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/O2Rum.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/O2Sdk.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/O2Trace.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/O2Flags.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/O2Logs.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/O2Rum.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/O2Sdk.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/O2Trace.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2FlagsImplementationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2LogsTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2RumTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2SdkBridgeExtTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2SdkConfigurationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2SdkNativeInitializationTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2SdkSessionStartedListenerTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2SdkTest.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/O2TraceTest.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/GlobalStateTest.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/ProxyAuthenticatorTest.kt
--package/android/src/test/kotlin/com/datadog/tools/unit/OoSdkConfigurationExt.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/O2SdkConfigurationExt.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/GenericAssert.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/MapExt.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/MockRumMonitor.kt
@@ -339,7 +339,7 @@ index 94741305..a285aa3a 100644
 -package/android/src/test/kotlin/com/datadog/tools/unit/TestUiThreadExecutor.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/ActionEventForgeryFactory.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/BaseConfigurator.kt
--package/android/src/test/kotlin/com/datadog/tools/unit/forge/OoSdkConfigurationForgeryFactory.kt
+-package/android/src/test/kotlin/com/datadog/tools/unit/forge/O2SdkConfigurationForgeryFactory.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/PackageInfoForgeryFactory.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/ResourceEventForgeryFactory.kt
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/TelemetryConfigurationEventForgeryFactory.kt
@@ -347,19 +347,19 @@ index 94741305..a285aa3a 100644
 -package/android/src/test/kotlin/com/datadog/tools/unit/forge/ThrowableForgeryFactory.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/OpenObserveSDKWrapper.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/OpenObserveWrapper.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoFlagsImplementation.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoLogsImplementation.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoRumImplementation.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkBridgeExt.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfiguration.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkConfigurationExt.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkImplementation.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkNativeInitialization.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkReactNativePackage.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkSessionStartedListener.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoSdkSynthetics.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoTelemetry.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/OoTraceImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2FlagsImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2LogsImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2RumImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkBridgeExt.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfiguration.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkConfigurationExt.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkImplementation.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkNativeInitialization.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkReactNativePackage.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkSessionStartedListener.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2SdkSynthetics.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2Telemetry.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/O2TraceImplementation.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/FrameRateProvider.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/GlobalState.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/JSONFileReader.kt
@@ -368,28 +368,28 @@ index 94741305..a285aa3a 100644
 +package/android/src/main/kotlin/com/openobserve/reactnative/ProxyAuthenticator.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/SdkVersion.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/UiThreadExecutor.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/OoFlags.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/OoLogs.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/OoRum.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/OoSdk.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/OoTrace.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoFlags.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoLogs.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoRum.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoSdk.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/OoTrace.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoFlagsImplementationTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoLogsTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoRumTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkBridgeExtTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkConfigurationTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkNativeInitializationTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkSessionStartedListenerTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoSdkTest.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/OoTraceTest.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/O2Flags.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/O2Logs.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/O2Rum.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/O2Sdk.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/O2Trace.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/O2Flags.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/O2Logs.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/O2Rum.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/O2Sdk.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/O2Trace.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2FlagsImplementationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2LogsTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2RumTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2SdkBridgeExtTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2SdkConfigurationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2SdkNativeInitializationTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2SdkSessionStartedListenerTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2SdkTest.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/O2TraceTest.kt
 +package/android/src/test/kotlin/com/openobserve/reactnative/GlobalStateTest.kt
 +package/android/src/test/kotlin/com/openobserve/reactnative/ProxyAuthenticatorTest.kt
-+package/android/src/test/kotlin/com/openobserve/tools/unit/OoSdkConfigurationExt.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/O2SdkConfigurationExt.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/GenericAssert.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/MapExt.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/MockRumMonitor.kt
@@ -399,7 +399,7 @@ index 94741305..a285aa3a 100644
 +package/android/src/test/kotlin/com/openobserve/tools/unit/TestUiThreadExecutor.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/forge/ActionEventForgeryFactory.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/forge/BaseConfigurator.kt
-+package/android/src/test/kotlin/com/openobserve/tools/unit/forge/OoSdkConfigurationForgeryFactory.kt
++package/android/src/test/kotlin/com/openobserve/tools/unit/forge/O2SdkConfigurationForgeryFactory.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/forge/PackageInfoForgeryFactory.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/forge/ResourceEventForgeryFactory.kt
 +package/android/src/test/kotlin/com/openobserve/tools/unit/forge/TelemetryConfigurationEventForgeryFactory.kt
@@ -408,11 +408,11 @@ index 94741305..a285aa3a 100644
  package/android/src/test/resources/input/complete-configuration.json
  package/android/src/test/resources/input/malformed-configuration.json
  package/android/src/test/resources/input/minimal-configuration.json
-diff --git b/packages/core/src/__tests__/OoSdkReactNative.test.tsx a/packages/core/src/__tests__/OoSdkReactNative.test.tsx
+diff --git b/packages/core/src/__tests__/O2SdkReactNative.test.tsx a/packages/core/src/__tests__/O2SdkReactNative.test.tsx
 index 522728b8..69b0cc98 100644
---- b/packages/core/src/__tests__/OoSdkReactNative.test.tsx
-+++ a/packages/core/src/__tests__/OoSdkReactNative.test.tsx
-@@ -620,14 +620,11 @@ describe('OoSdkReactNative', () => {
+--- b/packages/core/src/__tests__/O2SdkReactNative.test.tsx
++++ a/packages/core/src/__tests__/O2SdkReactNative.test.tsx
+@@ -620,14 +620,11 @@ describe('O2SdkReactNative', () => {
              configuration.rumConfiguration.firstPartyHosts = [
                  {
                      match: 'api.example.com',
@@ -429,7 +429,7 @@ index 522728b8..69b0cc98 100644
                  }
              ];
  
-@@ -650,11 +647,11 @@ describe('OoSdkReactNative', () => {
+@@ -650,11 +647,11 @@ describe('O2SdkReactNative', () => {
              ).toEqual([
                  {
                      match: 'api.example.com',
@@ -443,7 +443,7 @@ index 522728b8..69b0cc98 100644
                  }
              ]);
              expect(ddSdkConfiguration.additionalConfiguration).toStrictEqual({
-@@ -670,11 +667,11 @@ describe('OoSdkReactNative', () => {
+@@ -670,11 +667,11 @@ describe('O2SdkReactNative', () => {
                  firstPartyHosts: [
                      {
                          match: 'api.example.com',
@@ -457,11 +457,11 @@ index 522728b8..69b0cc98 100644
                      }
                  ]
              });
-diff --git b/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts a/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
+diff --git b/packages/core/src/__tests__/O2SdkReactNativeConfiguration.test.ts a/packages/core/src/__tests__/O2SdkReactNativeConfiguration.test.ts
 index 07919ba3..c4cc9cbb 100644
---- b/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
-+++ a/packages/core/src/__tests__/OoSdkReactNativeConfiguration.test.ts
-@@ -110,10 +110,7 @@ describe('OoSdkReactNativeConfiguration', () => {
+--- b/packages/core/src/__tests__/O2SdkReactNativeConfiguration.test.ts
++++ a/packages/core/src/__tests__/O2SdkReactNativeConfiguration.test.ts
+@@ -110,10 +110,7 @@ describe('O2SdkReactNativeConfiguration', () => {
                              firstPartyHosts: [
                                  {
                                      match: 'api.com',
@@ -473,7 +473,7 @@ index 07919ba3..c4cc9cbb 100644
                                  }
                              ],
  
-@@ -200,7 +197,6 @@ describe('OoSdkReactNativeConfiguration', () => {
+@@ -200,7 +197,6 @@ describe('O2SdkReactNativeConfiguration', () => {
                        {
                          "match": "api.com",
                          "propagatorTypes": [
@@ -520,14 +520,14 @@ index c57af753..e9608aa5 100644
                          ],
                        },
                      ],
-diff --git b/packages/core/src/rum/__tests__/OoRum.test.ts a/packages/core/src/rum/__tests__/OoRum.test.ts
+diff --git b/packages/core/src/rum/__tests__/O2Rum.test.ts a/packages/core/src/rum/__tests__/O2Rum.test.ts
 index ea21fde4..c3e8531a 100644
---- b/packages/core/src/rum/__tests__/OoRum.test.ts
-+++ a/packages/core/src/rum/__tests__/OoRum.test.ts
-@@ -512,40 +512,6 @@ describe('OoRum', () => {
+--- b/packages/core/src/rum/__tests__/O2Rum.test.ts
++++ a/packages/core/src/rum/__tests__/O2Rum.test.ts
+@@ -512,40 +512,6 @@ describe('O2Rum', () => {
              });
  
-             describe('OoRum.getTracingContext', () => {
+             describe('O2Rum.getTracingContext', () => {
 -                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
 -                    for (let i = 0; i < 100; i++) {
 -                        const url = 'https://www.example.com';
@@ -540,7 +540,7 @@ index ea21fde4..c3e8531a 100644
 -                            }
 -                        ];
 -
--                        const tracingContext = OoRum.getTracingContext(
+-                        const tracingContext = O2Rum.getTracingContext(
 -                            url,
 -                            tracingSamplingRate,
 -                            firstPartyHosts
@@ -565,7 +565,7 @@ index ea21fde4..c3e8531a 100644
                  it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
                      for (let i = 0; i < 100; i++) {
                          const url = 'https://www.example.com';
-@@ -660,8 +626,7 @@ describe('OoRum', () => {
+@@ -660,8 +626,7 @@ describe('O2Rum', () => {
                              {
                                  match: 'example.com',
                                  propagatorTypes: [
@@ -575,7 +575,7 @@ index ea21fde4..c3e8531a 100644
                                      PropagatorType.B3,
                                      PropagatorType.B3MULTI
                                  ]
-@@ -683,12 +648,7 @@ describe('OoRum', () => {
+@@ -683,12 +648,7 @@ describe('O2Rum', () => {
  
                          const headers = tracingContext.getHeadersForRequestAsArray();
  
@@ -589,7 +589,7 @@ index ea21fde4..c3e8531a 100644
  
                          TracingContextUtils.verifyTraceContextHeaders(
                              headers,
-@@ -716,8 +676,7 @@ describe('OoRum', () => {
+@@ -716,8 +676,7 @@ describe('O2Rum', () => {
                              {
                                  match: 'example.com',
                                  propagatorTypes: [
@@ -599,7 +599,7 @@ index ea21fde4..c3e8531a 100644
                                      PropagatorType.B3,
                                      PropagatorType.B3MULTI
                                  ]
-@@ -754,12 +713,7 @@ describe('OoRum', () => {
+@@ -754,12 +713,7 @@ describe('O2Rum', () => {
                              }
                          );
  
@@ -613,7 +613,7 @@ index ea21fde4..c3e8531a 100644
  
                          TracingContextUtils.verifyTraceContextHeaders(
                              headers,
-@@ -784,8 +738,7 @@ describe('OoRum', () => {
+@@ -784,8 +738,7 @@ describe('O2Rum', () => {
                          {
                              match: 'example.com',
                              propagatorTypes: [
@@ -623,16 +623,16 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3,
                                  PropagatorType.B3MULTI
                              ]
-@@ -839,32 +792,6 @@ describe('OoRum', () => {
+@@ -839,32 +792,6 @@ describe('O2Rum', () => {
              });
  
-             describe('OoRum.getTracingContextForPropagators', () => {
+             describe('O2Rum.getTracingContextForPropagators', () => {
 -                it('returns tracing context with DATADOG propagator and sampling rate (50% 0, 50% 100)', () => {
 -                    for (let i = 0; i < 100; i++) {
 -                        const tracingSamplingRate =
 -                            Math.random() < 0.5 ? 0 : 100;
 -
--                        const tracingContext = OoRum.getTracingContextForPropagators(
+-                        const tracingContext = O2Rum.getTracingContextForPropagators(
 -                            [PropagatorType.DATADOG],
 -                            tracingSamplingRate
 -                        );
@@ -656,9 +656,9 @@ index ea21fde4..c3e8531a 100644
                  it('returns tracing context with TRACECONTEXT propagator and sampling rate (50% 0, 50% 100)', () => {
                      for (let i = 0; i < 100; i++) {
                          const tracingSamplingRate =
-@@ -952,8 +879,7 @@ describe('OoRum', () => {
+@@ -952,8 +879,7 @@ describe('O2Rum', () => {
  
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -666,7 +666,7 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3MULTI,
                                  PropagatorType.B3
                              ],
-@@ -969,12 +895,7 @@ describe('OoRum', () => {
+@@ -969,12 +895,7 @@ describe('O2Rum', () => {
  
                          const headers = tracingContext.getHeadersForRequestAsArray();
  
@@ -680,9 +680,9 @@ index ea21fde4..c3e8531a 100644
  
                          TracingContextUtils.verifyTraceContextHeaders(
                              headers,
-@@ -1000,8 +921,7 @@ describe('OoRum', () => {
+@@ -1000,8 +921,7 @@ describe('O2Rum', () => {
                          setCachedSessionId(randomSessionId);
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -690,9 +690,9 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3MULTI,
                                  PropagatorType.B3
                              ],
-@@ -1026,8 +946,7 @@ describe('OoRum', () => {
+@@ -1026,8 +946,7 @@ describe('O2Rum', () => {
                          setCachedUserId(randomUserId);
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -700,9 +700,9 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3MULTI,
                                  PropagatorType.B3
                              ],
-@@ -1052,8 +971,7 @@ describe('OoRum', () => {
+@@ -1052,8 +971,7 @@ describe('O2Rum', () => {
                          setCachedAccountId(randomAccountId);
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -710,9 +710,9 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3MULTI,
                                  PropagatorType.B3
                              ],
-@@ -1082,8 +1000,7 @@ describe('OoRum', () => {
+@@ -1082,8 +1000,7 @@ describe('O2Rum', () => {
                          setCachedAccountId(randomAccountId);
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -720,9 +720,9 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3MULTI,
                                  PropagatorType.B3
                              ],
-@@ -1107,8 +1024,7 @@ describe('OoRum', () => {
+@@ -1107,8 +1024,7 @@ describe('O2Rum', () => {
                              Math.random() < 0.5 ? 0 : 100;
-                         const tracingContext = OoRum.getTracingContextForPropagators(
+                         const tracingContext = O2Rum.getTracingContextForPropagators(
                              [
 -                                PropagatorType.DATADOG,
 -                                PropagatorType.TRACECONTEXT,
@@ -730,7 +730,7 @@ index ea21fde4..c3e8531a 100644
                                  PropagatorType.B3,
                                  PropagatorType.B3MULTI
                              ],
-@@ -1139,12 +1055,7 @@ describe('OoRum', () => {
+@@ -1139,12 +1055,7 @@ describe('O2Rum', () => {
                              }
                          );
  
@@ -744,7 +744,7 @@ index ea21fde4..c3e8531a 100644
  
                          TracingContextUtils.verifyTraceContextHeaders(
                              headers,
-@@ -1893,7 +1804,6 @@ describe('OoRum', () => {
+@@ -1893,7 +1804,6 @@ describe('O2Rum', () => {
               * - asTracingHeaderType (iOS)
               * so that it uses the new values
               */
@@ -802,20 +802,20 @@ index 9629b5b2..d5477d4a 100644
  export const verifyTraceContextHeaders = (
      headersArray: Header[],
      isSampled: boolean
-diff --git b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
+diff --git b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/O2RumResourceTracking.test.ts a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/O2RumResourceTracking.test.ts
 index b80efa96..01880b04 100644
---- b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
-+++ a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/OoRumResourceTracking.test.ts
+--- b/packages/core/src/rum/instrumentation/resourceTracking/__tests__/O2RumResourceTracking.test.ts
++++ a/packages/core/src/rum/instrumentation/resourceTracking/__tests__/O2RumResourceTracking.test.ts
 @@ -9,7 +9,7 @@ import { NativeModules } from 'react-native';
  import { BufferSingleton } from '../../../../sdk/OpenObserveProvider/Buffer/BufferSingleton';
  import { PropagatorType } from '../../../types';
- import { OoRumResourceTracking } from '../OoRumResourceTracking';
+ import { O2RumResourceTracking } from '../O2RumResourceTracking';
 -import { SAMPLING_PRIORITY_HEADER_KEY } from '../distributedTracing/headers';
 +import { TRACECONTEXT_HEADER_KEY } from '../distributedTracing/headers';
  
  import { XMLHttpRequestMock } from './__utils__/XMLHttpRequestMock';
  
-@@ -46,7 +46,7 @@ describe('OoRumResourceTracking', () => {
+@@ -46,7 +46,7 @@ describe('O2RumResourceTracking', () => {
              firstPartyHosts: [
                  {
                      match: 'example.com',
@@ -824,7 +824,7 @@ index b80efa96..01880b04 100644
                  }
              ]
          });
-@@ -78,7 +78,7 @@ describe('OoRumResourceTracking', () => {
+@@ -78,7 +78,7 @@ describe('O2RumResourceTracking', () => {
              firstPartyHosts: [
                  {
                      match: 'example.com',
@@ -833,7 +833,7 @@ index b80efa96..01880b04 100644
                  }
              ]
          });
-@@ -124,18 +124,18 @@ describe('OoRumResourceTracking', () => {
+@@ -124,18 +124,18 @@ describe('O2RumResourceTracking', () => {
                  firstPartyHosts: [
                      {
                          match: 'api.example.com',
@@ -855,8 +855,8 @@ index b80efa96..01880b04 100644
 +            ).toMatch(/-00$/);
  
              // WHEN
-             OoRumResourceTracking.updateTrackingContext({
-@@ -147,8 +147,8 @@ describe('OoRumResourceTracking', () => {
+             O2RumResourceTracking.updateTrackingContext({
+@@ -147,8 +147,8 @@ describe('O2RumResourceTracking', () => {
              xhrAfterUpdate.open('GET', 'https://api.example.com/v2/user');
              xhrAfterUpdate.send();
              expect(
@@ -867,7 +867,7 @@ index b80efa96..01880b04 100644
          });
  
          it('is a no-op after tracking has been stopped', async () => {
-@@ -158,7 +158,7 @@ describe('OoRumResourceTracking', () => {
+@@ -158,7 +158,7 @@ describe('O2RumResourceTracking', () => {
                  firstPartyHosts: [
                      {
                          match: 'api.example.com',
@@ -1615,7 +1615,7 @@ index 6ba14ba7..d5429cc8 100644
 +                    propagatorTypes: ['tracecontext']
                  }
              ]);
-             expect(NativeModules.OoRum.addAction).toHaveBeenCalledTimes(1);
+             expect(NativeModules.O2Rum.addAction).toHaveBeenCalledTimes(1);
 diff --git b/packages/core/src/version.ts a/packages/core/src/version.ts
 index 80f61d9b..1a5c7ecf 100644
 --- b/packages/core/src/version.ts
@@ -1745,7 +1745,7 @@ index 5d5bd404..206d5258 100644
  package/android/detekt.yml
  package/android/gradle.properties
  package/android/src/main/AndroidManifest.xml
--package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplayImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/O2SessionReplayImplementation.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeInternalCallback.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupport.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/SessionReplayPrivacySettings.kt
@@ -1767,8 +1767,8 @@ index 5d5bd404..206d5258 100644
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/FabricTextViewUtils.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/LegacyTextViewUtils.kt
 -package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/utils/text/TextViewUtils.kt
--package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyView.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplayImplementation.kt
+-package/android/src/main/kotlin/com/datadog/reactnative/sessionreplay/views/O2PrivacyView.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/O2SessionReplayImplementation.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeInternalCallback.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupport.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/SessionReplayPrivacySettings.kt
@@ -1790,16 +1790,16 @@ index 5d5bd404..206d5258 100644
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/FabricTextViewUtils.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/LegacyTextViewUtils.kt
 +package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/utils/text/TextViewUtils.kt
-+package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyView.kt
++package/android/src/main/kotlin/com/openobserve/reactnative/sessionreplay/views/O2PrivacyView.kt
  package/android/src/main/res/values/ids.xml
--package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplay.kt
--package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplay.kt
--package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplay.kt
-+package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplay.kt
-+package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/views/OoPrivacyViewManager.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/O2SessionReplay.kt
+-package/android/src/newarch/kotlin/com/datadog/reactnative/sessionreplay/views/O2PrivacyViewManager.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/O2SessionReplay.kt
+-package/android/src/oldarch/kotlin/com/datadog/reactnative/sessionreplay/views/O2PrivacyViewManager.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/O2SessionReplay.kt
++package/android/src/newarch/kotlin/com/openobserve/reactnative/sessionreplay/views/O2PrivacyViewManager.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/O2SessionReplay.kt
++package/android/src/oldarch/kotlin/com/openobserve/reactnative/sessionreplay/views/O2PrivacyViewManager.kt
  package/android/src/rn69/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
 -package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/extensions/LengthPercentageExt.kt
 -package/android/src/rn75/kotlin/com/datadog/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
@@ -1822,9 +1822,9 @@ index 5d5bd404..206d5258 100644
 +package/android/src/rn83/kotlin/com/openobserve/reactnative/sessionreplay/extensions/ComputedBorderRadiusExt.kt
 +package/android/src/rn83/kotlin/com/openobserve/reactnative/sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
  package/android/src/rnlegacy/kotlin/com.openobserve.reactnative.sessionreplay/utils/ReactViewBackgroundDrawableUtils.kt
--package/android/src/rnpost74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
--package/android/src/rnpre74/kotlin/com/datadog/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
--package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/OoSessionReplayImplementationTest.kt
+-package/android/src/rnpost74/kotlin/com/datadog/reactnative/sessionreplay/O2SDKReactNativeSessionReplayPackage.kt
+-package/android/src/rnpre74/kotlin/com/datadog/reactnative/sessionreplay/O2SDKReactNativeSessionReplayPackage.kt
+-package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/O2SessionReplayImplementationTest.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupportTest.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/mappers/ReactViewGroupMapperTest.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/sessionreplay/mappers/SvgViewMapperTest.kt
@@ -1840,9 +1840,9 @@ index 5d5bd404..206d5258 100644
 -package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/Throwable.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/ThrowableForgeryFactory.kt
 -package/android/src/test/kotlin/com/datadog/reactnative/tools/unit/forge/WireframeClipForgeryFactory.kt
-+package/android/src/rnpost74/kotlin/com/openobserve/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
-+package/android/src/rnpre74/kotlin/com/openobserve/reactnative/sessionreplay/OoSDKReactNativeSessionReplayPackage.kt
-+package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/OoSessionReplayImplementationTest.kt
++package/android/src/rnpost74/kotlin/com/openobserve/reactnative/sessionreplay/O2SDKReactNativeSessionReplayPackage.kt
++package/android/src/rnpre74/kotlin/com/openobserve/reactnative/sessionreplay/O2SDKReactNativeSessionReplayPackage.kt
++package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/O2SessionReplayImplementationTest.kt
 +package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/ReactNativeSessionReplayExtensionSupportTest.kt
 +package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/mappers/ReactViewGroupMapperTest.kt
 +package/android/src/test/kotlin/com/openobserve/reactnative/sessionreplay/mappers/SvgViewMapperTest.kt
@@ -2407,10 +2407,10 @@ index de7a4bb7..cf15e241 100644
 +  languageName: node
 +  linkType: hard
 +
-+"OoSdkReactNativeExample@workspace:example-new-architecture":
++"O2SdkReactNativeExample@workspace:example-new-architecture":
    version: 0.0.0-use.local
 -  resolution: "DdSdkReactNativeExample@workspace:example-new-architecture"
-+  resolution: "OoSdkReactNativeExample@workspace:example-new-architecture"
++  resolution: "O2SdkReactNativeExample@workspace:example-new-architecture"
    dependencies:
      "@babel/core": ^7.25.2
      "@babel/preset-env": ^7.25.3

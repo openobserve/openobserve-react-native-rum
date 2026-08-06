@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import { OoSdk } from '../../OoSdk';
+import { O2Sdk } from '../../O2Sdk';
 import { encodeAttributes } from '../attributesEncoding';
 import { warn } from '../utils';
 
@@ -14,7 +14,7 @@ jest.mock('../utils', () => ({
 }));
 
 const setEncoders = (encoders: any[]) => {
-    (OoSdk as any)?._setAttributeEncodersForTesting(encoders);
+    (O2Sdk as any)?._setAttributeEncodersForTesting(encoders);
 };
 
 describe('encodeAttributes', () => {

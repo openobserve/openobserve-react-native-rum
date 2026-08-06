@@ -7,7 +7,7 @@
 import queryString from 'query-string';
 import {
     OpenObserveProviderConfiguration,
-    OoSdkReactNative,
+    O2SdkReactNative,
     CoreConfiguration,
     SdkVerbosity,
     TrackingConsent
@@ -88,7 +88,7 @@ export const initializeOpenObserve = (clientToken?: string, environment?: string
     config.service = `com.rn.${platform}.benchmark`
     config.verbosity = SdkVerbosity.DEBUG;
 
-    return OoSdkReactNative.initialize(config);
+    return O2SdkReactNative.initialize(config);
 };
 
 

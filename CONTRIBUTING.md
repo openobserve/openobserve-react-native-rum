@@ -38,7 +38,7 @@ If you are using Visual Studio Code, please make sure to set workspace version o
 
 ### Native Module development
 
-To edit the Objective-C and Swift files, open `example/ios/OoSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > OoSdkReactNative`.
+To edit the Objective-C and Swift files, open `example/ios/O2SdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > O2SdkReactNative`.
 
 To edit the Kotlin files, open `example/android` in Android studio and find the source files at `ddsdkreactnative` under `Android`.
 
@@ -137,12 +137,12 @@ use_frameworks!
 
 # and disable Flipper related lines
 ```
-**NOTE:** You do **NOT** need to add `OoSdkReactNative` here manually, `pod install` should find and install it automatically
+**NOTE:** You do **NOT** need to add `O2SdkReactNative` here manually, `pod install` should find and install it automatically
 
 Now you can go back to your `App.js/tsx` and use `@openobserve/mobile-react-native` from there
 Example code:
 ```
-import { OoSdkReactNative, CoreConfiguration, TrackingConsent } from '@openobserve/mobile-react-native';
+import { O2SdkReactNative, CoreConfiguration, TrackingConsent } from '@openobserve/mobile-react-native';
 
 const App: () => React$Node = () => {
   const config = new CoreConfiguration(
@@ -162,7 +162,7 @@ const App: () => React$Node = () => {
     }
   )
 
-  OoSdkReactNative.initialize(config);
+  O2SdkReactNative.initialize(config);
   ...
 ```
 

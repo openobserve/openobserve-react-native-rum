@@ -25,14 +25,14 @@ In order to start tracking your navigation events, simply call the add the follo
 Returning `null` in the `ViewNamePredicate` prevents the new RUM View from being created. The previous RUM View remains active.
 
 ```js
-import { OoRumReactNativeNavigationTracking, ViewNamePredicate }  from '@openobserve/mobile-react-native-navigation';
+import { O2RumReactNativeNavigationTracking, ViewNamePredicate }  from '@openobserve/mobile-react-native-navigation';
 import { ComponentDidAppearEvent } from 'react-native-navigation';
 
 const viewNamePredicate: ViewNamePredicate = function customViewNamePredicate(event: ComponentDidAppearEvent, trackedName: string) {
   return "My custom View Name"
 }
 
-OoRumReactNativeNavigationTracking.startTracking(viewNamePredicate);
+O2RumReactNativeNavigationTracking.startTracking(viewNamePredicate);
 ```
 
 [1]: https://github.com/wix/react-native-navigation

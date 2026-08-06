@@ -4,7 +4,7 @@
  * Copyright 2016-Present Datadog, Inc.
  */
 
-import type { OoRumResourceGraphqlError } from '../requestProxy/interfaces/RumResource';
+import type { O2RumResourceGraphqlError } from '../requestProxy/interfaces/RumResource';
 
 /**
  * Extracts and filters GraphQL errors from an errors array.
@@ -12,7 +12,7 @@ import type { OoRumResourceGraphqlError } from '../requestProxy/interfaces/RumRe
  */
 export function extractGraphQLErrors(
     errors: any[]
-): OoRumResourceGraphqlError[] {
+): O2RumResourceGraphqlError[] {
     return errors
         .filter((error: any) => error && error.message) // Skip errors without message
         .map((error: any) => {

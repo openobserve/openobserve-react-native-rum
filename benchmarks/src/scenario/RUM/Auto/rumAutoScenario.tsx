@@ -10,7 +10,7 @@ import { useNavigationContainerRef } from '@react-navigation/native';
 import { OpenObserveProvider } from "@openobserve/mobile-react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { OoRumReactNavigationTracking, type NavigationTrackingOptions, type ViewNamePredicate } from '@openobserve/mobile-react-navigation';
+import { O2RumReactNavigationTracking, type NavigationTrackingOptions, type ViewNamePredicate } from '@openobserve/mobile-react-navigation';
 import type { Route } from "@react-navigation/native";
 import { RunType } from '../../../testSetup/types/testConfig';
 import { getOpenObserveProviderConfig } from '../../../testSetup/testUtils';
@@ -65,7 +65,7 @@ function RUMAutoScenario(props: RUMAutoScenarioProps): React.JSX.Element {
         return (
             <NavigationContainer ref={navigationRef} onReady={() => {
                 if (instrumented) {
-                    OoRumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions);
+                    O2RumReactNavigationTracking.startTrackingViews(navigationRef.current, navigationTrackingOptions);
                 };
             }}>
                 <RootStack.Navigator>

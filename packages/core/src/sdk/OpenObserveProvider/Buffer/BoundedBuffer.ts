@@ -7,7 +7,7 @@
 import { InternalLog } from '../../../InternalLog';
 import { SdkVerbosity } from '../../../config/types/SdkVerbosity';
 import { getErrorStackTrace } from '../../AttributesEncoding/errorUtils';
-import { NativeDdSdk } from '../../OoSdkInternal';
+import { NativeDdSdk } from '../../O2SdkInternal';
 
 import { OpenObserveBuffer } from './OpenObserveBuffer';
 

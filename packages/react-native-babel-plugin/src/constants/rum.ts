@@ -5,11 +5,11 @@
  */
 
 export const RumActionConstants = {
-    ACTION_CLASS: 'OoBabelInteractionTracking',
+    ACTION_CLASS: 'O2BabelInteractionTracking',
     ACTION_CLASS_INSTANCE: 'getInstance',
     ACTION_FUNCTION_WRAPPER: 'wrapRumAction',
     IMPORT_PACKAGE: '@openobserve/mobile-react-native',
-    UTILS_FUNCTION_EXTRACT_TEXT: '__ddExtractText'
+    UTILS_FUNCTION_EXTRACT_TEXT: '__o2ExtractText'
 } as const;
 
 export const RumAction = {

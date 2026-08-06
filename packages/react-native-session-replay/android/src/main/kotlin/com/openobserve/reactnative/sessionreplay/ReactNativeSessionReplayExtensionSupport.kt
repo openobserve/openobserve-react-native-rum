@@ -17,7 +17,7 @@ import com.openobserve.reactnative.sessionreplay.mappers.ReactViewGroupMapper
 import com.openobserve.reactnative.sessionreplay.mappers.ReactViewModalMapper
 import com.openobserve.reactnative.sessionreplay.mappers.SvgViewMapper
 import com.openobserve.reactnative.sessionreplay.utils.text.TextViewUtils
-import com.openobserve.reactnative.sessionreplay.views.OoPrivacyView
+import com.openobserve.reactnative.sessionreplay.views.O2PrivacyView
 import com.facebook.react.views.image.ReactImageView
 import com.facebook.react.views.modal.ReactModalHostView
 import com.facebook.react.views.text.ReactTextView
@@ -36,7 +36,7 @@ internal class ReactNativeSessionReplayExtensionSupport(
     override fun getCustomViewMappers(): List<MapperTypeWrapper<*>> {
         return listOf(
             MapperTypeWrapper(ReactImageView::class.java, ReactNativeImageViewMapper()),
-            MapperTypeWrapper(OoPrivacyView::class.java, SvgViewMapper(internalCallback)),
+            MapperTypeWrapper(O2PrivacyView::class.java, SvgViewMapper(internalCallback)),
             MapperTypeWrapper(ReactViewGroup::class.java, ReactViewGroupMapper()),
             MapperTypeWrapper(ReactTextView::class.java, ReactTextMapper(textViewUtils)),
             MapperTypeWrapper(ReactEditText::class.java, ReactEditTextMapper(textViewUtils)),
