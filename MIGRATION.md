@@ -2,6 +2,50 @@
 
 This document outlines breaking changes and migration steps between major versions of the project.
 
+## Migration from 0.1.0 to 0.1.1
+
+**This release renames every exported `Oo*` symbol to `O2*`.** The `Oo` prefix
+reads as a typo of the product name and carried no brand, so it has been retired.
+This is a breaking change to the public API despite the patch version number.
+
+Update your imports:
+
+| Before | After |
+| --- | --- |
+| `OoRum` | `O2Rum` |
+| `OoLogs` | `O2Logs` |
+| `OoTrace` | `O2Trace` |
+| `OoFlags` | `O2Flags` |
+| `OoSdk` | `O2Sdk` |
+| `OoSdkReactNative` | `O2SdkReactNative` |
+| `OoSdkReactNativeConfiguration` | `O2SdkReactNativeConfiguration` |
+| `OoBabelInteractionTracking` | `O2BabelInteractionTracking` |
+| `OoRumReactNavigationTracking` | `O2RumReactNavigationTracking` |
+| `OoRumReactNativeNavigationTracking` | `O2RumReactNativeNavigationTracking` |
+| `__ddExtractText` | `__o2ExtractText` |
+
+The rename is uniform, so a single pass over your source is enough:
+
+```sh
+grep -rlE '\bOo[A-Z]' src | xargs sed -i '' -E 's/\bOo([A-Z])/O2\1/g'
+sed -i '' 's/__ddExtractText/__o2ExtractText/g' $(grep -rl __ddExtractText src)
+```
+
+Notes:
+
+- **Upgrade all `@openobserve/mobile-*` packages together.** They are released
+  in lockstep and a mixed set will not resolve.
+- If you use `@openobserve/mobile-react-native-babel-plugin`, it must be on
+  0.1.1 too. The plugin injects `O2BabelInteractionTracking` and
+  `__o2ExtractText` into your app code, so an older plugin paired with a newer
+  core silently disables action auto-instrumentation rather than failing loudly.
+- Jest users: `@openobserve/mobile-react-native/jest/mock` exports renamed with
+  everything else. No action needed beyond upgrading, but a stale
+  `node_modules` will surface as undefined mocks.
+- Native module registration names changed alongside the JS symbols. Both sides
+  ship in the same package, so this is invisible unless you referenced
+  `NativeModules.OoSdk` directly.
+
 ## Migration from 2.x to 3.0
 
 This section describes the main changes introduced in SDK `3.0` compared to `2.x`.
