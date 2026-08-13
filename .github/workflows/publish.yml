@@ -17,3 +17,26 @@ jobs:
                   node-version: '24.x'
             - run: yarn
             - run: yarn run lerna publish from-package --yes
+
+    notify_e2e:
+        # After a successful publish, ask openobserve/openobserve to run its mobile RUM E2E suite
+        # against the new React Native SDK (repository_dispatch → the `decide` job maps
+        # sdk=react-native to both RN platforms). No-op until OO_E2E_DISPATCH_TOKEN is set — a token
+        # that can dispatch on openobserve/openobserve (classic PAT `repo`, or fine-grained with
+        # Contents:read + Actions:write on that repo).
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+            - name: Dispatch mobile-sdk-release to openobserve/openobserve
+              env:
+                  GH_TOKEN: ${{ secrets.OO_E2E_DISPATCH_TOKEN }}
+              run: |
+                  if [ -z "$GH_TOKEN" ]; then
+                    echo "OO_E2E_DISPATCH_TOKEN not set — skipping dispatch"
+                    exit 0
+                  fi
+                  VER=$(node -p "require('./lerna.json').version")
+                  echo "{\"event_type\":\"mobile-sdk-release\",\"client_payload\":{\"sdk\":\"react-native\",\"version\":\"$VER\"}}" \
+                    | gh api repos/openobserve/openobserve/dispatches --input -
+                  echo "Dispatched mobile-sdk-release sdk=react-native version=$VER"
