@@ -139,7 +139,7 @@ internal class O2SessionReplayImplementationTest {
         verify(mockSessionReplay).enable(sessionReplayConfigCaptor.capture(), any())
         assertThat(sessionReplayConfigCaptor.firstValue)
             .hasFieldEqualTo("sampleRate", replaySampleRate.toFloat())
-            .hasFieldEqualTo("customEndpointUrl", customEndpoint)
+            .hasFieldEqualTo("customEndpointUrl", "$customEndpoint/replay")
             .hasFieldEqualTo("textAndInputPrivacy", inputPrivacyMap[textAndInputPrivacy])
             .hasFieldEqualTo("imagePrivacy", imagePrivacyMap[imagePrivacy])
             .hasFieldEqualTo("touchPrivacy", touchPrivacyMap[touchPrivacy])

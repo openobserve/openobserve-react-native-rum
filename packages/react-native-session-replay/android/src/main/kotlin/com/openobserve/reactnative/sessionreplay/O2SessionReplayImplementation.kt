@@ -59,7 +59,9 @@ class O2SessionReplayImplementation(
             }
 
         if (customEndpoint != "") {
-            configuration.useCustomEndpoint(customEndpoint)
+            // OpenObserve intake path: {base}/replay, matching the RUM ("/rum") and Logs ("/logs")
+            // bridges — the caller passes a bare base URL, and we append the intake path here.
+            configuration.useCustomEndpoint("$customEndpoint/replay")
         }
 
         sessionReplayProvider().enable(configuration.build(), sdkCore)
