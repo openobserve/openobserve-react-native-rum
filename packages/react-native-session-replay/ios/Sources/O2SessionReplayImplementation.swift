@@ -56,7 +56,8 @@ public class O2SessionReplayImplementation: NSObject {
     ) -> Void {
         var customEndpointURL: URL? = nil
         if (customEndpoint != "") {
-            customEndpointURL = URL(string: "\(customEndpoint)/api/v2/replay" as String)
+            // OpenObserve intake path: {base}/replay (upstream Datadog used "/api/v2/replay").
+            customEndpointURL = URL(string: "\(customEndpoint)/replay" as String)
         }
         
         var sessionReplayConfiguration = SessionReplay.Configuration(

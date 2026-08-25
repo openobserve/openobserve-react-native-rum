@@ -150,7 +150,7 @@ internal class O2SessionReplayTests: XCTestCase {
 
         XCTAssertEqual(sessionReplayMock.calledMethods.first, .enable(
             replaySampleRate: 100.0,
-            customEndpoint: URL(string: "https://session-replay.example.com/api/v2/replay"),
+            customEndpoint: URL(string: "https://session-replay.example.com/replay"),
             imagePrivacyLevel: imagePrivacy,
             touchPrivacyLevel: touchPrivacy,
             textAndInputPrivacyLevel: textAndInputPrivacy,
