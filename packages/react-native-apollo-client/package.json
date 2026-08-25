@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/mobile-react-native-apollo-client",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "A client-side React Native module to interact with Apollo Client and OpenObserve",
     "keywords": [
         "openobserve",

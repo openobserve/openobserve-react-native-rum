@@ -1,6 +1,6 @@
 {
     "name": "@openobserve/react-native-internal-testing-tools",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Internal tools for testing the OpenObserve React Native SDK.",
     "keywords": [
         "openobserve",

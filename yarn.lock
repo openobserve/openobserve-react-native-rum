@@ -4320,7 +4320,7 @@ __metadata:
     react-native-builder-bob: 0.26.0
   peerDependencies:
     "@apollo/client": ">=3.13.9"
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     graphql: ">=16.13.2"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
@@ -4364,12 +4364,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openobserve/mobile-react-native-code-push@workspace:packages/codepush"
   dependencies:
-    "@openobserve/mobile-react-native": "workspace:0.1.1"
+    "@openobserve/mobile-react-native": "workspace:0.1.2"
     "@testing-library/react-native": 7.0.2
     react-native-builder-bob: 0.26.0
     react-native-code-push: 7.1.0
   peerDependencies:
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
     react-native-code-push: ">=2.0.0"
@@ -4380,14 +4380,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openobserve/mobile-react-native-navigation@workspace:packages/react-native-navigation"
   dependencies:
-    "@openobserve/mobile-react-native": ^0.1.1
+    "@openobserve/mobile-react-native": ^0.1.2
     "@testing-library/react-native": 7.0.2
     react-native-builder-bob: 0.26.0
     react-native-gesture-handler: 1.10.3
     react-native-navigation: 7.31.1
     remx: 3.x.x
   peerDependencies:
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
     react-native-navigation: ^7.5.0
@@ -4400,13 +4400,13 @@ __metadata:
   dependencies:
     "@openfeature/core": ^1.9.2
     "@openfeature/web-sdk": ^1.7.3
-    "@openobserve/mobile-react-native": ^0.1.1
+    "@openobserve/mobile-react-native": ^0.1.2
     "@testing-library/react-native": 7.0.2
     react-native-builder-bob: 0.26.0
     react-native-gesture-handler: 1.10.3
   peerDependencies:
     "@openfeature/web-sdk": ^1.7.3
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
   languageName: unknown
@@ -4433,14 +4433,14 @@ __metadata:
     react-native-builder-bob: 0.26.0
     react-native-webview: ^13.12.2
   peerDependencies:
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
     react-native-webview: ">=11.0.0"
   languageName: unknown
   linkType: soft
 
-"@openobserve/mobile-react-native@^0.1.1, @openobserve/mobile-react-native@workspace:0.1.1, @openobserve/mobile-react-native@workspace:packages/core":
+"@openobserve/mobile-react-native@^0.1.2, @openobserve/mobile-react-native@workspace:0.1.2, @openobserve/mobile-react-native@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@openobserve/mobile-react-native@workspace:packages/core"
   dependencies:
@@ -4457,7 +4457,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@openobserve/mobile-react-navigation@workspace:packages/react-navigation"
   dependencies:
-    "@openobserve/mobile-react-native": ^0.1.1
+    "@openobserve/mobile-react-native": ^0.1.2
     "@react-navigation/native-v5": "npm:@react-navigation/native@5.9.8"
     "@react-navigation/native-v6": "npm:@react-navigation/native@6.1.2"
     "@react-navigation/stack-v5": "npm:@react-navigation/stack@5.14.2"
@@ -4467,7 +4467,7 @@ __metadata:
     react-native-gesture-handler: 1.10.3
     react-native-safe-area-context: 3.1.9
   peerDependencies:
-    "@openobserve/mobile-react-native": ">=0.1.0-alpha.3"
+    "@openobserve/mobile-react-native": ">=0.1.1"
     react: ">=16.13.1"
     react-native: ">=0.63.4 <1.0"
   languageName: unknown
