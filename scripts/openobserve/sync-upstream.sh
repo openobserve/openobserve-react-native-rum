@@ -86,6 +86,13 @@ done
 # ---- Rebrand codemod ----------------------------------------------------------
 node "$TOOLING/rebrand.mjs"
 
+# Stage the rebrand before patching. rebrand.mjs stages its RENAMES (it uses `git mv`)
+# but writes CONTENT edits straight to disk, leaving the index behind the working tree.
+# `git apply --3way` resolves conflicts against index blobs, so every patched file then
+# fails with "does not match index" and the whole series is skipped. Staging here makes
+# index == working tree so the 3-way merge has a base to work from.
+git add -A
+
 # ---- Re-apply functional patch series ----------------------------------------
 # Patches live under scripts/openobserve/patches (restored by the keep-ours overlay
 # before this step, so they survive the upstream checkout).
