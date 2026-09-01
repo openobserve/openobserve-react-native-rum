@@ -26,6 +26,7 @@ To enable Session Replay, import and call the `enable` method with your configur
 import { SessionReplay } from "@openobserve/mobile-react-native-session-replay";
 
 SessionReplay.enable({
+    customEndpoint: 'https://<host>/rum/v1/<org>', // Required in practice - see below.
     replaySampleRate: sampleRate, // The percentage of sampled replays, in the range 0.0 - 100.0 (Default: 100.0).
     textAndInputPrivacyLevel: TextAndInputPrivacyLevel.MASK_ALL, // Defines the way text and input (e.g text fields, checkboxes) should be masked (Default: `MASK_ALL`).
     imagePrivacyLevel: ImagePrivacyLevel.MASK_ALL, // Defines the way images should be masked (Default: `MASK_ALL`).
@@ -34,6 +35,33 @@ SessionReplay.enable({
 ```
 
 **Note**: All configuration properties are optional and should be adjusted based on your application's needs.
+
+### `customEndpoint` is required in practice
+
+**Session Replay does not inherit the endpoint you configured on `OpenObserveProvider`
+or the RUM configuration.** It is a separate parameter and must be passed to
+`SessionReplay.enable()` explicitly.
+
+Pass the same base URL you use for RUM - the SDK appends the intake path itself,
+so give it the bare base and no trailing slash:
+
+| Feature | You pass | SDK sends to |
+| --- | --- | --- |
+| RUM | `https://<host>/rum/v1/<org>` | `.../rum` |
+| Logs | `https://<host>/rum/v1/<org>` | `.../logs` |
+| Session Replay | `https://<host>/rum/v1/<org>` | `.../replay` |
+
+If you omit it, the native SDKs fall back to a built-in intake host that does not
+resolve, and **every replay upload is silently dropped** - no error is surfaced.
+`enable()` logs a warning in that case; treat it as a misconfiguration, not a hint.
+
+Two related gotchas:
+
+- **Use `https`.** iOS blocks cleartext HTTP by default (App Transport Security),
+  so an `http://` endpoint fails on iOS while appearing to work on Android.
+- **After upgrading, rebuild your pods.** The iOS bridge ships as Swift source
+  compiled into your app, so `pod install` (and a clean build) is required before
+  a change to endpoint handling takes effect.
 
 ## Start or stop the recording manually
 

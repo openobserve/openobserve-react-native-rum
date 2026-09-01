@@ -4224,6 +4224,52 @@ index 96e6f42a..d619c441 100644
    s.dependency 'OpenObserveSDKReactNative'
  
    s.test_spec 'Tests' do |test_spec|
+diff --git b/packages/react-native-session-replay/README.md a/packages/react-native-session-replay/README.md
+index c6afa121..567ab06b 100644
+--- b/packages/react-native-session-replay/README.md
++++ a/packages/react-native-session-replay/README.md
+@@ -26,6 +26,7 @@ To enable Session Replay, import and call the `enable` method with your configur
+ import { SessionReplay } from "@openobserve/mobile-react-native-session-replay";
+ 
+ SessionReplay.enable({
++    customEndpoint: 'https://<host>/rum/v1/<org>', // Required in practice - see below.
+     replaySampleRate: sampleRate, // The percentage of sampled replays, in the range 0.0 - 100.0 (Default: 100.0).
+     textAndInputPrivacyLevel: TextAndInputPrivacyLevel.MASK_ALL, // Defines the way text and input (e.g text fields, checkboxes) should be masked (Default: `MASK_ALL`).
+     imagePrivacyLevel: ImagePrivacyLevel.MASK_ALL, // Defines the way images should be masked (Default: `MASK_ALL`).
+@@ -35,6 +36,33 @@ SessionReplay.enable({
+ 
+ **Note**: All configuration properties are optional and should be adjusted based on your application's needs.
+ 
++### `customEndpoint` is required in practice
++
++**Session Replay does not inherit the endpoint you configured on `OpenObserveProvider`
++or the RUM configuration.** It is a separate parameter and must be passed to
++`SessionReplay.enable()` explicitly.
++
++Pass the same base URL you use for RUM - the SDK appends the intake path itself,
++so give it the bare base and no trailing slash:
++
++| Feature | You pass | SDK sends to |
++| --- | --- | --- |
++| RUM | `https://<host>/rum/v1/<org>` | `.../rum` |
++| Logs | `https://<host>/rum/v1/<org>` | `.../logs` |
++| Session Replay | `https://<host>/rum/v1/<org>` | `.../replay` |
++
++If you omit it, the native SDKs fall back to a built-in intake host that does not
++resolve, and **every replay upload is silently dropped** - no error is surfaced.
++`enable()` logs a warning in that case; treat it as a misconfiguration, not a hint.
++
++Two related gotchas:
++
++- **Use `https`.** iOS blocks cleartext HTTP by default (App Transport Security),
++  so an `http://` endpoint fails on iOS while appearing to work on Android.
++- **After upgrading, rebuild your pods.** The iOS bridge ships as Swift source
++  compiled into your app, so `pod install` (and a clean build) is required before
++  a change to endpoint handling takes effect.
++
+ ## Start or stop the recording manually
+ 
+ By default, Session Replay starts recording automatically. However, if you prefer to manually start recording at a specific point in your application, you can use the optional `startRecordingImmediately` parameter as shown below, and later call `SessionReplay.startRecording()`. You can also use `SessionReplay.stopRecording()` to stop the recording anytime.
 diff --git b/packages/react-native-session-replay/android/build.gradle a/packages/react-native-session-replay/android/build.gradle
 index 8f4dbaba..723c30bb 100644
 --- b/packages/react-native-session-replay/android/build.gradle
@@ -4556,6 +4602,99 @@ index b6b5912e..01a797aa 100644
  package/src/specs/O2PrivacyViewPaper.ts
 -package/src/specs/NativeDdSessionReplay.ts
  package/src/types/O2PrivacyView.ts
+diff --git b/packages/react-native-session-replay/src/SessionReplay.ts a/packages/react-native-session-replay/src/SessionReplay.ts
+index 8e9567f8..e6b14e44 100644
+--- b/packages/react-native-session-replay/src/SessionReplay.ts
++++ a/packages/react-native-session-replay/src/SessionReplay.ts
+@@ -196,6 +196,25 @@ export class SessionReplayWrapper {
+             enableHeatmaps
+         } = this.buildConfiguration(configuration);
+ 
++        if (customEndpoint === '') {
++            // Session Replay does NOT inherit the custom endpoint configured on
++            // OpenObserveProvider / the RUM configuration — it is a separate parameter.
++            // With none set, the native SDKs fall back to a built-in intake host
++            // (OpenObserveSite.*) that is a rebranded Datadog hostname and does not
++            // resolve, so every segment upload fails DNS and replay data is dropped
++            // with no error surfaced. Warn rather than throw: the rest of the SDK is
++            // still usable, and throwing here would break apps that enable Session
++            // Replay before deciding on an endpoint.
++            // eslint-disable-next-line no-console
++            console.warn(
++                '[OpenObserve] SessionReplay.enable() was called without `customEndpoint`. ' +
++                    'Session Replay does not inherit the endpoint set on OpenObserveProvider — ' +
++                    'pass it explicitly, e.g. SessionReplay.enable({ customEndpoint: ' +
++                    "'https://<host>/rum/v1/<org>' }). Without it, replay data is sent to a " +
++                    'built-in host that does not resolve and will be silently lost.'
++            );
++        }
++
+         return this.nativeSessionReplay.enable(
+             replaySampleRate,
+             customEndpoint,
+diff --git b/packages/react-native-session-replay/src/__tests__/SessionReplay.test.ts a/packages/react-native-session-replay/src/__tests__/SessionReplay.test.ts
+index 695b1453..082c1528 100644
+--- b/packages/react-native-session-replay/src/__tests__/SessionReplay.test.ts
++++ a/packages/react-native-session-replay/src/__tests__/SessionReplay.test.ts
+@@ -21,8 +21,18 @@ function getRandomEnumValue<
+     return values[randomIndex]; // Return the random value
+ }
+ 
++// enable() warns whenever no customEndpoint is set, which most cases here omit.
++// Silence it suite-wide so the output stays readable; the dedicated describe block
++// below asserts on this same spy.
++let warnSpy: jest.SpyInstance;
++
+ beforeEach(() => {
+     NativeModules.O2SessionReplay.enable.mockClear();
++    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
++});
++
++afterEach(() => {
++    warnSpy.mockRestore();
+ });
+ 
+ describe('SessionReplay', () => {
+@@ -104,5 +114,39 @@ describe('SessionReplay', () => {
+                 false
+             );
+         });
++
++        describe('missing customEndpoint', () => {
++            // Without a customEndpoint the native SDKs fall back to a built-in
++            // OpenObserveSite host that does not resolve, so replay data is dropped
++            // with no error. The warning is the only signal the user gets.
++            it('warns when no customEndpoint is provided', () => {
++                SessionReplay.enable();
++
++                expect(warnSpy).toHaveBeenCalledTimes(1);
++                expect(warnSpy.mock.calls[0][0]).toContain('customEndpoint');
++            });
++
++            it('warns when customEndpoint is explicitly empty', () => {
++                SessionReplay.enable({ customEndpoint: '' });
++
++                expect(warnSpy).toHaveBeenCalledTimes(1);
++            });
++
++            it('does not warn when a customEndpoint is provided', () => {
++                SessionReplay.enable({
++                    customEndpoint: 'https://example.openobserve.ai/rum/v1/org'
++                });
++
++                expect(warnSpy).not.toHaveBeenCalled();
++            });
++
++            it('still enables session replay despite the warning', () => {
++                SessionReplay.enable();
++
++                expect(
++                    NativeModules.O2SessionReplay.enable
++                ).toHaveBeenCalledTimes(1);
++            });
++        });
+     });
+ });
 diff --git b/packages/react-native-webview/OpenObserveSDKReactNativeWebView.podspec a/packages/react-native-webview/OpenObserveSDKReactNativeWebView.podspec
 index 9c722d5d..e2d52262 100644
 --- b/packages/react-native-webview/OpenObserveSDKReactNativeWebView.podspec
