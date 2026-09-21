@@ -21,8 +21,18 @@ function getRandomEnumValue<
     return values[randomIndex]; // Return the random value
 }
 
+// enable() warns whenever no customEndpoint is set, which most cases here omit.
+// Silence it suite-wide so the output stays readable; the dedicated describe block
+// below asserts on this same spy.
+let warnSpy: jest.SpyInstance;
+
 beforeEach(() => {
     NativeModules.O2SessionReplay.enable.mockClear();
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+});
+
+afterEach(() => {
+    warnSpy.mockRestore();
 });
 
 describe('SessionReplay', () => {
@@ -103,6 +113,40 @@ describe('SessionReplay', () => {
                 true,
                 false
             );
+        });
+
+        describe('missing customEndpoint', () => {
+            // Without a customEndpoint the native SDKs fall back to a built-in
+            // OpenObserveSite host that does not resolve, so replay data is dropped
+            // with no error. The warning is the only signal the user gets.
+            it('warns when no customEndpoint is provided', () => {
+                SessionReplay.enable();
+
+                expect(warnSpy).toHaveBeenCalledTimes(1);
+                expect(warnSpy.mock.calls[0][0]).toContain('customEndpoint');
+            });
+
+            it('warns when customEndpoint is explicitly empty', () => {
+                SessionReplay.enable({ customEndpoint: '' });
+
+                expect(warnSpy).toHaveBeenCalledTimes(1);
+            });
+
+            it('does not warn when a customEndpoint is provided', () => {
+                SessionReplay.enable({
+                    customEndpoint: 'https://example.openobserve.ai/rum/v1/org'
+                });
+
+                expect(warnSpy).not.toHaveBeenCalled();
+            });
+
+            it('still enables session replay despite the warning', () => {
+                SessionReplay.enable();
+
+                expect(
+                    NativeModules.O2SessionReplay.enable
+                ).toHaveBeenCalledTimes(1);
+            });
         });
     });
 });

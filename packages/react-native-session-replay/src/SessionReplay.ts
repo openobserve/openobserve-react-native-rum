@@ -196,6 +196,25 @@ export class SessionReplayWrapper {
             enableHeatmaps
         } = this.buildConfiguration(configuration);
 
+        if (customEndpoint === '') {
+            // Session Replay does NOT inherit the custom endpoint configured on
+            // OpenObserveProvider / the RUM configuration — it is a separate parameter.
+            // With none set, the native SDKs fall back to a built-in intake host
+            // (OpenObserveSite.*) that is a rebranded Datadog hostname and does not
+            // resolve, so every segment upload fails DNS and replay data is dropped
+            // with no error surfaced. Warn rather than throw: the rest of the SDK is
+            // still usable, and throwing here would break apps that enable Session
+            // Replay before deciding on an endpoint.
+            // eslint-disable-next-line no-console
+            console.warn(
+                '[OpenObserve] SessionReplay.enable() was called without `customEndpoint`. ' +
+                    'Session Replay does not inherit the endpoint set on OpenObserveProvider — ' +
+                    'pass it explicitly, e.g. SessionReplay.enable({ customEndpoint: ' +
+                    "'https://<host>/rum/v1/<org>' }). Without it, replay data is sent to a " +
+                    'built-in host that does not resolve and will be silently lost.'
+            );
+        }
+
         return this.nativeSessionReplay.enable(
             replaySampleRate,
             customEndpoint,
