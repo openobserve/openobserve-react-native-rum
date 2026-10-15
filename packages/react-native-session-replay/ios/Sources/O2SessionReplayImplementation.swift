@@ -51,8 +51,8 @@ public class O2SessionReplayImplementation: NSObject {
         textAndInputPrivacyLevel: NSString,
         startRecordingImmediately: Bool,
         enableHeatmaps: Bool,
-        resolve:RCTPromiseResolveBlock,
-        reject:RCTPromiseRejectBlock
+        resolve: @escaping RCTPromiseResolve,
+        reject: @escaping RCTPromiseReject
     ) -> Void {
         var customEndpointURL: URL? = nil
         if (customEndpoint != "") {
@@ -104,13 +104,13 @@ public class O2SessionReplayImplementation: NSObject {
     }
     
     @objc
-    public func startRecording(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {
+    public func startRecording(resolve: @escaping RCTPromiseResolve, reject: @escaping RCTPromiseReject) -> Void {
         sessionReplay.startRecording(in: CoreRegistry.default)
         resolve(nil)
     }
     
     @objc
-    public func stopRecording(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {
+    public func stopRecording(resolve: @escaping RCTPromiseResolve, reject: @escaping RCTPromiseReject) -> Void {
         sessionReplay.stopRecording(in: CoreRegistry.default)
         resolve(nil)
     }
