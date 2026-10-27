@@ -5,7 +5,6 @@
  */
 
 import Foundation
-import React
 import OpenObserveCore
 import OpenObserveSDKReactNative
 import OpenObserveInternal
@@ -13,7 +12,7 @@ import OpenObserveInternal
 @objc
 public class O2InternalTestingImplementation: NSObject {
     @objc
-    public func clearData(resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
+    public func clearData(resolve: @escaping RCTPromiseResolve, reject: @escaping RCTPromiseReject) -> Void {
         let coreProxy = CoreRegistry.default as! OpenObserveCoreProxy
         coreProxy.waitAndDeleteEvents(ofFeature: "rum")
         coreProxy.waitAndDeleteEvents(ofFeature: "logging")
@@ -24,7 +23,7 @@ public class O2InternalTestingImplementation: NSObject {
     }
 
     @objc
-    public func getAllEvents(feature: String, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
+    public func getAllEvents(feature: String, resolve: @escaping RCTPromiseResolve, reject: @escaping RCTPromiseReject) -> Void {
         do {
             let coreProxy = CoreRegistry.default as! OpenObserveCoreProxy
             let events = coreProxy.waitAndReturnEventsData(ofFeature: feature)
@@ -38,7 +37,7 @@ public class O2InternalTestingImplementation: NSObject {
     }
     
     @objc
-    public func enable(resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) -> Void {
+    public func enable(resolve: @escaping RCTPromiseResolve, reject: @escaping RCTPromiseReject) -> Void {
         OpenObserveSDKWrapper.shared.addOnSdkInitializedListener(listener: {core in
             let proxiedCore = OpenObserveCoreProxy(core: core)
             CoreRegistry.unregisterDefault()
